@@ -3,20 +3,23 @@ import {
   FLUSH,
   PAUSE,
   PERSIST,
+  persistReducer,
   persistStore,
   PURGE,
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { usersReducer } from "../features/users/userSlice";
 
-// const usersPersistConfig = {
-//   key: "wingsfit:users",
-//   storage,
-//   whitelist: ["user"],
-// };
+const usersPersistConfig = {
+  key: "wingsfit:users",
+  storage,
+  whitelist: ["user"],
+};
 
 const rootReducer = combineReducers({
-  // users: persistReducer(usersPersistConfig, usersReducer),
+  users: persistReducer(usersPersistConfig, usersReducer),
 });
 
 export const store = configureStore({
