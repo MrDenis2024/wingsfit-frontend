@@ -1,7 +1,7 @@
 import { Grid2, Typography } from "@mui/material";
-import TrainerCard from "../trainer/components/TrainerCard.tsx";
-import ScheduleCard from "../courses/components/ScheduleCard.tsx";
 import Auth from "../auth/Auth";
+import ScheduleCard from "../courses/components/ScheduleCard.tsx";
+import TrainerCard from "../trainers/components/TrainerCard.tsx";
 
 const Home = () => {
   const Schedules = [
@@ -59,7 +59,6 @@ const Home = () => {
 
         <Grid2 container spacing={2}>
           {Schedules.map((schedule) => {
-            console.log(schedule);
             return (
               <Grid2 key={schedule._id}>
                 <ScheduleCard
@@ -85,7 +84,6 @@ const Home = () => {
 
         <Grid2 container spacing={2}>
           {trainers.map((trainer) => {
-            console.log(trainer);
             return (
               <Grid2 key={trainer._id}>
                 <TrainerCard
