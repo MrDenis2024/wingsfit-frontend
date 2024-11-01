@@ -1,6 +1,6 @@
 import { Box, Button, CardMedia, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import RaitingAndReviews from "./RaitingAndReviews.tsx";
+import RatingAndReviews from "./RatingAndReviews.tsx";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
@@ -101,7 +101,7 @@ const OneTrainer = () => {
           Raiting and Reviews
         </Typography>
         <Box>
-          <RaitingAndReviews id={id} />
+          <RatingAndReviews id={id} />
         </Box>
       </Box>
       <Box
