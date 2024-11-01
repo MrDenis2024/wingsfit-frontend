@@ -55,7 +55,7 @@ const TrainerCard: React.FC<Props> = ({
           },
         }}
       >
-        <StyledLink to={`/trainer/${_id}`}>
+        <StyledLink to={`/trainers/${_id}`}>
           <Card
             sx={{
               height: "100%",
