@@ -8,7 +8,7 @@ import {
   styled,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import imageNotFound from "/src/assets/images/aaaa.jpg";
+import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { apiURL } from "../../../constants.ts";
 
 const ImageCardMedia = styled(CardMedia)({
@@ -55,7 +55,7 @@ const TrainerCard: React.FC<Props> = ({
           },
         }}
       >
-        <StyledLink to={`/trainer/${_id}`}>
+        <StyledLink to={`/trainers/${_id}`}>
           <Card
             sx={{
               height: "100%",
