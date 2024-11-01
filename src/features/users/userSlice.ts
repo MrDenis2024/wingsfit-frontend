@@ -37,7 +37,7 @@ export const userSlice = createSlice({
   },
   selectors: {
     selectUser: (state) => state.user,
-    selectLoginLoding: (state) => state.loginLoading,
+    selectLoginLoading: (state) => state.loginLoading,
     selectLoginError: (state) => state.loginError,
   },
 });
@@ -46,5 +46,5 @@ export const usersReducer = userSlice.reducer;
 
 export const { unsetUser } = userSlice.actions;
 
-export const { selectUser, selectLoginLoding, selectLoginError } =
+export const { selectUser, selectLoginLoading, selectLoginError } =
   userSlice.selectors;

@@ -1,50 +1,70 @@
-# React + TypeScript + Vite
+# WingsFit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Метчмейкинг сервиса для фитнес тренеров и клиентов. 
 
-Currently, two official plugins are available:
+Сервис, в котором клиент ищет для себя подходящего тренера и группу к которой он мог бы присоединиться, а тренер получает клиентов.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Начало работы
 
-## Expanding the ESLint configuration
+Следуйте этим инструкциям, чтобы настроить и запустить проект на вашем локальном компьютере.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Предварительные требования
 
-- Configure the top-level `parserOptions` property like this:
+- [Node.js](https://nodejs.org/) (рекомендуется версия LTS)
+- [npm](https://www.npmjs.com/) для управления пакетами
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Установка
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+1. Клонируйте репозиторий
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+   `git clone` [https://github.com/MrDenis2024/wingsfit-frontend](https://github.com/MrDenis2024/wingsfit-frontend)
+
+
+2. Установите зависимости:
+
+
+   `npm install`
+
+### Доступные команды
+
+Основные команды для разработки и поддержки проекта:
+
+#### Запуск сервера разработки:
+
+`npm run dev` 
+
+Это запустит сервер разработки Vite. 
+
+Откройте http://localhost:5173 в браузере, чтобы просмотреть проект.
+
+
+#### Сборка проекта:
+
+`npm run build`
+
+Эта команда компилирует TypeScript и собирает проект для продакшн-окружения.
+
+#### Предпросмотр сборки:
+
+`npm run preview`
+
+Эта команда запускает локальный предпросмотр сборки для тестирования перед развертыванием.
+
+#### Линтинг кода:
+
+`npm run lint`
+
+Проверяет ваш код на ошибки с помощью ESLint.
+
+#### Проверка форматирования кода:
+
+`npm run format:check`
+
+Проверяет, соответствует ли код стандартам форматирования Prettier.
+
+#### Форматирование кода:
+
+`npm run format`
+
+Автоматически форматирует ваш код с помощью Prettier.

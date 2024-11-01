@@ -25,7 +25,7 @@ const Auth = () => {
           <NavLink to="/register/client" style={{ textDecoration: "none" }}>
             <StyledButton variant="outlined">Want to work out</StyledButton>
           </NavLink>
-          <NavLink to="/register/treiner" style={{ textDecoration: "none" }}>
+          <NavLink to="/register/trainer" style={{ textDecoration: "none" }}>
             <StyledButton variant="outlined">Want to be a coach</StyledButton>
           </NavLink>
         </Grid2>
