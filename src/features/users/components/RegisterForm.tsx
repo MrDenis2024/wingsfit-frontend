@@ -54,7 +54,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    if (role === "treiner") {
+    if (role === "trainer") {
       setTrainerData((prevState) => ({
         ...prevState,
         [name]: value,
@@ -68,7 +68,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   };
 
   const changeTimezone = (timezone: string) => {
-    if (role === "treiner") {
+    if (role === "trainer") {
       setTrainerData((prevState) => ({
         ...prevState,
         timeZone: timezone,
@@ -87,7 +87,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
     const { name, files } = event.target;
     const value = files && files[0] ? files[0] : null;
 
-    if (role === "treiner") {
+    if (role === "trainer") {
       setTrainerData((prevState) => ({
         ...prevState,
         [name]: value,
@@ -117,7 +117,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    const dataToSubmit = role === "treiner" ? trainerData : clientData;
+    const dataToSubmit = role === "trainer" ? trainerData : clientData;
     onSubmit({ ...dataToSubmit });
   };
 
@@ -132,7 +132,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             placeholder="First Name"
             fullWidth
             value={
-              role === "treiner" ? trainerData.firstName : clientData.firstName
+              role === "trainer" ? trainerData.firstName : clientData.firstName
             }
             onChange={inputChangeHandler}
             required
@@ -143,13 +143,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             placeholder="Last Name"
             fullWidth
             value={
-              role === "treiner" ? trainerData.lastName : clientData.lastName
+              role === "trainer" ? trainerData.lastName : clientData.lastName
             }
             onChange={inputChangeHandler}
             required
           />
           <TimeZone
-            name={role === "treiner" ? "treiner" : "client"}
+            name={role === "trainer" ? "trainer" : "client"}
             changeTimezone={changeTimezone}
           />
         </Stack>
@@ -166,7 +166,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             />
           </Box>
 
-          {role === "treiner" ? (
+          {role === "trainer" ? (
             <Box>
               <Typography variant="subtitle1">Select Course Type:</Typography>
               <FormGroup>
