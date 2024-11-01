@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Card, CardContent, CardHeader, CardMedia, Grid2, styled} from "@mui/material";
 import { NavLink} from "react-router-dom";
 import imageNotFound from '/src/assets/images/user-icon-not-found.png';
-import {apiURL} from "../../constants.ts";
+import {apiURL} from "../../../constants.ts";
 
 const ImageCardMedia = styled(CardMedia)({
     width: '38%',

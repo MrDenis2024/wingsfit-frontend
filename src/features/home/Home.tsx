@@ -1,7 +1,7 @@
 import { Button, Grid2, Typography} from "@mui/material";
 import { NavLink } from "react-router-dom";
-import TrainerCard from "../../trainer/components/TrainerCard.tsx";
-import ScheduleCard from "../../courses/components/ScheduleCard.tsx";
+import TrainerCard from "../trainer/components/TrainerCard.tsx";
+import ScheduleCard from "../courses/components/ScheduleCard.tsx";
 
 const Home = () => {
   const Schedules = [

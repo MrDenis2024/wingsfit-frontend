@@ -1,8 +1,8 @@
 import React from 'react';
 import {Card, CardContent, CardHeader, CardMedia, Grid2, styled} from "@mui/material";
 import {Link} from "react-router-dom";
-import imageNotFound from '/src/assets/images/user-icon-not-found.png';
-import {apiURL} from "../../constants.ts";
+import imageNotFound from '/src/assets/images/aaaa.jpg';
+import {apiURL} from "../../../constants.ts";
 
 const ImageCardMedia = styled(CardMedia)({
     width: '50%',
