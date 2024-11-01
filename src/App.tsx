@@ -29,14 +29,14 @@ const App = () => {
             path="*"
             element={<h1 className="text-center">Not found</h1>}
           />
-            <Route
-                path="/trainers/:id"
-                element={
-                    <>
-                        <OneTrainer />
-                    </>
-                }
-            />
+          <Route
+            path="/trainers/:id"
+            element={
+              <>
+                <OneTrainer />
+              </>
+            }
+          />
         </Routes>
       </Container>
     </>
