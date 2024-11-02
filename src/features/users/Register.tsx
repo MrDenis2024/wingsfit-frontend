@@ -83,7 +83,7 @@ const Register = () => {
                   type="email"
                   label="Gmail"
                   name="email"
-                  autoComplete="new-email"
+                  autoComplete="new-username"
                   value={state.email}
                   onChange={inputChangeHandler}
                   error={Boolean(getFieldError("email"))}
