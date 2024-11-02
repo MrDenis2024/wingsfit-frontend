@@ -16,7 +16,7 @@ const Register = () => {
   const error = useAppSelector(selectRegisterError);
   const loading = useAppSelector(selectRegisterLoading);
   const [state, setState] = useState<UserMutation>({
-    username: "",
+    email: "",
     password: "",
     confirmPassword: "",
   });
@@ -34,7 +34,7 @@ const Register = () => {
     event.preventDefault();
     try {
       const userMutation = {
-        username: state.username.trim().toLowerCase(),
+        email: state.email.trim().toLowerCase(),
         password: state.password.trim(),
         confirmPassword: state.confirmPassword.trim(),
       };
@@ -82,12 +82,12 @@ const Register = () => {
                   required
                   type="email"
                   label="Gmail"
-                  name="username"
-                  autoComplete="new-username"
-                  value={state.username}
+                  name="email"
+                  autoComplete="new-email"
+                  value={state.email}
                   onChange={inputChangeHandler}
-                  error={Boolean(getFieldError("username"))}
-                  helperText={getFieldError("username")}
+                  error={Boolean(getFieldError("email"))}
+                  helperText={getFieldError("email")}
                 />
               </Grid>
               <Grid>

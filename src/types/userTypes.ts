@@ -4,13 +4,14 @@ export interface GlobalError {
 
 export interface IUser {
   _id: string;
+  email: string;
   googleId: string;
   role: string;
   token: string;
 }
 
 export interface UserMutation {
-  username: string;
+  email: string;
   password: string;
   confirmPassword: string;
 }
