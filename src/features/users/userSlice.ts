@@ -8,7 +8,7 @@ interface UserData {
 }
 
 interface UserState {
-  user: UserData | null;
+  user: UserData;
   loginLoading: boolean;
   loginError: GlobalError | null;
   registerLoading: boolean;
@@ -31,7 +31,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     unsetUser: (state) => {
-      state.user = null;
+      state.user.user = null;
     },
   },
   extraReducers: (builder) => {
@@ -40,7 +40,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(googleLogin.fulfilled, (state, { payload: user }) => {
       state.loginLoading = false;
-      state.user = { user, profile: null };
+      state.user.user = user;
     });
     builder.addCase(googleLogin.rejected, (state, { payload: error }) => {
       state.loginLoading = false;
@@ -53,7 +53,7 @@ export const userSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, { payload: user }) => {
         state.registerLoading = false;
-        state.user = { user, profile: null };
+        state.user.user = user;
       })
       .addCase(register.rejected, (state, { payload: error }) => {
         state.registerLoading = false;
