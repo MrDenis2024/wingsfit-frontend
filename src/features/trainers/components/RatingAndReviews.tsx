@@ -7,7 +7,7 @@ interface Props {
   id: string;
 }
 
-const RaitingAndReviews: React.FC<Props> = ({ id }) => {
+const RatingAndReviews: React.FC<Props> = ({ id }) => {
   return (
     <Box
       sx={{
@@ -60,4 +60,4 @@ const RaitingAndReviews: React.FC<Props> = ({ id }) => {
   );
 };
 
-export default RaitingAndReviews;
+export default RatingAndReviews;

@@ -14,7 +14,7 @@ export const googleLogin = createAsyncThunk<
   { rejectValue: GlobalError }
 >("users/googleLogin", async (userMutation, { rejectWithValue }) => {
   try {
-    if (userMutation.role !== "treiner" && userMutation.role !== "client") {
+    if (userMutation.role !== "trainer" && userMutation.role !== "client") {
       return rejectWithValue({
         error: "Role not found!",
       });
