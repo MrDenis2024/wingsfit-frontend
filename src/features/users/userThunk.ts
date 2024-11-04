@@ -14,15 +14,17 @@ export const googleLogin = createAsyncThunk<
   { rejectValue: GlobalError }
 >("users/googleLogin", async (userMutation, { rejectWithValue }) => {
   try {
+    
     if (userMutation.role !== "trainer" && userMutation.role !== "client") {
       return rejectWithValue({
         error: "Role not found!",
       });
+      
     }
-
-    const { data: user } = await axiosApi.post<IUser>("/user/google", {
-      userMutation,
-    });
+    
+    console.log(userMutation);
+    const { data: user } = await axiosApi.post<IUser>(`/users/google?role=${userMutation.role}`, {credential: userMutation.credential});
+    
     return user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {

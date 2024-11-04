@@ -5,6 +5,8 @@ import { useAppDispatch } from "../../app/hooks";
 import logoImage from "../../assets/images/logo.png";
 import Grid from "@mui/material/Grid2";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
+import { googleLogin } from "./userThunk";
 
 const Login = ()=>{
     const { role } = useParams() as { role: string };
@@ -23,7 +25,18 @@ const Login = ()=>{
         [name]: value,
       }));
     };
-  
+
+    const googleLoginHandler = async (credentialResponse: CredentialResponse) => {
+        try{
+            if (credentialResponse.credential) {
+              await dispatch(googleLogin({ credential: credentialResponse.credential, role: role })).unwrap();
+              navigate("/");
+            }
+        }catch(e){
+            console.error(e);
+        }
+    };
+
     const submitFormHandler = async (event: React.FormEvent) => {
       event.preventDefault();
       try {
@@ -66,6 +79,14 @@ const Login = ()=>{
               sx={{ mt: 3, width: "100%", mx: "auto" }}
             >
               <Grid container direction="column" spacing={2}>
+                <Grid>
+                   <GoogleLogin
+                        onSuccess={googleLoginHandler}
+                        onError={() => {
+                            console.log("Login Failed");
+                        }}
+                    />
+                </Grid>
                 <Grid>
                   <TextField
                     required
