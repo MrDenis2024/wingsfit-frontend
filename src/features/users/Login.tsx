@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { Box, Stack, TextField, Typography, Link } from "@mui/material";
+import { Box, Stack, TextField, Typography, Link, Alert } from "@mui/material";
 import { Link as RouterLink, useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import logoImage from "../../assets/images/logo.png";
 import Grid from "@mui/material/Grid2";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { googleLogin } from "./userThunk";
+import { googleLogin, login } from "./userThunk";
+import { selectLoginError, selectLoginLoading } from "./userSlice";
 
 const Login = ()=>{
     const { role } = useParams() as { role: string };
     const dispatch = useAppDispatch();
+    const error = useAppSelector(selectLoginError);
+    const loading = useAppSelector(selectLoginLoading);
     const navigate = useNavigate();
     const [state, setState] = useState({
       email: "",
@@ -44,8 +47,8 @@ const Login = ()=>{
           email: state.email.trim().toLowerCase(),
           password: state.password.trim(),
         };
-  
-        // await dispatch().unwrap();
+        
+        await dispatch(login(userMutation)).unwrap();
         navigate("/");
       } catch (e) {
         console.error(e);
@@ -79,6 +82,11 @@ const Login = ()=>{
               sx={{ mt: 3, width: "100%", mx: "auto" }}
             >
               <Grid container direction="column" spacing={2}>
+                {error && (
+                    <Alert severity="error" sx={{ mt: 3 }}>
+                        {error.error}
+                    </Alert>
+                )}
                 <Grid>
                    <GoogleLogin
                         onSuccess={googleLoginHandler}
@@ -96,7 +104,6 @@ const Login = ()=>{
                     autoComplete="new-username"
                     value={state.email}
                     onChange={inputChangeHandler}
-                  
                   />
                 </Grid>
                 <Grid>
@@ -115,6 +122,7 @@ const Login = ()=>{
                 type="submit"
                 fullWidth
                 variant="contained"
+                loading={loading}
                 sx={{ mt: 3, mb: 2 }}
               >
                 Get Started

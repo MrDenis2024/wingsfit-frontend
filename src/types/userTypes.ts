@@ -16,6 +16,11 @@ export interface UserMutation {
   confirmPassword: string;
 }
 
+export interface UserLogin {
+  email: string;
+  password: string;
+}
+
 export interface ValidationError {
   errors: {
     [key: string]: {
