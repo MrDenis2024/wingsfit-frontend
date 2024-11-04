@@ -121,7 +121,7 @@ const Login = ()=>{
               <LoadingButton
                 type="submit"
                 fullWidth
-                variant="contained"
+                variant="outlined"
                 loading={loading}
                 sx={{ mt: 3, mb: 2 }}
               >
