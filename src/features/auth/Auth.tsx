@@ -30,6 +30,16 @@ const Auth = () => {
           </NavLink>
         </Grid2>
       </Grid2>
+      <Grid2 m={5}>
+        <Grid2 display="flex" justifyContent="center" flexWrap="wrap" gap={2}>
+          <NavLink to="/login/client" style={{ textDecoration: "none" }}>
+            <StyledButton variant="outlined">Login as client</StyledButton>
+          </NavLink>
+          <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
+            <StyledButton variant="outlined">Login as coach</StyledButton>
+          </NavLink>
+        </Grid2>
+      </Grid2>
     </>
   );
 };

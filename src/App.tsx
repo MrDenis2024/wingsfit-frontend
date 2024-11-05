@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./features/home/Home";
 import Register from "./features/users/Register";
 import OneTrainer from "./features/trainers/components/OneTrainer.tsx";
+import Login from "./features/users/Login.tsx";
 
 const App = () => {
   return (
@@ -22,6 +23,14 @@ const App = () => {
             element={
               <>
                 <Register />
+              </>
+            }
+          />
+          <Route
+            path="/login/:role"
+            element={
+              <>
+                <Login />
               </>
             }
           />

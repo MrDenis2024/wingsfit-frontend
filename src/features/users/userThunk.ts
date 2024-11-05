@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   GlobalError,
   IUser,
+  UserLogin,
   UserMutation,
   ValidationError,
 } from "../../types/userTypes";
@@ -20,9 +21,11 @@ export const googleLogin = createAsyncThunk<
       });
     }
 
-    const { data: user } = await axiosApi.post<IUser>("/user/google", {
-      userMutation,
-    });
+    const { data: user } = await axiosApi.post<IUser>(
+      `/users/google?role=${userMutation.role}`,
+      { credential: userMutation.credential },
+    );
+
     return user;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
@@ -46,6 +49,25 @@ export const register = createAsyncThunk<
     const { data: user } = await axiosApi.post<IUser>(
       `/users?role=${role}`,
       userMutation,
+    );
+    return user;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data);
+    }
+    throw e;
+  }
+});
+
+export const login = createAsyncThunk<
+  IUser,
+  UserLogin,
+  { rejectValue: GlobalError }
+>("users/login", async (loginMutation, { rejectWithValue }) => {
+  try {
+    const { data: user } = await axiosApi.post<IUser>(
+      "/users/sessions",
+      loginMutation,
     );
     return user;
   } catch (e) {
