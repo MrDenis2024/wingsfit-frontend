@@ -51,3 +51,31 @@
         И ввожу в поле "password" значение "incorrectPassword"
         И нажимаю на кнопку "Get Started"
         Тогда я вижу сообщение "Password is wrong!"
+
+    @loginAsClientWithEmptyEmail
+    Сценарий: Логин как клиент с неполными данными
+        Допустим я нахожусь на странице "входа как клиент"
+        И ввожу в поле "password" значение "incorrectPassword"
+        И нажимаю на кнопку "Get Started"
+        Тогда я вижу сообщение "Email and password are required"
+    
+    @loginAsTrainerWithEmptyEmail
+    Сценарий: Логин как тренер с неполными данными
+        Допустим я нахожусь на странице "входа как тренер"
+        И ввожу в поле "password" значение "incorrectPassword"
+        И нажимаю на кнопку "Get Started"
+        Тогда я вижу сообщение "Email and password are required"
+    
+    @loginAsClientWithEmptyPassword
+    Сценарий: Логин как клиент с неполными данными
+        Допустим я нахожусь на странице "входа как клиент"
+        И ввожу в поле "email" значение "trainer@fit.local"
+        И нажимаю на кнопку "Get Started"
+        Тогда я вижу сообщение "Email and password are required"
+    
+    @loginAsTrainerWithEmptyPassword
+    Сценарий: Логин как тренер с неполными данными
+        Допустим я нахожусь на странице "входа как тренер"
+        И ввожу в поле "email" значение "client@fit.local"
+        И нажимаю на кнопку "Get Started"
+        Тогда я вижу сообщение "Email and password are required"
