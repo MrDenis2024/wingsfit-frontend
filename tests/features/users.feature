@@ -19,3 +19,19 @@
         И ввожу в поле "password" значение "test"
         И нажимаю на кнопку "Get Started"
         Тогда я вижу сообщение "Class Schedule"
+
+    @loginAsDontExistClient
+    Сценарий: Логин как не существующий клиент
+        Допустим я нахожусь на странице "входа как клиент"
+        И ввожу в поле "email" значение "errorClient@fit.local" 
+        И ввожу в поле "password" значение "test"
+        И нажимаю на кнопку "Get Started"
+        Тогда я вижу сообщение "User not found!"
+    
+    @loginAsDontExistTrainer
+    Сценарий: Логин как не существующий тренер
+        Допустим я нахожусь на странице "входа как тренер"
+        И ввожу в поле "email" значение "errorTrainer@fit.local" 
+        И ввожу в поле "password" значение "test"
+        И нажимаю на кнопку "Get Started"
+        Тогда я вижу сообщение "User not found!"
