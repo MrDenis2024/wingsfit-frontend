@@ -16,92 +16,70 @@ const OneClient = () => {
         dispatch(getClientProfile(id))
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log(userProfile);
-    }, [userProfile]);
     return (
         <div>
-            <Box>
-                <Box>
+            <Box sx={{ maxWidth: "300px", margin: "0 auto", padding: "20px", borderRadius: "10px"}}>
+                <Box display="flex" justifyContent="center">
                     <CardMedia
                         component="img"
                         image={imageNotFound}
                         alt="Фото тренера"
                         sx={{
-                            borderRadius: "10px",
-                            width: 150,
-                            height: 150,
-                            margin: "25px auto",
+                            width: 120,
+                            height: 120,
+                            margin: "15px auto",
                         }}
                     />
-
                 </Box>
-                <Box sx={{ width: "270px", margin: "0px auto" }}>
+                <Box sx={{ textAlign: "center" }}>
                     <Typography
                         variant="h5"
-                        sx={{ marginTop: 1, color: "black", fontWeight: "700" }}
+                        sx={{fontWeight: "bold", marginBottom: "10px" }}
                     >
                         {userProfile?.user.firstName} {userProfile?.user.lastName}
                     </Typography>
-                    <Box sx={{margin:'15px 0'}}>
-                        <p style={{margin:0}}>User information</p>
-                        <Typography variant="body2" color="text.secondary">
-                            Phone number: <strong>{userProfile?.user.phoneNumber}</strong>
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Date of Birth: <strong>{userProfile?.dateOfBirth.slice(0,10)}</strong>
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Gender: <strong>{userProfile?.gender}</strong>
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Preferred Workout Type: <strong>{userProfile?.preferredWorkoutType}</strong>
-                        </Typography>
-                    </Box>
-                    <Box>
-                        <p style={{margin:0}}>User Status</p>
-                        <Typography variant="body2" color="text.secondary">
-                            Training level <strong>{userProfile?.trainingLevel}</strong>
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Physical level <strong>{userProfile?.physicalData}</strong>
-                        </Typography>
-                    </Box>
                 </Box>
-                <Box sx={{ width: "270px", margin: "10px auto" }}>
-                    <Typography
-                        variant="h6"
-                        sx={{ marginTop: 1, color: "black", fontWeight: "700" }}
-                    >
+
+                <Box sx={{ marginBottom: "20px", backgroundColor: "#E1F5FE", padding: "15px", borderRadius: "8px" }}>
+                    <Typography variant="subtitle2" sx={{ color: "#0288D1", fontWeight: "600", marginBottom: "10px" }}>User Information</Typography>
+                    <Typography variant="body2" sx={{ color: "#01579B" }}>
+                        Phone number: <strong>{userProfile?.user.phoneNumber}</strong>
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "#01579B" }}>
+                        Date of Birth: <strong>{userProfile?.dateOfBirth.slice(0,10)}</strong>
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "#01579B" }}>
+                        Gender: <strong>{userProfile?.gender}</strong>
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "#01579B" }}>
+                        Preferred Workout Type: <strong>{userProfile?.preferredWorkoutType}</strong>
                     </Typography>
                 </Box>
-                <Box sx={{ width: "270px", margin: "10px auto" }}>
-                    <Typography
-                        variant="h6"
-                        sx={{ marginTop: 1, color: "black", fontWeight: "700" }}
-                    >
+
+                <Box sx={{ marginBottom: "20px", backgroundColor: "#F0F4C3", padding: "15px", borderRadius: "8px" }}>
+                    <Typography variant="subtitle2" sx={{ color: "#827717", fontWeight: "600", marginBottom: "10px" }}>User Status</Typography>
+                    <Typography variant="body2" sx={{ color: "#4E342E" }}>
+                        Training level: <strong>{userProfile?.trainingLevel}</strong>
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: "#4E342E" }}>
+                        Physical level: <strong>{userProfile?.physicalData}</strong>
                     </Typography>
                 </Box>
-                <Box sx={{ width: "270px", margin: "10px auto" }}>
-                    <Typography
-                        variant="h6"
-                        sx={{ marginTop: 1, color: "black", fontWeight: "700" }}
-                    >
-                        Subscribed to
-                    </Typography>
+
+                <Box sx={{ textAlign: "center", marginBottom: "20px" }}>
+                    <Typography variant="h6" sx={{fontWeight: "600" }}>Subscribed to</Typography>
                     <Box
                         sx={{
-                            backgroundColor: "#ECECEC",
-                            padding: "20px",
-                            borderRadius: "10px",
+                            backgroundColor: "#E0F7FA",
+                            padding: "15px",
+                            borderRadius: "8px",
                             marginTop: "10px",
                         }}
                     >
                         {userProfile?.subscribes?.length === 0 ? (
                             <Typography
                                 variant="body2"
-                                color="text.secondary"
-                                sx={{ marginTop: 1, fontSize: "12px", color: "black" }}
+                                sx={{ fontSize: "12px", color: "#01579B" }}
                             >
                                 Not subscribed to any workouts.
                             </Typography>
@@ -110,8 +88,7 @@ const OneClient = () => {
                                 <Typography
                                     key={index}
                                     variant="body2"
-                                    color="text.secondary"
-                                    sx={{ marginTop: 1, fontSize: "12px", color: "black" }}
+                                    sx={{ fontSize: "12px", color: "#01579B" }}
                                 >
                                     {subscription}
                                 </Typography>
@@ -124,20 +101,28 @@ const OneClient = () => {
                     sx={{
                         display: "flex",
                         flexDirection: "column",
-                        width: "270px",
-                        margin: "0 auto",
+                        alignItems: "center",
                         gap: "15px",
-                        marginTop: "25px",
+                        marginTop: "20px",
                     }}
                 >
                     <Button
                         variant="outlined"
-                        sx={{ color: "black", borderColor: "black", borderRadius: "7px" }}
+                        sx={{
+                            color: "#0288D1",
+                            borderColor: "#0288D1",
+                            borderRadius: "7px",
+                            "&:hover": {
+                                backgroundColor: "#E1F5FE",
+                                borderColor: "#0288D1",
+                            }
+                        }}
                     >
                         Edit profile
                     </Button>
                 </Box>
             </Box>
+
         </div>
     );
 };
