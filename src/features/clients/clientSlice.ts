@@ -13,7 +13,7 @@ export interface IClientProfile {
     },
     gender: string;
     dateOfBirth: string;
-    subscribers: string[];
+    subscribes: string[];
     timeZone: string;
     preferredWorkoutType: string;
     trainingLevel: string;

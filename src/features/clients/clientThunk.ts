@@ -10,6 +10,7 @@ export const getClientProfile = createAsyncThunk<IClientProfile, string , { reje
     async (id: string , { rejectWithValue }) => {
         try {
             const {data : client} = await axiosApi.get<IClientProfile>(`/clients/${id}`);
+            console.log('axios - ' + client)
             return client;
         }catch (e) {
             if (isAxiosError(e) && e.response && e.response.status === 400) {
