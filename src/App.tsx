@@ -4,6 +4,7 @@ import Home from "./features/home/Home";
 import Register from "./features/users/Register";
 import OneTrainer from "./features/trainers/components/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
+import OneClient from "./features/clients/components/OneClient.tsx";
 
 const App = () => {
   return (
@@ -43,6 +44,14 @@ const App = () => {
             element={
               <>
                 <OneTrainer />
+              </>
+            }
+          />
+          <Route
+            path="/client/:id"
+            element={
+              <>
+                <OneClient />
               </>
             }
           />
