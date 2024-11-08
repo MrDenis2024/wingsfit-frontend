@@ -55,12 +55,12 @@ const Auth = () => {
             Connect with fitness trainers for group sessions
           </Typography>
         </Grid2>
-          <Box
-            component="img"
-            src={welcomePicture}
-            alt="Welcome"
-            sx={{ width: "auto", height: 250, mb: 2 }}
-          />
+        <Box
+          component="img"
+          src={welcomePicture}
+          alt="Welcome"
+          sx={{ width: "auto", height: 250, mb: 2 }}
+        />
         <Grid2 size={12} py={2} display="flex" flexDirection="column" alignItems="center"
                justifyContent="center" flexWrap="wrap" gap={1}>
           <NavLink to="/login/client" style={{textDecoration: "none"}}>
