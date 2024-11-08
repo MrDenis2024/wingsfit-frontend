@@ -8,6 +8,7 @@ import Auth from "./features/auth/Auth.tsx";
 import {useAppSelector} from "./app/hooks.ts";
 import {selectUser} from "./features/users/userSlice.ts";
 import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
+import OneClient from "./features/clients/components/OneClient.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -56,6 +57,14 @@ const App = () => {
             element={
               <>
                 <OneTrainer />
+              </>
+            }
+          />
+          <Route
+            path="/client/:id"
+            element={
+              <>
+                <OneClient />
               </>
             }
           />
