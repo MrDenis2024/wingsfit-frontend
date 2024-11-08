@@ -11,7 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { usersReducer } from "../features/users/userSlice";
-import {clientsReducer} from "../features/clients/clientSlice.ts";
+import { clientsReducer } from "../features/clients/clientSlice.ts";
 
 const usersPersistConfig = {
   key: "wingsfit:users",

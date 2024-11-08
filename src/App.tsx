@@ -47,14 +47,14 @@ const App = () => {
               </>
             }
           />
-            <Route
-                path="/client/:id"
-                element={
-                    <>
-                        <OneClient />
-                    </>
-                }
-            />
+          <Route
+            path="/client/:id"
+            element={
+              <>
+                <OneClient />
+              </>
+            }
+          />
         </Routes>
       </Container>
     </>
