@@ -4,9 +4,14 @@ import Home from "./features/home/Home";
 import Register from "./features/users/Register";
 import OneTrainer from "./features/trainers/components/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
+import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
+import {useAppSelector} from "./app/hooks.ts";
+import {selectUser} from "./features/users/userSlice.ts";
+import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
 import OneClient from "./features/clients/components/OneClient.tsx";
 
 const App = () => {
+  const user = useAppSelector(selectUser);
   return (
     <>
       <Container>
@@ -14,8 +19,16 @@ const App = () => {
           <Route
             path="/"
             element={
-              <>
+              <ProtectedRoute isAllowed={!!user.user}>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <>
+                <WelcomePage />
               </>
             }
           />
