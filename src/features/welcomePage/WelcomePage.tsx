@@ -18,7 +18,7 @@ const StyledButton = styled(Button)(({theme}) => ({
   },
 }));
 
-const Auth = () => {
+const WelcomePage = () => {
   return (
     <>
       <Grid2 flexDirection="column" container my={10} py={2} justifyContent="center" alignItems="center">
@@ -75,4 +75,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default WelcomePage;

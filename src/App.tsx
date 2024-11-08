@@ -4,7 +4,7 @@ import Home from "./features/home/Home";
 import Register from "./features/users/Register";
 import OneTrainer from "./features/trainers/components/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
-import Auth from "./features/auth/Auth.tsx";
+import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import {useAppSelector} from "./app/hooks.ts";
 import {selectUser} from "./features/users/userSlice.ts";
 import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
@@ -28,7 +28,7 @@ const App = () => {
             path="/login"
             element={
               <>
-                <Auth />
+                <WelcomePage />
               </>
             }
           />
