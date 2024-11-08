@@ -1,7 +1,9 @@
+import LessonForm from "./components/LessonForm";
+
 const AddNewLesson = ()=>{
     return(
         <>
-            Add New Lesson
+            <LessonForm></LessonForm>
         </>
     )
 }
