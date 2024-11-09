@@ -141,15 +141,6 @@ const TrainerRegisterForm: React.FC<Props> = ({
       <Grid>
         <TextField
           type="text"
-          label="Certificates"
-          name="certificates"
-          onChange={inputChangeHandler}
-          value={profileData.certificates}
-        />
-      </Grid>
-      <Grid>
-        <TextField
-          type="text"
           label="Available Days"
           name="availableDays"
           onChange={inputChangeHandler}
@@ -164,7 +155,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
         </Grid>
         <Grid>
           <Button
-            variant="outlined"
+            variant="contained"
             onClick={() => updatePersonalInfo(null, profileData)}
           >
             Finish

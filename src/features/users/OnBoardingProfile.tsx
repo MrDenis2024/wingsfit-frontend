@@ -6,8 +6,11 @@ import TrainerRegisterForm from "./components/TrainerRegisterForm.tsx";
 import { UserInfoMutation } from "../../types/userTypes.ts";
 import { TrainerProfileMutation } from "../../types/trainerTypes.ts";
 import RegisterPreview from "./components/RegisterPreview.tsx";
+import { useAppSelector } from "../../app/hooks.ts";
+import { selectUser } from "./userSlice.ts";
 
 const OnBoardingProfile = () => {
+  const user = useAppSelector(selectUser);
   const stepLabels = ["Fill personal info", "Fill optional info", "Preview"];
   const [activeStep, setActiveStep] = useState<number>(0);
   const [requiredInfo, setRequiredInfo] = useState<UserInfoMutation>({
@@ -15,14 +18,14 @@ const OnBoardingProfile = () => {
     lastName: "",
     timezone: { value: "", label: "" },
     phoneNumber: "",
-    avatar: null,
+    dateOfBirth: "",
+    gender: "",
   });
   const [optionalInfo, setOptionalInfo] = useState<TrainerProfileMutation>({
     description: "",
     specialization: "",
     experience: "",
     courseTypes: [""],
-    certificates: "",
     availableDays: "",
   });
   const onHandleNext = () => {
@@ -63,7 +66,7 @@ const OnBoardingProfile = () => {
           updatePersonalInfo={updatePersonalInfo}
         />
       )}
-      {activeStep === 1 && (
+      {activeStep === 1 && user.user?.role === "trainer" && (
         <TrainerRegisterForm
           initialState={optionalInfo}
           onSubmit={trainerProfileSubmit}
@@ -77,10 +80,23 @@ const OnBoardingProfile = () => {
             requiredData={requiredInfo}
             optionalData={optionalInfo}
           />
-          <Grid textAlign="center">
-            <Button variant={"contained"} sx={{ my: 3 }}>
-              Confirm
-            </Button>
+          <Grid container display="flex" justifyContent="space-between">
+            <Grid>
+              <Button onClick={onHandlePrev} variant="outlined">
+                Back
+              </Button>
+            </Grid>
+            <Grid>
+              <Button
+                variant={"contained"}
+                sx={{ my: 3 }}
+                onClick={() => {
+                  console.log(requiredInfo, optionalInfo);
+                }}
+              >
+                Confirm
+              </Button>
+            </Grid>
           </Grid>
         </>
       )}

@@ -10,6 +10,5 @@ export interface TrainerProfileMutation {
   specialization: string;
   experience: string;
   courseTypes: string[];
-  certificates: string;
   availableDays: string;
 }

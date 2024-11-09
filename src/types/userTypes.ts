@@ -40,6 +40,7 @@ export interface UserInfoMutation {
     value: string;
     label: string;
   };
+  dateOfBirth: string;
+  gender: string;
   phoneNumber: string;
-  avatar: File | null;
 }

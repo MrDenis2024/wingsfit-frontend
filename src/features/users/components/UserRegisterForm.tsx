@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { Button, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import TimeZone from "../../../UI/TimeZone/TimeZone.tsx";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
@@ -34,17 +40,6 @@ const UserRegisterForm: React.FC<Props> = ({
     setPersonalData((prevState) => ({
       ...prevState,
       timezone: { value: timezoneValue, label: timezoneLabel },
-    }));
-  };
-
-  const fileInputChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const { name, files } = event.target;
-    const value = files && files[0] ? files[0] : null;
-    setPersonalData((prevState) => ({
-      ...prevState,
-      [name]: value,
     }));
   };
 
@@ -87,7 +82,7 @@ const UserRegisterForm: React.FC<Props> = ({
       </Grid>
       <Grid>
         <TextField
-          type="text"
+          type="tel"
           label="Phone number"
           name="phoneNumber"
           onChange={inputChangeHandler}
@@ -95,11 +90,31 @@ const UserRegisterForm: React.FC<Props> = ({
         />
       </Grid>
       <Grid>
-        <FileInput
-          onChange={fileInputChangeHandler}
-          name="avatar"
-          label="Upload Avatar"
+        <TextField
+          type="date"
+          label="Date of Birth"
+          name="dateOfBirth"
+          onChange={inputChangeHandler}
+          value={personalData.dateOfBirth}
         />
+      </Grid>
+      <Grid
+        sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}
+      >
+        <Typography variant="subtitle1">Select Gender:</Typography>
+        <RadioGroup
+          value={personalData.gender}
+          onChange={(e) =>
+            inputChangeHandler({
+              target: { name: "gender", value: e.target.value },
+            } as React.ChangeEvent<HTMLInputElement>)
+          }
+          sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
+        >
+          <FormControlLabel value="female" control={<Radio />} label="Female" />
+          <FormControlLabel value="male" control={<Radio />} label="Male" />
+          <FormControlLabel value="another" control={<Radio />} label="Other" />
+        </RadioGroup>
       </Grid>
       <Grid>
         <TimeZone
@@ -110,7 +125,9 @@ const UserRegisterForm: React.FC<Props> = ({
       </Grid>
       <Grid container display="flex" justifyContent="space-between">
         <Grid>
-          <Button disabled>Back</Button>
+          <Button disabled variant={"outlined"}>
+            Back
+          </Button>
         </Grid>
         <Grid>
           <Button
@@ -119,6 +136,7 @@ const UserRegisterForm: React.FC<Props> = ({
               personalData.firstName === "" ||
               personalData.timezone.label === ""
             }
+            variant="contained"
             onClick={() => updatePersonalInfo(personalData, null)}
           >
             Finish

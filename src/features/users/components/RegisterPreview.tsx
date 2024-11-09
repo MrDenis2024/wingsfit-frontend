@@ -32,18 +32,6 @@ const RegisterPreview: React.FC<Props> = ({ requiredData, optionalData }) => {
                   {value}
                 </Typography>
               )}
-              {typeof value === "object" &&
-                key === "avatar" &&
-                requiredData.avatar && (
-                  <Typography variant="body2" component="div">
-                    <span
-                      style={{ fontWeight: "bold", textTransform: "uppercase" }}
-                    >
-                      {key} :{" "}
-                    </span>
-                    {requiredData.avatar.name}
-                  </Typography>
-                )}
               {typeof value === "object" && key === "timezone" && (
                 <Typography variant="body2" component="div">
                   <span
