@@ -40,7 +40,7 @@ const Register = () => {
       };
 
       await dispatch(register({ userMutation, role })).unwrap();
-      navigate("/");
+      navigate(`/fill-profile/${role}`);
     } catch (e) {
       console.error(e);
     }

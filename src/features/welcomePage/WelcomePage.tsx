@@ -1,8 +1,8 @@
-import {Box, Button, Grid2, styled, Typography} from "@mui/material";
-import {NavLink} from "react-router-dom";
+import { Box, Button, Grid2, styled, Typography } from "@mui/material";
+import { NavLink } from "react-router-dom";
 import welcomePicture from "../../assets/images/welcome-picture.jpeg";
 
-const StyledButton = styled(Button)(({theme}) => ({
+const StyledButton = styled(Button)(({ theme }) => ({
   color: "#212121",
   border: "1px solid #212121",
   borderRadius: "14px",
@@ -21,7 +21,14 @@ const StyledButton = styled(Button)(({theme}) => ({
 const WelcomePage = () => {
   return (
     <>
-      <Grid2 flexDirection="column" container my={10} py={2} justifyContent="center" alignItems="center">
+      <Grid2
+        flexDirection="column"
+        container
+        my={10}
+        py={2}
+        justifyContent="center"
+        alignItems="center"
+      >
         <Grid2
           sx={{
             width: 345,
@@ -37,7 +44,12 @@ const WelcomePage = () => {
             alignItems: "center",
           }}
         >
-          <Typography component="h1" variant="h2" fontWeight="bold" gutterBottom>
+          <Typography
+            component="h1"
+            variant="h2"
+            fontWeight="bold"
+            gutterBottom
+          >
             WingsFit
           </Typography>
         </Grid2>
@@ -51,7 +63,13 @@ const WelcomePage = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h6" lineHeight="1.3" fontWeight="bold" textAlign="center" gutterBottom>
+          <Typography
+            variant="h6"
+            lineHeight="1.3"
+            fontWeight="bold"
+            textAlign="center"
+            gutterBottom
+          >
             Connect with fitness trainers for group sessions
           </Typography>
         </Grid2>
@@ -61,12 +79,20 @@ const WelcomePage = () => {
           alt="Welcome"
           sx={{ width: "auto", height: 250, mb: 2 }}
         />
-        <Grid2 size={12} py={2} display="flex" flexDirection="column" alignItems="center"
-               justifyContent="center" flexWrap="wrap" gap={1}>
-          <NavLink to="/login/client" style={{textDecoration: "none"}}>
+        <Grid2
+          size={12}
+          py={2}
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          flexWrap="wrap"
+          gap={1}
+        >
+          <NavLink to="/login/client" style={{ textDecoration: "none" }}>
             <StyledButton variant="outlined">Want to work out</StyledButton>
           </NavLink>
-          <NavLink to="/login/trainer" style={{textDecoration: "none"}}>
+          <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
             <StyledButton variant="outlined">Want to be a coach</StyledButton>
           </NavLink>
         </Grid2>

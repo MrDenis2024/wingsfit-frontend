@@ -32,3 +32,14 @@ export interface ValidationError {
   name: string;
   _name: string;
 }
+
+export interface UserInfoMutation {
+  firstName: string;
+  lastName: string;
+  timezone: {
+    value: string;
+    label: string;
+  };
+  phoneNumber: string;
+  avatar: File | null;
+}
