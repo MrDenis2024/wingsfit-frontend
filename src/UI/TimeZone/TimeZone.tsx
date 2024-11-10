@@ -1,32 +1,31 @@
 import React, { useState } from "react";
-import { Box, Typography } from "@mui/material";
 import TimezoneSelect, { ITimezoneOption } from "react-timezone-select";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
-  changeTimezone: (timezone: string) => void;
+  changeTimezone: (timezoneValue: string, timezoneLabel: string) => void;
   name: string;
+  value: { value: string; label: string };
 }
 
-const TimeZone: React.FC<Props> = ({ changeTimezone, name }) => {
-  const [timezone, setTimezone] = useState<ITimezoneOption>({
-    value: "",
-    label: "",
-  });
+const TimeZone: React.FC<Props> = ({ changeTimezone, name, value }) => {
+  const [timezone, setTimezone] = useState<ITimezoneOption>(value);
 
   const onChange = (tz: ITimezoneOption) => {
     setTimezone(tz);
-    changeTimezone(tz.label);
+    changeTimezone(tz.value, tz.label);
   };
 
   return (
-    <Box sx={{ width: 300, margin: "0 auto", textAlign: "center" }}>
-      <Typography variant="h6" gutterBottom>
-        Select Timezone
-      </Typography>
-      <Box sx={{ mt: 2 }}>
-        <TimezoneSelect name={name} value={timezone} onChange={onChange} />
-      </Box>
-    </Box>
+    <Grid>
+      <TimezoneSelect
+        placeholder={"Time zone"}
+        required
+        name={name}
+        value={timezone}
+        onChange={onChange}
+      />
+    </Grid>
   );
 };
 

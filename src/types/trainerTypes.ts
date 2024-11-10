@@ -5,3 +5,10 @@ export interface TrainerFields {
   courseTypes: string[];
   avatar: string | null;
 }
+export interface TrainerProfileMutation {
+  description: string;
+  specialization: string;
+  experience: string;
+  courseTypes: string[];
+  availableDays: string;
+}
