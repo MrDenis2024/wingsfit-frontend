@@ -1,9 +1,15 @@
 import { LoadingButton } from "@mui/lab";
 import Grid from "@mui/material/Grid2";
-import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Stack, TextField, Typography } from "@mui/material";
+import logoImage from "../../../assets/images/logo.png";
 import { TextareaAutosize as BaseTextareaAutosize } from '@mui/base/TextareaAutosize';
 import { styled } from '@mui/system';
 import { useState } from "react";
+import { LessonMutation } from "../../../types/lessonTypes";
+import { selectLessonsLoading } from "../lessonsSlice";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { useNavigate } from "react-router-dom";
+import { createLesson } from "../lessonsThunk";
 
 const LessonForm = ()=>{
 
@@ -25,105 +31,168 @@ const LessonForm = ()=>{
         },
     });
 
-    const [course, setCourse] = useState('');
+    const [state, setState] = useState<LessonMutation>({
+        course: '',
+        title: '',
+        timeZone: '',
+        groupLevel: 0,
+        quantityClients: 0,
+        ageLimit: 0,
+        description: '',
+        participants: [],
+        presentUser: [],
+    });
+
+    const loading = useAppSelector(selectLessonsLoading);
+    const dispatch = useAppDispatch();
+    const [error, setError] = useState(false);
+    const navigate = useNavigate();
+
+    const submitFormHandler = async (event: React.FormEvent) => {
+        event.preventDefault();
+        try {
+            if (!state.course.trim() || !state.title.trim() || !state.timeZone.trim() || state.groupLevel < 1 || state.quantityClients < 1) {
+                setError(true);
+            }else{
+                await dispatch(createLesson(state)).unwrap();
+                setError(false);
+                navigate("/");
+            }
+        
+        } catch (e) {
+          console.error(e);
+        }
+      };    
+
+    const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = event.target;
+    
+        setState((prevState) => ({
+          ...prevState,
+          [name]: value,
+        }));
+    };
 
     const courseChange = (event: SelectChangeEvent) => {
-        setCourse(event.target.value as string);
+        setState((prevState) => ({
+            ...prevState,
+            course: event.target.value,
+        }));
     };
     return(
         <>
-        <Stack sx={{ width: "100%" }} textAlign="center" mt={3}>
-        <Stack alignItems="center" justifyContent="center" m={4}>
-            <Box
-            sx={{
-                mt: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-            }}
-            >
-          <Typography component="h1" variant="h4" gutterBottom>
-            Add new Lesson
-          </Typography>
-          <Box
-            component="form"
-            noValidate
-            // onSubmit={submitFormHandler}
-            sx={{ mt: 3, width: "100%", mx: "auto" }}
-          >
-              <Grid container direction="column" spacing={2}>
-            <Box sx={{ minWidth: 120 }}>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Course</InputLabel>
-                    <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={course}
-                    label="Course"
-                    onChange={courseChange}
+            <Stack sx={{ width: "100%" }} textAlign="center" mt={3}>
+                <Stack alignItems="center" justifyContent="center" m={4}>
+                    <Box
+                        sx={{
+                        mt: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        }}
                     >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                    </Select>
-                </FormControl>
-                </Box>
-                <Grid>
-                    <TextField
-                    required
-                    type="text"
-                    label="Title"
-                    name="title"
-                    //   value={state.email}
-                    //   onChange={inputChangeHandler}
-                    />
-                </Grid>
-                <Grid>
-                    <TextField
-                    required
-                    type="text"
-                    label="Time Zone"
-                    name="timeZone"
-                    //   value={state.email}
-                    //   onChange={inputChangeHandler}
-                    />
-                </Grid>
-                <Grid>
-                <TextField
-                  required
-                  type="text"
-                  label="Group Level"
-                  name="groupLevel"
-                  //   value={state.email}
-                  //   onChange={inputChangeHandler}
-                  />
-              </Grid>
-              <Grid>
-                <TextField
-                  required
-                  type="numder"
-                  label="Age Limit"
-                  name="ageLimit"
-                  //   value={state.password}
-                  //   onChange={inputChangeHandler}
-                  />
-              </Grid>
-              <Grid>
-              <Textarea minRows={1} placeholder="Minimum 3 rows"/> 
-              </Grid>
-            <LoadingButton
-              type="submit"
-              fullWidth
-              variant="outlined"
-              //   loading={loading}
-              >
-              Save
-            </LoadingButton>
-                </Grid>
-          </Box>
-        </Box>
-      </Stack>
-    </Stack>        
+                        <Box
+                            component="img"
+                            src={logoImage}
+                            alt="logo"
+                            sx={{ width: 150, height: 100, mb: 2 }}
+                        />
+                        <Typography component="h1" variant="h4" gutterBottom>
+                            Add new Lesson
+                        </Typography>
+                        <Box
+                            component="form"
+                            noValidate
+                            onSubmit={submitFormHandler}
+                            sx={{width: "100%", mx: "auto" }}
+                        >
+                            <Grid container direction="column" spacing={2}>
+                            {error && (
+                                <Alert severity="error">
+                                    Fill in the fields: Course, Title, Time Zone, Quantity clients, Group Level!
+                                </Alert>
+                            )}
+                            <Box sx={{ minWidth: 120 }}>
+                                <FormControl fullWidth>
+                                    <InputLabel id="demo-simple-select-label">Course</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={state.course}
+                                        label="Course"
+                                        onChange={courseChange}
+                                        required
+                                    >
+                                        <MenuItem value={'672cade9cc1f8f43e89c74ff'}>one</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Box>
+                            <Grid>
+                                <TextField
+                                    required
+                                    type="text"
+                                    label="Title"
+                                    name="title"
+                                    value={state.title}
+                                    onChange={inputChangeHandler}
+                                />
+                            </Grid>
+                            <Grid>
+                                <TextField
+                                required
+                                type="text"
+                                label="Time Zone"
+                                name="timeZone"
+                                value={state.timeZone}
+                                onChange={inputChangeHandler}
+                                />
+                            </Grid>
+                            <Grid>
+                                <TextField
+                                required
+                                type="number"
+                                label="Quantity clients"
+                                name="quantityClients"
+                                value={state.quantityClients}
+                                onChange={inputChangeHandler}
+                                />
+                            </Grid>
+                            <Grid>
+                                <TextField
+                                required
+                                type="number"
+                                label="Group Level"
+                                name="groupLevel"
+                                value={state.groupLevel}
+                                onChange={inputChangeHandler}
+                                />
+                            </Grid>
+                            <Grid>
+                                <TextField
+                                    required
+                                    type="number"
+                                    label="Age Limit"
+                                    name="ageLimit"
+                                    value={state.ageLimit}
+                                    onChange={inputChangeHandler}
+                                />
+                            </Grid>
+                            <Grid>
+                                <Textarea minRows={1} value={state.description} onChange={inputChangeHandler} name="description" placeholder="Description"/> 
+                            </Grid>
+                            <LoadingButton
+                                type="submit"
+                                fullWidth
+                                variant="outlined"
+                                loading={loading}
+                            >
+                                Save
+                            </LoadingButton>
+                            </Grid>
+                        </Box>
+                    </Box>
+                </Stack>
+            </Stack>        
         </>
     )
 }

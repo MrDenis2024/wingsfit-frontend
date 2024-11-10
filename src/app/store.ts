@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { usersReducer } from "../features/users/userSlice";
+import { lessonsReducer } from "../features/lessons/lessonsSlice";
 
 const usersPersistConfig = {
   key: "wingsfit:users",
@@ -20,6 +21,7 @@ const usersPersistConfig = {
 
 const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
+  lessons: lessonsReducer,
 });
 
 export const store = configureStore({
