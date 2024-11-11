@@ -1,14 +1,14 @@
 exports.config = {
-  output: './output',
+  output: "./output",
   helpers: {
     Puppeteer: {
-      url: 'http://localhost:5173',
+      url: "http://localhost:5173",
       show: true,
       // windowSize: '1200x900'
-    }
+    },
   },
   include: {
-    I: './steps_file'
+    I: "./steps_file",
   },
   mocha: {},
   bootstrap: null,
@@ -16,37 +16,38 @@ exports.config = {
   teardown: null,
   hooks: [],
   gherkin: {
-    features: './features/*.feature',
-    steps: ['./step_definitions/steps.ts']
+    features: "./features/*.feature",
+    steps: ["./step_definitions/steps.ts"],
   },
   plugins: {
     screenshotOnFail: {
-      enabled: true
+      enabled: true,
     },
     tryTo: {
-      enabled: true
+      enabled: true,
     },
     retryFailedStep: {
-      enabled: true
+      enabled: true,
     },
     retryTo: {
-      enabled: true
+      enabled: true,
     },
     eachElement: {
-      enabled: true
+      enabled: true,
     },
-    pauseOnFail: {}
+    pauseOnFail: {},
   },
   stepTimeout: 0,
-  stepTimeoutOverride: [{
-      pattern: 'wait.*',
-      timeout: 0
+  stepTimeoutOverride: [
+    {
+      pattern: "wait.*",
+      timeout: 0,
     },
     {
-      pattern: 'amOnPage',
-      timeout: 0
-    }
+      pattern: "amOnPage",
+      timeout: 0,
+    },
   ],
-  tests: './*_test.ts',
-  name: 'tests'
-}
+  tests: "./*_test.ts",
+  name: "tests",
+};

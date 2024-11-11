@@ -1,6 +1,5 @@
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
-import Home from "./features/home/Home";
 import Register from "./features/users/Register";
 import OneTrainer from "./features/trainers/components/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
@@ -8,6 +7,10 @@ import NewCourse from "./features/courses/NewCourse.tsx";
 import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
 import {useAppSelector} from "./app/hooks.ts";
 import {selectUser} from "./features/users/userSlice.ts";
+import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
+import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
+import OneClient from "./features/clients/components/OneClient.tsx";
+import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
 
 const App = () => {
     const user = useAppSelector(selectUser);
@@ -19,7 +22,7 @@ const App = () => {
             path="/"
             element={
               <>
-                <Home />
+                <WelcomePage />
               </>
             }
           />
@@ -28,6 +31,14 @@ const App = () => {
             element={
               <>
                 <Register />
+              </>
+            }
+          />
+          <Route
+            path="/fill-profile/trainer"
+            element={
+              <>
+                <OnBoardingProfile />
               </>
             }
           />
@@ -52,13 +63,26 @@ const App = () => {
             }
           />
             <Route
-                path="/course/new"
+                path="/add-new-course"
                 element={
-                    <ProtectedRoute isAllowed={!!user}>
+                    <ProtectedRoute isAllowed={!!user.user && user.user.role === "trainer"}>
                         <NewCourse />
                     </ProtectedRoute>
                 }
             />
+          <Route
+            path="/add-new-lesson"
+            element={
+              <>
+                <AddNewLesson />
+
+            path="/client/:id"
+            element={
+              <>
+                <OneClient />
+              </>
+            }
+          />
         </Routes>
       </Container>
     </>
