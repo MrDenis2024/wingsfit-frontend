@@ -1,9 +1,12 @@
 export interface ClientFields {
   firstName: string;
   lastName: string;
-  health: string;
-  gender: string;
-  age: string;
-  avatar: string | null;
   timeZone: string;
+  avatar: string | null;
+}
+
+export interface ClientProfileMutation {
+  preferredWorkoutType: string;
+  trainingLevel: string;
+  physicalData: string;
 }
