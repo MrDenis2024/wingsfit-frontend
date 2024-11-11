@@ -1,7 +1,7 @@
 import { Grid2, Typography } from "@mui/material";
 import Auth from "../auth/Auth";
-import ScheduleCard from "../courses/components/ScheduleCard.tsx";
 import TrainerCard from "../trainers/components/TrainerCard.tsx";
+import ScheduleCard from "../schedules/components/ScheduleCard.tsx";
 
 const Home = () => {
   const Schedules = [
