@@ -47,8 +47,8 @@
         И ввожу в поле "password" значение ""
         И ввожу в поле "confirmPassword" значение ""
         И нажимаю на кнопку "Get Started"
-        Тогда я вижу сообщение "Path `email` is required."
-        Тогда я вижу сообщение "Path `password` is required."
+        Тогда я вижу сообщение "Path email is required."
+        Тогда я вижу сообщение "Path password is required."
 
     @registrationWithIncompleteTrainerData
     Сценарий: Регистрация с неполными данными тренера
@@ -57,8 +57,8 @@
         И ввожу в поле "password" значение ""
         И ввожу в поле "confirmPassword" значение ""
         И нажимаю на кнопку "Get Started"
-        Тогда я вижу сообщение "Path `email` is required."
-        Тогда я вижу сообщение "Path `password` is required."
+        Тогда я вижу сообщение "Path email is required."
+        Тогда я вижу сообщение "Path password is required."
 
     @loginAsClient
     Сценарий: Логин как клиент
@@ -92,7 +92,7 @@
         И нажимаю на кнопку "Get Started"
         Тогда я вижу сообщение "User not found!"
 
-    @loginClientWithIncorrectPassword
+@loginClientWithIncorrectPassword
     Сценарий: Логин как клиент с неверным поролем
         Допустим я нахожусь на странице "входа как клиент"
         И ввожу в поле "email" значение "client@fit.local"

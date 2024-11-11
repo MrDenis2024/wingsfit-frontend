@@ -26,6 +26,7 @@ Then("я вижу сообщение {string}", (message: string) => {
 const pageMap: Record<string, string> = {
   "входа как клиент": "/login/client",
   "входа как тренер": "/login/trainer",
+  "создания задач": "/add-new-lesson",
 };
 
 const userPasswords = {
