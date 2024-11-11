@@ -11,6 +11,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { usersReducer } from "../features/users/userSlice";
+import { coursesReducer } from "../features/courses/coursesSlice.ts";
 import { lessonsReducer } from "../features/lessons/lessonsSlice";
 import { clientsReducer } from "../features/clients/clientSlice.ts";
 
@@ -21,6 +22,7 @@ const usersPersistConfig = {
 };
 
 const rootReducer = combineReducers({
+  courses: coursesReducer,
   users: persistReducer(usersPersistConfig, usersReducer),
   lessons: lessonsReducer,
   clients: clientsReducer,

@@ -47,6 +47,8 @@
         И ввожу в поле "password" значение ""
         И ввожу в поле "confirmPassword" значение ""
         И нажимаю на кнопку "Get Started"
+        Тогда я вижу сообщение "Path `email` is required."
+        Тогда я вижу сообщение "Path `password` is required."
         Тогда я вижу сообщение "Path email is required."
         Тогда я вижу сообщение "Path password is required."
 
@@ -57,6 +59,8 @@
         И ввожу в поле "password" значение ""
         И ввожу в поле "confirmPassword" значение ""
         И нажимаю на кнопку "Get Started"
+        Тогда я вижу сообщение "Path `email` is required."
+        Тогда я вижу сообщение "Path `password` is required."
         Тогда я вижу сообщение "Path email is required."
         Тогда я вижу сообщение "Path password is required."
 

@@ -3,12 +3,17 @@ import { Route, Routes } from "react-router-dom";
 import Register from "./features/users/Register";
 import OneTrainer from "./features/trainers/components/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
+import NewCourse from "./features/courses/NewCourse.tsx";
+import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
+import { useAppSelector } from "./app/hooks.ts";
+import { selectUser } from "./features/users/userSlice.ts";
 import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import OneClient from "./features/clients/components/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
 
 const App = () => {
+  const user = useAppSelector(selectUser);
   return (
     <>
       <Container>
@@ -58,11 +63,24 @@ const App = () => {
             }
           />
           <Route
+            path="/add-new-course"
+            element={
+              <ProtectedRoute
+                isAllowed={!!user.user && user.user.role === "trainer"}
+              >
+                <NewCourse />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/add-new-lesson"
             element={
               <>
                 <AddNewLesson />
-
+              </>
+            }
+          />
+          <Route
             path="/client/:id"
             element={
               <>
