@@ -32,7 +32,7 @@ const App = () => {
             }
           />
           <Route
-            path="/fill-profile/trainer"
+            path="/fill-profile/:role"
             element={
               <>
                 <OnBoardingProfile />
