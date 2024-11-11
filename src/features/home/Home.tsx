@@ -1,5 +1,4 @@
 import { Grid2, Typography } from "@mui/material";
-import Auth from "../auth/Auth";
 import ScheduleCard from "../courses/components/ScheduleCard.tsx";
 import TrainerCard from "../trainers/components/TrainerCard.tsx";
 
@@ -22,7 +21,6 @@ const Home = () => {
       workTime: "Monday, 10:00 Am",
     },
   ];
-
   const trainers = [
     {
       _id: "1",
@@ -49,7 +47,6 @@ const Home = () => {
 
   return (
     <>
-      <Auth />
       <Grid2 container direction="column" spacing={2}>
         <Grid2 alignItems="start">
           <Typography variant="h4" component="h1">

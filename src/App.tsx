@@ -1,10 +1,12 @@
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
-import Home from "./features/home/Home";
 import Register from "./features/users/Register";
 import OneTrainer from "./features/trainers/components/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
 import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
+import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
+import OneClient from "./features/clients/components/OneClient.tsx";
+import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
 
 const App = () => {
   return (
@@ -15,7 +17,7 @@ const App = () => {
             path="/"
             element={
               <>
-                <Home />
+                <WelcomePage />
               </>
             }
           />
@@ -24,6 +26,14 @@ const App = () => {
             element={
               <>
                 <Register />
+              </>
+            }
+          />
+          <Route
+            path="/fill-profile/trainer"
+            element={
+              <>
+                <OnBoardingProfile />
               </>
             }
           />
@@ -52,6 +62,11 @@ const App = () => {
             element={
               <>
                 <AddNewLesson />
+
+            path="/client/:id"
+            element={
+              <>
+                <OneClient />
               </>
             }
           />
