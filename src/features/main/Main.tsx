@@ -19,7 +19,7 @@ const Main = () => {
       const trainerProfile = user.profile as ITrainer;
 
       if (
-        !trainerProfile &&
+        !trainerProfile ||
         !trainer.firstName
         || !trainer.lastName
         || !trainer.gender
@@ -34,7 +34,7 @@ const Main = () => {
       const role = user.user.role;
 
       if (
-        !clientProfile &&
+        !clientProfile ||
         !client.firstName
         || !client.lastName
         || !client.gender
