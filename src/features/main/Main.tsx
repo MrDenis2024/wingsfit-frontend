@@ -1,26 +1,42 @@
 import { Grid2, Typography } from "@mui/material";
 import TrainerCard from "../trainers/components/TrainerCard.tsx";
 import ScheduleCard from "../schedules/components/ScheduleCard.tsx";
-import {useAppSelector} from "../../app/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {selectUser} from "../users/userSlice.ts";
-import {ITrainer} from "../../types/trainerTypes.ts";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {IClient} from "../../types/clientTypes.ts";
+import {selectTrainerProfile} from "../trainers/trainersSlice.ts";
+import {selectClientProfile} from "../clients/clientSlice.ts";
+import {getTrainerProfile} from "../trainers/trainersThunks.ts";
+import {getClientProfile} from "../clients/clientThunk.ts";
 
 const Main = () => {
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
+  const trainerProfile = useAppSelector(selectTrainerProfile);
+  const clientProfile = useAppSelector(selectClientProfile);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    try {
+      if (user.user && user.user.role === 'trainer') {
+        void dispatch(getTrainerProfile()).unwrap();
+      } if (user.user && user.user.role === 'client') {
+        void dispatch(getClientProfile()).unwrap();
+      }
+    }  catch (e) {
+      console.error(e);
+    }
+  }, [user, dispatch]);
 
   useEffect(() => {
     if (user.user && user.user.role === "trainer") {
       const trainer = user.user;
       const role = user.user.role;
-      const trainerProfile = user.profile as ITrainer;
 
       if (
-        !trainerProfile ||
-        !trainer.firstName
+        !trainerProfile
+        || !trainer.firstName
         || !trainer.lastName
         || !trainer.gender
         || !trainer.timeZone
@@ -30,12 +46,11 @@ const Main = () => {
       }
     } else if (user.user && user.user.role === "client") {
       const client = user.user;
-      const clientProfile = user.profile as IClient;
       const role = user.user.role;
 
       if (
-        !clientProfile ||
-        !client.firstName
+        !clientProfile
+        || !client.firstName
         || !client.lastName
         || !client.gender
         || !client.timeZone
@@ -43,7 +58,7 @@ const Main = () => {
         navigate(`/fill-profile/${role}`);
       }
     }
-  }, [user, navigate]);
+  }, [user, navigate, trainerProfile, clientProfile]);
 
   const Schedules = [
     {

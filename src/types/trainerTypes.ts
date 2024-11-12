@@ -1,5 +1,3 @@
-import {IUser} from "./userTypes.ts";
-
 export interface TrainerFields {
   firstName: string;
   lastName: string;
@@ -15,15 +13,55 @@ export interface TrainerProfileMutation {
   availableDays: string;
 }
 
+export interface ITrainerProfile {
+  _id: string;
+  user: {
+    _id: string;
+    email: string;
+    role: string;
+    gender: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber?: string;
+    avatar: string | null;
+    token: string;
+    dateOfBirth: string;
+    timeZone: {
+      value: string;
+      offset: string;
+    };
+  };
+  courseTypes: string[];
+  specialization?: string;
+  experience?: string;
+  certificates?: string;
+  description?: string;
+  availableDays?: string;
+  rating: number;
+}
+
 export interface ITrainer {
   _id: string;
-  user: IUser;
-  timeZone: string;
+  user: {
+    _id: string;
+    email: string;
+    role: string;
+    gender: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber?: string;
+    avatar: string | null;
+    dateOfBirth: string;
+    timeZone: {
+      value: string;
+      offset: string;
+    };
+  };
   courseTypes: string[];
-  specialization: string;
-  experience: string;
-  certificates: string;
-  description: string;
-  availableDays: string;
+  specialization?: string;
+  experience?: string;
+  certificates?: string;
+  description?: string;
+  availableDays?: string;
   rating: number;
 }

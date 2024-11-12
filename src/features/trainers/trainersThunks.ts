@@ -1,17 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IClientProfile } from "./clientSlice.ts";
 import axiosApi from "../../axiosApi.ts";
 import { isAxiosError } from "axios";
 import { GlobalError } from "../../types/userTypes.ts";
+import {ITrainerProfile} from "../../types/trainerTypes.ts";
 
-export const getClientProfile = createAsyncThunk<
-  IClientProfile,
+export const getTrainerProfile = createAsyncThunk<
+  ITrainerProfile,
   undefined,
   { rejectValue: GlobalError }
->("client/profile", async (_arg, { rejectWithValue }) => {
+>("trainers/profile", async (_arg, { rejectWithValue }) => {
   try {
-    const { data: client } = await axiosApi.get<IClientProfile>(`/clients/`);
-    return client;
+    const { data: trainer } = await axiosApi.get<ITrainerProfile>(`/trainers/`);
+    return trainer;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data);

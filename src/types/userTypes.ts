@@ -20,7 +20,6 @@ export interface IUser {
   dateOfBirth: string;
 }
 
-
 export interface UserMutation {
   email: string;
   password: string;
