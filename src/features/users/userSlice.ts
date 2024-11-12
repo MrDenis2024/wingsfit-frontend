@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GlobalError, IUser, ValidationError } from "../../types/userTypes";
 import { googleLogin, login, register } from "./userThunk";
+import {IClient} from "../../types/clientTypes.ts";
+import {ITrainer} from "../../types/trainerTypes.ts";
 
 interface UserData {
   user: IUser | null;
-  profile: null;
+  profile: ITrainer | IClient | null;
 }
 
 interface UserState {

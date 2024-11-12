@@ -1,8 +1,50 @@
 import { Grid2, Typography } from "@mui/material";
 import TrainerCard from "../trainers/components/TrainerCard.tsx";
 import ScheduleCard from "../schedules/components/ScheduleCard.tsx";
+import {useAppSelector} from "../../app/hooks.ts";
+import {selectUser} from "../users/userSlice.ts";
+import {ITrainer} from "../../types/trainerTypes.ts";
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
+import {IClient} from "../../types/clientTypes.ts";
 
-const Home = () => {
+const Main = () => {
+  const navigate = useNavigate();
+  const user = useAppSelector(selectUser);
+
+  useEffect(() => {
+    if (user.user && user.user.role === "trainer") {
+      const trainer = user.user;
+      const role = user.user.role;
+      const trainerProfile = user.profile as ITrainer;
+
+      if (
+        !trainerProfile &&
+        !trainer.firstName
+        || !trainer.lastName
+        || !trainer.gender
+        || !trainer.timeZone
+        || trainerProfile.courseTypes.length < 1
+      ) {
+        navigate(`/fill-profile/${role}`);
+      }
+    } else if (user.user && user.user.role === "client") {
+      const client = user.user;
+      const clientProfile = user.profile as IClient;
+      const role = user.user.role;
+
+      if (
+        !clientProfile &&
+        !client.firstName
+        || !client.lastName
+        || !client.gender
+        || !client.timeZone
+      ) {
+        navigate(`/fill-profile/${role}`);
+      }
+    }
+  }, [user, navigate]);
+
   const Schedules = [
     {
       _id: "1",
@@ -99,4 +141,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Main;

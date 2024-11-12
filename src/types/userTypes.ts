@@ -5,10 +5,21 @@ export interface GlobalError {
 export interface IUser {
   _id: string;
   email: string;
-  googleId: string;
+  userName: string;
   role: string;
   token: string;
+  firstName: string;
+  lastName: string;
+  gender: string;
+  timeZone: {
+    value: string;
+    offset: string;
+  };
+  phoneNumber?: string;
+  avatar: string | null;
+  dateOfBirth: string;
 }
+
 
 export interface UserMutation {
   email: string;

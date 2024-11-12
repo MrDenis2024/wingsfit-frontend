@@ -11,6 +11,7 @@ import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import OneClient from "./features/clients/components/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
+import Main from "./features/main/Main.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -23,6 +24,14 @@ const App = () => {
             element={
               <>
                 <WelcomePage />
+              </>
+            }
+          />
+          <Route
+            path="/main"
+            element={
+              <>
+                <Main />
               </>
             }
           />
