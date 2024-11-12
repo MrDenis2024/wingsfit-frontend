@@ -1,17 +1,23 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getTrainerProfile} from "./trainersThunks.ts";
-import {ITrainerProfile} from "../../types/trainerTypes.ts";
+import {getTrainerProfile, getTrainers} from "./trainersThunks.ts";
+import {ITrainer, ITrainerProfile} from "../../types/trainerTypes.ts";
 
 interface TrainerState {
   trainerProfile: ITrainerProfile | null;
   errorLoading: boolean;
   oneTrainerLoading: boolean;
+  trainers: ITrainer[];
+  fetchingTrainers: boolean;
+  errorFetchingTrainers: boolean;
 }
 
 const initialState: TrainerState = {
   trainerProfile: null,
   errorLoading: false,
   oneTrainerLoading: false,
+  trainers: [],
+  fetchingTrainers: false,
+  errorFetchingTrainers: false,
 };
 
 export const trainersSlice = createSlice({
@@ -21,21 +27,38 @@ export const trainersSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getTrainerProfile.pending, (state) => {
       state.oneTrainerLoading = true;
-    });
-    builder.addCase(getTrainerProfile.fulfilled, (state, {payload: user}) => {
+    }).addCase(getTrainerProfile.fulfilled, (state, {payload: user}) => {
       state.oneTrainerLoading = false;
       state.trainerProfile = user;
-    });
-    builder.addCase(getTrainerProfile.rejected, (state) => {
+    }).addCase(getTrainerProfile.rejected, (state) => {
       state.oneTrainerLoading = false;
       state.errorLoading = true;
     });
+
+    builder.addCase(getTrainers.pending, (state) => {
+      state.fetchingTrainers = true;
+    }).addCase(getTrainers.fulfilled, (state, {payload: trainers}) => {
+      state.fetchingTrainers = false;
+      state.trainers = trainers;
+    }).addCase(getTrainers.rejected, (state) => {
+      state.fetchingTrainers = false;
+      state.errorFetchingTrainers = true;
+    });
+
   },
   selectors: {
     selectTrainerProfile: (state) => state.trainerProfile,
+    selectTrainers: (state) => state.trainers,
+    selectFetchingTrainers: (state) => state.fetchingTrainers,
+    selectErrorFetchingTrainers: (state) => state.errorFetchingTrainers,
   },
 });
 
 export const trainersReducer = trainersSlice.reducer;
 
-export const {selectTrainerProfile} = trainersSlice.selectors;
+export const {
+  selectTrainerProfile,
+  selectTrainers,
+  selectFetchingTrainers,
+  selectErrorFetchingTrainers
+} = trainersSlice.selectors;

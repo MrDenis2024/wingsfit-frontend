@@ -45,7 +45,6 @@ export interface ITrainer {
   user: {
     _id: string;
     email: string;
-    role: string;
     gender: string;
     firstName: string;
     lastName: string;

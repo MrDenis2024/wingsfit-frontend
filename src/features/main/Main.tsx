@@ -5,9 +5,9 @@ import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {selectUser} from "../users/userSlice.ts";
 import {useNavigate} from "react-router-dom";
 import {useEffect} from "react";
-import {selectTrainerProfile} from "../trainers/trainersSlice.ts";
+import {selectTrainerProfile, selectTrainers} from "../trainers/trainersSlice.ts";
 import {selectClientProfile} from "../clients/clientSlice.ts";
-import {getTrainerProfile} from "../trainers/trainersThunks.ts";
+import {getTrainerProfile, getTrainers} from "../trainers/trainersThunks.ts";
 import {getClientProfile} from "../clients/clientThunk.ts";
 
 const Main = () => {
@@ -15,6 +15,7 @@ const Main = () => {
   const user = useAppSelector(selectUser);
   const trainerProfile = useAppSelector(selectTrainerProfile);
   const clientProfile = useAppSelector(selectClientProfile);
+  const trainers = useAppSelector(selectTrainers);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -60,6 +61,14 @@ const Main = () => {
     }
   }, [user, navigate, trainerProfile, clientProfile]);
 
+  useEffect(() => {
+    try {
+      void dispatch(getTrainers()).unwrap();
+    } catch (e) {
+      console.error(e);
+    }
+  }, [dispatch]);
+
   const Schedules = [
     {
       _id: "1",
@@ -76,29 +85,6 @@ const Main = () => {
       avatar: null,
       courseType: "Fitness",
       workTime: "Monday, 10:00 Am",
-    },
-  ];
-  const trainers = [
-    {
-      _id: "1",
-      firstName: "Inna",
-      lastName: "Zumba",
-      avatar: null,
-      experience: "Certified Zumba instructor with 10 years of experience.",
-    },
-    {
-      _id: "2",
-      firstName: "Inna",
-      lastName: "Zumba",
-      avatar: null,
-      experience: "Certified Zumba instructor with 10 years of experience.",
-    },
-    {
-      _id: "3",
-      firstName: "Inna",
-      lastName: "Zumba",
-      avatar: null,
-      experience: "Certified Zumba instructor with 10 years of experience.",
     },
   ];
 
@@ -142,9 +128,9 @@ const Main = () => {
               <Grid2 key={trainer._id}>
                 <TrainerCard
                   _id={trainer._id}
-                  firstName={trainer.firstName}
-                  lastName={trainer.lastName}
-                  avatar={trainer.avatar}
+                  firstName={trainer.user.firstName}
+                  lastName={trainer.user.lastName}
+                  avatar={trainer.user.avatar}
                   experience={trainer.experience}
                 />
               </Grid2>
