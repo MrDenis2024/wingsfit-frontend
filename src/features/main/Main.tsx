@@ -1,14 +1,17 @@
 import { Grid2, Typography } from "@mui/material";
-import TrainerCard from "../trainers/components/TrainerCard.tsx";
 import ScheduleCard from "../schedules/components/ScheduleCard.tsx";
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {selectUser} from "../users/userSlice.ts";
-import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
-import {selectTrainerProfile, selectTrainers} from "../trainers/trainersSlice.ts";
-import {selectClientProfile} from "../clients/clientSlice.ts";
-import {getTrainerProfile, getTrainers} from "../trainers/trainersThunks.ts";
-import {getClientProfile} from "../clients/clientThunk.ts";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
+import { selectUser } from "../users/userSlice.ts";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import {
+  selectTrainerProfile,
+  selectTrainers,
+} from "../trainers/trainersSlice.ts";
+import { selectClientProfile } from "../clients/clientSlice.ts";
+import { getTrainerProfile, getTrainers } from "../trainers/trainersThunks.ts";
+import { getClientProfile } from "../clients/clientThunk.ts";
+import TrainersCards from "../trainers/components/TrainersCards.tsx";
 
 const Main = () => {
   const navigate = useNavigate();
@@ -20,41 +23,41 @@ const Main = () => {
 
   useEffect(() => {
     try {
-      if (user.user && user.user.role === 'trainer') {
+      if (user && user.role === "trainer") {
         void dispatch(getTrainerProfile()).unwrap();
-      } if (user.user && user.user.role === 'client') {
+      } else if (user && user.role === "client") {
         void dispatch(getClientProfile()).unwrap();
       }
-    }  catch (e) {
+    } catch (e) {
       console.error(e);
     }
   }, [user, dispatch]);
 
   useEffect(() => {
-    if (user.user && user.user.role === "trainer") {
-      const trainer = user.user;
-      const role = user.user.role;
+    if (user && user.role === "trainer") {
+      const trainer = user;
+      const role = user.role;
 
       if (
-        !trainerProfile
-        || !trainer.firstName
-        || !trainer.lastName
-        || !trainer.gender
-        || !trainer.timeZone
-        || trainerProfile.courseTypes.length < 1
+        !trainerProfile ||
+        !trainer.firstName ||
+        !trainer.lastName ||
+        !trainer.gender ||
+        !trainer.timeZone ||
+        trainerProfile.courseTypes.length < 1
       ) {
         navigate(`/fill-profile/${role}`);
       }
-    } else if (user.user && user.user.role === "client") {
-      const client = user.user;
-      const role = user.user.role;
+    } else if (user && user.role === "client") {
+      const client = user;
+      const role = user.role;
 
       if (
-        !clientProfile
-        || !client.firstName
-        || !client.lastName
-        || !client.gender
-        || !client.timeZone
+        !clientProfile ||
+        !client.firstName ||
+        !client.lastName ||
+        !client.gender ||
+        !client.timeZone
       ) {
         navigate(`/fill-profile/${role}`);
       }
@@ -90,7 +93,7 @@ const Main = () => {
 
   return (
     <>
-      <Grid2 container direction="column" spacing={2}>
+      <Grid2 container direction="column" spacing={2} mb={5}>
         <Grid2 alignItems="start">
           <Typography variant="h4" component="h1">
             Class Schedule
@@ -117,26 +120,11 @@ const Main = () => {
 
       <Grid2 container direction="column" spacing={2}>
         <Grid2 alignItems="start">
-          <Typography variant="h4" component="h1">
+          <Typography variant="h4" component="h2">
             Trainers
           </Typography>
         </Grid2>
-
-        <Grid2 container spacing={2}>
-          {trainers.map((trainer) => {
-            return (
-              <Grid2 key={trainer._id}>
-                <TrainerCard
-                  _id={trainer._id}
-                  firstName={trainer.user.firstName}
-                  lastName={trainer.user.lastName}
-                  avatar={trainer.user.avatar}
-                  experience={trainer.experience}
-                />
-              </Grid2>
-            );
-          })}
-        </Grid2>
+        <TrainersCards trainers={trainers} />
       </Grid2>
     </>
   );

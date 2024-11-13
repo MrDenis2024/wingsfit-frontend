@@ -10,7 +10,8 @@ export const getClientProfile = createAsyncThunk<
   { rejectValue: GlobalError }
 >("client/profile", async (_arg, { rejectWithValue }) => {
   try {
-    const { data: client } = await axiosApi.get<IClientProfile>(`/clients/`);
+    const { data: client } =
+      await axiosApi.get<IClientProfile>(`/clients/profile`);
     return client;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {

@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import Register from "./features/users/Register";
-import OneTrainer from "./features/trainers/components/OneTrainer.tsx";
+import OneTrainer from "./features/trainers/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
 import NewCourse from "./features/courses/NewCourse.tsx";
 import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
@@ -74,9 +74,7 @@ const App = () => {
           <Route
             path="/add-new-course"
             element={
-              <ProtectedRoute
-                isAllowed={!!user.user && user.user.role === "trainer"}
-              >
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                 <NewCourse />
               </ProtectedRoute>
             }

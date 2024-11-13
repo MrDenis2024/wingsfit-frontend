@@ -1,8 +1,8 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {getTrainerProfile, getTrainers} from "./trainersThunks.ts";
-import {ITrainer, ITrainerProfile} from "../../types/trainerTypes.ts";
+import { createSlice } from "@reduxjs/toolkit";
+import { getTrainerProfile, getTrainers } from "./trainersThunks.ts";
+import { ITrainer, ITrainerProfile } from "../../types/trainerTypes.ts";
 
-interface TrainerState {
+interface TrainersState {
   trainerProfile: ITrainerProfile | null;
   errorLoading: boolean;
   oneTrainerLoading: boolean;
@@ -11,7 +11,7 @@ interface TrainerState {
   errorFetchingTrainers: boolean;
 }
 
-const initialState: TrainerState = {
+const initialState: TrainersState = {
   trainerProfile: null,
   errorLoading: false,
   oneTrainerLoading: false,
@@ -25,26 +25,31 @@ export const trainersSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getTrainerProfile.pending, (state) => {
-      state.oneTrainerLoading = true;
-    }).addCase(getTrainerProfile.fulfilled, (state, {payload: user}) => {
-      state.oneTrainerLoading = false;
-      state.trainerProfile = user;
-    }).addCase(getTrainerProfile.rejected, (state) => {
-      state.oneTrainerLoading = false;
-      state.errorLoading = true;
-    });
+    builder
+      .addCase(getTrainerProfile.pending, (state) => {
+        state.oneTrainerLoading = true;
+      })
+      .addCase(getTrainerProfile.fulfilled, (state, { payload: user }) => {
+        state.oneTrainerLoading = false;
+        state.trainerProfile = user;
+      })
+      .addCase(getTrainerProfile.rejected, (state) => {
+        state.oneTrainerLoading = false;
+        state.errorLoading = true;
+      });
 
-    builder.addCase(getTrainers.pending, (state) => {
-      state.fetchingTrainers = true;
-    }).addCase(getTrainers.fulfilled, (state, {payload: trainers}) => {
-      state.fetchingTrainers = false;
-      state.trainers = trainers;
-    }).addCase(getTrainers.rejected, (state) => {
-      state.fetchingTrainers = false;
-      state.errorFetchingTrainers = true;
-    });
-
+    builder
+      .addCase(getTrainers.pending, (state) => {
+        state.fetchingTrainers = true;
+      })
+      .addCase(getTrainers.fulfilled, (state, { payload: trainers }) => {
+        state.fetchingTrainers = false;
+        state.trainers = trainers;
+      })
+      .addCase(getTrainers.rejected, (state) => {
+        state.fetchingTrainers = false;
+        state.errorFetchingTrainers = true;
+      });
   },
   selectors: {
     selectTrainerProfile: (state) => state.trainerProfile,
@@ -60,5 +65,5 @@ export const {
   selectTrainerProfile,
   selectTrainers,
   selectFetchingTrainers,
-  selectErrorFetchingTrainers
+  selectErrorFetchingTrainers,
 } = trainersSlice.selectors;
