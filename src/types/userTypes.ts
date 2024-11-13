@@ -7,7 +7,9 @@ export interface IUser {
   email: string;
   googleId: string;
   role: string;
+  firstName: string;
   token: string;
+  avatar: string | null;
 }
 
 export interface UserMutation {
