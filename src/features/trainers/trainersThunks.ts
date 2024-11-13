@@ -31,8 +31,9 @@ export const getTrainerProfile = createAsyncThunk<
   { rejectValue: GlobalError }
 >("trainers/profile", async (id, { rejectWithValue }) => {
   try {
-    const { data: trainer } =
-      await axiosApi.get<ITrainerProfile>(`/trainers/${id}`);
+    const { data: trainer } = await axiosApi.get<ITrainerProfile>(
+      `/trainers/${id}`,
+    );
     return trainer;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {

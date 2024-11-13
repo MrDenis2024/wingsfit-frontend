@@ -1,55 +1,54 @@
 import { Grid2, Typography } from "@mui/material";
 import ScheduleCard from "../schedules/components/ScheduleCard.tsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import { selectUser } from "../users/userSlice.ts";
-import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import {
   selectTrainerProfile,
+  selectTrainerProfileLoading,
   selectTrainers,
 } from "../trainers/trainersSlice.ts";
-import { selectClientProfile } from "../clients/clientSlice.ts";
 import { getTrainers } from "../trainers/trainersThunks.ts";
 import TrainersCards from "../trainers/components/TrainersCards.tsx";
+import {
+  selectClientProfile,
+  selectClientProfileLoading,
+} from "../clients/clientSlice.ts";
+import { useNavigate } from "react-router-dom";
+import { selectUser } from "../users/userSlice.ts";
 
 const MainPage = () => {
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
+  const trainers = useAppSelector(selectTrainers);
   const trainerProfile = useAppSelector(selectTrainerProfile);
   const clientProfile = useAppSelector(selectClientProfile);
-  const trainers = useAppSelector(selectTrainers);
+  const clientProfileLoading = useAppSelector(selectClientProfileLoading);
+  const trainerProfileLoading = useAppSelector(selectTrainerProfileLoading);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (user && user.role === "trainer") {
-      const trainer = user;
+    if (user && (!trainerProfileLoading || !clientProfileLoading)) {
       const role = user.role;
 
       if (
-        !trainerProfile ||
-        !trainer.firstName ||
-        !trainer.lastName ||
-        !trainer.gender ||
-        !trainer.timeZone ||
-        trainerProfile.courseTypes.length < 1
-      ) {
-        navigate(`/fill-profile/${role}`);
-      }
-    } else if (user && user.role === "client") {
-      const client = user;
-      const role = user.role;
-
-      if (
-        !clientProfile ||
-        !client.firstName ||
-        !client.lastName ||
-        !client.gender ||
-        !client.timeZone
+        (role === "trainer" &&
+          (!trainerProfile ||
+            !user.firstName ||
+            !user.lastName ||
+            !user.gender ||
+            !user.timeZone ||
+            trainerProfile.courseTypes.length < 1)) ||
+        (role === "client" &&
+          (!clientProfile ||
+            !user.firstName ||
+            !user.lastName ||
+            !user.gender ||
+            !user.timeZone))
       ) {
         navigate(`/fill-profile/${role}`);
       }
     }
-  }, [user, navigate, trainerProfile, clientProfile]);
+  }, [user, trainerProfileLoading, clientProfileLoading, navigate, trainerProfile, clientProfile]);
 
   useEffect(() => {
     try {

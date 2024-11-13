@@ -5,16 +5,16 @@ import OneTrainer from "./features/trainers/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
 import NewCourse from "./features/courses/NewCourse.tsx";
 import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
-import {useAppDispatch, useAppSelector} from "./app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
 import { selectUser } from "./features/users/userSlice.ts";
 import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import OneClient from "./features/clients/components/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
 import MainPage from "./features/main/MainPage.tsx";
-import {useEffect} from "react";
-import {getTrainerProfile} from "./features/trainers/trainersThunks.ts";
-import {getClientProfile} from "./features/clients/clientThunk.ts";
+import { useEffect } from "react";
+import { getTrainerProfile } from "./features/trainers/trainersThunks.ts";
+import { getClientProfile } from "./features/clients/clientThunk.ts";
 
 const App = () => {
   const user = useAppSelector(selectUser);
