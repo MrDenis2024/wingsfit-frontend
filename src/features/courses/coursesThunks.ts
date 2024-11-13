@@ -9,10 +9,18 @@ export const createCourse = createAsyncThunk<
   void,
   CourseMutation,
   { rejectValue: GlobalError; state: RootState }
->("course/create", async (courseMutation, { rejectWithValue }) => {
+>("courses/create", async (courseMutation, { rejectWithValue }) => {
+  const formData = new FormData();
+  const keys = Object.keys(courseMutation) as (keyof CourseMutation)[];
+  keys.forEach((key) => {
+    const value = courseMutation[key];
+    if (value !== null) {
+      formData.append(key, value);
+    }
+  });
+
   try {
-    const { data: course } = await axiosApi.post("/course", courseMutation);
-    return course;
+    await axiosApi.post("/courses", formData);
   } catch (e) {
     if (isAxiosError(e) && e.response) {
       return rejectWithValue(e.response.data);
