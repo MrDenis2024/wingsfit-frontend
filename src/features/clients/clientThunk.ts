@@ -6,12 +6,12 @@ import { GlobalError } from "../../types/userTypes.ts";
 
 export const getClientProfile = createAsyncThunk<
   IClientProfile,
-  undefined,
+  string,
   { rejectValue: GlobalError }
->("client/profile", async (_arg, { rejectWithValue }) => {
+>("client/profile", async (id, { rejectWithValue }) => {
   try {
     const { data: client } =
-      await axiosApi.get<IClientProfile>(`/clients/profile`);
+      await axiosApi.get<IClientProfile>(`/clients/${id}`);
     return client;
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {

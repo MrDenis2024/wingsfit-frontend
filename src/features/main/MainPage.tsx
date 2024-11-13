@@ -9,29 +9,16 @@ import {
   selectTrainers,
 } from "../trainers/trainersSlice.ts";
 import { selectClientProfile } from "../clients/clientSlice.ts";
-import { getTrainerProfile, getTrainers } from "../trainers/trainersThunks.ts";
-import { getClientProfile } from "../clients/clientThunk.ts";
+import { getTrainers } from "../trainers/trainersThunks.ts";
 import TrainersCards from "../trainers/components/TrainersCards.tsx";
 
-const Main = () => {
+const MainPage = () => {
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
   const trainerProfile = useAppSelector(selectTrainerProfile);
   const clientProfile = useAppSelector(selectClientProfile);
   const trainers = useAppSelector(selectTrainers);
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    try {
-      if (user && user.role === "trainer") {
-        void dispatch(getTrainerProfile()).unwrap();
-      } else if (user && user.role === "client") {
-        void dispatch(getClientProfile()).unwrap();
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }, [user, dispatch]);
 
   useEffect(() => {
     if (user && user.role === "trainer") {
@@ -130,4 +117,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default MainPage;

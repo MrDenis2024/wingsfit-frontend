@@ -5,16 +5,33 @@ import OneTrainer from "./features/trainers/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
 import NewCourse from "./features/courses/NewCourse.tsx";
 import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
-import { useAppSelector } from "./app/hooks.ts";
+import {useAppDispatch, useAppSelector} from "./app/hooks.ts";
 import { selectUser } from "./features/users/userSlice.ts";
 import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import OneClient from "./features/clients/components/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
-import Main from "./features/main/Main.tsx";
+import MainPage from "./features/main/MainPage.tsx";
+import {useEffect} from "react";
+import {getTrainerProfile} from "./features/trainers/trainersThunks.ts";
+import {getClientProfile} from "./features/clients/clientThunk.ts";
 
 const App = () => {
   const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    try {
+      if (user && user.role === "trainer") {
+        void dispatch(getTrainerProfile(user._id)).unwrap();
+      } else if (user && user.role === "client") {
+        void dispatch(getClientProfile(user._id)).unwrap();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [user, dispatch]);
+
   return (
     <>
       <Container>
@@ -31,7 +48,7 @@ const App = () => {
             path="/main"
             element={
               <>
-                <Main />
+                <MainPage />
               </>
             }
           />
