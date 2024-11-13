@@ -5,16 +5,16 @@ import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
-import {ClientProfileMutation} from "../../../types/clientTypes.ts";
+import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 
 interface Props {
   initialState: TrainerProfileMutation;
   onSubmit: (trainerData: TrainerProfileMutation) => void;
   prevStep: () => void;
   updatePersonalInfo: (
-      personal: UserInfoMutation | null,
-      optional: TrainerProfileMutation | null,
-      client: ClientProfileMutation | null
+    personal: UserInfoMutation | null,
+    optional: TrainerProfileMutation | null,
+    client: ClientProfileMutation | null,
   ) => void;
 }
 
@@ -157,8 +157,8 @@ const TrainerRegisterForm: React.FC<Props> = ({
         </Grid>
         <Grid>
           <Button
-              variant="contained"
-              onClick={() => updatePersonalInfo(null, profileData, null)}
+            variant="contained"
+            onClick={() => updatePersonalInfo(null, profileData, null)}
           >
             Finish
           </Button>

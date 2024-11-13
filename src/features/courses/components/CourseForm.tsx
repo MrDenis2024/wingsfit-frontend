@@ -1,8 +1,15 @@
-import React, { useState } from "react";
-import { Grid2, MenuItem, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { CircularProgress, Grid2, MenuItem, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import { CourseMutation } from "../../../types/courseTypes.ts";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
+import {
+  selectCourseTypes,
+  selectCourseTypesFetching,
+} from "../../CourseTypes/CourseTypesSlice.ts";
+import FileInput from "../../../UI/FileInput/FileInput.tsx";
+import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 
 interface Props {
   onSubmit: (course: CourseMutation) => void;
@@ -10,15 +17,24 @@ interface Props {
 }
 
 const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
+  const dispatch = useAppDispatch();
+  const courseTypes = useAppSelector(selectCourseTypes);
+  const courseTypesFetching = useAppSelector(selectCourseTypesFetching);
   const [state, setState] = useState<CourseMutation>({
     title: "",
+    courseType: "",
     description: "",
     format: "group",
     schedule: "",
     scheduleLength: "",
-    price: 0,
-    maxClients: 0,
+    price: "",
+    maxClients: "",
+    image: null,
   });
+
+  useEffect(() => {
+    dispatch(fetchCourseTypes());
+  }, [dispatch]);
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -29,6 +45,18 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const fileInputChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { name, files } = event.target;
+    const value = files && files[0] ? files[0] : null;
+
     setState((prevState) => ({
       ...prevState,
       [name]: value,
@@ -51,6 +79,30 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           value={state.title}
           onChange={inputChangeHandler}
         />
+      </Grid2>
+      <Grid2>
+        {courseTypesFetching ? (
+          <CircularProgress />
+        ) : (
+          <TextField
+            required
+            select
+            label="Course Type"
+            id="courseType"
+            name="courseType"
+            value={state.courseType}
+            onChange={inputChangeHandler}
+          >
+            <MenuItem value="" disabled>
+              Select course
+            </MenuItem>
+            {courseTypes.map((courseType) => (
+              <MenuItem key={courseType._id} value={courseType._id}>
+                {courseType.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
       </Grid2>
       <Grid2>
         <TextField
@@ -98,9 +150,12 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       </Grid2>
       <Grid2>
         <TextField
+          required
           label="Price"
           id="price"
           name="price"
+          type="number"
+          inputProps={{ min: 0 }}
           value={state.price}
           onChange={inputChangeHandler}
         />
@@ -111,8 +166,17 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           label="Max Clients"
           id="maxClients"
           name="maxClients"
+          type="number"
+          inputProps={{ min: 0 }}
           value={state.maxClients}
           onChange={inputChangeHandler}
+        />
+      </Grid2>
+      <Grid2>
+        <FileInput
+          label="Image"
+          name="image"
+          onChange={fileInputChangeHandler}
         />
       </Grid2>
       <Grid2>
