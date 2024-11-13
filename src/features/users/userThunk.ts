@@ -8,6 +8,7 @@ import {
 } from "../../types/userTypes";
 import { isAxiosError } from "axios";
 import axiosApi from "../../axiosApi";
+import { unsetUser } from "./userSlice.ts";
 
 export const googleLogin = createAsyncThunk<
   IUser,
@@ -77,3 +78,11 @@ export const login = createAsyncThunk<
     throw e;
   }
 });
+
+export const logout = createAsyncThunk(
+  "users/logout",
+  async (_arg, { dispatch }) => {
+    await axiosApi.delete("/users/sessions");
+    dispatch(unsetUser());
+  },
+);

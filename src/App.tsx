@@ -11,85 +11,88 @@ import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import OneClient from "./features/clients/components/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
+import Layout from "./UI/Layout/Layout.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
   return (
     <>
-      <Container>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <WelcomePage />
-              </>
-            }
-          />
-          <Route
-            path="/register/:role"
-            element={
-              <>
-                <Register />
-              </>
-            }
-          />
-          <Route
-            path="/fill-profile/:role"
-            element={
-              <>
-                <OnBoardingProfile />
-              </>
-            }
-          />
-          <Route
-            path="/login/:role"
-            element={
-              <>
-                <Login />
-              </>
-            }
-          />
-          <Route
-            path="*"
-            element={<h1 className="text-center">Not found</h1>}
-          />
-          <Route
-            path="/trainers/:id"
-            element={
-              <>
-                <OneTrainer />
-              </>
-            }
-          />
-          <Route
-            path="/add-new-course"
-            element={
-              <ProtectedRoute
-                isAllowed={!!user.user && user.user.role === "trainer"}
-              >
-                <NewCourse />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/add-new-lesson"
-            element={
-              <>
-                <AddNewLesson />
-              </>
-            }
-          />
-          <Route
-            path="/client/:id"
-            element={
-              <>
-                <OneClient />
-              </>
-            }
-          />
-        </Routes>
-      </Container>
+      <Layout>
+        <Container>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <WelcomePage />
+                </>
+              }
+            />
+            <Route
+              path="/register/:role"
+              element={
+                <>
+                  <Register />
+                </>
+              }
+            />
+            <Route
+              path="/fill-profile/:role"
+              element={
+                <>
+                  <OnBoardingProfile />
+                </>
+              }
+            />
+            <Route
+              path="/login/:role"
+              element={
+                <>
+                  <Login />
+                </>
+              }
+            />
+            <Route
+              path="*"
+              element={<h1 className="text-center">Not found</h1>}
+            />
+            <Route
+              path="/trainers/:id"
+              element={
+                <>
+                  <OneTrainer />
+                </>
+              }
+            />
+            <Route
+              path="/add-new-course"
+              element={
+                <ProtectedRoute
+                  isAllowed={!!user.user && user.user.role === "trainer"}
+                >
+                  <NewCourse />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/add-new-lesson"
+              element={
+                <>
+                  <AddNewLesson />
+                </>
+              }
+            />
+            <Route
+              path="/client/:id"
+              element={
+                <>
+                  <OneClient />
+                </>
+              }
+            />
+          </Routes>
+        </Container>
+      </Layout>
     </>
   );
 };
