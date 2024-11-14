@@ -74,13 +74,13 @@ const RegisterPreview: React.FC<Props> = ({
                           textTransform: "uppercase",
                         }}
                       >
-                        {key}:
-                      </span>{" "}
+                        {key} :{" "}
+                      </span>
                       {value}
                     </Typography>
                   )}
-                  {Array.isArray(optionalData.courseTypes) &&
-                    optionalData.courseTypes.length > 0 && (
+                  {typeof value !== "string" &&
+                    optionalData.courseTypes[0] !== "" && (
                       <Grid>
                         <Typography variant="body2" component="div">
                           <span
@@ -89,7 +89,7 @@ const RegisterPreview: React.FC<Props> = ({
                               textTransform: "uppercase",
                             }}
                           >
-                            {key}:
+                            {key} :{" "}
                           </span>
                         </Typography>
                         {optionalData.courseTypes.map((type, index) => (
@@ -99,7 +99,7 @@ const RegisterPreview: React.FC<Props> = ({
                             key={index + type}
                             sx={{ mx: 7 }}
                           >
-                            - {type}
+                            -{type}
                           </Typography>
                         ))}
                       </Grid>

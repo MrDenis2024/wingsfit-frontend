@@ -92,7 +92,7 @@ const Login = () => {
                   {error.error}
                 </Alert>
               )}
-              <Grid>
+              <Grid sx={{ display: "flex", justifyContent: "center" }}>
                 <GoogleLogin
                   onSuccess={googleLoginHandler}
                   onError={() => {

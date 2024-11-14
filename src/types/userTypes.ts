@@ -7,9 +7,9 @@ export interface IUser {
   email: string;
   userName: string;
   role: string;
-  token: string;
   firstName: string;
   lastName: string;
+  token: string;
   gender: string;
   timeZone: {
     value: string;

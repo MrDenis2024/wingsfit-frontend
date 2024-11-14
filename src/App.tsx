@@ -15,6 +15,7 @@ import MainPage from "./features/main/MainPage.tsx";
 import { useEffect } from "react";
 import { getTrainerProfile } from "./features/trainers/trainersThunks.ts";
 import { getClientProfile } from "./features/clients/clientThunk.ts";
+import Layout from "./UI/Layout/Layout.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -34,86 +35,82 @@ const App = () => {
 
   return (
     <>
-      <Container>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <WelcomePage />
-              </>
-            }
-          />
-          <Route
-            path="/main"
-            element={
-              <>
-                <MainPage />
-              </>
-            }
-          />
-          <Route
-            path="/register/:role"
-            element={
-              <>
-                <Register />
-              </>
-            }
-          />
-          <Route
-            path="/fill-profile/:role"
-            element={
-              <>
-                <OnBoardingProfile />
-              </>
-            }
-          />
-          <Route
-            path="/login/:role"
-            element={
-              <>
-                <Login />
-              </>
-            }
-          />
-          <Route
-            path="*"
-            element={<h1 className="text-center">Not found</h1>}
-          />
-          <Route
-            path="/trainers/:id"
-            element={
-              <>
-                <OneTrainer />
-              </>
-            }
-          />
-          <Route
-            path="/add-new-course"
-            element={
-              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
-                <NewCourse />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/add-new-lesson"
-            element={
-              <>
-                <AddNewLesson />
-              </>
-            }
-          />
-          <Route
-            path="/client/:id"
-            element={
-              <>
-                <OneClient />
-              </>
-            }
-          />
-        </Routes>
-      </Container>
+      <Layout>
+        <Container>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <WelcomePage />
+                </>
+              }
+            />
+            <Route
+              path="/register/:role"
+              element={
+                <>
+                  <Register />
+                </>
+              }
+            />
+            <Route
+              path="/fill-profile/:role"
+              element={
+                <>
+                  <OnBoardingProfile />
+                </>
+              }
+            />
+            <Route
+              path="/login/:role"
+              element={
+                <>
+                  <Login />
+                </>
+              }
+            />
+            <Route
+              path="*"
+              element={<h1 className="text-center">Not found</h1>}
+            />
+            <Route
+              path="/trainers/:id"
+              element={
+                <>
+                  <OneTrainer />
+                </>
+              }
+            />
+            <Route
+              path="/add-new-course"
+              element={
+                <ProtectedRoute
+                  isAllowed={!!user.user && user.user.role === "trainer"}
+                >
+                  <NewCourse />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/add-new-lesson"
+              element={
+                <>
+                  <AddNewLesson />
+                </>
+              }
+            />
+            <Route
+              path="/client/:id"
+              element={
+                <>
+                  <OneClient />
+                </>
+              }
+            />
+          </Routes>
+        </Container>
+      </Layout>
     </>
   );
 };

@@ -93,6 +93,16 @@ const UserRegisterForm: React.FC<Props> = ({
       </Grid>
       <Grid>
         <TextField
+          slotProps={{
+            input: {
+              inputProps: {
+                max: new Date().toISOString().split("T")[0] as string,
+              },
+            },
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="date"
           label="Date of Birth"
           name="dateOfBirth"
