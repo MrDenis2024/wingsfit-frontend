@@ -109,7 +109,7 @@ const App = () => {
               }
             />
             <Route
-              path="/client/:id"
+              path="/clients/:id"
               element={
                 <>
                   <OneClient />

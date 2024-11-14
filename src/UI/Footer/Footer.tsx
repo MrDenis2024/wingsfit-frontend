@@ -24,10 +24,10 @@ const Footer = () => {
 
   const clientLinks = userId
     ? [
-        { to: `/client/${userId}`, label: "My Profile" },
-        { to: `/client/courses/${userId}`, label: "My Courses" },
-        { to: `/client/chats/${userId}`, label: "My Chats" },
-        { to: `/client/calendar/${userId}`, label: "Calendar" },
+        { to: `/clients/${userId}`, label: "My Profile" },
+        { to: `/clients/courses/${userId}`, label: "My Courses" },
+        { to: `/clients/chats/${userId}`, label: "My Chats" },
+        { to: `/clients/calendar/${userId}`, label: "Calendar" },
       ]
     : [];
 

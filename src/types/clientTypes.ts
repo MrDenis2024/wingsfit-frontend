@@ -1,4 +1,4 @@
-import {IUser} from "./userTypes.ts";
+import { IUser } from "./userTypes.ts";
 
 export interface ClientFields {
   firstName: string;
