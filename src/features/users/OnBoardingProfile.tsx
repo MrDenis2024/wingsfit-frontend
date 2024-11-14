@@ -36,7 +36,7 @@ const OnBoardingProfile = () => {
     physicalData: "",
   });
 
-  const role = user.user?.role;
+  const role = user?.role;
 
   if (role !== "client" && role !== "trainer") {
     throw new Error("Invalid role: expected 'client' or 'trainer'");
@@ -92,7 +92,7 @@ const OnBoardingProfile = () => {
         />
       )}
       {activeStep === 1 &&
-        (user.user?.role === "client" ? (
+        (user?.role === "client" ? (
           <ClientRegisterForm
             initialState={clientInfo}
             onSubmit={clientProfileSubmit}

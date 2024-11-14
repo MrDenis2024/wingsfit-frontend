@@ -20,14 +20,14 @@ const StyledLink = styled(NavLink)(({ theme }) => ({
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const user = useAppSelector(selectUser);
-  const userId = user?.user?._id;
+  const userId = user?._id;
 
   const clientLinks = userId
     ? [
-        { to: `/client/${userId}`, label: "My Profile" },
-        { to: `/client/courses/${userId}`, label: "My Courses" },
-        { to: `/client/chats/${userId}`, label: "My Chats" },
-        { to: `/client/calendar/${userId}`, label: "Calendar" },
+        { to: `/clients/${userId}`, label: "My Profile" },
+        { to: `/clients/courses/${userId}`, label: "My Courses" },
+        { to: `/clients/chats/${userId}`, label: "My Chats" },
+        { to: `/clients/calendar/${userId}`, label: "Calendar" },
       ]
     : [];
 
@@ -40,7 +40,7 @@ const Footer = () => {
       ]
     : [];
 
-  const links = user?.user?.role === "trainer" ? trainerLinks : clientLinks;
+  const links = user?.role === "trainer" ? trainerLinks : clientLinks;
 
   return (
     <Box
@@ -80,7 +80,7 @@ const Footer = () => {
           justifyContent="center"
           sx={{ alignItems: "center" }}
         >
-          <StyledLink to="/" end>
+          <StyledLink to="/main" end>
             Home
           </StyledLink>
           {links.map((link) => (

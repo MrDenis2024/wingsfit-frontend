@@ -46,7 +46,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   const handleProfileClick = () => {
     const profilePath =
-      user.role === "client" ? `/client/${user._id}` : `/trainers/${user._id}`;
+      user.role === "client" ? `/clients/${user._id}` : `/trainers/${user._id}`;
     navigate(profilePath);
     handleClose();
   };
@@ -74,16 +74,16 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           <AccountBoxIcon sx={{ mr: 2 }} />
           My profile
         </MenuItem>
-        <MenuItem onClick={() => navigate(`/${user.role}/courses/${user._id}`)}>
+        <MenuItem onClick={() => navigate(`/${user.role}s/courses/${user._id}`)}>
           <FitnessCenterIcon sx={{ mr: 2 }} />
           My Courses
         </MenuItem>
-        <MenuItem onClick={() => navigate(`/${user.role}/chats/${user._id}`)}>
+        <MenuItem onClick={() => navigate(`/${user.role}s/chats/${user._id}`)}>
           <ChatIcon sx={{ mr: 2 }} />
           My Chats
         </MenuItem>
         <MenuItem
-          onClick={() => navigate(`/${user.role}/calendar/${user._id}`)}
+          onClick={() => navigate(`/${user.role}/calendars/${user._id}`)}
         >
           <CalendarMonthIcon sx={{ mr: 2 }} />
           Calendar

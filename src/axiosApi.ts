@@ -9,7 +9,7 @@ const axiosApi = axios.create({
 
 export const addInterceptors = (store: Store<RootState>) => {
   axiosApi.interceptors.request.use((request) => {
-    const token = store.getState().users.user.user?.token;
+    const token = store.getState().users.user?.token;
     if (token) {
       request.headers.set("Authorization", `Bearer ${token}`);
     }

@@ -8,7 +8,7 @@ export const getClientProfile = createAsyncThunk<
   IClientProfile,
   string,
   { rejectValue: GlobalError }
->("client/profile", async (id: string, { rejectWithValue }) => {
+>("clients/profile", async (id, { rejectWithValue }) => {
   try {
     const { data: client } = await axiosApi.get<IClientProfile>(
       `/clients/${id}`,

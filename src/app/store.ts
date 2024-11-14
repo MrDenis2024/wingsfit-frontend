@@ -14,6 +14,7 @@ import { usersReducer } from "../features/users/userSlice";
 import { coursesReducer } from "../features/courses/coursesSlice.ts";
 import { lessonsReducer } from "../features/lessons/lessonsSlice";
 import { clientsReducer } from "../features/clients/clientSlice.ts";
+import {trainersReducer} from "../features/trainers/trainersSlice.ts";
 import { courseTypesReducer } from "../features/CourseTypes/CourseTypesSlice.ts";
 
 const usersPersistConfig = {
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   users: persistReducer(usersPersistConfig, usersReducer),
   lessons: lessonsReducer,
   clients: clientsReducer,
+  trainers: trainersReducer,
 });
 
 export const store = configureStore({
