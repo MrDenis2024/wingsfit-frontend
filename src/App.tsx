@@ -47,6 +47,14 @@ const App = () => {
               }
             />
             <Route
+              path="/main"
+              element={
+                <>
+                  <MainPage />
+                </>
+              }
+            />
+            <Route
               path="/register/:role"
               element={
                 <>
@@ -86,7 +94,7 @@ const App = () => {
               path="/add-new-course"
               element={
                 <ProtectedRoute
-                  isAllowed={!!user.user && user.user.role === "trainer"}
+                  isAllowed={!!user && user.role === "trainer"}
                 >
                   <NewCourse />
                 </ProtectedRoute>

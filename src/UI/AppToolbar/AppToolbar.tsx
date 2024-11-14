@@ -33,7 +33,7 @@ const AppToolbar = () => {
               </StyledLink>
             </Typography>
           </Grid>
-          <Grid>{user.user && <UserMenu user={user.user} />}</Grid>
+          <Grid>{user && <UserMenu user={user} />}</Grid>
         </Grid>
       </Toolbar>
     </AppBar>
