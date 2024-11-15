@@ -1,6 +1,6 @@
-import {Client} from "../../../types/clientTypes.ts";
-import {createSlice} from "@reduxjs/toolkit";
-import {fetchAdminClients} from "./adminClientsThunks.ts";
+import { Client } from "../../../types/clientTypes.ts";
+import { createSlice } from "@reduxjs/toolkit";
+import { fetchAdminClients } from "./adminClientsThunks.ts";
 
 export interface AdminClientsState {
   clients: Client[];
@@ -40,7 +40,7 @@ export const adminClientsSlice = createSlice({
     selectAdminClientsFetching: (state) => state.clientsFetching,
     selectTotalClient: (state) => state.totalClients,
     selectActiveClient: (state) => state.activeClients,
-  }
+  },
 });
 
 export const adminClientsReducer = adminClientsSlice.reducer;
@@ -49,5 +49,5 @@ export const {
   selectAdminClients,
   selectAdminClientsFetching,
   selectTotalClient,
-  selectActiveClient
+  selectActiveClient,
 } = adminClientsSlice.selectors;

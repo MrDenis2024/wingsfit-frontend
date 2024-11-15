@@ -14,9 +14,9 @@ import { usersReducer } from "../features/users/userSlice";
 import { coursesReducer } from "../features/courses/coursesSlice.ts";
 import { lessonsReducer } from "../features/lessons/lessonsSlice";
 import { clientsReducer } from "../features/clients/clientSlice.ts";
-import {trainersReducer} from "../features/trainers/trainersSlice.ts";
+import { trainersReducer } from "../features/trainers/trainersSlice.ts";
 import { courseTypesReducer } from "../features/CourseTypes/CourseTypesSlice.ts";
-import {adminClientsReducer} from "../features/admin/clients/adminClientsSlice.ts";
+import { adminClientsReducer } from "../features/admin/clients/adminClientsSlice.ts";
 
 const usersPersistConfig = {
   key: "wingsfit:users",

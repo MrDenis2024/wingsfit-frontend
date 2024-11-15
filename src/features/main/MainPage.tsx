@@ -48,7 +48,14 @@ const MainPage = () => {
         navigate(`/fill-profile/${role}`);
       }
     }
-  }, [user, trainerProfileLoading, clientProfileLoading, navigate, trainerProfile, clientProfile]);
+  }, [
+    user,
+    trainerProfileLoading,
+    clientProfileLoading,
+    navigate,
+    trainerProfile,
+    clientProfile,
+  ]);
 
   useEffect(() => {
     try {
