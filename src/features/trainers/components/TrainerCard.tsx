@@ -29,7 +29,7 @@ interface Props {
   firstName: string;
   lastName: string;
   avatar: string | null;
-  experience: string;
+  experience?: string;
 }
 
 const TrainerCard: React.FC<Props> = ({

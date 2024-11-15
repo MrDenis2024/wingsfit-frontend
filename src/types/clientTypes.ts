@@ -1,3 +1,5 @@
+import { IUser } from "./userTypes.ts";
+
 export interface ClientFields {
   firstName: string;
   lastName: string;
@@ -6,6 +8,15 @@ export interface ClientFields {
 }
 
 export interface ClientProfileMutation {
+  preferredWorkoutType: string;
+  trainingLevel: string;
+  physicalData: string;
+}
+
+export interface IClient {
+  _id: string;
+  user: IUser;
+  subscribes: [];
   preferredWorkoutType: string;
   trainingLevel: string;
   physicalData: string;

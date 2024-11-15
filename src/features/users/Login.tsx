@@ -38,7 +38,7 @@ const Login = () => {
             role: role,
           }),
         ).unwrap();
-        navigate("/");
+        navigate("/main");
       }
     } catch (e) {
       console.error(e);
@@ -54,7 +54,7 @@ const Login = () => {
       };
 
       await dispatch(login(userMutation)).unwrap();
-      navigate("/");
+      navigate("/main");
     } catch (e) {
       console.error(e);
     }
@@ -92,7 +92,7 @@ const Login = () => {
                   {error.error}
                 </Alert>
               )}
-              <Grid>
+              <Grid sx={{ display: "flex", justifyContent: "center" }}>
                 <GoogleLogin
                   onSuccess={googleLoginHandler}
                   onError={() => {

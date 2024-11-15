@@ -1,6 +1,6 @@
 import { Box, Button, CardMedia, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import RatingAndReviews from "./RatingAndReviews.tsx";
+import RatingAndReviews from "./components/RatingAndReviews.tsx";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };

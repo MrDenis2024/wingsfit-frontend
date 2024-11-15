@@ -2,13 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { GlobalError, IUser, ValidationError } from "../../types/userTypes";
 import { googleLogin, login, register } from "./userThunk";
 
-interface UserData {
-  user: IUser | null;
-  profile: null;
-}
-
 interface UserState {
-  user: UserData;
+  user: IUser | null;
   loginLoading: boolean;
   loginError: GlobalError | null;
   registerLoading: boolean;
@@ -16,10 +11,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  user: {
-    user: null,
-    profile: null,
-  },
+  user: null,
   loginLoading: false,
   loginError: null,
   registerLoading: false,
@@ -31,7 +23,7 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     unsetUser: (state) => {
-      state.user.user = null;
+      state.user = null;
     },
   },
   extraReducers: (builder) => {
@@ -40,7 +32,7 @@ export const userSlice = createSlice({
     });
     builder.addCase(googleLogin.fulfilled, (state, { payload: user }) => {
       state.loginLoading = false;
-      state.user.user = user;
+      state.user = user;
     });
     builder.addCase(googleLogin.rejected, (state, { payload: error }) => {
       state.loginLoading = false;
@@ -53,7 +45,7 @@ export const userSlice = createSlice({
       })
       .addCase(register.fulfilled, (state, { payload: user }) => {
         state.registerLoading = false;
-        state.user.user = user;
+        state.user = user;
       })
       .addCase(register.rejected, (state, { payload: error }) => {
         state.registerLoading = false;
@@ -66,7 +58,7 @@ export const userSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, { payload: user }) => {
         state.loginLoading = false;
-        state.user.user = user;
+        state.user = user;
       })
       .addCase(login.rejected, (state, { payload: error }) => {
         state.loginLoading = false;

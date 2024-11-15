@@ -11,15 +11,15 @@ import Grid from "@mui/material/Grid2";
 import TimeZone from "../../../UI/TimeZone/TimeZone.tsx";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
-import {ClientProfileMutation} from "../../../types/clientTypes.ts";
+import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 
 interface Props {
   onSubmit: (personalData: UserInfoMutation) => void;
   initialState: UserInfoMutation;
   updatePersonalInfo: (
-      personal: UserInfoMutation | null,
-      optional: TrainerProfileMutation | null,
-      client: ClientProfileMutation | null
+    personal: UserInfoMutation | null,
+    optional: TrainerProfileMutation | null,
+    client: ClientProfileMutation | null,
   ) => void;
 }
 
@@ -93,6 +93,16 @@ const UserRegisterForm: React.FC<Props> = ({
       </Grid>
       <Grid>
         <TextField
+          slotProps={{
+            input: {
+              inputProps: {
+                max: new Date().toISOString().split("T")[0] as string,
+              },
+            },
+            inputLabel: {
+              shrink: true,
+            },
+          }}
           type="date"
           label="Date of Birth"
           name="dateOfBirth"

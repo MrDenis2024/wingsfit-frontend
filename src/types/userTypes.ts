@@ -5,9 +5,19 @@ export interface GlobalError {
 export interface IUser {
   _id: string;
   email: string;
-  googleId: string;
+  userName: string;
   role: string;
+  firstName: string;
+  lastName: string;
   token: string;
+  gender: string;
+  timeZone: {
+    value: string;
+    offset: string;
+  };
+  phoneNumber?: string;
+  avatar: string | null;
+  dateOfBirth: string;
 }
 
 export interface UserMutation {

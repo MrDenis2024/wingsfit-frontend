@@ -14,6 +14,8 @@ import { usersReducer } from "../features/users/userSlice";
 import { coursesReducer } from "../features/courses/coursesSlice.ts";
 import { lessonsReducer } from "../features/lessons/lessonsSlice";
 import { clientsReducer } from "../features/clients/clientSlice.ts";
+import {trainersReducer} from "../features/trainers/trainersSlice.ts";
+import { courseTypesReducer } from "../features/CourseTypes/CourseTypesSlice.ts";
 import {adminClientsReducer} from "../features/admin/clients/adminClientsSlice.ts";
 
 const usersPersistConfig = {
@@ -22,11 +24,25 @@ const usersPersistConfig = {
   whitelist: ["user"],
 };
 
+const clientsPersistConfig = {
+  key: "wingsfit:clients",
+  storage,
+  whitelist: ["clientProfile"],
+};
+
+const trainersPersistConfig = {
+  key: "wingsfit:trainers",
+  storage,
+  whitelist: ["trainerProfile"],
+};
+
 const rootReducer = combineReducers({
   courses: coursesReducer,
+  courseTypes: courseTypesReducer,
   users: persistReducer(usersPersistConfig, usersReducer),
   lessons: lessonsReducer,
-  clients: clientsReducer,
+  clients: persistReducer(clientsPersistConfig, clientsReducer),
+  trainers: persistReducer(trainersPersistConfig, trainersReducer),
   adminClients: adminClientsReducer,
 });
 
