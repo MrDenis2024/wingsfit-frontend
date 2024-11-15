@@ -1,21 +1,22 @@
-import { Container } from "@mui/material";
-import { Route, Routes } from "react-router-dom";
+import {Container} from "@mui/material";
+import {Route, Routes} from "react-router-dom";
 import Register from "./features/users/Register";
 import OneTrainer from "./features/trainers/OneTrainer.tsx";
 import Login from "./features/users/Login.tsx";
 import NewCourse from "./features/courses/NewCourse.tsx";
 import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
-import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
-import { selectUser } from "./features/users/userSlice.ts";
+import {useAppDispatch, useAppSelector} from "./app/hooks.ts";
+import {selectUser} from "./features/users/userSlice.ts";
 import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import OneClient from "./features/clients/components/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
 import MainPage from "./features/main/MainPage.tsx";
-import { useEffect } from "react";
-import { getTrainerProfile } from "./features/trainers/trainersThunks.ts";
-import { getClientProfile } from "./features/clients/clientThunk.ts";
+import {useEffect} from "react";
+import {getTrainerProfile} from "./features/trainers/trainersThunks.ts";
+import {getClientProfile} from "./features/clients/clientThunk.ts";
 import Layout from "./UI/Layout/Layout.tsx";
+import ClientStatistics from "./features/admin/clients/ClientStatistics.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -42,7 +43,7 @@ const App = () => {
               path="/"
               element={
                 <>
-                  <WelcomePage />
+                  <WelcomePage/>
                 </>
               }
             />
@@ -50,7 +51,7 @@ const App = () => {
               path="/main"
               element={
                 <>
-                  <MainPage />
+                  <MainPage/>
                 </>
               }
             />
@@ -58,7 +59,7 @@ const App = () => {
               path="/register/:role"
               element={
                 <>
-                  <Register />
+                  <Register/>
                 </>
               }
             />
@@ -66,7 +67,7 @@ const App = () => {
               path="/fill-profile/:role"
               element={
                 <>
-                  <OnBoardingProfile />
+                  <OnBoardingProfile/>
                 </>
               }
             />
@@ -74,7 +75,7 @@ const App = () => {
               path="/login/:role"
               element={
                 <>
-                  <Login />
+                  <Login/>
                 </>
               }
             />
@@ -86,7 +87,7 @@ const App = () => {
               path="/trainers/:id"
               element={
                 <>
-                  <OneTrainer />
+                  <OneTrainer/>
                 </>
               }
             />
@@ -96,7 +97,7 @@ const App = () => {
                 <ProtectedRoute
                   isAllowed={!!user && user.role === "trainer"}
                 >
-                  <NewCourse />
+                  <NewCourse/>
                 </ProtectedRoute>
               }
             />
@@ -104,7 +105,7 @@ const App = () => {
               path="/add-new-lesson"
               element={
                 <>
-                  <AddNewLesson />
+                  <AddNewLesson/>
                 </>
               }
             />
@@ -112,10 +113,15 @@ const App = () => {
               path="/clients/:id"
               element={
                 <>
-                  <OneClient />
+                  <OneClient/>
                 </>
               }
             />
+            <Route path="/admin/clients-stats" element={
+              <ProtectedRoute isAllowed={user && (user.role === 'admin' || user.role === 'superAdmin')}>
+                <ClientStatistics/>
+              </ProtectedRoute>
+            }/>
           </Routes>
         </Container>
       </Layout>
