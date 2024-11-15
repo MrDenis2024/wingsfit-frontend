@@ -14,7 +14,7 @@ const OneClient = () => {
 
   useEffect(() => {
     dispatch(getClientProfile(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   return (
     <div>
@@ -66,10 +66,12 @@ const OneClient = () => {
           </Typography>
           <Typography variant="body2" sx={{ color: "#01579B" }}>
             Date of Birth:{" "}
-            <strong>{userProfile?.dateOfBirth.slice(0, 10)}</strong>
+            <strong>
+              {userProfile?.user.dateOfBirth?.slice(0, 10) || "N/A"}
+            </strong>
           </Typography>
           <Typography variant="body2" sx={{ color: "#01579B" }}>
-            Gender: <strong>{userProfile?.gender}</strong>
+            Gender: <strong>{userProfile?.user.gender || "N/A"}</strong>
           </Typography>
           <Typography variant="body2" sx={{ color: "#01579B" }}>
             Preferred Workout Type:{" "}
