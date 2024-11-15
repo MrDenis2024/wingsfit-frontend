@@ -1,24 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getClientProfile } from "./clientThunk.ts";
-
-export interface IClientProfile {
-  _id: string;
-  user: {
-    _id: string;
-    email: string;
-    role: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-  };
-  gender: string;
-  dateOfBirth: string;
-  subscribes: string[];
-  timeZone: string;
-  preferredWorkoutType: string;
-  trainingLevel: string;
-  physicalData: string;
-}
+import { IClientProfile } from "../../types/clientTypes.ts";
 
 interface ClientState {
   clientProfile: IClientProfile | null;
