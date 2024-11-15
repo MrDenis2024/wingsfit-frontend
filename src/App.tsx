@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { getTrainerProfile } from "./features/trainers/trainersThunks.ts";
 import { getClientProfile } from "./features/clients/clientThunk.ts";
 import Layout from "./UI/Layout/Layout.tsx";
+import ClientStatistics from "./features/admin/clients/ClientStatistics.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -93,9 +94,7 @@ const App = () => {
             <Route
               path="/add-new-course"
               element={
-                <ProtectedRoute
-                  isAllowed={!!user && user.role === "trainer"}
-                >
+                <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                   <NewCourse />
                 </ProtectedRoute>
               }
@@ -114,6 +113,19 @@ const App = () => {
                 <>
                   <OneClient />
                 </>
+              }
+            />
+            <Route
+              path="/admin/clients-stats"
+              element={
+                <ProtectedRoute
+                  isAllowed={
+                    user &&
+                    (user.role === "admin" || user.role === "superAdmin")
+                  }
+                >
+                  <ClientStatistics />
+                </ProtectedRoute>
               }
             />
           </Routes>

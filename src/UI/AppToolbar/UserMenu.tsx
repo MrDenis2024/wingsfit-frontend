@@ -74,7 +74,9 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           <AccountBoxIcon sx={{ mr: 2 }} />
           My profile
         </MenuItem>
-        <MenuItem onClick={() => navigate(`/${user.role}s/courses/${user._id}`)}>
+        <MenuItem
+          onClick={() => navigate(`/${user.role}s/courses/${user._id}`)}
+        >
           <FitnessCenterIcon sx={{ mr: 2 }} />
           My Courses
         </MenuItem>
