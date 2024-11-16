@@ -3,7 +3,7 @@ import { GlobalError } from "../../types/userTypes.ts";
 import { RootState } from "../../app/store.ts";
 import axiosApi from "../../axiosApi.ts";
 import { isAxiosError } from "axios";
-import { CourseMutation } from "../../types/courseTypes.ts";
+import {CourseMutation, ICourse} from "../../types/courseTypes.ts";
 
 export const createCourse = createAsyncThunk<
   void,
@@ -28,3 +28,19 @@ export const createCourse = createAsyncThunk<
     throw e;
   }
 });
+
+export const getOneCourse = createAsyncThunk<ICourse, string, { rejectValue: GlobalError }>(
+  "courses/getOneCourse",
+  async (id, { rejectWithValue }) => {
+    try {
+      const {data: course} = await axiosApi.get<ICourse>(`/courses/${id}`);
+      return course;
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data);
+      }
+
+      throw e;
+    }
+  }
+);
