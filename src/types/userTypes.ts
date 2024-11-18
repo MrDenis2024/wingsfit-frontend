@@ -54,3 +54,8 @@ export interface UserInfoMutation {
   gender: string;
   phoneNumber: string;
 }
+
+export interface AdminLoginMutation{
+  userName: string;
+  password: string;
+}
