@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getClientProfile } from "./clientThunk.ts";
+import { createClientProfile, getClientProfile } from "./clientThunk.ts";
 
 export interface IClientProfile {
   _id: string;
@@ -24,12 +24,14 @@ interface ClientState {
   clientProfile: IClientProfile | null;
   errorLoading: boolean;
   clientProfileLoading: boolean;
+  creatingClientProfile: boolean;
 }
 
 const initialState: ClientState = {
   clientProfile: null,
   errorLoading: false,
   clientProfileLoading: false,
+  creatingClientProfile: false,
 };
 
 export const clientSlice = createSlice({
@@ -39,6 +41,7 @@ export const clientSlice = createSlice({
   selectors: {
     selectClientProfile: (state) => state.clientProfile,
     selectClientProfileLoading: (state) => state.clientProfileLoading,
+    selectCreatingClientProfile: (state) => state.creatingClientProfile,
   },
   extraReducers: (builder) => {
     builder.addCase(getClientProfile.pending, (state) => {
@@ -52,10 +55,23 @@ export const clientSlice = createSlice({
       state.clientProfileLoading = false;
       state.errorLoading = true;
     });
+    builder
+      .addCase(createClientProfile.pending, (state) => {
+        state.creatingClientProfile = true;
+      })
+      .addCase(createClientProfile.fulfilled, (state) => {
+        state.creatingClientProfile = false;
+      })
+      .addCase(createClientProfile.rejected, (state) => {
+        state.creatingClientProfile = false;
+      });
   },
 });
 
 export const clientsReducer = clientSlice.reducer;
 
-export const { selectClientProfile, selectClientProfileLoading } =
-  clientSlice.selectors;
+export const {
+  selectClientProfile,
+  selectClientProfileLoading,
+  selectCreatingClientProfile,
+} = clientSlice.selectors;

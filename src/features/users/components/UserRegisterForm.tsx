@@ -41,7 +41,7 @@ const UserRegisterForm: React.FC<Props> = ({
   const changeTimezone = (timezoneValue: string, timezoneLabel: string) => {
     setPersonalData((prevState) => ({
       ...prevState,
-      timezone: { value: timezoneValue, label: timezoneLabel },
+      timeZone: { value: timezoneValue, label: timezoneLabel },
     }));
   };
 
@@ -132,7 +132,7 @@ const UserRegisterForm: React.FC<Props> = ({
         <TimeZone
           name={"timeZone"}
           changeTimezone={changeTimezone}
-          value={personalData.timezone}
+          value={personalData.timeZone}
         />
       </Grid>
       <Grid container display="flex" justifyContent="space-between">
@@ -146,7 +146,7 @@ const UserRegisterForm: React.FC<Props> = ({
             disabled={
               personalData.firstName === "" ||
               personalData.lastName === "" ||
-              personalData.timezone.label === ""
+              personalData.timeZone.label === ""
             }
             variant="contained"
             onClick={() => updatePersonalInfo(personalData, null, null)}

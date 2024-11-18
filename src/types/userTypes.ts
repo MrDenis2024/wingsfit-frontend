@@ -13,7 +13,7 @@ export interface IUser {
   gender: string;
   timeZone: {
     value: string;
-    offset: string;
+    label: string;
   };
   phoneNumber?: string;
   avatar: string | null;
@@ -46,7 +46,7 @@ export interface ValidationError {
 export interface UserInfoMutation {
   firstName: string;
   lastName: string;
-  timezone: {
+  timeZone: {
     value: string;
     label: string;
   };

@@ -33,7 +33,7 @@ export interface ITrainerProfile {
     dateOfBirth: string;
     timeZone: {
       value: string;
-      offset: string;
+      label: string;
     };
   };
   courseTypes: string[];
@@ -58,7 +58,7 @@ export interface ITrainer {
     dateOfBirth: string;
     timeZone: {
       value: string;
-      offset: string;
+      label: string;
     };
   };
   courseTypes: string[];
