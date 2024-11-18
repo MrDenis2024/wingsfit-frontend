@@ -1,16 +1,20 @@
 import { IUser } from "./userTypes.ts";
 
-export interface ClientFields {
-  firstName: string;
-  lastName: string;
-  timeZone: string;
-  avatar: string | null;
-}
-
 export interface ClientProfileMutation {
   preferredWorkoutType: string;
   trainingLevel: string;
   physicalData: string;
+}
+export interface FullClientProfileMutation extends ClientProfileMutation {
+  firstName: string;
+  lastName: string;
+  gender: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  timeZone: {
+    value: string;
+    label: string;
+  };
 }
 
 export interface IClient {

@@ -93,9 +93,7 @@ const App = () => {
             <Route
               path="/add-new-course"
               element={
-                <ProtectedRoute
-                  isAllowed={!!user && user.role === "trainer"}
-                >
+                <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                   <NewCourse />
                 </ProtectedRoute>
               }

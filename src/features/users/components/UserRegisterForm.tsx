@@ -145,7 +145,7 @@ const UserRegisterForm: React.FC<Props> = ({
           <Button
             disabled={
               personalData.firstName === "" ||
-              personalData.firstName === "" ||
+              personalData.lastName === "" ||
               personalData.timezone.label === ""
             }
             variant="contained"
