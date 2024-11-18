@@ -81,7 +81,7 @@ export const userSlice = createSlice({
         state.adminLoginLoading = false;
         state.adminLoginError = error || null;
       });
-    },
+  },
   selectors: {
     selectUser: (state) => state.user,
     selectLoginLoading: (state) => state.loginLoading,

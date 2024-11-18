@@ -55,7 +55,7 @@ export interface UserInfoMutation {
   phoneNumber: string;
 }
 
-export interface AdminLoginMutation{
+export interface AdminLoginMutation {
   userName: string;
   password: string;
 }

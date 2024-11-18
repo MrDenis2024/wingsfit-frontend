@@ -27,6 +27,7 @@ const pageMap: Record<string, string> = {
   "входа как клиент": "/login/client",
   "входа как тренер": "/login/trainer",
   "создания задач": "/add-new-lesson",
+  "входа как админ": "/admin-login",
 };
 
 const userPasswords = {
