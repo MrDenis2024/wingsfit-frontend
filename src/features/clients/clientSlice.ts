@@ -20,6 +20,7 @@ export interface IClientProfile {
   physicalData: string;
 }
 
+
 interface ClientState {
   clientProfile: IClientProfile | null;
   errorLoading: boolean;
