@@ -2,12 +2,15 @@ import { Box, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import React from "react";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectTrainerProfile } from "../trainersSlice.ts";
 
 interface Props {
   id: string;
 }
 
 const RatingAndReviews: React.FC<Props> = ({ id }) => {
+  const trainerProfile = useAppSelector(selectTrainerProfile);
   return (
     <Box
       sx={{
@@ -27,7 +30,7 @@ const RatingAndReviews: React.FC<Props> = ({ id }) => {
       >
         <Box display="flex" alignItems="center">
           <StarIcon sx={{ fontSize: "small", marginRight: 0.5 }} />
-          <span style={{ fontSize: "12px" }}>4.5</span>
+          <span style={{ fontSize: "12px" }}>{trainerProfile?.rating}</span>
         </Box>
         <Box>
           <Typography
