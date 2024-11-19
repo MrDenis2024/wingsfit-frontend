@@ -29,7 +29,7 @@ const CreateAdmin = () => {
     event.preventDefault();
     try {
       await dispatch(createAdmin(admin)).unwrap();
-      navigate("/admin");
+      navigate("/main");
     } catch (e) {
       console.error(e);
     }

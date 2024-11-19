@@ -1,16 +1,21 @@
-export interface TrainerFields {
-  firstName: string;
-  lastName: string;
-  timeZone: string;
-  courseTypes: string[];
-  avatar: string | null;
-}
 export interface TrainerProfileMutation {
   description: string;
   specialization: string;
   experience: string;
   courseTypes: string[];
   availableDays: string;
+}
+
+export interface FullTrainerProfileMutation extends TrainerProfileMutation {
+  firstName: string;
+  lastName: string;
+  gender: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  timeZone: {
+    value: string;
+    label: string;
+  };
 }
 
 export interface ITrainerProfile {
@@ -28,7 +33,7 @@ export interface ITrainerProfile {
     dateOfBirth: string;
     timeZone: {
       value: string;
-      offset: string;
+      label: string;
     };
   };
   courseTypes: string[];
@@ -53,7 +58,7 @@ export interface ITrainer {
     dateOfBirth: string;
     timeZone: {
       value: string;
-      offset: string;
+      label: string;
     };
   };
   courseTypes: string[];
