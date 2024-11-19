@@ -1,15 +1,15 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import {GlobalError} from "../../types/userTypes.ts";
-import {RootState} from "../../app/store.ts";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { GlobalError } from "../../types/userTypes.ts";
+import { RootState } from "../../app/store.ts";
 import axiosApi from "../../axiosApi.ts";
-import {isAxiosError} from "axios";
-import {CourseMutation, ICourse} from "../../types/courseTypes.ts";
+import { isAxiosError } from "axios";
+import { CourseMutation, ICourse } from "../../types/courseTypes.ts";
 
 export const createCourse = createAsyncThunk<
   void,
   CourseMutation,
   { rejectValue: GlobalError; state: RootState }
->("courses/create", async (courseMutation, {rejectWithValue}) => {
+>("courses/create", async (courseMutation, { rejectWithValue }) => {
   const formData = new FormData();
   const keys = Object.keys(courseMutation) as (keyof CourseMutation)[];
   keys.forEach((key) => {
@@ -32,7 +32,7 @@ export const createCourse = createAsyncThunk<
 export const getOneCourse = createAsyncThunk<ICourse, string>(
   "courses/getOneCourse",
   async (id) => {
-    const {data: course} = await axiosApi.get<ICourse>(`/courses/${id}`);
+    const { data: course } = await axiosApi.get<ICourse>(`/courses/${id}`);
     return course;
-  }
+  },
 );

@@ -102,11 +102,14 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/courses/:id" element={
-              <>
-                <OneCourse/>
-              </>
-            }/>
+            <Route
+              path="/courses/:id"
+              element={
+                <>
+                  <OneCourse />
+                </>
+              }
+            />
             <Route
               path="/add-new-lesson"
               element={

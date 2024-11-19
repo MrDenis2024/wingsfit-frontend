@@ -22,5 +22,5 @@ export interface ICourse extends CourseMutation {
     _id: string;
     firstName: string;
     lastName: string;
-  }
+  };
 }
