@@ -17,6 +17,7 @@ import { getTrainerProfile } from "./features/trainers/trainersThunks.ts";
 import { getClientProfile } from "./features/clients/clientThunk.ts";
 import Layout from "./UI/Layout/Layout.tsx";
 import ClientStatistics from "./features/admin/clients/ClientStatistics.tsx";
+import CreateAdmin from "./features/admin/admins/CreateAdmin.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -125,6 +126,14 @@ const App = () => {
                   }
                 >
                   <ClientStatistics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/create-new-admin"
+              element={
+                <ProtectedRoute isAllowed={user && user.role === "superAdmin"}>
+                  <CreateAdmin />
                 </ProtectedRoute>
               }
             />

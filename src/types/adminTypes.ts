@@ -1,4 +1,4 @@
 export interface AdminMutation {
-    userName: string,
-    password: string,
+  userName: string;
+  password: string;
 }
