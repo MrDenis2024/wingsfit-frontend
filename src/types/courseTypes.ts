@@ -16,16 +16,11 @@ export interface CourseTypeFields {
   description: string | null;
 }
 
-export interface ICourse {
+export interface ICourse extends CourseMutation {
   _id: string;
-  user: string
-  courseTypes: string;
-  title: string;
-  description: string;
-  format: string;
-  schedule: string;
-  scheduleLength: string;
-  price: string;
-  maxClients: number;
-  image: string | null;
+  user: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
 }

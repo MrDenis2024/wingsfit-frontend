@@ -3,8 +3,7 @@ import { GlobalError } from "../../types/userTypes.ts";
 import { RootState } from "../../app/store.ts";
 import axiosApi from "../../axiosApi.ts";
 import { isAxiosError } from "axios";
-import {CourseMutation, ICourse} from "../../types/courseTypes.ts";
-
+import { CourseMutation, ICourse } from "../../types/courseTypes.ts";
 
 export const fetchCourses = createAsyncThunk<ICourse[], string | undefined>(
   'courses/fetchAll',
@@ -42,3 +41,11 @@ export const createCourse = createAsyncThunk<
     throw e;
   }
 });
+
+export const getOneCourse = createAsyncThunk<ICourse, string>(
+  "courses/getOneCourse",
+  async (id) => {
+    const { data: course } = await axiosApi.get<ICourse>(`/courses/${id}`);
+    return course;
+  },
+);

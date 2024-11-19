@@ -28,15 +28,25 @@ const pageMap: Record<string, string> = {
   "входа как тренер": "/login/trainer",
   "создания задач": "/add-new-lesson",
   "входа как админ": "/admin-login",
+  "создание админа": "/admin/create-new-admin",
 };
 
 const userPasswords = {
   "client@fit.local": "test",
   "trainer@fit.local": "test",
+  superAdmin: "superAdmin",
 };
 
 Given("я нахожусь на странице {string}", (page: string) => {
   I.amOnPage(pageMap[page]);
+});
+
+Given("я залогинен как {string}", (userName: string) => {
+  I.amOnPage(pageMap["входа как админ"]);
+  I.fillField("Username", userName);
+  I.fillField("Password", userPasswords[userName]);
+  I.click(`//button[contains(., 'Get Started')]`);
+  I.waitForNavigation(1);
 });
 
 When(
