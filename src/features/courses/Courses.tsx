@@ -3,7 +3,7 @@ import {selectCourses} from "./coursesSlice.ts";
 import {useEffect} from "react";
 import {fetchCourses} from "./coursesThunks.ts";
 import {useParams} from "react-router-dom";
-import {Grid2} from "@mui/material";
+import {Grid2, Typography} from "@mui/material";
 import CourseCards from "./components/CourseCards.tsx";
 
 const Courses = () => {
@@ -19,9 +19,9 @@ const Courses = () => {
     }
   }, [dispatch, trainerId]);
 
-
   return (
     <Grid2>
+      <Typography variant="h2" >Courses</Typography>
       {courses.length > 0 && (
         <CourseCards courses={courses} />
       )}

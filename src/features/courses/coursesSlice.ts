@@ -42,7 +42,7 @@ export const coursesSlice = createSlice({
         state.courses = courses;
         state.coursesLoading = false;
       })
-      .addCase(fetchCourses.fulfilled, (state) => {
+      .addCase(fetchCourses.rejected, (state) => {
         state.coursesLoading = false;
       });
   },
