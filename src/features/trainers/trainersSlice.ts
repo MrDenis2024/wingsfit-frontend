@@ -4,20 +4,16 @@ import { ITrainer, ITrainerProfile } from "../../types/trainerTypes.ts";
 
 interface TrainersState {
   trainerProfile: ITrainerProfile | null;
-  errorLoading: boolean;
   trainerProfileLoading: boolean;
   trainers: ITrainer[];
   fetchingTrainers: boolean;
-  errorFetchingTrainers: boolean;
 }
 
 const initialState: TrainersState = {
   trainerProfile: null,
-  errorLoading: false,
   trainerProfileLoading: false,
   trainers: [],
   fetchingTrainers: false,
-  errorFetchingTrainers: false,
 };
 
 export const trainersSlice = createSlice({
@@ -30,12 +26,11 @@ export const trainersSlice = createSlice({
         state.trainerProfileLoading = true;
       })
       .addCase(getTrainerProfile.fulfilled, (state, { payload: user }) => {
-        state.trainerProfileLoading = false;
         state.trainerProfile = user;
+        state.trainerProfileLoading = false;
       })
       .addCase(getTrainerProfile.rejected, (state) => {
         state.trainerProfileLoading = false;
-        state.errorLoading = true;
       });
 
     builder
@@ -43,12 +38,11 @@ export const trainersSlice = createSlice({
         state.fetchingTrainers = true;
       })
       .addCase(getTrainers.fulfilled, (state, { payload: trainers }) => {
-        state.fetchingTrainers = false;
         state.trainers = trainers;
+        state.fetchingTrainers = false;
       })
       .addCase(getTrainers.rejected, (state) => {
         state.fetchingTrainers = false;
-        state.errorFetchingTrainers = true;
       });
   },
   selectors: {
@@ -56,7 +50,6 @@ export const trainersSlice = createSlice({
     selectTrainerProfileLoading: (state) => state.trainerProfileLoading,
     selectTrainers: (state) => state.trainers,
     selectFetchingTrainers: (state) => state.fetchingTrainers,
-    selectErrorFetchingTrainers: (state) => state.errorFetchingTrainers,
   },
 });
 
@@ -67,5 +60,4 @@ export const {
   selectTrainers,
   selectTrainerProfileLoading,
   selectFetchingTrainers,
-  selectErrorFetchingTrainers,
 } = trainersSlice.selectors;
