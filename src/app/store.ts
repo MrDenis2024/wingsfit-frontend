@@ -17,6 +17,7 @@ import { clientsReducer } from "../features/clients/clientSlice.ts";
 import { trainersReducer } from "../features/trainers/trainersSlice.ts";
 import { courseTypesReducer } from "../features/CourseTypes/CourseTypesSlice.ts";
 import { adminClientsReducer } from "../features/admin/clients/adminClientsSlice.ts";
+import { adminsReducer } from "../features/admin/admins/adminSlice.ts";
 
 const usersPersistConfig = {
   key: "wingsfit:users",
@@ -44,6 +45,7 @@ const rootReducer = combineReducers({
   clients: persistReducer(clientsPersistConfig, clientsReducer),
   trainers: persistReducer(trainersPersistConfig, trainersReducer),
   adminClients: adminClientsReducer,
+  admins: adminsReducer,
 });
 
 export const store = configureStore({
