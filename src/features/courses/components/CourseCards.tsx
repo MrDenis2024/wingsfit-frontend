@@ -14,12 +14,14 @@ const CourseCards: React.FC<Props> = ({ courses }) => {
 
   return (
     <Grid2 container spacing={2}>
-      {courses.map(course => (
-        <CourseCard
-          key={course._id}
-          course={course}
-        />
-      ))}
+      {!isLoading && (
+        courses.map(course => (
+            <CourseCard
+              key={course._id}
+              course={course}
+            />
+          ))
+      ) }
     </Grid2>
   );
 };
