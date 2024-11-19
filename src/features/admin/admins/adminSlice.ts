@@ -1,10 +1,10 @@
-import { ValidationError } from "../../../types/userTypes.ts";
+import { GlobalError } from "../../../types/userTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
 import { createAdmin } from "./adminThunks.ts";
 
 export interface AdminsState {
   adminCreateLoading: boolean;
-  adminCreateError: ValidationError | null;
+  adminCreateError: GlobalError | null;
 }
 
 const initialState: AdminsState = {
@@ -28,8 +28,8 @@ export const adminsSlice = createSlice({
       .addCase(
         createAdmin.rejected,
         (state: AdminsState, { payload: error }) => {
-          state.adminCreateLoading = false;
           state.adminCreateError = error || null;
+          state.adminCreateLoading = false;
         },
       );
   },

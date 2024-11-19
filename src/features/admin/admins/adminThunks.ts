@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AdminMutation } from "../../../types/adminTypes.ts";
 import { isAxiosError } from "axios";
-import { ValidationError } from "../../../types/userTypes.ts";
+import { GlobalError } from "../../../types/userTypes.ts";
 import axiosApi from "../../../axiosApi.ts";
 
 export const createAdmin = createAsyncThunk<
   void,
   AdminMutation,
-  { rejectValue: ValidationError }
+  { rejectValue: GlobalError }
 >("admins/create", async (adminMutation, { rejectWithValue }) => {
   try {
     await axiosApi.post("/admins", adminMutation);

@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid2";
 import React, { useState } from "react";
 import { AdminMutation } from "../../../types/adminTypes.ts";
 import { createAdmin } from "./adminThunks.ts";
-import { TextField, Typography } from "@mui/material";
+import { Alert, TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
 
@@ -20,10 +20,6 @@ const CreateAdmin = () => {
     userName: "",
     password: "",
   });
-
-  const getFieldError = (fieldName: string) => {
-    return isCreatingError?.errors[fieldName]?.message;
-  };
 
   const onFormSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -53,19 +49,22 @@ const CreateAdmin = () => {
         direction="column"
         spacing={2}
         component="form"
+        noValidate
         onSubmit={onFormSubmit}
       >
+        {isCreatingError && (
+          <Alert severity="error" sx={{ mt: 3 }}>
+            {isCreatingError.error}
+          </Alert>
+        )}
         <Grid>
           <TextField
             required
             type="text"
             label="User name"
             name="userName"
-            autoComplete="new-username"
             value={admin.userName}
             onChange={inputChangeHandler}
-            error={Boolean(getFieldError("userName"))}
-            helperText={getFieldError("userName")}
           />
         </Grid>
         <Grid>
@@ -74,11 +73,8 @@ const CreateAdmin = () => {
             type="password"
             label="Password"
             name="password"
-            autoComplete="new-username"
             value={admin.password}
             onChange={inputChangeHandler}
-            error={Boolean(getFieldError("password"))}
-            helperText={getFieldError("password")}
           />
         </Grid>
         <Grid container justifyContent="flex-end">
