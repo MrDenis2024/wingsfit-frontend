@@ -18,6 +18,7 @@ import { getClientProfile } from "./features/clients/clientThunk.ts";
 import Layout from "./UI/Layout/Layout.tsx";
 import ClientStatistics from "./features/admin/clients/ClientStatistics.tsx";
 import LoginAdmin from "./features/users/LoginAdmin.tsx";
+import Courses from "./features/courses/Courses.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -89,6 +90,14 @@ const App = () => {
               element={
                 <>
                   <OneTrainer />
+                </>
+              }
+            />
+            <Route
+              path="/trainers/courses/:trainerId"
+              element={
+                <>
+                  <Courses />
                 </>
               }
             />

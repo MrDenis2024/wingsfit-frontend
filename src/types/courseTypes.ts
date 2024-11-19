@@ -15,3 +15,17 @@ export interface CourseTypeFields {
   name: string;
   description: string | null;
 }
+
+export interface ICourse {
+  _id: string;
+  user: string
+  courseTypes: string;
+  title: string;
+  description: string;
+  format: string;
+  schedule: string;
+  scheduleLength: string;
+  price: string;
+  maxClients: number;
+  image: string | null;
+}
