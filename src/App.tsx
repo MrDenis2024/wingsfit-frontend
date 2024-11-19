@@ -17,6 +17,8 @@ import { getTrainerProfile } from "./features/trainers/trainersThunks.ts";
 import { getClientProfile } from "./features/clients/clientThunk.ts";
 import Layout from "./UI/Layout/Layout.tsx";
 import ClientStatistics from "./features/admin/clients/ClientStatistics.tsx";
+import LoginAdmin from "./features/users/LoginAdmin.tsx";
+import CreateAdmin from "./features/admin/admins/CreateAdmin.tsx";
 import OneCourse from "./features/courses/OneCourse.tsx";
 
 const App = () => {
@@ -122,6 +124,14 @@ const App = () => {
               }
             />
             <Route
+              path="/admin-login"
+              element={
+                <>
+                  <LoginAdmin />
+                </>
+              }
+            />
+            <Route
               path="/admin/clients-stats"
               element={
                 <ProtectedRoute
@@ -131,6 +141,14 @@ const App = () => {
                   }
                 >
                   <ClientStatistics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/create-new-admin"
+              element={
+                <ProtectedRoute isAllowed={user && user.role === "superAdmin"}>
+                  <CreateAdmin />
                 </ProtectedRoute>
               }
             />
