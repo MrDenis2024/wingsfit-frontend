@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { GlobalError, IUser, ValidationError } from "../../types/userTypes";
-import { googleLogin, login, register } from "./userThunk";
+import { googleLogin, login, loginAdmin, register } from "./userThunk";
 
 interface UserState {
   user: IUser | null;
@@ -8,6 +8,8 @@ interface UserState {
   loginError: GlobalError | null;
   registerLoading: boolean;
   registerError: ValidationError | null;
+  adminLoginLoading: boolean;
+  adminLoginError: GlobalError | null;
 }
 
 const initialState: UserState = {
@@ -16,6 +18,8 @@ const initialState: UserState = {
   loginError: null,
   registerLoading: false,
   registerError: null,
+  adminLoginLoading: false,
+  adminLoginError: null,
 };
 
 export const userSlice = createSlice({
@@ -64,6 +68,19 @@ export const userSlice = createSlice({
         state.loginLoading = false;
         state.loginError = error || null;
       });
+    builder
+      .addCase(loginAdmin.pending, (state) => {
+        state.adminLoginLoading = true;
+        state.adminLoginError = null;
+      })
+      .addCase(loginAdmin.fulfilled, (state, { payload: user }) => {
+        state.adminLoginLoading = false;
+        state.user = user;
+      })
+      .addCase(loginAdmin.rejected, (state, { payload: error }) => {
+        state.adminLoginLoading = false;
+        state.adminLoginError = error || null;
+      });
   },
   selectors: {
     selectUser: (state) => state.user,
@@ -71,6 +88,8 @@ export const userSlice = createSlice({
     selectLoginError: (state) => state.loginError,
     selectRegisterLoading: (state) => state.registerLoading,
     selectRegisterError: (state) => state.registerError,
+    selectLoginAdminLoading: (state) => state.adminLoginLoading,
+    selectLoginAdminError: (state) => state.adminLoginError,
   },
 });
 
@@ -84,4 +103,6 @@ export const {
   selectLoginError,
   selectRegisterLoading,
   selectRegisterError,
+  selectLoginAdminLoading,
+  selectLoginAdminError,
 } = userSlice.selectors;
