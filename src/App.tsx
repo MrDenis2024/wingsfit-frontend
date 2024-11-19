@@ -19,6 +19,7 @@ import Layout from "./UI/Layout/Layout.tsx";
 import ClientStatistics from "./features/admin/clients/ClientStatistics.tsx";
 import LoginAdmin from "./features/users/LoginAdmin.tsx";
 import CreateAdmin from "./features/admin/admins/CreateAdmin.tsx";
+import OneCourse from "./features/courses/OneCourse.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -99,6 +100,14 @@ const App = () => {
                 <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                   <NewCourse />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/courses/:id"
+              element={
+                <>
+                  <OneCourse />
+                </>
               }
             />
             <Route
