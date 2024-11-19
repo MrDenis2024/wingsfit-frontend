@@ -8,7 +8,6 @@ export interface CoursesState {
   isCreatingError: GlobalError | null;
   oneCourse: ICourse | null;
   oneCourseLoading: boolean;
-  courseError: GlobalError | null;
 }
 
 const initialState: CoursesState = {
@@ -16,7 +15,6 @@ const initialState: CoursesState = {
   isCreatingError: null,
   oneCourse: null,
   oneCourseLoading: false,
-  courseError: null,
 };
 
 export const coursesSlice = createSlice({
@@ -39,15 +37,13 @@ export const coursesSlice = createSlice({
     builder
       .addCase(getOneCourse.pending, (state) => {
         state.oneCourseLoading = true;
-        state.courseError = null;
       })
       .addCase(getOneCourse.fulfilled, (state, {payload: oneCourse}) => {
-        state.oneCourseLoading = false;
         state.oneCourse = oneCourse;
-      })
-      .addCase(getOneCourse.rejected, (state, {payload: error}) => {
         state.oneCourseLoading = false;
-        state.courseError = error || null;
+      })
+      .addCase(getOneCourse.rejected, (state) => {
+        state.oneCourseLoading = false;
       });
   },
   selectors: {
@@ -55,7 +51,6 @@ export const coursesSlice = createSlice({
     selectCourseCreateError: (state) => state.isCreatingError,
     selectOneCourse: (state) => state.oneCourse,
     selectOneCourseLoading: (state) => state.oneCourseLoading,
-    selectCourseError: (state) => state.courseError,
   },
 });
 
@@ -66,6 +61,5 @@ export const {
   selectCourseCreateError,
   selectOneCourse,
   selectOneCourseLoading,
-  selectCourseError
 } =
   coursesSlice.selectors;
