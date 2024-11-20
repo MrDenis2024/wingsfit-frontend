@@ -1,5 +1,4 @@
 import { Grid2, Typography } from "@mui/material";
-import ScheduleCard from "../schedules/components/ScheduleCard.tsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { useEffect } from "react";
 import {
@@ -15,6 +14,9 @@ import {
 } from "../clients/clientSlice.ts";
 import { useNavigate } from "react-router-dom";
 import { selectUser } from "../users/userSlice.ts";
+import {selectCourses} from "../courses/coursesSlice.ts";
+import {fetchCourses} from "../courses/coursesThunks.ts";
+import CourseCards from "../courses/components/CourseCards.tsx";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -24,6 +26,7 @@ const MainPage = () => {
   const clientProfile = useAppSelector(selectClientProfile);
   const clientProfileLoading = useAppSelector(selectClientProfileLoading);
   const trainerProfileLoading = useAppSelector(selectTrainerProfileLoading);
+  const courses = useAppSelector(selectCourses);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -59,55 +62,23 @@ const MainPage = () => {
 
   useEffect(() => {
     try {
-      void dispatch(getTrainers()).unwrap();
+      dispatch(getTrainers());
+      dispatch(fetchCourses());
     } catch (e) {
       console.error(e);
     }
   }, [dispatch]);
-
-  const Schedules = [
-    {
-      _id: "1",
-      firstName: "Inna",
-      lastName: "Zumba",
-      avatar: null,
-      courseType: "Fitness",
-      workTime: "Monday, 10:00 Am",
-    },
-    {
-      _id: "2",
-      firstName: "Inna",
-      lastName: "Zumba",
-      avatar: null,
-      courseType: "Fitness",
-      workTime: "Monday, 10:00 Am",
-    },
-  ];
 
   return (
     <>
       <Grid2 container direction="column" spacing={2} mb={5}>
         <Grid2 alignItems="start">
           <Typography variant="h4" component="h1">
-            Class Schedule
+            Courses
           </Typography>
         </Grid2>
-
-        <Grid2 container spacing={2}>
-          {Schedules.map((schedule) => {
-            return (
-              <Grid2 key={schedule._id}>
-                <ScheduleCard
-                  _id={schedule._id}
-                  firstName={schedule.firstName}
-                  lastName={schedule.lastName}
-                  avatar={schedule.avatar}
-                  courseType={schedule.courseType}
-                  workTime={schedule.workTime}
-                />
-              </Grid2>
-            );
-          })}
+        <Grid2 container spacing={2} justifyContent="center">
+          <CourseCards courses={courses} />
         </Grid2>
       </Grid2>
 

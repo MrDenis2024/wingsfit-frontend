@@ -6,12 +6,13 @@ import {apiURL} from "../../../constants.ts";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import {useAppSelector} from "../../../app/hooks.ts";
 import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
+import {selectUser} from "../../users/userSlice.ts";
 
 const ImageCardMedia = styled(CardMedia)({
   width: "100%",
-  height: "140px",
+  height: "115px",
   borderRadius: "5px",
-  backgroundColor: "silver",
+  border: "1px solid silver",
 });
 
 interface Props {
@@ -19,6 +20,7 @@ interface Props {
 }
 
 const CourseCard: React.FC<Props> = ({course}) => {
+  const user = useAppSelector(selectUser);
   let cardImage = imageNotFound;
   const courseTypes = useAppSelector(selectCourseTypes);
 
@@ -37,6 +39,7 @@ const CourseCard: React.FC<Props> = ({course}) => {
       sx={{
         width: {
           xs: "375px",
+          md: "365px"
         },
       }}
     >
@@ -48,16 +51,19 @@ const CourseCard: React.FC<Props> = ({course}) => {
           justifyContent: "space-between",
           backgroundColor: "#ffffff",
           borderRadius: "7px",
+          border: "1px solid silver",
         }}
       >
         <Grid2 flexDirection="column">
-          <CardHeader component={NavLink} to={`/courses/${course._id}`}
+          <CardHeader
+            component={NavLink}
+            to={`/courses/${course._id}`}
             title={`${course.title}`}
             sx={{
               padding: "0 0 20px 0",
-              color: "#1b1818",
-              textDecoration: "none"
-          }}
+              color: "#1a3b7e",
+              textDecoration: "none",
+            }}
           />
           <Grid2>
             <CardContent
@@ -68,13 +74,13 @@ const CourseCard: React.FC<Props> = ({course}) => {
               }}
             >
               <Grid2 container spacing={2}>
-                <Grid2 size={6}>
+                <Grid2 size={4}>
                   <ImageCardMedia
                     image={cardImage}
                     title={course.title}
                   />
                 </Grid2>
-                <Grid2 size={6} mb={3} flexDirection="column">
+                <Grid2 size={8} mb={3} flexDirection="column">
                   <Typography variant="body2" color="textSecondary">
                     {findCourseTypes(course.courseType)}
                   </Typography>
@@ -90,22 +96,24 @@ const CourseCard: React.FC<Props> = ({course}) => {
                   </Typography>
                 </Grid2>
               </Grid2>
-              <Button
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  textTransform: "none",
-                  backgroundColor: "#4d80fa",
-                  color: "#f0f0f0",
-                  "&:hover": {backgroundColor: "#0a2375"},
-                  borderRadius: "10px",
-                }}
-                component={NavLink}
-                to={`/courses/${course._id}`}
-              >
-                <span>Try free</span>
-              </Button>
+              {user?.role === 'client' && (
+                <Button
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textTransform: "none",
+                    backgroundColor: "#4d80fa",
+                    color: "#f0f0f0",
+                    "&:hover": {backgroundColor: "#0a2375"},
+                    borderRadius: "10px",
+                  }}
+                  component={NavLink}
+                  to={`/courses/${course._id}`}
+                >
+                  <span>Try free</span>
+                </Button>
+              )}
             </CardContent>
           </Grid2>
         </Grid2>

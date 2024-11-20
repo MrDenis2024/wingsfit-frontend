@@ -25,11 +25,11 @@ const Courses = () => {
   return (
     <Grid2>
       {user && user.role === 'trainer' && (
-        <Grid container justifyContent="flex-end" my={2}>
-          <Button component={Link} to="/add-new-course">Add new +</Button>
+        <Grid container justifyContent="flex-end" mt={1}>
+          <Button component={Link} to="/add-new-course" sx={{fontWeight: 'bold', fontSize: '20px'}} variant="outlined">Add course +</Button>
         </Grid>
       )}
-      <Typography variant="h2">Courses</Typography>
+      <Typography variant="h2" mb={3}>Courses</Typography>
       {courses.length > 0 && (
         <CourseCards courses={courses} />
       )}
