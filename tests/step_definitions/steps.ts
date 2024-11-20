@@ -34,10 +34,19 @@ const pageMap: Record<string, string> = {
 const userPasswords = {
   "client@fit.local": "test",
   "trainer@fit.local": "test",
+  superAdmin: "superAdmin",
 };
 
 Given("я нахожусь на странице {string}", (page: string) => {
   I.amOnPage(pageMap[page]);
+});
+
+Given("я залогинен как {string}", (userName: string) => {
+  I.amOnPage(pageMap["входа как админ"]);
+  I.fillField("Username", userName);
+  I.fillField("Password", userPasswords[userName]);
+  I.click(`//button[contains(., 'Get Started')]`);
+  I.waitForNavigation(1);
 });
 
 When(

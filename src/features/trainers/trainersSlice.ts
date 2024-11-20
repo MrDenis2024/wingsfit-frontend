@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getTrainerProfile, getTrainers } from "./trainersThunks.ts";
+import {
+  createTrainerProfile,
+  getTrainerProfile,
+  getTrainers,
+} from "./trainersThunks.ts";
 import { ITrainer, ITrainerProfile } from "../../types/trainerTypes.ts";
 
 interface TrainersState {
@@ -44,6 +48,16 @@ export const trainersSlice = createSlice({
       .addCase(getTrainers.rejected, (state) => {
         state.fetchingTrainers = false;
       });
+    builder
+      .addCase(createTrainerProfile.pending, (state) => {
+        state.creatingTrainerProfile = true;
+      })
+      .addCase(createTrainerProfile.fulfilled, (state) => {
+        state.creatingTrainerProfile = false;
+      })
+      .addCase(createTrainerProfile.rejected, (state) => {
+        state.creatingTrainerProfile = false;
+      });
   },
   selectors: {
     selectTrainerProfile: (state) => state.trainerProfile,
@@ -59,5 +73,6 @@ export const {
   selectTrainerProfile,
   selectTrainers,
   selectTrainerProfileLoading,
+  selectCreatingTrainerProfile,
   selectFetchingTrainers,
 } = trainersSlice.selectors;

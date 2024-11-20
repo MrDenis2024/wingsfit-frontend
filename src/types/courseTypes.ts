@@ -15,3 +15,12 @@ export interface CourseTypeFields {
   name: string;
   description: string | null;
 }
+
+export interface ICourse extends CourseMutation {
+  _id: string;
+  user: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+}

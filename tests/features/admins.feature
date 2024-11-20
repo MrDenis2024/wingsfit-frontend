@@ -26,7 +26,6 @@
             И ввожу в поле "userName" значение "superAdmin"
             И нажимаю на кнопку "Get Started"
             Тогда я вижу сообщение "Username and password are required"
-    
 
     @createNewAdmin
         Сценарий: Создание новго админа

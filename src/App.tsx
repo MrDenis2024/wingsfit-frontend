@@ -103,6 +103,14 @@ const App = () => {
               }
             />
             <Route
+              path="/courses/:id"
+              element={
+                <>
+                  <OneCourse />
+                </>
+              }
+            />
+            <Route
               path="/add-new-lesson"
               element={
                 <>
@@ -136,6 +144,14 @@ const App = () => {
                   }
                 >
                   <ClientStatistics />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/create-new-admin"
+              element={
+                <ProtectedRoute isAllowed={user && user.role === "superAdmin"}>
+                  <CreateAdmin />
                 </ProtectedRoute>
               }
             />
