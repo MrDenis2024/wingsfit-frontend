@@ -1,3 +1,16 @@
+export interface Course {
+  _id: string;
+  title: string;
+  courseType: string;
+  description: string;
+  format: string;
+  schedule: string;
+  scheduleLength: string;
+  price: string;
+  maxClients: string;
+  image: string | null;
+}
+
 export interface CourseMutation {
   title: string;
   courseType: string;

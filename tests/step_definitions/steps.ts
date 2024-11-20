@@ -71,3 +71,22 @@ When("нажимаю на кнопку {string}", (name: string) => {
 Then("я вижу сообщение {string}", (message: string) => {
   I.see(message);
 });
+
+Given("я нахожусь на странице заполнения формы группы", () => {
+  I.amOnPage("/add-new-group");
+});
+
+When(
+  "ввожу в поле {string} значение {string}",
+  (name: string, value: string) => {
+    I.fillField(name, value);
+  },
+);
+
+When("нажимаю на кнопку {string}", (name: string) => {
+  I.click(`//button[contains(., '${name}')]`);
+});
+
+Then("я вижу сообщение {string}", (message: string) => {
+  I.see(message);
+});

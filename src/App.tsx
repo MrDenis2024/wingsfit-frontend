@@ -17,6 +17,7 @@ import { getTrainerProfile } from "./features/trainers/trainersThunks.ts";
 import { getClientProfile } from "./features/clients/clientThunk.ts";
 import Layout from "./UI/Layout/Layout.tsx";
 import ClientStatistics from "./features/admin/clients/ClientStatistics.tsx";
+import NewGroup from "./features/groups/NewGroup.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -96,6 +97,14 @@ const App = () => {
               element={
                 <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                   <NewCourse />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/add-new-group"
+              element={
+                <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                  <NewGroup />
                 </ProtectedRoute>
               }
             />
