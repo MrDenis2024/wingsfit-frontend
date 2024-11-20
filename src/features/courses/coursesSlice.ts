@@ -34,7 +34,7 @@ export const coursesSlice = createSlice({
       .addCase(createCourse.fulfilled, (state) => {
         state.isCreating = false;
       })
-      .addCase(createCourse.rejected, (state, {payload: error}) => {
+      .addCase(createCourse.rejected, (state, { payload: error }) => {
         state.isCreating = false;
         state.isCreatingError = error || null;
       });
@@ -63,10 +63,10 @@ export const coursesSlice = createSlice({
       });
   },
   selectors: {
+    selectCoursesFetching: (state) => state.coursesLoading,
     selectCourseCreate: (state) => state.isCreating,
     selectCourseCreateError: (state) => state.isCreatingError,
     selectCourses: (state) => state.courses,
-    selectCoursesLoading: (state) => state.coursesLoading,
     selectOneCourse: (state) => state.oneCourse,
     selectOneCourseLoading: (state) => state.oneCourseLoading,
   },
@@ -75,10 +75,10 @@ export const coursesSlice = createSlice({
 export const coursesReducer = coursesSlice.reducer;
 
 export const {
+  selectCourses,
+  selectCoursesFetching,
   selectCourseCreate,
   selectCourseCreateError,
-  selectCourses,
-  selectCoursesLoading,
   selectOneCourse,
   selectOneCourseLoading,
 } = coursesSlice.selectors;
