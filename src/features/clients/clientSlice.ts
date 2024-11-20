@@ -32,7 +32,17 @@ export const clientSlice = createSlice({
       .addCase(getClientProfile.rejected, (state) => {
         state.clientProfileLoading = false;
       });
-  },
+    builder
+      .addCase(createClientProfile.pending, (state) => {
+        state.creatingClientProfile = true;
+      })
+      .addCase(createClientProfile.fulfilled, (state) => {
+        state.creatingClientProfile = false;
+      })
+      .addCase(createClientProfile.rejected, (state) => {
+        state.creatingClientProfile = false;
+      });
+    }
 });
 
 export const clientsReducer = clientSlice.reducer;

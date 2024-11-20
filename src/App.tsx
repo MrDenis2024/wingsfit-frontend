@@ -18,6 +18,8 @@ import { getClientProfile } from "./features/clients/clientThunk.ts";
 import Layout from "./UI/Layout/Layout.tsx";
 import ClientStatistics from "./features/admin/clients/ClientStatistics.tsx";
 import LoginAdmin from "./features/users/LoginAdmin.tsx";
+import CreateAdmin from "./features/admin/admins/CreateAdmin.tsx";
+import OneCourse from "./features/courses/OneCourse.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);

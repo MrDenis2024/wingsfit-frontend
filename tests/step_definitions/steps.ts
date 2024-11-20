@@ -28,6 +28,7 @@ const pageMap: Record<string, string> = {
   "входа как тренер": "/login/trainer",
   "создания задач": "/add-new-lesson",
   "входа как админ": "/admin-login",
+  "создание админа": "/admin/create-new-admin",
 };
 
 const userPasswords = {

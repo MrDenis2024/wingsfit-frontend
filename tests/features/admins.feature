@@ -26,3 +26,20 @@
             И ввожу в поле "userName" значение "superAdmin"
             И нажимаю на кнопку "Get Started"
             Тогда я вижу сообщение "Username and password are required"
+    
+
+    @createNewAdmin
+        Сценарий: Создание новго админа
+            Допустим я залогинен как "superAdmin"
+            И я нахожусь на странице "создание админа"
+            И ввожу в поле "userName" значение "admin"
+            И ввожу в поле "password" значение "admin1"
+            И нажимаю на кнопку "Save admin"
+            Тогда я вижу сообщение "Class Schedule"
+
+    @createNewAdminWithEmptyUserName
+        Сценарий: Создание админа с незаполненными полями
+            Допустим я залогинен как "superAdmin"
+            И я нахожусь на странице "создание админа"
+            И нажимаю на кнопку "Save admin"
+            Тогда я вижу сообщение "Username and password are required"
