@@ -1,16 +1,3 @@
-export interface Course {
-  _id: string;
-  title: string;
-  courseType: string;
-  description: string;
-  format: string;
-  schedule: string;
-  scheduleLength: string;
-  price: string;
-  maxClients: string;
-  image: string | null;
-}
-
 export interface CourseMutation {
   title: string;
   courseType: string;
@@ -29,11 +16,20 @@ export interface CourseTypeFields {
   description: string | null;
 }
 
-export interface ICourse extends CourseMutation {
+export interface ICourse {
   _id: string;
   user: {
     _id: string;
     firstName: string;
     lastName: string;
-  };
+ };
+  title: string;
+  courseType: string;
+  description: string;
+  format: string;
+  schedule: string;
+  scheduleLength: string;
+  price: number;
+  maxClients: string;
+  image: string | null;
 }
