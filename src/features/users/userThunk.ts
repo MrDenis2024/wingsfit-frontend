@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
+  AdminLoginMutation,
   GlobalError,
   IUser,
   UserLogin,
@@ -68,6 +69,25 @@ export const login = createAsyncThunk<
   try {
     const { data: user } = await axiosApi.post<IUser>(
       "/users/sessions",
+      loginMutation,
+    );
+    return user;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data);
+    }
+    throw e;
+  }
+});
+
+export const loginAdmin = createAsyncThunk<
+  IUser,
+  AdminLoginMutation,
+  { rejectValue: GlobalError }
+>("users/loginAdmin", async (loginMutation, { rejectWithValue }) => {
+  try {
+    const { data: user } = await axiosApi.post<IUser>(
+      "/admins/sessionsAdmin",
       loginMutation,
     );
     return user;

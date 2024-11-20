@@ -4,21 +4,30 @@ import Grid from "@mui/material/Grid2";
 import UserRegisterForm from "./components/UserRegisterForm.tsx";
 import TrainerRegisterForm from "./components/TrainerRegisterForm.tsx";
 import { UserInfoMutation } from "../../types/userTypes.ts";
-import { TrainerProfileMutation } from "../../types/trainerTypes.ts";
+import {
+  FullTrainerProfileMutation,
+  TrainerProfileMutation,
+} from "../../types/trainerTypes.ts";
 import RegisterPreview from "./components/RegisterPreview.tsx";
-import { useAppSelector } from "../../app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectUser } from "./userSlice.ts";
-import { ClientProfileMutation } from "../../types/clientTypes.ts";
+import {
+  ClientProfileMutation,
+  FullClientProfileMutation,
+} from "../../types/clientTypes.ts";
 import ClientRegisterForm from "./components/ClientRegisterForm.tsx";
+import { createClientProfile } from "../clients/clientThunk.ts";
+import { createTrainerProfile } from "../trainers/trainersThunks.ts";
 
 const OnBoardingProfile = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const stepLabels = ["Fill personal info", "Fill optional info", "Preview"];
   const [activeStep, setActiveStep] = useState<number>(0);
   const [requiredInfo, setRequiredInfo] = useState<UserInfoMutation>({
     firstName: "",
     lastName: "",
-    timezone: { value: "", label: "" },
+    timeZone: { value: "", label: "" },
     phoneNumber: "",
     dateOfBirth: "",
     gender: "",
@@ -70,15 +79,36 @@ const OnBoardingProfile = () => {
     if (personalData) {
       onUserSubmit(personalData);
       setActiveStep(2);
-      console.log(personalData, optionalInfo, clientInfo);
     }
     if (optionalData) {
       trainerProfileSubmit(optionalData);
-      console.log(requiredInfo, optionalData);
     }
     if (clientData) {
       clientProfileSubmit(clientData);
-      console.log(requiredInfo, clientData);
+    }
+  };
+
+  const createProfile = async (
+    personalData: UserInfoMutation,
+    trainerData: TrainerProfileMutation,
+    clientData: ClientProfileMutation,
+  ) => {
+    try {
+      if (role === "client") {
+        const clientProfile: FullClientProfileMutation = {
+          ...personalData,
+          ...clientData,
+        };
+        await dispatch(createClientProfile(clientProfile));
+      } else if (role === "trainer") {
+        const trainerProfile: FullTrainerProfileMutation = {
+          ...personalData,
+          ...trainerData,
+        };
+        await dispatch(createTrainerProfile(trainerProfile));
+      }
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -126,7 +156,7 @@ const OnBoardingProfile = () => {
                 variant={"contained"}
                 sx={{ my: 3 }}
                 onClick={() => {
-                  console.log(requiredInfo, optionalInfo, clientInfo);
+                  void createProfile(requiredInfo, optionalInfo, clientInfo);
                 }}
               >
                 Confirm
