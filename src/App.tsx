@@ -21,7 +21,7 @@ import LoginAdmin from "./features/users/LoginAdmin.tsx";
 import Courses from "./features/courses/Courses.tsx";
 import CreateAdmin from "./features/admin/admins/CreateAdmin.tsx";
 import OneCourse from "./features/courses/OneCourse.tsx";
-import {fetchCourseTypes} from "./features/CourseTypes/CourseTypesThunks.ts";
+import { fetchCourseTypes } from "./features/CourseTypes/CourseTypesThunks.ts";
 import NewGroup from "./features/groups/NewGroup.tsx";
 
 const App = () => {

@@ -22,7 +22,7 @@ export interface ICourse {
     _id: string;
     firstName: string;
     lastName: string;
- };
+  };
   title: string;
   courseType: string;
   description: string;

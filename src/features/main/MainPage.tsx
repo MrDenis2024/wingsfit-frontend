@@ -14,8 +14,8 @@ import {
 } from "../clients/clientSlice.ts";
 import { useNavigate } from "react-router-dom";
 import { selectUser } from "../users/userSlice.ts";
-import {selectCourses} from "../courses/coursesSlice.ts";
-import {fetchCourses} from "../courses/coursesThunks.ts";
+import { selectCourses } from "../courses/coursesSlice.ts";
+import { fetchCourses } from "../courses/coursesThunks.ts";
 import CourseCards from "../courses/components/CourseCards.tsx";
 
 const MainPage = () => {

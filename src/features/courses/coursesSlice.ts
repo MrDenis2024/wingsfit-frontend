@@ -39,10 +39,11 @@ export const coursesSlice = createSlice({
         state.isCreatingError = error || null;
       });
 
-    builder.addCase(fetchCourses.pending, (state) => {
+    builder
+      .addCase(fetchCourses.pending, (state) => {
         state.coursesLoading = true;
       })
-      .addCase(fetchCourses.fulfilled, (state, {payload: courses}) => {
+      .addCase(fetchCourses.fulfilled, (state, { payload: courses }) => {
         state.courses = courses;
         state.coursesLoading = false;
       })

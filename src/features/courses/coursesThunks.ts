@@ -6,16 +6,18 @@ import { isAxiosError } from "axios";
 import { CourseMutation, ICourse } from "../../types/courseTypes.ts";
 
 export const fetchCourses = createAsyncThunk<ICourse[], string | undefined>(
-  'courses/fetchAll',
-  async (trainerId = '') => {
-    const {data: courses} = await axiosApi.get<ICourse[]>(`/courses?trainerId=${trainerId}`);
+  "courses/fetchAll",
+  async (trainerId = "") => {
+    const { data: courses } = await axiosApi.get<ICourse[]>(
+      `/courses?trainerId=${trainerId}`,
+    );
 
     if (!courses) {
       return [];
     }
 
     return courses;
-  }
+  },
 );
 
 export const createCourse = createAsyncThunk<
