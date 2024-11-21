@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import Register from "./features/users/Register";
 import OneTrainer from "./features/trainers/OneTrainer.tsx";
@@ -40,7 +39,6 @@ const App = () => {
   return (
     <>
       <Layout>
-        <Container>
           <Routes>
             <Route
               path="/"
@@ -156,7 +154,6 @@ const App = () => {
               }
             />
           </Routes>
-        </Container>
       </Layout>
     </>
   );
