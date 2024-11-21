@@ -6,6 +6,7 @@ export const CustomStyledLink = styled(Link)(() => ({
   fontWeight: 600,
   color: "#000000",
   position: "relative",
+  marginBottom: "20px",
   "&::after": {
     content: '""',
     position: "absolute",
