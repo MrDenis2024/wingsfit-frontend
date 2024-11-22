@@ -1,8 +1,10 @@
-import { styled, Typography, Box, Stack } from "@mui/material";
+import { styled, Typography, Box, Stack, Link } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import logo from "../../assets/images/logo.png";
 import { useAppSelector } from "../../app/hooks.ts";
+import logo from "../../assets/images/logo.png";
 import { selectUser } from "../../features/users/userSlice.ts";
+import { Telegram } from "@mui/icons-material";
+import XIcon from "@mui/icons-material/X";
 
 const StyledLink = styled(NavLink)(({ theme }) => ({
   color: "inherit",
@@ -41,6 +43,65 @@ const Footer = () => {
     : [];
 
   const links = user?.role === "trainer" ? trainerLinks : clientLinks;
+
+  if (location.pathname === "/") {
+    return (
+      <Box
+        component="footer"
+        sx={{
+          backgroundColor: "#000",
+          color: "#fff",
+          py: 10,
+          px: { xs: 2, sm: 4 },
+          textAlign: { xs: "center", sm: "left" },
+        }}
+      >
+        <Typography variant="h5" gutterBottom mb={5}>
+          Контакты
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{ mb: 5, color: "#cccccc", maxWidth: 400 }}
+        >
+          Следите за нами в социальных сетях, мы будем рады обратной связи и
+          вашим вопросам
+        </Typography>
+        <Stack direction="column" spacing={1} sx={{ mb: 3 }}>
+          <Typography variant="body2" sx={{ color: "#757575" }}>
+            E-mail:{" "}
+            <Link
+              href="mailto:hello@madeontilda.com"
+              color="inherit"
+              sx={{ textDecoration: "none", color: "#757575" }}
+            >
+              hello@madeontilda.com
+            </Link>
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#757575" }}>
+            Телефон:{" "}
+            <Link
+              href="tel:+11234567890"
+              sx={{ textDecoration: "none", color: "#757575" }}
+            >
+              +1 123 456 78 90
+            </Link>
+          </Typography>
+        </Stack>
+        <Stack
+          direction="row"
+          justifyContent={{ xs: "center", sm: "flex-start" }}
+          spacing={2}
+        >
+          <Link href="#" color="inherit">
+            <XIcon fontSize="small" sx={{ color: "#e53935" }} />
+          </Link>
+          <Link href="#" color="inherit">
+            <Telegram fontSize="small" sx={{ color: "#e53935" }} />
+          </Link>
+        </Stack>
+      </Box>
+    );
+  }
 
   return (
     <Box
