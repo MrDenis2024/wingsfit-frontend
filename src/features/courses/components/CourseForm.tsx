@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CircularProgress, Grid2, MenuItem, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import { CourseMutation } from "../../../types/courseTypes.ts";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
+import { useAppSelector } from "../../../app/hooks.ts";
 import {
   selectCourseTypes,
   selectCourseTypesFetching,
 } from "../../CourseTypes/CourseTypesSlice.ts";
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
-import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 
 interface Props {
   onSubmit: (course: CourseMutation) => void;
@@ -17,7 +16,6 @@ interface Props {
 }
 
 const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
-  const dispatch = useAppDispatch();
   const courseTypes = useAppSelector(selectCourseTypes);
   const courseTypesFetching = useAppSelector(selectCourseTypesFetching);
   const [state, setState] = useState<CourseMutation>({
@@ -31,10 +29,6 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
     maxClients: "",
     image: null,
   });
-
-  useEffect(() => {
-    dispatch(fetchCourseTypes());
-  }, [dispatch]);
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();

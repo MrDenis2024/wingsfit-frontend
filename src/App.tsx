@@ -17,8 +17,11 @@ import { getClientProfile } from "./features/clients/clientThunk.ts";
 import Layout from "./UI/Layout/Layout.tsx";
 import ClientStatistics from "./features/admin/clients/ClientStatistics.tsx";
 import LoginAdmin from "./features/users/LoginAdmin.tsx";
+import Courses from "./features/courses/Courses.tsx";
 import CreateAdmin from "./features/admin/admins/CreateAdmin.tsx";
 import OneCourse from "./features/courses/OneCourse.tsx";
+import { fetchCourseTypes } from "./features/CourseTypes/CourseTypesThunks.ts";
+import NewGroup from "./features/groups/NewGroup.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -35,6 +38,10 @@ const App = () => {
       console.error(e);
     }
   }, [user, dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCourseTypes());
+  }, [dispatch]);
 
   return (
     <>
@@ -93,10 +100,26 @@ const App = () => {
               }
             />
             <Route
+              path="/trainers/courses/:trainerId"
+              element={
+                <>
+                  <Courses />
+                </>
+              }
+            />
+            <Route
               path="/add-new-course"
               element={
                 <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                   <NewCourse />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/add-new-group"
+              element={
+                <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                  <NewGroup />
                 </ProtectedRoute>
               }
             />

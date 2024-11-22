@@ -8,21 +8,17 @@ import { ITrainer, ITrainerProfile } from "../../types/trainerTypes.ts";
 
 interface TrainersState {
   trainerProfile: ITrainerProfile | null;
-  errorLoading: boolean;
   trainerProfileLoading: boolean;
   trainers: ITrainer[];
   fetchingTrainers: boolean;
-  errorFetchingTrainers: boolean;
   creatingTrainerProfile: boolean;
 }
 
 const initialState: TrainersState = {
   trainerProfile: null,
-  errorLoading: false,
   trainerProfileLoading: false,
   trainers: [],
   fetchingTrainers: false,
-  errorFetchingTrainers: false,
   creatingTrainerProfile: false,
 };
 
@@ -36,12 +32,11 @@ export const trainersSlice = createSlice({
         state.trainerProfileLoading = true;
       })
       .addCase(getTrainerProfile.fulfilled, (state, { payload: user }) => {
-        state.trainerProfileLoading = false;
         state.trainerProfile = user;
+        state.trainerProfileLoading = false;
       })
       .addCase(getTrainerProfile.rejected, (state) => {
         state.trainerProfileLoading = false;
-        state.errorLoading = true;
       });
 
     builder
@@ -54,7 +49,6 @@ export const trainersSlice = createSlice({
       })
       .addCase(getTrainers.rejected, (state) => {
         state.fetchingTrainers = false;
-        state.errorFetchingTrainers = true;
       });
     builder
       .addCase(createTrainerProfile.pending, (state) => {
@@ -72,7 +66,6 @@ export const trainersSlice = createSlice({
     selectTrainerProfileLoading: (state) => state.trainerProfileLoading,
     selectTrainers: (state) => state.trainers,
     selectFetchingTrainers: (state) => state.fetchingTrainers,
-    selectErrorFetchingTrainers: (state) => state.errorFetchingTrainers,
     selectCreatingTrainerProfile: (state) => state.creatingTrainerProfile,
   },
 });
@@ -85,5 +78,4 @@ export const {
   selectTrainerProfileLoading,
   selectCreatingTrainerProfile,
   selectFetchingTrainers,
-  selectErrorFetchingTrainers,
 } = trainersSlice.selectors;

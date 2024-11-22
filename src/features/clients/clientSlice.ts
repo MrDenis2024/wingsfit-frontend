@@ -22,14 +22,12 @@ export interface IClientProfile {
 
 interface ClientState {
   clientProfile: IClientProfile | null;
-  errorLoading: boolean;
   clientProfileLoading: boolean;
   creatingClientProfile: boolean;
 }
 
 const initialState: ClientState = {
   clientProfile: null,
-  errorLoading: false,
   clientProfileLoading: false,
   creatingClientProfile: false,
 };
@@ -44,17 +42,17 @@ export const clientSlice = createSlice({
     selectCreatingClientProfile: (state) => state.creatingClientProfile,
   },
   extraReducers: (builder) => {
-    builder.addCase(getClientProfile.pending, (state) => {
-      state.clientProfileLoading = true;
-    });
-    builder.addCase(getClientProfile.fulfilled, (state, { payload: user }) => {
-      state.clientProfileLoading = false;
-      state.clientProfile = user;
-    });
-    builder.addCase(getClientProfile.rejected, (state) => {
-      state.clientProfileLoading = false;
-      state.errorLoading = true;
-    });
+    builder
+      .addCase(getClientProfile.pending, (state) => {
+        state.clientProfileLoading = true;
+      })
+      .addCase(getClientProfile.fulfilled, (state, { payload: user }) => {
+        state.clientProfile = user;
+        state.clientProfileLoading = false;
+      })
+      .addCase(getClientProfile.rejected, (state) => {
+        state.clientProfileLoading = false;
+      });
     builder
       .addCase(createClientProfile.pending, (state) => {
         state.creatingClientProfile = true;

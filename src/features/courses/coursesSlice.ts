@@ -1,9 +1,11 @@
 import { GlobalError } from "../../types/userTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
-import { createCourse, getOneCourse } from "./coursesThunks.ts";
+import { createCourse, getOneCourse, fetchCourses } from "./coursesThunks.ts";
 import { ICourse } from "../../types/courseTypes.ts";
 
 export interface CoursesState {
+  courses: ICourse[];
+  coursesLoading: boolean;
   isCreating: boolean;
   isCreatingError: GlobalError | null;
   oneCourse: ICourse | null;
@@ -11,6 +13,8 @@ export interface CoursesState {
 }
 
 const initialState: CoursesState = {
+  courses: [],
+  coursesLoading: false,
   isCreating: false,
   isCreatingError: null,
   oneCourse: null,
@@ -34,6 +38,19 @@ export const coursesSlice = createSlice({
         state.isCreating = false;
         state.isCreatingError = error || null;
       });
+
+    builder
+      .addCase(fetchCourses.pending, (state) => {
+        state.coursesLoading = true;
+      })
+      .addCase(fetchCourses.fulfilled, (state, { payload: courses }) => {
+        state.courses = courses;
+        state.coursesLoading = false;
+      })
+      .addCase(fetchCourses.rejected, (state) => {
+        state.coursesLoading = false;
+      });
+
     builder
       .addCase(getOneCourse.pending, (state) => {
         state.oneCourseLoading = true;
@@ -47,8 +64,10 @@ export const coursesSlice = createSlice({
       });
   },
   selectors: {
+    selectCoursesFetching: (state) => state.coursesLoading,
     selectCourseCreate: (state) => state.isCreating,
     selectCourseCreateError: (state) => state.isCreatingError,
+    selectCourses: (state) => state.courses,
     selectOneCourse: (state) => state.oneCourse,
     selectOneCourseLoading: (state) => state.oneCourseLoading,
   },
@@ -57,6 +76,8 @@ export const coursesSlice = createSlice({
 export const coursesReducer = coursesSlice.reducer;
 
 export const {
+  selectCourses,
+  selectCoursesFetching,
   selectCourseCreate,
   selectCourseCreateError,
   selectOneCourse,
