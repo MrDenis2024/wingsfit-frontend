@@ -10,9 +10,9 @@ export interface IClientProfile {
     firstName: string;
     lastName: string;
     phoneNumber: string;
+    gender: string;
+    dateOfBirth: string;
   };
-  gender: string;
-  dateOfBirth: string;
   subscribes: string[];
   timeZone: string;
   preferredWorkoutType: string;
