@@ -1,4 +1,4 @@
-import {Link, Stack, styled} from '@mui/material';
+import { Link, Stack, styled } from "@mui/material";
 
 export const CustomStyledLink = styled(Link)(() => ({
   textDecoration: "none",

@@ -46,137 +46,136 @@ const App = () => {
   return (
     <>
       <Layout>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <WelcomePage />
-                </>
-              }
-            />
-            <Route
-              path="/main"
-              element={
-                <>
-                  <MainPage />
-                </>
-              }
-            />
-            <Route
-              path="/register/:role"
-              element={
-                <>
-                  <Register />
-                </>
-              }
-            />
-            <Route
-              path="/fill-profile/:role"
-              element={
-                <>
-                  <OnBoardingProfile />
-                </>
-              }
-            />
-            <Route
-              path="/login/:role"
-              element={
-                <>
-                  <Login />
-                </>
-              }
-            />
-            <Route
-              path="*"
-              element={<h1 className="text-center">Not found</h1>}
-            />
-            <Route
-              path="/trainers/:id"
-              element={
-                <>
-                  <OneTrainer />
-                </>
-              }
-            />
-            <Route
-              path="/trainers/courses/:trainerId"
-              element={
-                <>
-                  <Courses />
-                </>
-              }
-            />
-            <Route
-              path="/add-new-course"
-              element={
-                <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
-                  <NewCourse />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/add-new-group"
-              element={
-                <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
-                  <NewGroup />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/courses/:id"
-              element={
-                <>
-                  <OneCourse />
-                </>
-              }
-            />
-            <Route
-              path="/add-new-lesson"
-              element={
-                <>
-                  <AddNewLesson />
-                </>
-              }
-            />
-            <Route
-              path="/clients/:id"
-              element={
-                <>
-                  <OneClient />
-                </>
-              }
-            />
-            <Route
-              path="/admin-login"
-              element={
-                <>
-                  <LoginAdmin />
-                </>
-              }
-            />
-            <Route
-              path="/admin/clients-stats"
-              element={
-                <ProtectedRoute
-                  isAllowed={
-                    user &&
-                    (user.role === "admin" || user.role === "superAdmin")
-                  }
-                >
-                  <ClientStatistics />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/create-new-admin"
-              element={
-                <ProtectedRoute isAllowed={user && user.role === "superAdmin"}>
-                  <CreateAdmin />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <WelcomePage />
+              </>
+            }
+          />
+          <Route
+            path="/main"
+            element={
+              <>
+                <MainPage />
+              </>
+            }
+          />
+          <Route
+            path="/register/:role"
+            element={
+              <>
+                <Register />
+              </>
+            }
+          />
+          <Route
+            path="/fill-profile/:role"
+            element={
+              <>
+                <OnBoardingProfile />
+              </>
+            }
+          />
+          <Route
+            path="/login/:role"
+            element={
+              <>
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="*"
+            element={<h1 className="text-center">Not found</h1>}
+          />
+          <Route
+            path="/trainers/:id"
+            element={
+              <>
+                <OneTrainer />
+              </>
+            }
+          />
+          <Route
+            path="/trainers/courses/:trainerId"
+            element={
+              <>
+                <Courses />
+              </>
+            }
+          />
+          <Route
+            path="/add-new-course"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <NewCourse />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add-new-group"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <NewGroup />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/courses/:id"
+            element={
+              <>
+                <OneCourse />
+              </>
+            }
+          />
+          <Route
+            path="/add-new-lesson"
+            element={
+              <>
+                <AddNewLesson />
+              </>
+            }
+          />
+          <Route
+            path="/clients/:id"
+            element={
+              <>
+                <OneClient />
+              </>
+            }
+          />
+          <Route
+            path="/admin-login"
+            element={
+              <>
+                <LoginAdmin />
+              </>
+            }
+          />
+          <Route
+            path="/admin/clients-stats"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  user && (user.role === "admin" || user.role === "superAdmin")
+                }
+              >
+                <ClientStatistics />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/create-new-admin"
+            element={
+              <ProtectedRoute isAllowed={user && user.role === "superAdmin"}>
+                <CreateAdmin />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
       </Layout>
     </>
   );

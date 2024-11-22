@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, styled} from "@mui/material";
+import { Button, styled } from "@mui/material";
 
 const StyledButton = styled(Button)(() => ({
   backgroundColor: "transparent",
@@ -21,10 +21,8 @@ interface Props {
   text: string;
 }
 
-const SignUpButton: React.FC<Props> = ({text}) => {
-  return (
-    <StyledButton>{text}</StyledButton>
-  );
+const SignUpButton: React.FC<Props> = ({ text }) => {
+  return <StyledButton>{text}</StyledButton>;
 };
 
 export default SignUpButton;

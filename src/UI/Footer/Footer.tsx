@@ -1,10 +1,10 @@
-import {styled, Typography, Box, Stack, Link} from "@mui/material";
+import { styled, Typography, Box, Stack, Link } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks.ts";
 import logo from "../../assets/images/logo.png";
 import { selectUser } from "../../features/users/userSlice.ts";
-import {Telegram} from "@mui/icons-material";
-import XIcon from '@mui/icons-material/X';
+import { Telegram } from "@mui/icons-material";
+import XIcon from "@mui/icons-material/X";
 
 const StyledLink = styled(NavLink)(({ theme }) => ({
   color: "inherit",
@@ -66,11 +66,7 @@ const Footer = () => {
           Следите за нами в социальных сетях, мы будем рады обратной связи и
           вашим вопросам
         </Typography>
-        <Stack
-          direction="column"
-          spacing={1}
-          sx={{ mb: 3 }}
-        >
+        <Stack direction="column" spacing={1} sx={{ mb: 3 }}>
           <Typography variant="body2" sx={{ color: "#757575" }}>
             E-mail:{" "}
             <Link
