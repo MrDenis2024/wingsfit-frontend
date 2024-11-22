@@ -16,6 +16,8 @@ export const getClientProfile = createAsyncThunk<IClientProfile, string>(
 export const createClientProfile = createAsyncThunk<
   void,
   FullClientProfileMutation
->("clients/createClientProfile", async (clientProfileMutation) => {
-  await axiosApi.post<IClientProfile>("/clients", clientProfileMutation);
+>(
+  "clients/createClientProfile",
+  async (clientProfileMutation) => {
+    await axiosApi.post("/clients", clientProfileMutation);
 });
