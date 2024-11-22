@@ -21,6 +21,7 @@ const StyledButton = styled(Button)<{ textColor: string }>(
       backgroundColor: "#00acc1",
       boxShadow: theme.shadows[2],
       transform: "scale(1.03)",
+      color: "#ffffff",
     },
   }),
 );
