@@ -1,3 +1,4 @@
+import React from "react";
 import {Button, styled} from "@mui/material";
 
 const StyledButton = styled(Button)(() => ({
@@ -16,9 +17,13 @@ const StyledButton = styled(Button)(() => ({
   borderRadius: "5px",
 }));
 
-const SignUpButton = () => {
+interface Props {
+  text: string;
+}
+
+const SignUpButton: React.FC<Props> = ({text}) => {
   return (
-    <StyledButton>Записаться</StyledButton>
+    <StyledButton>{text}</StyledButton>
   );
 };
 
