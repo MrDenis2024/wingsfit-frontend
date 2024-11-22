@@ -20,7 +20,7 @@ const SideBarMenu: React.FC<Props> = ({drawerOpen, closeDrawer}) => {
   return (
     <Drawer anchor="top" open={drawerOpen} onClose={closeDrawer}>
       <Box sx={{width: "100%", backgroundColor: "black"}}>
-        <Box sx={{paddingY: 3}}>
+        <Box sx={{paddingY: 3, mr: 0}}>
           <IconButton edge="end" size="small" onClick={closeDrawer}
                       sx={{position: "absolute", top: 8, right: 16, color: "white"}}>
             <CloseIcon/>
