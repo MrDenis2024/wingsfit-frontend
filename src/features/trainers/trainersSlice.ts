@@ -7,6 +7,8 @@ import {
 import { ITrainer, ITrainerProfile } from "../../types/trainerTypes.ts";
 
 interface TrainersState {
+  oneTrainer: ITrainerProfile | null;
+  oneTrainerLoading: boolean;
   trainerProfile: ITrainerProfile | null;
   trainerProfileLoading: boolean;
   trainers: ITrainer[];
@@ -15,6 +17,8 @@ interface TrainersState {
 }
 
 const initialState: TrainersState = {
+  oneTrainer: null,
+  oneTrainerLoading: false,
   trainerProfile: null,
   trainerProfileLoading: false,
   trainers: [],
