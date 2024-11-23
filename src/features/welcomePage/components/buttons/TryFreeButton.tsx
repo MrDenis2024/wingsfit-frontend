@@ -1,11 +1,11 @@
-import {Button, styled} from "@mui/material";
+import { Button, styled } from "@mui/material";
 import React from "react";
 
 const StyledButton = styled(Button, {
   shouldForwardProp: (prop) =>
     prop !== "textColor" && prop !== "backgroundColor" && prop !== "border",
 })<{ textColor: string; backgroundColor: string; border: string }>(
-  ({textColor, backgroundColor, border}) => ({
+  ({ textColor, backgroundColor, border }) => ({
     backgroundColor: backgroundColor,
     color: textColor,
     fontSize: "12px",
@@ -18,7 +18,8 @@ const StyledButton = styled(Button, {
     textTransform: "none",
     border: border,
     textDecoration: "none",
-  }));
+  }),
+);
 
 interface Props {
   text: string;
@@ -28,11 +29,11 @@ interface Props {
 }
 
 const TryFreeButton: React.FC<Props> = ({
-                                          text,
-                                          color,
-                                          backgroundColor,
-                                          border,
-                                        }) => {
+  text,
+  color,
+  backgroundColor,
+  border,
+}) => {
   return (
     <StyledButton
       textColor={color}

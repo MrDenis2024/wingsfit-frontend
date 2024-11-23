@@ -108,7 +108,7 @@ const WelcomePage = () => {
               <BeRoleButton text="Быть тренером!" />
             </NavLink>
             <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
-              <BeRoleButton text="Хочу тренироваться!"  />
+              <BeRoleButton text="Хочу тренироваться!" />
             </NavLink>
           </Stack>
         </Stack>
