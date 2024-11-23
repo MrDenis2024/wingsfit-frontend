@@ -1,10 +1,10 @@
 import React from "react";
 import { Button, styled } from "@mui/material";
 
-const StyledButton = styled(Button)<{ textColor: string }>(
-  ({ theme, textColor }) => ({
+const StyledButton = styled(Button)(
+  ({ theme }) => ({
     backgroundColor: "#0cc5d6",
-    color: textColor,
+    color: "#000000",
     borderRadius: "10px",
     fontSize: "12px",
     fontWeight: 700,
@@ -28,12 +28,11 @@ const StyledButton = styled(Button)<{ textColor: string }>(
 
 interface Props {
   text: string;
-  color: string;
 }
 
-const BeRoleButton: React.FC<Props> = ({ text, color }) => {
+const BeRoleButton: React.FC<Props> = ({ text }) => {
   return (
-    <StyledButton textColor={color} variant="outlined">
+    <StyledButton variant="outlined">
       {text}
     </StyledButton>
   );
