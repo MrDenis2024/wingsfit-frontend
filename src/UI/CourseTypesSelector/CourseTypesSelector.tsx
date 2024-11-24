@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Select, MenuItem, SelectChangeEvent, InputLabel } from "@mui/material";
+import {Box, Select, MenuItem, SelectChangeEvent, InputLabel, Grid2} from "@mui/material";
 import { CourseTypeFields } from "../../types/courseTypes.ts";
 import TagCard from "../TagCard/TagCard.tsx";
 
@@ -8,9 +8,10 @@ interface Props {
   onChange: (courseTypes: string[]) => void;
   value: string[];
   onRemove: (courseType: string) => void;
+  label: string;
 }
 
-const CourseTypeSelector: React.FC<Props> = ({ courseTypes, onChange, value, onRemove }) => {
+const CourseTypeSelector: React.FC<Props> = ({ courseTypes, onChange, value, onRemove, label }) => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>(value);
 
   useEffect(() => {
@@ -28,18 +29,18 @@ const CourseTypeSelector: React.FC<Props> = ({ courseTypes, onChange, value, onR
     }
   };
 
-  const handleRemoveType = (type: string) => {
-    const updatedTypes = selectedTypes.filter((t) => t !== type);
+  const handleRemoveType = (typeId: string) => {
+    const updatedTypes = selectedTypes.filter((type) => type !== typeId);
     setSelectedTypes(updatedTypes);
-    onChange(updatedTypes); // Передаем обновленный список в родительский компонент
-    onRemove(type); // Дополнительно вызываем onRemove, если это требуется
+    onChange(updatedTypes);
+    onRemove(typeId);
   };
 
   const availableTypes = courseTypes.filter((type) => !selectedTypes.includes(type._id));
 
   return (
-    <Box>
-      <InputLabel id="select-course-types-label">Course types</InputLabel>
+    <Grid2>
+      <InputLabel id="select-course-types-label">{label}</InputLabel>
       <Select
         labelId="select-course-types-label"
         value=""
@@ -65,7 +66,7 @@ const CourseTypeSelector: React.FC<Props> = ({ courseTypes, onChange, value, onR
           />
         ))}
       </Box>
-    </Box>
+    </Grid2>
   );
 };
 

@@ -21,6 +21,7 @@ const RegisterPreview: React.FC<Props> = ({
   role,
 }) => {
   const courseTypes = useAppSelector(selectCourseTypes);
+  console.log(clientData);
   return (
     <Grid container spacing={2} direction={"column"} sx={{ my: 5 }}>
       <Grid>
@@ -127,7 +128,7 @@ const RegisterPreview: React.FC<Props> = ({
               const value = clientData[key as keyof typeof clientData];
               return (
                 <Grid key={index + key}>
-                  {value !== "" && (
+                  {typeof value === "string" && (
                     <Typography variant="body2" component="div">
                       <span
                         style={{
@@ -140,30 +141,33 @@ const RegisterPreview: React.FC<Props> = ({
                       {value}
                     </Typography>
                   )}
-                  {Array.isArray(value) && value.length > 0 && (
-                    <Grid>
-                      <Typography variant="body2" component="div">
-                        <span
-                          style={{
-                            fontWeight: "bold",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {key}:
-                        </span>
-                      </Typography>
-                      {value.map((item, idx) => (
-                        <Typography
-                          variant="body2"
-                          component="div"
-                          key={idx + item}
-                          sx={{ mx: 7 }}
-                        >
-                          - {item}
+                  {typeof value !== "string" &&
+                    clientData.preferredWorkoutType[0] !== "" && (
+                      <Grid>
+                        <Typography variant="body2" component="div">
+                          <span
+                            style={{
+                              fontWeight: "bold",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            {key} :{" "}
+                          </span>
                         </Typography>
-                      ))}
-                    </Grid>
-                  )}
+                        {courseTypes
+                          .filter((type) => clientData.preferredWorkoutType.includes(type._id))
+                          .map((type) => (
+                            <Typography
+                              variant="body2"
+                              component="div"
+                              key={type._id}
+                              sx={{ mx: 7 }}
+                            >
+                              -{type.name}
+                            </Typography>
+                          ))}
+                      </Grid>
+                    )}
                 </Grid>
               );
             })}

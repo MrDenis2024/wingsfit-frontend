@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { Button, TextField, Typography } from "@mui/material";
+import {Button, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography} from "@mui/material";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
+import {useAppSelector} from "../../../app/hooks.ts";
+import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
+import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
 
 interface Props {
   initialState: ClientProfileMutation;
@@ -22,6 +25,7 @@ const ClientRegisterForm: React.FC<Props> = ({
   prevStep,
   updatePersonalInfo,
 }) => {
+  const courseTypes = useAppSelector(selectCourseTypes);
   const [profileData, setProfileData] =
     useState<ClientProfileMutation>(initialState);
 
@@ -38,6 +42,27 @@ const ClientRegisterForm: React.FC<Props> = ({
     onSubmit(profileData);
   };
 
+  const onChangeWorkoutType = (preferredWorkoutType: string[]) => {
+    setProfileData((prevState) => ({
+      ...prevState,
+      preferredWorkoutType,
+    }));
+  };
+
+  const removeWorkoutType = (courseType: string) => {
+    setProfileData((prevState) => ({
+      ...prevState,
+      preferredWorkoutType: prevState.preferredWorkoutType.filter((type) => type !== courseType),
+    }));
+  };
+
+  const changeSelectHandler = (event: SelectChangeEvent) => {
+    setProfileData((prevState) => ({
+      ...prevState,
+      trainingLevel: event.target.value,
+    }));
+  };
+
   return (
     <Grid
       container
@@ -51,24 +76,28 @@ const ClientRegisterForm: React.FC<Props> = ({
         <Typography variant="h6">Fill optional Info</Typography>
       </Grid>
       <Grid>
-        <TextField
-          type="text"
-          multiline
-          minRows={2}
-          label="Preferred Workout Type"
-          name="preferredWorkoutType"
-          onChange={inputChangeHandler}
-          value={profileData.preferredWorkoutType}
+        <CourseTypeSelector
+          courseTypes={courseTypes}
+          onChange={onChangeWorkoutType}
+          value={initialState.preferredWorkoutType}
+          onRemove={removeWorkoutType}
+          label="Preffered workout Type"
         />
       </Grid>
       <Grid>
-        <TextField
-          type="text"
-          label="Training Level"
-          name="trainingLevel"
-          onChange={inputChangeHandler}
+        <InputLabel id="training-level-label">Training Level</InputLabel>
+        <Select
+          fullWidth
+          labelId="training-level-label"
           value={profileData.trainingLevel}
-        />
+          onChange={changeSelectHandler}
+          variant="outlined"
+        >
+          <MenuItem value="" disabled>Select your training level</MenuItem>
+          <MenuItem value="junior">Junior</MenuItem>
+          <MenuItem value="middle">Middle</MenuItem>
+          <MenuItem value="advanced">Advanced</MenuItem>
+        </Select>
       </Grid>
       <Grid>
         <TextField

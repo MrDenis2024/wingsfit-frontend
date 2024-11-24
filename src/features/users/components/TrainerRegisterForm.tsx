@@ -106,6 +106,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
         onChange={onChangeCourseTypes}
         value={initialState.courseTypes}
         onRemove={removeCourseType}
+        label="Course types"
       />
       <Grid>
         <TextField
