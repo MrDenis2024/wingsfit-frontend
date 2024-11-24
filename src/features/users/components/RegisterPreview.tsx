@@ -4,6 +4,8 @@ import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import React from "react";
 import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
+import {useAppSelector} from "../../../app/hooks.ts";
+import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
 
 interface Props {
   requiredData: UserInfoMutation;
@@ -18,6 +20,7 @@ const RegisterPreview: React.FC<Props> = ({
   clientData,
   role,
 }) => {
+  const courseTypes = useAppSelector(selectCourseTypes);
   return (
     <Grid container spacing={2} direction={"column"} sx={{ my: 5 }}>
       <Grid>
@@ -40,14 +43,14 @@ const RegisterPreview: React.FC<Props> = ({
                   {value}
                 </Typography>
               )}
-              {typeof value === "object" && key === "timezone" && (
+              {typeof value === "object" && key === "timeZone" && (
                 <Typography variant="body2" component="div">
                   <span
                     style={{ fontWeight: "bold", textTransform: "uppercase" }}
                   >
                     {key}:
                   </span>{" "}
-                  {requiredData.timezone.label}
+                  {requiredData.timeZone.label}
                 </Typography>
               )}
             </Grid>
@@ -92,16 +95,18 @@ const RegisterPreview: React.FC<Props> = ({
                             {key} :{" "}
                           </span>
                         </Typography>
-                        {optionalData.courseTypes.map((type, index) => (
-                          <Typography
-                            variant="body2"
-                            component="div"
-                            key={index + type}
-                            sx={{ mx: 7 }}
-                          >
-                            -{type}
-                          </Typography>
-                        ))}
+                        {courseTypes
+                          .filter((type) => optionalData.courseTypes.includes(type._id))
+                          .map((type) => (
+                            <Typography
+                              variant="body2"
+                              component="div"
+                              key={type._id}
+                              sx={{ mx: 7 }}
+                            >
+                              -{type.name}
+                            </Typography>
+                          ))}
                       </Grid>
                     )}
                 </Grid>

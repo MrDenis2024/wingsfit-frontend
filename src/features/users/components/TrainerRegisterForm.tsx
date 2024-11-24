@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { Button, IconButton, TextField, Typography } from "@mui/material";
+import {Button, TextField, Typography} from "@mui/material";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import DeleteIcon from "@mui/icons-material/Delete";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
+import {useAppSelector} from "../../../app/hooks.ts";
+import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
+import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
+import {CourseTypeFields} from "../../../types/courseTypes.ts";
 
 interface Props {
   initialState: TrainerProfileMutation;
@@ -24,6 +26,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
   prevStep,
   updatePersonalInfo,
 }) => {
+  const courseTypes = useAppSelector(selectCourseTypes);
   const [profileData, setProfileData] =
     useState<TrainerProfileMutation>(initialState);
 
@@ -35,32 +38,11 @@ const TrainerRegisterForm: React.FC<Props> = ({
     }));
   };
 
-  const onAddCourseType = () => {
+  const onChangeCourseTypes = (courseTypes: CourseTypeFields[]) => {
     setProfileData((prevState) => ({
       ...prevState,
-      courseTypes: [...prevState.courseTypes, ""],
+      courseTypes: courseTypes.map((courseType) => courseType._id),
     }));
-  };
-  const onDeleteCourseType = (index: number) => {
-    setProfileData((prevState) => ({
-      ...prevState,
-      courseTypes: prevState.courseTypes.filter((_, i) => i !== index),
-    }));
-  };
-
-  const courseTypeChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number,
-  ) => {
-    const { value } = event.target;
-    setProfileData((prevState) => {
-      const courseTypesCopy = [...prevState.courseTypes];
-      courseTypesCopy[index] = value;
-      return {
-        ...prevState,
-        courseTypes: courseTypesCopy,
-      };
-    });
   };
 
   const submitHandler = (event: React.FormEvent) => {
@@ -111,35 +93,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
           value={profileData.experience}
         />
       </Grid>
-      {profileData.courseTypes.map((item, index) => (
-        <Grid container alignItems={"center"} key={index + "courseType"}>
-          <Grid size={index > 0 ? 11 : 12}>
-            <TextField
-              type="text"
-              fullWidth
-              label="Course Type"
-              name="courseTypes"
-              onChange={(event) => courseTypeChangeHandler(event, index)}
-              value={item}
-            />
-          </Grid>
-          {index > 0 && (
-            <Grid size={1}>
-              <IconButton
-                color="error"
-                onClick={() => onDeleteCourseType(index)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Grid>
-          )}
-        </Grid>
-      ))}
-      <Grid textAlign="center">
-        <IconButton size="large" color="primary" onClick={onAddCourseType}>
-          <AddCircleOutlineIcon fontSize="inherit" />
-        </IconButton>
-      </Grid>
+      <CourseTypeSelector courseTypes={courseTypes} onChange={onChangeCourseTypes} />
       <Grid>
         <TextField
           type="text"
