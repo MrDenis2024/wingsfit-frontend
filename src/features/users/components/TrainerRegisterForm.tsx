@@ -7,7 +7,6 @@ import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import {useAppSelector} from "../../../app/hooks.ts";
 import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
-import {CourseTypeFields} from "../../../types/courseTypes.ts";
 
 interface Props {
   initialState: TrainerProfileMutation;
@@ -38,10 +37,19 @@ const TrainerRegisterForm: React.FC<Props> = ({
     }));
   };
 
-  const onChangeCourseTypes = (courseTypes: CourseTypeFields[]) => {
+  const onChangeCourseTypes = (courseTypes: string[]) => {
+    console.log(courseTypes);
     setProfileData((prevState) => ({
       ...prevState,
-      courseTypes: courseTypes.map((courseType) => courseType._id),
+      courseTypes,
+    }));
+  };
+
+  const removeCourseType = (courseType: string) => {
+    console.log(courseType);
+    setProfileData((prevState) => ({
+      ...prevState,
+      courseTypes: prevState.courseTypes.filter((type) => type !== courseType),
     }));
   };
 
@@ -93,7 +101,12 @@ const TrainerRegisterForm: React.FC<Props> = ({
           value={profileData.experience}
         />
       </Grid>
-      <CourseTypeSelector courseTypes={courseTypes} onChange={onChangeCourseTypes} />
+      <CourseTypeSelector
+        courseTypes={courseTypes}
+        onChange={onChangeCourseTypes}
+        value={initialState.courseTypes}
+        onRemove={removeCourseType}
+      />
       <Grid>
         <TextField
           type="text"

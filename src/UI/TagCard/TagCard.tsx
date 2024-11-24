@@ -1,13 +1,22 @@
 import {Box, Button, Typography} from "@mui/material";
 import React from "react";
-import {CourseTypeFields} from "../../types/courseTypes.ts";
+import {useAppSelector} from "../../app/hooks.ts";
+import {selectCourseTypes} from "../../features/CourseTypes/CourseTypesSlice.ts";
 
 interface Props {
-  courseType: CourseTypeFields;
-  onRemove: (id: string) => void;
+  courseType: string;
+  onRemove: () => void;
 }
 
 const TagCard: React.FC<Props> = ({ courseType, onRemove }) => {
+  const courseTypes = useAppSelector(selectCourseTypes);
+
+  const findCourseTypes = (typeId: string) => {
+    return courseTypes
+      .filter((course) => course._id === typeId)
+      .map((course) => course.name);
+  };
+
   return (
     <Box
       display="flex"
@@ -17,12 +26,12 @@ const TagCard: React.FC<Props> = ({ courseType, onRemove }) => {
       borderRadius="8px"
     >
       <Typography variant="body1" mr={1}>
-        {courseType.name}
+        {findCourseTypes(courseType)}
       </Typography>
       <Button
         size="small"
         color="error"
-        onClick={() => onRemove(courseType._id)}
+        onClick={onRemove}
       >
         ✕
       </Button>
