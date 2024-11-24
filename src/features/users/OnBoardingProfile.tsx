@@ -40,7 +40,7 @@ const OnBoardingProfile = () => {
     availableDays: "",
   });
   const [clientInfo, setClientInfo] = useState<ClientProfileMutation>({
-    preferredWorkoutType: "",
+    preferredWorkoutType: [""],
     trainingLevel: "",
     physicalData: "",
   });

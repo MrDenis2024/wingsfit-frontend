@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IClientProfile } from "./clientSlice.ts";
 import axiosApi from "../../axiosApi.ts";
-import { FullClientProfileMutation } from "../../types/clientTypes.ts";
+import {FullClientProfileMutation, IClientProfile} from "../../types/clientTypes.ts";
 
 export const getClientProfile = createAsyncThunk<IClientProfile, string>(
   "clients/profile",
@@ -14,10 +13,12 @@ export const getClientProfile = createAsyncThunk<IClientProfile, string>(
 );
 
 export const createClientProfile = createAsyncThunk<
-  void,
+  IClientProfile,
   FullClientProfileMutation
 >(
   "clients/createClientProfile",
   async (clientProfileMutation) => {
-    await axiosApi.post("/clients", clientProfileMutation);
+    const {data: clientProfile} =  await axiosApi.post<IClientProfile>("/clients", clientProfileMutation);
+
+    return clientProfile;
 });

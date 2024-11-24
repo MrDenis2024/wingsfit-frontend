@@ -26,11 +26,10 @@ export const getTrainerProfile = createAsyncThunk<ITrainerProfile, string>(
     return trainer;
   },
 );
-export const createTrainerProfile = createAsyncThunk<
-  void,
-  FullTrainerProfileMutation
->(
+export const createTrainerProfile = createAsyncThunk<ITrainerProfile, FullTrainerProfileMutation>(
   "trainers/createTrainerProfile",
   async (trainerProfileMutation) => {
-    await axiosApi.post("/trainers", trainerProfileMutation);
+    const {data: trainerProfile} = await axiosApi.post("/trainers", trainerProfileMutation);
+
+    return trainerProfile;
 });
