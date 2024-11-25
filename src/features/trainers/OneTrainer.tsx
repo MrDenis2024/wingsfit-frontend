@@ -3,18 +3,49 @@ import { useParams } from "react-router-dom";
 import RatingAndReviews from "./components/RatingAndReviews.tsx";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { selectTrainerProfile } from "./trainersSlice.ts";
 import { getTrainerProfile } from "./trainersThunks.ts";
+import ReviewFormBlock from "../reviewForm/components/ReviewFormBlock.tsx";
+import { createReview } from "../reviewForm/reviewThunk.ts";
+import { toast } from "react-toastify";
+import { selectError } from "../reviewForm/reviewSlice.ts";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const trainerProfile = useAppSelector(selectTrainerProfile);
+  const [showForm, setShowForm] = useState(false);
+  const reviewError = useAppSelector(selectError);
 
+  const handleReviewSubmit = async (
+    reviewText: string,
+    ratingValue: number | null,
+  ) => {
+    try {
+      if (reviewText && ratingValue !== null) {
+        await dispatch(
+          createReview({
+            comment: reviewText,
+            rating: ratingValue,
+            trainerId: id,
+          }),
+        ).unwrap();
+        toast.success("Отзыв успешно отправлен!");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
     dispatch(getTrainerProfile(id));
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (reviewError) {
+      toast.error(reviewError);
+    }
+  }, [reviewError]);
 
   return (
     <Box>
@@ -60,7 +91,7 @@ const OneTrainer = () => {
           color="text.secondary"
           sx={{ marginTop: 1, fontSize: "12px", color: "black" }}
         >
-          {trainerProfile?.certificates || "No certificates available"}
+          {/*{trainerProfile?.certificates || "No certificates available"}*/}
         </Typography>
         <Typography
           variant="body2"
@@ -112,7 +143,15 @@ const OneTrainer = () => {
           <RatingAndReviews id={id} />
         </Box>
       </Box>
-
+      <Box
+        sx={{
+          display: showForm ? "block" : "none",
+          width: "270px",
+          margin: "10px auto",
+        }}
+      >
+        <ReviewFormBlock onSubmit={handleReviewSubmit} />
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -135,6 +174,13 @@ const OneTrainer = () => {
           sx={{ color: "black", borderColor: "black", borderRadius: "7px" }}
         >
           Book trial class
+        </Button>
+        <Button
+          onClick={() => setShowForm((prev) => !prev)}
+          variant="outlined"
+          sx={{ color: "black", borderColor: "black", borderRadius: "7px" }}
+        >
+          {showForm ? "Close review form" : "Leave review"}
         </Button>
       </Box>
     </Box>

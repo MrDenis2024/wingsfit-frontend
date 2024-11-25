@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
 import { selectUser } from "./features/users/userSlice.ts";
 import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
-import OneClient from "./features/clients/components/OneClient.tsx";
+import OneClient from "./features/clients/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
 import MainPage from "./features/main/MainPage.tsx";
 import { useEffect } from "react";
@@ -22,7 +22,7 @@ import CreateAdmin from "./features/admin/admins/CreateAdmin.tsx";
 import OneCourse from "./features/courses/OneCourse.tsx";
 import { fetchCourseTypes } from "./features/CourseTypes/CourseTypesThunks.ts";
 import NewGroup from "./features/groups/NewGroup.tsx";
-
+import Chat from "./features/chat/Chat.tsx";
 const App = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -173,6 +173,14 @@ const App = () => {
               <ProtectedRoute isAllowed={user && user.role === "superAdmin"}>
                 <CreateAdmin />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <>
+                <Chat />
+              </>
             }
           />
         </Routes>

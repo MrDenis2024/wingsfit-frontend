@@ -1,4 +1,4 @@
-import {CourseTypeFields} from "./types/courseTypes.ts";
+import { CourseTypeFields } from "./types/courseTypes.ts";
 
 export const apiURL = "http://localhost:8000";
 export const GOOGLE_CLIENT_ID =

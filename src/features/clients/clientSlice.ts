@@ -5,12 +5,16 @@ import {IClientProfile} from "../../types/clientTypes.ts";
 interface ClientState {
   clientProfile: IClientProfile | null;
   clientProfileLoading: boolean;
+  oneClientProfile: IClientProfile | null;
+  oneClientProfileLoading: boolean;
   creatingClientProfile: boolean;
 }
 
 const initialState: ClientState = {
   clientProfile: null,
   clientProfileLoading: false,
+  oneClientProfile: null,
+  oneClientProfileLoading: false,
   creatingClientProfile: false,
 };
 
