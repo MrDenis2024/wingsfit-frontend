@@ -14,10 +14,24 @@ const OneTrainer = () => {
   const trainerProfile = useAppSelector(selectTrainerProfile);
   const [showForm, setShowForm] = useState(false);
 
+  const [reviewData , setReviewData] = useState({
+      reviewTextData: "",
+      ratingValueData: 0,
+  })
+
+    const handleReviewSubmit = (reviewText: string, ratingValue: number | null) => {
+        setReviewData({
+            reviewTextData: reviewText,
+            ratingValueData: ratingValue ?? 0,
+        });
+    };
   useEffect(() => {
     dispatch(getTrainerProfile(id));
   }, [dispatch, id]);
 
+    useEffect(() => {
+        console.log(reviewData);
+    }, [reviewData]);
   return (
     <Box>
       <Box>
@@ -114,8 +128,8 @@ const OneTrainer = () => {
           <RatingAndReviews id={id} />
         </Box>
       </Box>
-      <Box sx={{display: showForm? "none" : "block", width: "270px", margin: "10px auto" }}>
-          <ReviewFormBlock />
+      <Box sx={{display: showForm? "block" : "none", width: "270px", margin: "10px auto" }}>
+          <ReviewFormBlock onSubmit={handleReviewSubmit}/>
       </Box>
       <Box
         sx={{
@@ -145,7 +159,7 @@ const OneTrainer = () => {
               variant="outlined"
               sx={{ color: "black", borderColor: "black", borderRadius: "7px" }}
           >
-              {showForm? "Leave review" : "Close review form"}
+              {showForm? "Close review form" : "Leave review"}
           </Button>
       </Box>
     </Box>

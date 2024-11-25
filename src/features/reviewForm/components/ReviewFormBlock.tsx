@@ -1,6 +1,22 @@
 import { Box, Button, TextField, Rating } from "@mui/material";
+import React, {useState} from "react";
 
-const ReviewFormBlock = () => {
+
+interface ReviewFormProps {
+    onSubmit: (reviewText: string, ratingValue: number | null) => void;
+}
+
+const ReviewFormBlock: React.FC<ReviewFormProps> = ({ onSubmit }) => {
+
+    const [textReview, setTextReview] = useState<string>("");
+    const [ratingReview, setRatingReview] = useState<number | null>(null);
+
+    const reviewSubmit = () => {
+        onSubmit(textReview, ratingReview);
+        setTextReview("");
+        setRatingReview(null)
+    };
+
     return (
         <Box
             sx={{
@@ -18,6 +34,8 @@ const ReviewFormBlock = () => {
                 rows={4}
                 variant="outlined"
                 fullWidth
+                value={textReview}
+                onChange={(e) => setTextReview(e.target.value)}
             />
             <Box sx={{display:"flex" ,alignItems: "center" , gap:"15px"}}>
                 <Rating
@@ -26,6 +44,8 @@ const ReviewFormBlock = () => {
                     sx={{
                         alignSelf: "center",
                     }}
+                    value={ratingReview}
+                    onChange={(_, newValue) => setRatingReview(newValue)}
                 />
                 <Button
                     type="submit"
@@ -34,6 +54,7 @@ const ReviewFormBlock = () => {
                     sx={{
                         alignSelf: "flex-end",
                     }}
+                    onClick={reviewSubmit}
                 >
                     Отправить
                 </Button>
