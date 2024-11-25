@@ -1,4 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {createReview} from "./reviewThunk.ts";
+
 
 interface ReviewState {
     error: string | null;
@@ -15,7 +17,18 @@ export const reviewSlice = createSlice({
     initialState,
     reducers:{},
     extraReducers:(builder)=>{
-
+        builder
+            .addCase(createReview.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(createReview.fulfilled, (state) => {
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(createReview.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            });
     },
     selectors:{
         selectError:(state) => state.error,
