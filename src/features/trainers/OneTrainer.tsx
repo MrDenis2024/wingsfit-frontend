@@ -3,23 +3,41 @@ import { useParams } from "react-router-dom";
 import RatingAndReviews from "./components/RatingAndReviews.tsx";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { selectTrainerProfile } from "./trainersSlice.ts";
 import { getTrainerProfile } from "./trainersThunks.ts";
 import ReviewFormBlock from "../reviewForm/components/ReviewFormBlock.tsx";
-import {createReview} from "../reviewForm/reviewThunk.ts";
+import { createReview } from "../reviewForm/reviewThunk.ts";
+import { toast } from "react-toastify";
+import { selectError } from "../reviewForm/reviewSlice.ts";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const trainerProfile = useAppSelector(selectTrainerProfile);
   const [showForm, setShowForm] = useState(false);
+  const reviewError = useAppSelector(selectError);
 
-    const handleReviewSubmit = (reviewText: string, ratingValue: number | null) => {
-        if (reviewText && ratingValue !== null) {
-            dispatch(createReview({ comment: reviewText, rating :ratingValue, trainerId: id }));
-        }
-    };
+  const handleReviewSubmit = async (
+    reviewText: string,
+    ratingValue: number | null,
+  ) => {
+    try {
+      if (reviewText && ratingValue !== null) {
+        await dispatch(
+          createReview({
+            comment: reviewText,
+            rating: ratingValue,
+            trainerId: id,
+          }),
+        ).unwrap();
+        toast.success("Отзыв успешно отправлен!");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(reviewError);
+    }
+  };
   useEffect(() => {
     dispatch(getTrainerProfile(id));
   }, [dispatch, id]);
@@ -120,8 +138,14 @@ const OneTrainer = () => {
           <RatingAndReviews id={id} />
         </Box>
       </Box>
-      <Box sx={{display: showForm? "block" : "none", width: "270px", margin: "10px auto" }}>
-          <ReviewFormBlock onSubmit={handleReviewSubmit}/>
+      <Box
+        sx={{
+          display: showForm ? "block" : "none",
+          width: "270px",
+          margin: "10px auto",
+        }}
+      >
+        <ReviewFormBlock onSubmit={handleReviewSubmit} />
       </Box>
       <Box
         sx={{
@@ -146,13 +170,13 @@ const OneTrainer = () => {
         >
           Book trial class
         </Button>
-          <Button
-              onClick={() => setShowForm((prev) => !prev)}
-              variant="outlined"
-              sx={{ color: "black", borderColor: "black", borderRadius: "7px" }}
-          >
-              {showForm? "Close review form" : "Leave review"}
-          </Button>
+        <Button
+          onClick={() => setShowForm((prev) => !prev)}
+          variant="outlined"
+          sx={{ color: "black", borderColor: "black", borderRadius: "7px" }}
+        >
+          {showForm ? "Close review form" : "Leave review"}
+        </Button>
       </Box>
     </Box>
   );
