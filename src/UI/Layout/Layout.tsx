@@ -12,6 +12,7 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
     location.pathname.includes("/register") ||
     location.pathname.includes("/fill-profile");
 
+  const isClientAvatar = location.pathname.startsWith("/clients/");
   const isFullPageBackground = location.pathname === "/";
 
   return (
@@ -35,7 +36,11 @@ const Layout: React.FC<React.PropsWithChildren> = ({ children }) => {
           flexDirection: "column",
         }}
       >
-        {isFullPageBackground ? children : <Container>{children}</Container>}
+        {isFullPageBackground || isClientAvatar ? (
+          children
+        ) : (
+          <Container>{children}</Container>
+        )}
       </Box>
       <footer>{!onExcludedPage && <Footer />}</footer>
     </Box>

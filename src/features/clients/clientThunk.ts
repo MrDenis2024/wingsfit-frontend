@@ -1,7 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IClientProfile } from "./clientSlice.ts";
 import axiosApi from "../../axiosApi.ts";
-import { FullClientProfileMutation } from "../../types/clientTypes.ts";
+import {
+  FullClientProfileMutation,
+  IClientProfile,
+} from "../../types/clientTypes.ts";
 
 export const getClientProfile = createAsyncThunk<IClientProfile, string>(
   "clients/profile",
