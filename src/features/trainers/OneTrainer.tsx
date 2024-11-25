@@ -3,14 +3,16 @@ import { useParams } from "react-router-dom";
 import RatingAndReviews from "./components/RatingAndReviews.tsx";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import { selectTrainerProfile } from "./trainersSlice.ts";
 import { getTrainerProfile } from "./trainersThunks.ts";
+import ReviewFormBlock from "../reviewForm/components/ReviewFormBlock.tsx";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const trainerProfile = useAppSelector(selectTrainerProfile);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     dispatch(getTrainerProfile(id));
@@ -60,7 +62,7 @@ const OneTrainer = () => {
           color="text.secondary"
           sx={{ marginTop: 1, fontSize: "12px", color: "black" }}
         >
-          {trainerProfile?.certificates || "No certificates available"}
+          {/*{trainerProfile?.certificates || "No certificates available"}*/}
         </Typography>
         <Typography
           variant="body2"
@@ -112,7 +114,9 @@ const OneTrainer = () => {
           <RatingAndReviews id={id} />
         </Box>
       </Box>
-
+      <Box sx={{display: showForm? "none" : "block", width: "270px", margin: "10px auto" }}>
+          <ReviewFormBlock />
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -136,6 +140,13 @@ const OneTrainer = () => {
         >
           Book trial class
         </Button>
+          <Button
+              onClick={() => setShowForm((prev) => !prev)}
+              variant="outlined"
+              sx={{ color: "black", borderColor: "black", borderRadius: "7px" }}
+          >
+              {showForm? "Leave review" : "Close review form"}
+          </Button>
       </Box>
     </Box>
   );
