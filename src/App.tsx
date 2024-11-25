@@ -22,7 +22,7 @@ import CreateAdmin from "./features/admin/admins/CreateAdmin.tsx";
 import OneCourse from "./features/courses/OneCourse.tsx";
 import { fetchCourseTypes } from "./features/CourseTypes/CourseTypesThunks.ts";
 import NewGroup from "./features/groups/NewGroup.tsx";
-
+import Chat from "./features/chat/Chat.tsx";
 const App = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -173,6 +173,14 @@ const App = () => {
               <ProtectedRoute isAllowed={user && user.role === "superAdmin"}>
                 <CreateAdmin />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/chat"
+            element={
+              <>
+                <Chat />
+              </>
             }
           />
         </Routes>
