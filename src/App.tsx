@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
 import { selectUser } from "./features/users/userSlice.ts";
 import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
-import OneClient from "./features/clients/components/OneClient.tsx";
+import OneClient from "./features/clients/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
 import MainPage from "./features/main/MainPage.tsx";
 import { useEffect } from "react";

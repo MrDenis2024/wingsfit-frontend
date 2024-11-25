@@ -1,5 +1,3 @@
-import { IUser } from "./userTypes.ts";
-
 export interface ClientProfileMutation {
   preferredWorkoutType: string;
   trainingLevel: string;
@@ -17,15 +15,6 @@ export interface FullClientProfileMutation extends ClientProfileMutation {
   };
 }
 
-export interface IClient {
-  _id: string;
-  user: IUser;
-  subscribes: [];
-  preferredWorkoutType: string;
-  trainingLevel: string;
-  physicalData: string;
-}
-
 export interface IClientProfile {
   _id: string;
   user: {
@@ -39,11 +28,12 @@ export interface IClientProfile {
     dateOfBirth: string;
     timeZone: {
       value: string;
-      offset: string;
+      label: string;
     };
+    avatar: string | null;
   };
   subscribes: string[];
-  preferredWorkoutType: string;
+  preferredWorkoutType: string[];
   trainingLevel: string;
   physicalData: string;
 }
