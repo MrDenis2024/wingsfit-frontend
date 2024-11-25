@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {Box, Select, MenuItem, SelectChangeEvent, InputLabel, Grid2} from "@mui/material";
+import {
+  Box,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  InputLabel,
+  Grid2,
+} from "@mui/material";
 import { CourseTypeFields } from "../../types/courseTypes.ts";
 import TagCard from "../TagCard/TagCard.tsx";
 
@@ -11,7 +18,13 @@ interface Props {
   label: string;
 }
 
-const CourseTypeSelector: React.FC<Props> = ({ courseTypes, onChange, value, onRemove, label }) => {
+const CourseTypeSelector: React.FC<Props> = ({
+  courseTypes,
+  onChange,
+  value,
+  onRemove,
+  label,
+}) => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>(value);
 
   useEffect(() => {
@@ -36,7 +49,9 @@ const CourseTypeSelector: React.FC<Props> = ({ courseTypes, onChange, value, onR
     onRemove(typeId);
   };
 
-  const availableTypes = courseTypes.filter((type) => !selectedTypes.includes(type._id));
+  const availableTypes = courseTypes.filter(
+    (type) => !selectedTypes.includes(type._id),
+  );
 
   return (
     <Grid2>

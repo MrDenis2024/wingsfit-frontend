@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createClientProfile, getClientProfile } from "./clientThunk.ts";
-import {IClientProfile} from "../../types/clientTypes.ts";
+import { IClientProfile } from "../../types/clientTypes.ts";
 
 interface ClientState {
   clientProfile: IClientProfile | null;
@@ -45,10 +45,13 @@ export const clientSlice = createSlice({
         state.clientProfile = null;
         state.creatingClientProfile = true;
       })
-      .addCase(createClientProfile.fulfilled, (state, { payload: clientProfile }) => {
-        state.clientProfile = clientProfile;
-        state.creatingClientProfile = false;
-      })
+      .addCase(
+        createClientProfile.fulfilled,
+        (state, { payload: clientProfile }) => {
+          state.clientProfile = clientProfile;
+          state.creatingClientProfile = false;
+        },
+      )
       .addCase(createClientProfile.rejected, (state) => {
         state.creatingClientProfile = false;
       });

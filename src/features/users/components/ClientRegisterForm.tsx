@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
 import {
   Button,
@@ -6,13 +6,13 @@ import {
   Radio,
   RadioGroup,
   TextField,
-  Typography
+  Typography,
 } from "@mui/material";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
 import { useAppSelector } from "../../../app/hooks.ts";
-import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
+import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
 
 interface Props {
@@ -33,7 +33,8 @@ const ClientRegisterForm: React.FC<Props> = ({
   updatePersonalInfo,
 }) => {
   const courseTypes = useAppSelector(selectCourseTypes);
-  const [profileData, setProfileData] = useState<ClientProfileMutation>(initialState);
+  const [profileData, setProfileData] =
+    useState<ClientProfileMutation>(initialState);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -58,7 +59,9 @@ const ClientRegisterForm: React.FC<Props> = ({
   const removeWorkoutType = (courseType: string) => {
     setProfileData((prevState) => ({
       ...prevState,
-      preferredWorkoutType: prevState.preferredWorkoutType.filter((type) => type !== courseType),
+      preferredWorkoutType: prevState.preferredWorkoutType.filter(
+        (type) => type !== courseType,
+      ),
     }));
   };
 
@@ -84,7 +87,9 @@ const ClientRegisterForm: React.FC<Props> = ({
         />
       </Grid>
       <Grid>
-        <Typography variant="subtitle1">Select your training level: </Typography>
+        <Typography variant="subtitle1">
+          Select your training level:{" "}
+        </Typography>
         <RadioGroup
           name="trainingLevel"
           value={profileData.trainingLevel}
@@ -93,7 +98,11 @@ const ClientRegisterForm: React.FC<Props> = ({
         >
           <FormControlLabel value="junior" control={<Radio />} label="junior" />
           <FormControlLabel value="middle" control={<Radio />} label="middle" />
-          <FormControlLabel value="advanced" control={<Radio />} label="advanced" />
+          <FormControlLabel
+            value="advanced"
+            control={<Radio />}
+            label="advanced"
+          />
         </RadioGroup>
       </Grid>
       <Grid>

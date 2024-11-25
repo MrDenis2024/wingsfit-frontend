@@ -4,9 +4,9 @@ import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import React from "react";
 import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
-import {useAppSelector} from "../../../app/hooks.ts";
-import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
-import {findCourseTypes} from "../../../constants.ts";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
+import { findCourseTypes } from "../../../constants.ts";
 
 interface Props {
   requiredData: UserInfoMutation;
@@ -22,8 +22,14 @@ const RegisterPreview: React.FC<Props> = ({
   role,
 }) => {
   const courseTypes = useAppSelector(selectCourseTypes);
-  const trainerCourses = findCourseTypes(courseTypes, ...optionalData.courseTypes);
-  const clientsPreferredWorkoutTypes = findCourseTypes(courseTypes, ...clientData.preferredWorkoutType);
+  const trainerCourses = findCourseTypes(
+    courseTypes,
+    ...optionalData.courseTypes,
+  );
+  const clientsPreferredWorkoutTypes = findCourseTypes(
+    courseTypes,
+    ...clientData.preferredWorkoutType,
+  );
 
   return (
     <Grid container spacing={2} direction={"column"} sx={{ my: 5 }}>
@@ -100,15 +106,15 @@ const RegisterPreview: React.FC<Props> = ({
                           </span>
                         </Typography>
                         {trainerCourses.map((type) => (
-                            <Typography
-                              variant="body2"
-                              component="div"
-                              key={type._id}
-                              sx={{ mx: 7 }}
-                            >
-                              -{type.name}
-                            </Typography>
-                          ))}
+                          <Typography
+                            variant="body2"
+                            component="div"
+                            key={type._id}
+                            sx={{ mx: 7 }}
+                          >
+                            -{type.name}
+                          </Typography>
+                        ))}
                       </Grid>
                     )}
                 </Grid>
@@ -156,15 +162,15 @@ const RegisterPreview: React.FC<Props> = ({
                           </span>
                         </Typography>
                         {clientsPreferredWorkoutTypes.map((type) => (
-                            <Typography
-                              variant="body2"
-                              component="div"
-                              key={type._id}
-                              sx={{ mx: 7 }}
-                            >
-                              -{type.name}
-                            </Typography>
-                          ))}
+                          <Typography
+                            variant="body2"
+                            component="div"
+                            key={type._id}
+                            sx={{ mx: 7 }}
+                          >
+                            -{type.name}
+                          </Typography>
+                        ))}
                       </Grid>
                     )}
                 </Grid>

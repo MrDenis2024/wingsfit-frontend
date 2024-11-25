@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
-import {Button, TextField, Typography} from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
-import {useAppSelector} from "../../../app/hooks.ts";
-import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
 
 interface Props {

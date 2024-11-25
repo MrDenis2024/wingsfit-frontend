@@ -18,10 +18,11 @@ export const getClientProfile = createAsyncThunk<IClientProfile, string>(
 export const createClientProfile = createAsyncThunk<
   IClientProfile,
   FullClientProfileMutation
->(
-  "clients/createClientProfile",
-  async (clientProfileMutation) => {
-    const {data: clientProfile} =  await axiosApi.post<IClientProfile>("/clients", clientProfileMutation);
+>("clients/createClientProfile", async (clientProfileMutation) => {
+  const { data: clientProfile } = await axiosApi.post<IClientProfile>(
+    "/clients",
+    clientProfileMutation,
+  );
 
-    return clientProfile;
+  return clientProfile;
 });

@@ -56,10 +56,13 @@ export const trainersSlice = createSlice({
         state.trainerProfile = null;
         state.creatingTrainerProfile = true;
       })
-      .addCase(createTrainerProfile.fulfilled, (state, { payload: trainerProfile }) => {
-        state.trainerProfile = trainerProfile;
-        state.creatingTrainerProfile = false;
-      })
+      .addCase(
+        createTrainerProfile.fulfilled,
+        (state, { payload: trainerProfile }) => {
+          state.trainerProfile = trainerProfile;
+          state.creatingTrainerProfile = false;
+        },
+      )
       .addCase(createTrainerProfile.rejected, (state) => {
         state.creatingTrainerProfile = false;
       });

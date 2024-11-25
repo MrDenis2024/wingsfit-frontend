@@ -18,7 +18,7 @@ import {
 import ClientRegisterForm from "./components/ClientRegisterForm.tsx";
 import { createClientProfile } from "../clients/clientThunk.ts";
 import { createTrainerProfile } from "../trainers/trainersThunks.ts";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const OnBoardingProfile = () => {
   const dispatch = useAppDispatch();
@@ -103,7 +103,7 @@ const OnBoardingProfile = () => {
         };
 
         await dispatch(createClientProfile(clientProfile));
-        navigate('/main');
+        navigate("/main");
       } else if (role === "trainer") {
         const trainerProfile: FullTrainerProfileMutation = {
           ...personalData,
@@ -111,7 +111,7 @@ const OnBoardingProfile = () => {
         };
 
         await dispatch(createTrainerProfile(trainerProfile));
-        navigate('/main');
+        navigate("/main");
       }
     } catch (e) {
       console.log(e);

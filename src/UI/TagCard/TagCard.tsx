@@ -1,7 +1,7 @@
-import {Box, Button, Typography} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
-import {useAppSelector} from "../../app/hooks.ts";
-import {selectCourseTypes} from "../../features/CourseTypes/CourseTypesSlice.ts";
+import { useAppSelector } from "../../app/hooks.ts";
+import { selectCourseTypes } from "../../features/CourseTypes/CourseTypesSlice.ts";
 
 interface Props {
   courseType: string;
@@ -28,11 +28,7 @@ const TagCard: React.FC<Props> = ({ courseType, onRemove }) => {
       <Typography variant="body1" mr={1}>
         {findCourseTypes(courseType)}
       </Typography>
-      <Button
-        size="small"
-        color="error"
-        onClick={onRemove}
-      >
+      <Button size="small" color="error" onClick={onRemove}>
         ✕
       </Button>
     </Box>

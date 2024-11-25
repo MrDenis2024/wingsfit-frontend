@@ -28,7 +28,8 @@ const UserRegisterForm: React.FC<Props> = ({
   initialState,
   updatePersonalInfo,
 }) => {
-  const [personalData, setPersonalData] = useState<UserInfoMutation>(initialState);
+  const [personalData, setPersonalData] =
+    useState<UserInfoMutation>(initialState);
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setPersonalData((prevState) => ({
