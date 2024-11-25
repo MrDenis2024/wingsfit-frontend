@@ -10,7 +10,6 @@ export const createReview = createAsyncThunk<
     await axiosApi.post(`/review`, reviewData);
   } catch (e) {
     if (axios.isAxiosError(e) && e.response) {
-      console.log(e.response.data);
       return rejectWithValue(e.response.data.error);
     }
     throw e;
