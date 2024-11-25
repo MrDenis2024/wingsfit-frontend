@@ -35,12 +35,17 @@ const OneTrainer = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error(reviewError);
     }
   };
   useEffect(() => {
     dispatch(getTrainerProfile(id));
   }, [dispatch, id]);
+
+  useEffect(() => {
+    if (reviewError) {
+      toast.error(reviewError);
+    }
+  }, [reviewError]);
 
   return (
     <Box>

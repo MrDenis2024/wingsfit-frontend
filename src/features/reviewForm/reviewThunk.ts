@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { isAxiosError } from "axios";
+import axios from "axios";
 import axiosApi from "../../axiosApi.ts";
 
 export const createReview = createAsyncThunk<
@@ -9,8 +9,8 @@ export const createReview = createAsyncThunk<
   try {
     await axiosApi.post(`/review`, reviewData);
   } catch (e) {
-    if (isAxiosError(e) && e.response && e.response.status === 403) {
-      console.log("Axios Error:", e.response.data);
+    if (axios.isAxiosError(e) && e.response) {
+      console.log(e.response.data);
       return rejectWithValue(e.response.data.error);
     }
     throw e;
