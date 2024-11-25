@@ -1,24 +1,25 @@
 import { Button, styled } from "@mui/material";
 import React from "react";
 
-const StyledButton = styled(Button)<{
-  textColor: string;
-  backgroundColor: string;
-  border: string;
-}>(({ textColor, backgroundColor, border }) => ({
-  backgroundColor: backgroundColor,
-  color: textColor,
-  fontSize: "12px",
-  fontWeight: 700,
-  padding: "12px 45px",
-  display: "inline-block",
-  textAlign: "center",
-  whiteSpace: "nowrap",
-  cursor: "pointer",
-  textTransform: "none",
-  border: border,
-  textDecoration: "none",
-}));
+const StyledButton = styled(Button, {
+  shouldForwardProp: (prop) =>
+    prop !== "textColor" && prop !== "backgroundColor" && prop !== "border",
+})<{ textColor: string; backgroundColor: string; border: string }>(
+  ({ textColor, backgroundColor, border }) => ({
+    backgroundColor: backgroundColor,
+    color: textColor,
+    fontSize: "12px",
+    fontWeight: 700,
+    padding: "12px 45px",
+    display: "inline-block",
+    textAlign: "center",
+    whiteSpace: "nowrap",
+    cursor: "pointer",
+    textTransform: "none",
+    border: border,
+    textDecoration: "none",
+  }),
+);
 
 interface Props {
   text: string;
