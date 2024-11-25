@@ -1,5 +1,7 @@
 import { Box, Button, TextField, Rating } from "@mui/material";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {selectError} from "../reviewSlice.ts";
+import {useAppSelector} from "../../../app/hooks.ts";
 
 
 interface ReviewFormProps {
@@ -10,12 +12,16 @@ const ReviewFormBlock: React.FC<ReviewFormProps> = ({ onSubmit }) => {
 
     const [textReview, setTextReview] = useState<string>("");
     const [ratingReview, setRatingReview] = useState<number | null>(null);
-
+    const error = useAppSelector(selectError);
     const reviewSubmit = () => {
         onSubmit(textReview, ratingReview);
         setTextReview("");
         setRatingReview(null)
     };
+
+    useEffect(() => {
+        console.log(error)
+    }, [error]);
 
     return (
         <Box
@@ -59,6 +65,7 @@ const ReviewFormBlock: React.FC<ReviewFormProps> = ({ onSubmit }) => {
                     Отправить
                 </Button>
             </Box>
+            {error && <div style={{ color: 'red' }}>{error}</div>}
         </Box>
     );
 };

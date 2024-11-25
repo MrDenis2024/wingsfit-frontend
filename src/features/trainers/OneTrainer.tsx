@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import { selectTrainerProfile } from "./trainersSlice.ts";
 import { getTrainerProfile } from "./trainersThunks.ts";
 import ReviewFormBlock from "../reviewForm/components/ReviewFormBlock.tsx";
+import {createReview} from "../reviewForm/reviewThunk.ts";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
@@ -14,24 +15,15 @@ const OneTrainer = () => {
   const trainerProfile = useAppSelector(selectTrainerProfile);
   const [showForm, setShowForm] = useState(false);
 
-  const [reviewData , setReviewData] = useState({
-      reviewTextData: "",
-      ratingValueData: 0,
-  })
-
     const handleReviewSubmit = (reviewText: string, ratingValue: number | null) => {
-        setReviewData({
-            reviewTextData: reviewText,
-            ratingValueData: ratingValue ?? 0,
-        });
+        if (reviewText && ratingValue !== null) {
+            dispatch(createReview({ comment: reviewText, rating :ratingValue, trainerId: id }));
+        }
     };
   useEffect(() => {
     dispatch(getTrainerProfile(id));
   }, [dispatch, id]);
 
-    useEffect(() => {
-        console.log(reviewData);
-    }, [reviewData]);
   return (
     <Box>
       <Box>
