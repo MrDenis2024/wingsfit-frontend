@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
 import {useAppSelector} from "../../../app/hooks.ts";
 import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
+import {findCourseTypes} from "../../../constants.ts";
 
 interface Props {
   requiredData: UserInfoMutation;
@@ -21,7 +22,9 @@ const RegisterPreview: React.FC<Props> = ({
   role,
 }) => {
   const courseTypes = useAppSelector(selectCourseTypes);
-  console.log(clientData);
+  const trainerCourses = findCourseTypes(courseTypes, ...optionalData.courseTypes);
+  const clientsPreferredWorkoutTypes = findCourseTypes(courseTypes, ...clientData.preferredWorkoutType);
+
   return (
     <Grid container spacing={2} direction={"column"} sx={{ my: 5 }}>
       <Grid>
@@ -96,9 +99,7 @@ const RegisterPreview: React.FC<Props> = ({
                             {key} :{" "}
                           </span>
                         </Typography>
-                        {courseTypes
-                          .filter((type) => optionalData.courseTypes.includes(type._id))
-                          .map((type) => (
+                        {trainerCourses.map((type) => (
                             <Typography
                               variant="body2"
                               component="div"
@@ -154,9 +155,7 @@ const RegisterPreview: React.FC<Props> = ({
                             {key} :{" "}
                           </span>
                         </Typography>
-                        {courseTypes
-                          .filter((type) => clientData.preferredWorkoutType.includes(type._id))
-                          .map((type) => (
+                        {clientsPreferredWorkoutTypes.map((type) => (
                             <Typography
                               variant="body2"
                               component="div"

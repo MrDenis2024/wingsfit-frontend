@@ -32,7 +32,7 @@ const OnBoardingProfile = () => {
     timeZone: { value: "", label: "" },
     phoneNumber: "",
     dateOfBirth: "",
-    gender: "",
+    gender: "male",
   });
   const [optionalInfo, setOptionalInfo] = useState<TrainerProfileMutation>({
     description: "",
@@ -43,7 +43,7 @@ const OnBoardingProfile = () => {
   });
   const [clientInfo, setClientInfo] = useState<ClientProfileMutation>({
     preferredWorkoutType: [],
-    trainingLevel: "",
+    trainingLevel: "junior",
     physicalData: "",
   });
 

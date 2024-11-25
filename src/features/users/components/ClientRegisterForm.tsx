@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Grid from "@mui/material/Grid2";
-import {Button, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography} from "@mui/material";
+import {
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  TextField,
+  Typography
+} from "@mui/material";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
-import {useAppSelector} from "../../../app/hooks.ts";
+import { useAppSelector } from "../../../app/hooks.ts";
 import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
 
@@ -26,8 +33,7 @@ const ClientRegisterForm: React.FC<Props> = ({
   updatePersonalInfo,
 }) => {
   const courseTypes = useAppSelector(selectCourseTypes);
-  const [profileData, setProfileData] =
-    useState<ClientProfileMutation>(initialState);
+  const [profileData, setProfileData] = useState<ClientProfileMutation>(initialState);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -56,13 +62,6 @@ const ClientRegisterForm: React.FC<Props> = ({
     }));
   };
 
-  const changeSelectHandler = (event: SelectChangeEvent) => {
-    setProfileData((prevState) => ({
-      ...prevState,
-      trainingLevel: event.target.value,
-    }));
-  };
-
   return (
     <Grid
       container
@@ -85,19 +84,17 @@ const ClientRegisterForm: React.FC<Props> = ({
         />
       </Grid>
       <Grid>
-        <InputLabel id="training-level-label">Training Level</InputLabel>
-        <Select
-          fullWidth
-          labelId="training-level-label"
+        <Typography variant="subtitle1">Select your training level: </Typography>
+        <RadioGroup
+          name="trainingLevel"
           value={profileData.trainingLevel}
-          onChange={changeSelectHandler}
-          variant="outlined"
+          onChange={inputChangeHandler}
+          sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
         >
-          <MenuItem value="" disabled>Select your training level</MenuItem>
-          <MenuItem value="junior">Junior</MenuItem>
-          <MenuItem value="middle">Middle</MenuItem>
-          <MenuItem value="advanced">Advanced</MenuItem>
-        </Select>
+          <FormControlLabel value="junior" control={<Radio />} label="junior" />
+          <FormControlLabel value="middle" control={<Radio />} label="middle" />
+          <FormControlLabel value="advanced" control={<Radio />} label="advanced" />
+        </RadioGroup>
       </Grid>
       <Grid>
         <TextField

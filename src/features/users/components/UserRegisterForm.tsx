@@ -28,8 +28,7 @@ const UserRegisterForm: React.FC<Props> = ({
   initialState,
   updatePersonalInfo,
 }) => {
-  const [personalData, setPersonalData] =
-    useState<UserInfoMutation>(initialState);
+  const [personalData, setPersonalData] = useState<UserInfoMutation>(initialState);
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setPersonalData((prevState) => ({
@@ -116,15 +115,12 @@ const UserRegisterForm: React.FC<Props> = ({
         <Typography variant="subtitle1">Select Gender:</Typography>
         <RadioGroup
           value={personalData.gender}
-          onChange={(e) =>
-            inputChangeHandler({
-              target: { name: "gender", value: e.target.value },
-            } as React.ChangeEvent<HTMLInputElement>)
-          }
+          name="gender"
+          onChange={inputChangeHandler}
           sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
         >
-          <FormControlLabel value="female" control={<Radio />} label="Female" />
           <FormControlLabel value="male" control={<Radio />} label="Male" />
+          <FormControlLabel value="female" control={<Radio />} label="Female" />
           <FormControlLabel value="another" control={<Radio />} label="Other" />
         </RadioGroup>
       </Grid>
