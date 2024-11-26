@@ -4,6 +4,9 @@ import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import React from "react";
 import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
+import { findCourseTypes } from "../../../constants.ts";
 
 interface Props {
   requiredData: UserInfoMutation;
@@ -18,6 +21,16 @@ const RegisterPreview: React.FC<Props> = ({
   clientData,
   role,
 }) => {
+  const courseTypes = useAppSelector(selectCourseTypes);
+  const trainerCourses = findCourseTypes(
+    courseTypes,
+    ...optionalData.courseTypes,
+  );
+  const clientsPreferredWorkoutTypes = findCourseTypes(
+    courseTypes,
+    ...clientData.preferredWorkoutType,
+  );
+
   return (
     <Grid container spacing={2} direction={"column"} sx={{ my: 5 }}>
       <Grid>
@@ -40,14 +53,14 @@ const RegisterPreview: React.FC<Props> = ({
                   {value}
                 </Typography>
               )}
-              {typeof value === "object" && key === "timezone" && (
+              {typeof value === "object" && key === "timeZone" && (
                 <Typography variant="body2" component="div">
                   <span
                     style={{ fontWeight: "bold", textTransform: "uppercase" }}
                   >
                     {key}:
                   </span>{" "}
-                  {requiredData.timezone.label}
+                  {requiredData.timeZone.label}
                 </Typography>
               )}
             </Grid>
@@ -92,14 +105,14 @@ const RegisterPreview: React.FC<Props> = ({
                             {key} :{" "}
                           </span>
                         </Typography>
-                        {optionalData.courseTypes.map((type, index) => (
+                        {trainerCourses.map((type) => (
                           <Typography
                             variant="body2"
                             component="div"
-                            key={index + type}
+                            key={type._id}
                             sx={{ mx: 7 }}
                           >
-                            -{type}
+                            -{type.name}
                           </Typography>
                         ))}
                       </Grid>
@@ -122,7 +135,7 @@ const RegisterPreview: React.FC<Props> = ({
               const value = clientData[key as keyof typeof clientData];
               return (
                 <Grid key={index + key}>
-                  {value !== "" && (
+                  {typeof value === "string" && (
                     <Typography variant="body2" component="div">
                       <span
                         style={{
@@ -135,30 +148,31 @@ const RegisterPreview: React.FC<Props> = ({
                       {value}
                     </Typography>
                   )}
-                  {Array.isArray(value) && value.length > 0 && (
-                    <Grid>
-                      <Typography variant="body2" component="div">
-                        <span
-                          style={{
-                            fontWeight: "bold",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          {key}:
-                        </span>
-                      </Typography>
-                      {value.map((item, idx) => (
-                        <Typography
-                          variant="body2"
-                          component="div"
-                          key={idx + item}
-                          sx={{ mx: 7 }}
-                        >
-                          - {item}
+                  {typeof value !== "string" &&
+                    clientData.preferredWorkoutType[0] !== "" && (
+                      <Grid>
+                        <Typography variant="body2" component="div">
+                          <span
+                            style={{
+                              fontWeight: "bold",
+                              textTransform: "uppercase",
+                            }}
+                          >
+                            {key} :{" "}
+                          </span>
                         </Typography>
-                      ))}
-                    </Grid>
-                  )}
+                        {clientsPreferredWorkoutTypes.map((type) => (
+                          <Typography
+                            variant="body2"
+                            component="div"
+                            key={type._id}
+                            sx={{ mx: 7 }}
+                          >
+                            -{type.name}
+                          </Typography>
+                        ))}
+                      </Grid>
+                    )}
                 </Grid>
               );
             })}

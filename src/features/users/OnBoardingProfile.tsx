@@ -18,9 +18,11 @@ import {
 import ClientRegisterForm from "./components/ClientRegisterForm.tsx";
 import { createClientProfile } from "../clients/clientThunk.ts";
 import { createTrainerProfile } from "../trainers/trainersThunks.ts";
+import { useNavigate } from "react-router-dom";
 
 const OnBoardingProfile = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const user = useAppSelector(selectUser);
   const stepLabels = ["Fill personal info", "Fill optional info", "Preview"];
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -30,18 +32,18 @@ const OnBoardingProfile = () => {
     timeZone: { value: "", label: "" },
     phoneNumber: "",
     dateOfBirth: "",
-    gender: "",
+    gender: "male",
   });
   const [optionalInfo, setOptionalInfo] = useState<TrainerProfileMutation>({
     description: "",
     specialization: "",
     experience: "",
-    courseTypes: [""],
+    courseTypes: [],
     availableDays: "",
   });
   const [clientInfo, setClientInfo] = useState<ClientProfileMutation>({
-    preferredWorkoutType: "",
-    trainingLevel: "",
+    preferredWorkoutType: [],
+    trainingLevel: "junior",
     physicalData: "",
   });
 
@@ -99,13 +101,17 @@ const OnBoardingProfile = () => {
           ...personalData,
           ...clientData,
         };
+
         await dispatch(createClientProfile(clientProfile));
+        navigate("/main");
       } else if (role === "trainer") {
         const trainerProfile: FullTrainerProfileMutation = {
           ...personalData,
           ...trainerData,
         };
+
         await dispatch(createTrainerProfile(trainerProfile));
+        navigate("/main");
       }
     } catch (e) {
       console.log(e);

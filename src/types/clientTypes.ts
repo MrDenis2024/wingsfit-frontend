@@ -1,5 +1,5 @@
 export interface ClientProfileMutation {
-  preferredWorkoutType: string;
+  preferredWorkoutType: string[];
   trainingLevel: string;
   physicalData: string;
 }
