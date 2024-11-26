@@ -9,6 +9,8 @@ import { ITrainer, ITrainerProfile, Review } from "../../types/trainerTypes.ts";
 
 interface TrainersState {
   trainerProfile: ITrainerProfile | null;
+  oneTrainer: ITrainerProfile | null;
+  fetchOneTrainer: boolean;
   trainerProfileLoading: boolean;
   trainers: ITrainer[];
   fetchingTrainers: boolean;
@@ -20,6 +22,8 @@ interface TrainersState {
 const initialState: TrainersState = {
   trainerProfile: null,
   trainerProfileLoading: false,
+  oneTrainer: null,
+  fetchOneTrainer: false,
   trainers: [],
   fetchingTrainers: false,
   creatingTrainerProfile: false,
@@ -35,13 +39,20 @@ export const trainersSlice = createSlice({
     builder
       .addCase(getTrainerProfile.pending, (state) => {
         state.trainerProfileLoading = true;
+        state.fetchOneTrainer = true;
       })
-      .addCase(getTrainerProfile.fulfilled, (state, { payload: user }) => {
-        state.trainerProfile = user;
+      .addCase(getTrainerProfile.fulfilled, (state, { payload }) => {
+        if (payload.user._id === state.trainerProfile?.user._id) {
+          state.trainerProfile = payload;
+        } else {
+          state.oneTrainer = payload;
+        }
         state.trainerProfileLoading = false;
+        state.fetchOneTrainer = false;
       })
       .addCase(getTrainerProfile.rejected, (state) => {
         state.trainerProfileLoading = false;
+        state.fetchOneTrainer = false;
       });
 
     builder
@@ -87,6 +98,8 @@ export const trainersSlice = createSlice({
   selectors: {
     selectTrainerProfile: (state) => state.trainerProfile,
     selectTrainerProfileLoading: (state) => state.trainerProfileLoading,
+    selectOneTrainer: (state) => state.oneTrainer,
+    selectOneTrainerLoading: (state) => state.fetchOneTrainer,
     selectTrainers: (state) => state.trainers,
     selectFetchingTrainers: (state) => state.fetchingTrainers,
     selectCreatingTrainerProfile: (state) => state.creatingTrainerProfile,
@@ -103,6 +116,8 @@ export const {
   selectTrainerProfileLoading,
   selectCreatingTrainerProfile,
   selectFetchingTrainers,
+  selectOneTrainer,
+  selectOneTrainerLoading,
   selectReview,
   selectFetchReviewsLoading,
 } = trainersSlice.selectors;
