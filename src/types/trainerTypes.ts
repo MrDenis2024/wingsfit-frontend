@@ -1,3 +1,5 @@
+import { ICourse } from "./courseTypes.ts";
+
 export interface TrainerProfileMutation {
   description: string;
   specialization: string;
@@ -36,7 +38,7 @@ export interface ITrainerProfile {
       label: string;
     };
   };
-  courseTypes: string[];
+  courseTypes: ICourse[];
   specialization?: string;
   experience?: string;
   certificates?: string;
