@@ -1,6 +1,4 @@
-import { Typography } from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
-import { Link } from "react-router-dom";
+import { Button, CircularProgress, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectFetchReviewsLoading, selectReview } from "../trainersSlice.ts";
@@ -34,72 +32,87 @@ const RatingAndReviews: React.FC<Props> = ({ id }) => {
   const displayedReviews = showAll ? sortedReviews : sortedReviews.slice(0, 5);
 
   const renderStars = (rating: number) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+    const stars: React.ReactNode[] = [];
 
-    return (
-      <Grid sx={{ display: "flex", alignItems: "center" }}>
-        {Array.from({ length: fullStars }).map((_, index) => (
-          <Star key={`full-${index}`} sx={{ color: "#A8E4A0" }} />
-        ))}
-        {hasHalfStar && <StarHalf sx={{ color: "#A8E4A0" }} />}
-        {Array.from({ length: emptyStars }).map((_, index) => (
-          <StarOutline key={`empty-${index}`} sx={{ color: "#A8E4A0" }} />
-        ))}
-      </Grid>
-    );
+    for (let i = 0; i < 5; i++) {
+      if (rating >= 1) {
+        stars.push(<Star key={`star-${i}`} sx={{ color: "#47A76A" }} />);
+        rating -= 1;
+      } else if (rating >= 0.5) {
+        stars.push(<StarHalf key={`star-${i}`} sx={{ color: "#47A76A" }} />);
+        rating = 0;
+      } else {
+        stars.push(<StarOutline key={`star-${i}`} sx={{ color: "#47A76A" }} />);
+      }
+    }
+
+    return <Grid sx={{ display: "flex", alignItems: "center" }}>{stars}</Grid>;
   };
 
   return (
-    <Grid
-      sx={{
-        backgroundColor: "#ECECEC",
-        padding: "20px",
-        borderRadius: "10px",
-        marginTop: "10px",
-      }}
-    >
-      <Grid
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Grid display="flex" alignItems="center">
-          {renderStars(total)}
-        </Grid>
+    <Grid>
+      {reviewsLoading && <CircularProgress />}
+      {!reviewsLoading && reviews.length > 0 ? (
         <Grid>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ fontSize: "12px", color: "black", display: "flex" }}
-          >
-            Based on {reviews.length} reviews
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid>
-        {reviews.map((review) => (
           <Grid
-            key={review._id}
             sx={{
-              borderBottom: "1px solid #ccc",
-              paddingBottom: "10px",
-              marginBottom: "10px",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
+            <Grid display="flex" alignItems="center">
+              <Typography sx={{ mr: 2 }}>Total rating:</Typography>
+              {renderStars(total)}
+            </Grid>
             <Grid>
-              <Typography variant="body2">
-                "{review.comment}" - {review.clientId.firstName}
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ fontSize: "12px", color: "black", display: "flex" }}
+              >
+                Based on {reviews.length} reviews
               </Typography>
             </Grid>
-            <Grid>{renderStars(review.rating)}</Grid>
           </Grid>
-        ))}
-      </Grid>
+          <Grid>
+            {displayedReviews.map((review) => (
+              <Grid
+                key={review._id}
+                sx={{
+                  backgroundColor: "#ECECEC",
+                  padding: "20px",
+                  borderRadius: "10px",
+                  marginTop: "10px",
+                }}
+              >
+                <Grid>
+                  <Typography variant="body2">
+                    "{review.comment}" - {review.clientId.firstName}
+                  </Typography>
+                </Grid>
+                <Grid>{renderStars(review.rating)}</Grid>
+              </Grid>
+            ))}
+          </Grid>
+          <Grid sx={{ display: "flex", justifyContent: "center" }}>
+            {reviews.length > 5 && (
+              <Button
+                variant="contained"
+                onClick={() => setShowAll(!showAll)}
+                sx={{ marginTop: "10px" }}
+              >
+                {showAll ? "Скрыть" : "Показать все"}
+              </Button>
+            )}
+          </Grid>
+        </Grid>
+      ) : (
+        <Typography variant="h5" sx={{ textAlign: "center" }}>
+          У данного теренера ещё нет отзывов
+        </Typography>
+      )}
     </Grid>
   );
 };
