@@ -3,8 +3,9 @@ import {
   createTrainerProfile,
   getTrainerProfile,
   getTrainers,
+  getTrainersReview,
 } from "./trainersThunks.ts";
-import { ITrainer, ITrainerProfile } from "../../types/trainerTypes.ts";
+import { ITrainer, ITrainerProfile, Review } from "../../types/trainerTypes.ts";
 
 interface TrainersState {
   trainerProfile: ITrainerProfile | null;
@@ -12,6 +13,8 @@ interface TrainersState {
   trainers: ITrainer[];
   fetchingTrainers: boolean;
   creatingTrainerProfile: boolean;
+  review: Review[];
+  fetchReviewsLoading: boolean;
 }
 
 const initialState: TrainersState = {
@@ -20,6 +23,8 @@ const initialState: TrainersState = {
   trainers: [],
   fetchingTrainers: false,
   creatingTrainerProfile: false,
+  review: [],
+  fetchReviewsLoading: false,
 };
 
 export const trainersSlice = createSlice({
@@ -66,6 +71,18 @@ export const trainersSlice = createSlice({
       .addCase(createTrainerProfile.rejected, (state) => {
         state.creatingTrainerProfile = false;
       });
+
+    builder
+      .addCase(getTrainersReview.pending, (state) => {
+        state.fetchReviewsLoading = true;
+      })
+      .addCase(getTrainersReview.fulfilled, (state, { payload: review }) => {
+        state.review = review;
+        state.fetchReviewsLoading = false;
+      })
+      .addCase(getTrainersReview.rejected, (state) => {
+        state.fetchReviewsLoading = false;
+      });
   },
   selectors: {
     selectTrainerProfile: (state) => state.trainerProfile,
@@ -73,6 +90,8 @@ export const trainersSlice = createSlice({
     selectTrainers: (state) => state.trainers,
     selectFetchingTrainers: (state) => state.fetchingTrainers,
     selectCreatingTrainerProfile: (state) => state.creatingTrainerProfile,
+    selectReview: (state) => state.review,
+    selectFetchReviewsLoading: (state) => state.fetchReviewsLoading,
   },
 });
 
@@ -84,4 +103,6 @@ export const {
   selectTrainerProfileLoading,
   selectCreatingTrainerProfile,
   selectFetchingTrainers,
+  selectReview,
+  selectFetchReviewsLoading,
 } = trainersSlice.selectors;

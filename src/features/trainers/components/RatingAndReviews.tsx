@@ -1,18 +1,58 @@
-import { Box, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
-import React from "react";
-import { useAppSelector } from "../../../app/hooks.ts";
-import { selectTrainerProfile } from "../trainersSlice.ts";
+import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
+import { selectFetchReviewsLoading, selectReview } from "../trainersSlice.ts";
+import { getTrainersReview } from "../trainersThunks.ts";
+import Grid from "@mui/material/Grid2";
+import { Star, StarHalf, StarOutline } from "@mui/icons-material";
 
 interface Props {
   id: string;
 }
 
 const RatingAndReviews: React.FC<Props> = ({ id }) => {
-  const trainerProfile = useAppSelector(selectTrainerProfile);
+  const reviews = useAppSelector(selectReview);
+  const reviewsLoading = useAppSelector(selectFetchReviewsLoading);
+  const dispatch = useAppDispatch();
+  const [showAll, setShowAll] = useState(false);
+
+  useEffect(() => {
+    dispatch(getTrainersReview(id));
+  }, [dispatch, id]);
+
+  const total = reviews.reduce((acc, review) => {
+    acc += review.rating / reviews.length;
+    return Math.round(acc * 2) / 2;
+  }, 0);
+
+  const sortedReviews = [...reviews].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+  );
+
+  const displayedReviews = showAll ? sortedReviews : sortedReviews.slice(0, 5);
+
+  const renderStars = (rating: number) => {
+    const fullStars = Math.floor(rating);
+    const hasHalfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+    return (
+      <Grid sx={{ display: "flex", alignItems: "center" }}>
+        {Array.from({ length: fullStars }).map((_, index) => (
+          <Star key={`full-${index}`} sx={{ color: "#A8E4A0" }} />
+        ))}
+        {hasHalfStar && <StarHalf sx={{ color: "#A8E4A0" }} />}
+        {Array.from({ length: emptyStars }).map((_, index) => (
+          <StarOutline key={`empty-${index}`} sx={{ color: "#A8E4A0" }} />
+        ))}
+      </Grid>
+    );
+  };
+
   return (
-    <Box
+    <Grid
       sx={{
         backgroundColor: "#ECECEC",
         padding: "20px",
@@ -20,7 +60,7 @@ const RatingAndReviews: React.FC<Props> = ({ id }) => {
         marginTop: "10px",
       }}
     >
-      <Box
+      <Grid
         sx={{
           display: "flex",
           flexDirection: "row",
@@ -28,38 +68,39 @@ const RatingAndReviews: React.FC<Props> = ({ id }) => {
           alignItems: "center",
         }}
       >
-        <Box display="flex" alignItems="center">
-          <StarIcon sx={{ fontSize: "small", marginRight: 0.5 }} />
-          <span style={{ fontSize: "12px" }}>{trainerProfile?.rating}</span>
-        </Box>
-        <Box>
+        <Grid display="flex" alignItems="center">
+          {renderStars(total)}
+        </Grid>
+        <Grid>
           <Typography
             variant="body2"
             color="text.secondary"
-            component={Link}
-            to={`/trainers/reviews/${id}`}
             sx={{ fontSize: "12px", color: "black", display: "flex" }}
           >
-            Based on 25 reviews
+            Based on {reviews.length} reviews
           </Typography>
-        </Box>
-      </Box>
-      <Box>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{
-            marginTop: "10px",
-            fontSize: "11px",
-            color: "black",
-            display: "flex",
-          }}
-        >
-          "Inna is an amazing trainer! Her workouts are challenging but fun.
-          Highly recommended!"
-        </Typography>
-      </Box>
-    </Box>
+        </Grid>
+      </Grid>
+      <Grid>
+        {reviews.map((review) => (
+          <Grid
+            key={review._id}
+            sx={{
+              borderBottom: "1px solid #ccc",
+              paddingBottom: "10px",
+              marginBottom: "10px",
+            }}
+          >
+            <Grid>
+              <Typography variant="body2">
+                "{review.comment}" - {review.clientId.firstName}
+              </Typography>
+            </Grid>
+            <Grid>{renderStars(review.rating)}</Grid>
+          </Grid>
+        ))}
+      </Grid>
+    </Grid>
   );
 };
 

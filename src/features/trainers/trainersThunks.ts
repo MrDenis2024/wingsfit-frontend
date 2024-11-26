@@ -4,6 +4,7 @@ import {
   FullTrainerProfileMutation,
   ITrainer,
   ITrainerProfile,
+  Review,
 } from "../../types/trainerTypes.ts";
 
 export const getTrainers = createAsyncThunk<ITrainer[]>(
@@ -38,3 +39,13 @@ export const createTrainerProfile = createAsyncThunk<
 
   return trainerProfile;
 });
+
+export const getTrainersReview = createAsyncThunk<Review[], string>(
+  "trainers/getReview",
+  async (trainerId) => {
+    const { data: review } = await axiosApi.get<Review[]>(
+      `/review/${trainerId}`,
+    );
+    return review;
+  },
+);
