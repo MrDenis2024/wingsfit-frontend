@@ -71,3 +71,15 @@ export interface ITrainer {
   availableDays?: string;
   rating: number;
 }
+
+export interface Review {
+  _id: string;
+  clientId: {
+    _id: string;
+    firstName: string;
+  };
+  trainerId: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
