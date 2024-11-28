@@ -1,8 +1,10 @@
+import {ITimezone} from "./globalTypes.ts";
+
 export interface Lesson {
   _id: string;
   course: string;
   title: string;
-  timeZone: string;
+  timeZone: ITimezone;
   groupLevel: number;
   quantityClients: number;
   ageLimit: number;
@@ -14,7 +16,7 @@ export interface Lesson {
 export interface LessonMutation {
   course: string;
   title: string;
-  timeZone: string;
+  timeZone: ITimezone;
   groupLevel: string;
   quantityClients: string;
   ageLimit: string;

@@ -30,6 +30,6 @@ export interface ICourse {
   schedule: string;
   scheduleLength: string;
   price: number;
-  maxClients: string;
+  maxClients: number;
   image: string | null;
 }

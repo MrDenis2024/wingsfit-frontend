@@ -1,8 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
-  AdminLoginMutation,
   GlobalError,
-  IUser,
+  UserProfile,
   UserLogin,
   UserMutation,
   ValidationError,
@@ -10,9 +9,10 @@ import {
 import { isAxiosError } from "axios";
 import axiosApi from "../../axiosApi";
 import { unsetUser } from "./userSlice.ts";
+import {AdminMutation} from "../../types/adminTypes.ts";
 
 export const googleLogin = createAsyncThunk<
-  IUser,
+  UserProfile,
   { credential: string; role: string | null },
   { rejectValue: GlobalError }
 >("users/googleLogin", async (userMutation, { rejectWithValue }) => {
@@ -23,7 +23,7 @@ export const googleLogin = createAsyncThunk<
       });
     }
 
-    const { data: user } = await axiosApi.post<IUser>(
+    const { data: user } = await axiosApi.post<UserProfile>(
       `/users/google?role=${userMutation.role}`,
       { credential: userMutation.credential },
     );
@@ -43,12 +43,12 @@ export interface RegisterArg {
 }
 
 export const register = createAsyncThunk<
-  IUser,
+  UserProfile,
   RegisterArg,
   { rejectValue: ValidationError }
 >("users/register", async ({ userMutation, role }, { rejectWithValue }) => {
   try {
-    const { data: user } = await axiosApi.post<IUser>(
+    const { data: user } = await axiosApi.post<UserProfile>(
       `/users?role=${role}`,
       userMutation,
     );
@@ -62,12 +62,12 @@ export const register = createAsyncThunk<
 });
 
 export const login = createAsyncThunk<
-  IUser,
+  UserProfile,
   UserLogin,
   { rejectValue: GlobalError }
 >("users/login", async (loginMutation, { rejectWithValue }) => {
   try {
-    const { data: user } = await axiosApi.post<IUser>(
+    const { data: user } = await axiosApi.post<UserProfile>(
       "/users/sessions",
       loginMutation,
     );
@@ -81,12 +81,12 @@ export const login = createAsyncThunk<
 });
 
 export const loginAdmin = createAsyncThunk<
-  IUser,
-  AdminLoginMutation,
+  UserProfile,
+  AdminMutation,
   { rejectValue: GlobalError }
 >("users/loginAdmin", async (loginMutation, { rejectWithValue }) => {
   try {
-    const { data: user } = await axiosApi.post<IUser>(
+    const { data: user } = await axiosApi.post<UserProfile>(
       "/admins/sessionsAdmin",
       loginMutation,
     );

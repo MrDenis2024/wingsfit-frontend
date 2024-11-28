@@ -1,9 +1,9 @@
-import { Client } from "../../../types/clientTypes.ts";
+import {IClientProfile} from "../../../types/clientTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchAdminClients } from "./adminClientsThunks.ts";
 
 export interface AdminClientsState {
-  clients: Client[];
+  clients: IClientProfile[];
   totalClients: number;
   activeClients: number;
   clientsFetching: boolean;

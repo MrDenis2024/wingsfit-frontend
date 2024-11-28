@@ -1,3 +1,6 @@
+import {ITimezone} from "./globalTypes.ts";
+import {IUser} from "./userTypes.ts";
+
 export interface ClientProfileMutation {
   preferredWorkoutType: string[];
   trainingLevel: string;
@@ -9,51 +12,20 @@ export interface FullClientProfileMutation extends ClientProfileMutation {
   gender: string;
   phoneNumber: string;
   dateOfBirth: string;
-  timeZone: {
-    value: string;
-    label: string;
-  };
+  timeZone: ITimezone;
 }
 
 export interface IClientProfile {
   _id: string;
-  user: {
-    _id: string;
-    email: string;
-    role: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber: string;
-    gender: string;
-    dateOfBirth: string;
-    timeZone: {
-      value: string;
-      label: string;
-    };
-    avatar: string | null;
-  };
+  user: IUser;
   subscribes: string[];
   preferredWorkoutType: string[];
   trainingLevel: string;
   physicalData: string;
 }
 
-export interface Client extends ClientProfileMutation {
-  _id: string;
-  user: {
-    _id: string;
-    role: string;
-    firstName: string;
-    lastName: string;
-    createdAt: string;
-    updatedAt: string;
-    lastActivity: string;
-  };
-  subscribes: string;
-}
-
 export interface ClientStats {
   totalClients: number;
   activeClients: number;
-  clients: Client[];
+  clients: IClientProfile[];
 }

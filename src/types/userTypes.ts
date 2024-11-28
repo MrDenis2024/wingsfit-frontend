@@ -1,8 +1,10 @@
+import {ITimezone} from "./globalTypes.ts";
+
 export interface GlobalError {
   error: string;
 }
 
-export interface IUser {
+export interface UserProfile {
   _id: string;
   email: string;
   userName: string;
@@ -11,14 +13,14 @@ export interface IUser {
   lastName: string;
   token: string;
   gender: string;
-  timeZone: {
-    value: string;
-    label: string;
-  };
+  timeZone: ITimezone;
   phoneNumber?: string;
   avatar: string | null;
   dateOfBirth: string;
 }
+
+export type IUser = Omit<UserProfile, "token">;
+
 
 export interface UserMutation {
   email: string;
@@ -46,16 +48,8 @@ export interface ValidationError {
 export interface UserInfoMutation {
   firstName: string;
   lastName: string;
-  timeZone: {
-    value: string;
-    label: string;
-  };
+  timeZone: ITimezone;
   dateOfBirth: string;
   gender: string;
   phoneNumber: string;
-}
-
-export interface AdminLoginMutation {
-  userName: string;
-  password: string;
 }

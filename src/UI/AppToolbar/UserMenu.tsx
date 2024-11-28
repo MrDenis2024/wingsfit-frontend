@@ -11,7 +11,7 @@ import Grid from "@mui/material/Grid2";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import { IUser } from "../../types/userTypes.ts";
+import { UserProfile } from "../../types/userTypes.ts";
 import { apiURL } from "../../constants.ts";
 import { useAppDispatch } from "../../app/hooks.ts";
 import { logout } from "../../features/users/userThunk.ts";
@@ -20,7 +20,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 interface Props {
-  user: IUser;
+  user: UserProfile;
 }
 
 const UserMenu: React.FC<Props> = ({ user }) => {
