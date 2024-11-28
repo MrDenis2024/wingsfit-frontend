@@ -10,9 +10,9 @@ import { selectCourses } from "../courses/coursesSlice.ts";
 import { selectUser } from "../users/userSlice.ts";
 import { toast } from "react-toastify";
 import { selectError } from "../reviewForm/reviewSlice.ts";
-import { ITrainerProfile } from "../../types/trainerTypes.ts";
 import { createReview } from "../reviewForm/reviewThunk.ts";
 import TrainerProfileDetails from "./components/TrainerProfileDetails.tsx";
+import {ITrainer} from "../../types/trainerTypes.ts";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
@@ -65,7 +65,7 @@ const OneTrainer = () => {
     <>
       <TrainerProfileDetails
         avatarImage={avatarImage}
-        trainerProfile={trainerProfile as ITrainerProfile}
+        trainerProfile={trainerProfile as ITrainer}
         courses={courses}
         isOwner={isOwner}
         id={id}

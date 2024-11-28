@@ -5,11 +5,11 @@ import {
   getTrainers,
   getTrainersReview,
 } from "./trainersThunks.ts";
-import { ITrainer, ITrainerProfile, Review } from "../../types/trainerTypes.ts";
+import { ITrainer, Review } from "../../types/trainerTypes.ts";
 
 interface TrainersState {
-  trainerProfile: ITrainerProfile | null;
-  oneTrainer: ITrainerProfile | null;
+  trainerProfile: ITrainer | null;
+  oneTrainer: ITrainer | null;
   fetchOneTrainer: boolean;
   trainerProfileLoading: boolean;
   trainers: ITrainer[];
@@ -38,6 +38,7 @@ export const trainersSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getTrainerProfile.pending, (state) => {
+        state.oneTrainer = null;
         state.trainerProfileLoading = true;
         state.fetchOneTrainer = true;
       })
