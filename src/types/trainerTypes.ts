@@ -1,5 +1,5 @@
-import {ITimezone} from "./globalTypes.ts";
-import {IUser} from "./userTypes.ts";
+import { ITimezone } from "./globalTypes.ts";
+import { IUser } from "./userTypes.ts";
 
 export interface TrainerProfileMutation {
   description: string;
@@ -22,8 +22,8 @@ export interface ITrainer {
   _id: string;
   user: IUser;
   courseTypes: string[];
-  specialization?: string;
-  experience?: string;
+  specialization: string;
+  experience: string;
   certificates?: {
     _id: string;
     title: string;

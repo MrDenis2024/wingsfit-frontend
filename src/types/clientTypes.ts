@@ -1,5 +1,5 @@
-import {ITimezone} from "./globalTypes.ts";
-import {IUser} from "./userTypes.ts";
+import { ITimezone } from "./globalTypes.ts";
+import { IUser } from "./userTypes.ts";
 
 export interface ClientProfileMutation {
   preferredWorkoutType: string[];
@@ -15,7 +15,7 @@ export interface FullClientProfileMutation extends ClientProfileMutation {
   timeZone: ITimezone;
 }
 
-export interface IClientProfile {
+export interface IClient {
   _id: string;
   user: IUser;
   subscribes: string[];
@@ -27,5 +27,5 @@ export interface IClientProfile {
 export interface ClientStats {
   totalClients: number;
   activeClients: number;
-  clients: IClientProfile[];
+  clients: IClient[];
 }

@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createClientProfile, getClientProfile } from "./clientThunk.ts";
-import { IClientProfile } from "../../types/clientTypes.ts";
+import { IClient } from "../../types/clientTypes.ts";
 
 interface ClientState {
-  clientProfile: IClientProfile | null;
+  clientProfile: IClient | null;
   clientProfileLoading: boolean;
-  oneClientProfile: IClientProfile | null;
+  oneClientProfile: IClient | null;
   oneClientProfileLoading: boolean;
   creatingClientProfile: boolean;
 }

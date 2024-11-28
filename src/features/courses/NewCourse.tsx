@@ -5,7 +5,7 @@ import { CourseMutation } from "../../types/courseTypes.ts";
 import { createCourse } from "./coursesThunks.ts";
 import { Typography } from "@mui/material";
 import CourseForm from "./components/CourseForm.tsx";
-import {selectUser} from "../users/userSlice.ts";
+import { selectUser } from "../users/userSlice.ts";
 
 const NewCourse = () => {
   const trainer = useAppSelector(selectUser);

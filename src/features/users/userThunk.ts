@@ -9,7 +9,7 @@ import {
 import { isAxiosError } from "axios";
 import axiosApi from "../../axiosApi";
 import { unsetUser } from "./userSlice.ts";
-import {AdminMutation} from "../../types/adminTypes.ts";
+import { AdminMutation } from "../../types/adminTypes.ts";
 
 export const googleLogin = createAsyncThunk<
   UserProfile,

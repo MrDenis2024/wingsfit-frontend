@@ -1,4 +1,4 @@
-import {ITimezone} from "./globalTypes.ts";
+import { ITimezone } from "./globalTypes.ts";
 
 export interface GlobalError {
   error: string;
@@ -14,13 +14,12 @@ export interface UserProfile {
   token: string;
   gender: string;
   timeZone: ITimezone;
-  phoneNumber?: string;
+  phoneNumber: string;
   avatar: string | null;
   dateOfBirth: string;
 }
 
 export type IUser = Omit<UserProfile, "token">;
-
 
 export interface UserMutation {
   email: string;

@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { selectError } from "../reviewForm/reviewSlice.ts";
 import { createReview } from "../reviewForm/reviewThunk.ts";
 import TrainerProfileDetails from "./components/TrainerProfileDetails.tsx";
-import {ITrainer} from "../../types/trainerTypes.ts";
+import { ITrainer } from "../../types/trainerTypes.ts";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };

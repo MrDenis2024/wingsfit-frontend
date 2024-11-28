@@ -1,4 +1,4 @@
-import {ITimezone} from "./globalTypes.ts";
+import { ITimezone } from "./globalTypes.ts";
 
 export interface Lesson {
   _id: string;

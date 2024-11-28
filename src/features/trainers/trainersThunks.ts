@@ -20,9 +20,7 @@ export const getTrainers = createAsyncThunk<ITrainer[]>(
 export const getTrainerProfile = createAsyncThunk<ITrainer, string>(
   "trainers/profile",
   async (id) => {
-    const { data: trainer } = await axiosApi.get<ITrainer>(
-      `/trainers/${id}`,
-    );
+    const { data: trainer } = await axiosApi.get<ITrainer>(`/trainers/${id}`);
     return trainer;
   },
 );
