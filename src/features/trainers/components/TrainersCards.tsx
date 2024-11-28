@@ -8,13 +8,14 @@ interface Props {
 }
 
 const TrainersCards: React.FC<Props> = ({ trainers }) => {
+  console.log(trainers);
   return (
     <Grid2 container spacing={2}>
       {trainers.map((trainer) => {
         return (
           <TrainerCard
             key={trainer._id}
-            _id={trainer._id}
+            _id={trainer.user._id}
             firstName={trainer.user.firstName}
             lastName={trainer.user.lastName}
             avatar={trainer.user.avatar}
