@@ -17,6 +17,6 @@ jobs:
         run: cd tests/ && npm ci
       - name: Test run
         run: | 
-          cd tests/ && npx codeceptjs run --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps
+          cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps
 
       
