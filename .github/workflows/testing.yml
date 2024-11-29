@@ -11,8 +11,10 @@ jobs:
     steps:
       - name: Get repository code
         uses: actions/checkout@v4
-      - name: Install dependecies
+      - name: Install dependecies frontend
         run: npm ci && npm run dev &
+      - name: Install dependecies backend
+        run: cd .. && cd wingsfit-backend && npm ci && npm run dev &
       - name: Test install dependecies
         run: cd tests/ && npm ci
       - name: Test run
