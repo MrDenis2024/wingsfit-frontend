@@ -19,8 +19,9 @@ jobs:
         run: | 
           cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps
       - uses: actions/upload-artifact@v4
+        if: ${{always()}}
         with:
           name: my-artifact
-          path: path/to/artifact/ 
+          path: /home/runner/work/wingsfit-frontend/wingsfit-frontend/tests/output/
 
       
