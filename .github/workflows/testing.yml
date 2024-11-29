@@ -1,0 +1,19 @@
+name: Tests
+
+on: push
+
+env: 
+  SERVER_HOST: 209.38.96.160
+  
+jobs: 
+  test:
+    runs-on: ubuntu-latest 
+    steps:
+      - name: Get repository code
+      - uses: actions/checkout@v4
+      - name: Install dependecies
+        run: npm ci
+      - name: Test application
+        run: cd tests/ && npm run codeceptjs
+
+      
