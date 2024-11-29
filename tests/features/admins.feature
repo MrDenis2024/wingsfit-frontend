@@ -10,7 +10,7 @@
         И ввожу в поле "userName" значение "superAdmin"
         И ввожу в поле "password" значение "superAdmin"
         И нажимаю на кнопку "Get Started"
-        Тогда я вижу сообщение "Class Schedule"
+        Тогда я вижу сообщение "Courses"
 
     @loginAdminDontExistAdmin
         Сценарий: Логин с несуществующим админом 
@@ -31,10 +31,10 @@
         Сценарий: Создание новго админа
             Допустим я залогинен как "superAdmin"
             И я нахожусь на странице "создание админа"
-            И ввожу в поле "userName" значение "admin"
+            И ввожу в поле "userName" значение "admin1"
             И ввожу в поле "password" значение "admin1"
             И нажимаю на кнопку "Save admin"
-            Тогда я вижу сообщение "Class Schedule"
+            Тогда я вижу сообщение "Courses"
 
     @createNewAdminWithEmptyUserName
         Сценарий: Создание админа с незаполненными полями

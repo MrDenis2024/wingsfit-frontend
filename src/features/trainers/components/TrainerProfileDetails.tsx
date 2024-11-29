@@ -12,11 +12,11 @@ import { ICourse } from "../../../types/courseTypes.ts";
 import CourseCards from "../../courses/components/CourseCards.tsx";
 import RatingAndReviews from "./RatingAndReviews.tsx";
 import ReviewFormBlock from "../../reviewForm/components/ReviewFormBlock.tsx";
-import { ITrainerProfile } from "../../../types/trainerTypes.ts";
+import { ITrainer } from "../../../types/trainerTypes.ts";
 
 interface TrainerProfileDetailsProps {
   avatarImage: string;
-  trainerProfile: ITrainerProfile;
+  trainerProfile: ITrainer;
   courses: ICourse[];
   isOwner: boolean;
   id: string;

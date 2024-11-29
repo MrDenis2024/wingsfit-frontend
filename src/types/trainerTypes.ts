@@ -1,4 +1,5 @@
-import { ICourse } from "./courseTypes.ts";
+import { ITimezone } from "./globalTypes.ts";
+import { IUser } from "./userTypes.ts";
 
 export interface TrainerProfileMutation {
   description: string;
@@ -14,59 +15,20 @@ export interface FullTrainerProfileMutation extends TrainerProfileMutation {
   gender: string;
   phoneNumber: string;
   dateOfBirth: string;
-  timeZone: {
-    value: string;
-    label: string;
-  };
-}
-
-export interface ITrainerProfile {
-  _id: string;
-  user: {
-    _id: string;
-    email: string;
-    role: string;
-    gender: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber?: string;
-    avatar: string | null;
-    token: string;
-    dateOfBirth: string;
-    timeZone: {
-      value: string;
-      label: string;
-    };
-  };
-  courseTypes: ICourse[];
-  specialization?: string;
-  experience?: string;
-  certificates?: string;
-  description?: string;
-  availableDays?: string;
-  rating: number;
+  timeZone: ITimezone;
 }
 
 export interface ITrainer {
   _id: string;
-  user: {
-    _id: string;
-    email: string;
-    gender: string;
-    firstName: string;
-    lastName: string;
-    phoneNumber?: string;
-    avatar: string | null;
-    dateOfBirth: string;
-    timeZone: {
-      value: string;
-      label: string;
-    };
-  };
+  user: IUser;
   courseTypes: string[];
-  specialization?: string;
-  experience?: string;
-  certificates?: string;
+  specialization: string;
+  experience: string;
+  certificates?: {
+    _id: string;
+    title: string;
+    image: string;
+  }[];
   description?: string;
   availableDays?: string;
   rating: number;

@@ -104,10 +104,10 @@ const WelcomePage = () => {
             Будь свободен. Тренируй и тренируйся
           </Typography>
           <Stack direction="row" gap={2} flexWrap="wrap" mt={3}>
-            <NavLink to="/login/client" style={{ textDecoration: "none" }}>
+            <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
               <BeRoleButton text="Быть тренером!" />
             </NavLink>
-            <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
+            <NavLink to="/login/client" style={{ textDecoration: "none" }}>
               <BeRoleButton text="Хочу тренироваться!" />
             </NavLink>
           </Stack>
