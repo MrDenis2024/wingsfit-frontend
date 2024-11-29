@@ -14,7 +14,7 @@ jobs:
       - name: Install dependecies
         run: npm ci
       - name: Test install dependecies
-        run: cd tests/ && npm i
+        run: cd tests/ && npm ci
       - name: Test run
         run: npm run codeceptjs
 
