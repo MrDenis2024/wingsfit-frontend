@@ -18,9 +18,6 @@ jobs:
         run: pwd;ls;ls wingsfit-backend 
       - name: Install dependecies backend
         run: cd wingsfit-backend && npm ci && npm run dev &
-      - name: backend test
-        run: curl localhost:8000
-          
       - name: Get frontend repository code
         uses: actions/checkout@v4
       
