@@ -14,7 +14,7 @@ jobs:
         with: 
           path: 'https://github.com/MrDenis2024/wingsfit-backend'
       - name: Repo
-        run: pwd;ls 
+        run: pwd;ls;ls /home/runner/work/wingsfit-frontend/wingsfit-frontend/https:/github.com/MrDenis2024/wingsfit-backend 
       - name: Install dependecies backend
         run: cd .. && cd wingsfit-backend && npm ci && npm run dev &
       - name: backend test
