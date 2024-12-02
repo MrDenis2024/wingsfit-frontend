@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { useEffect, useState } from "react";
-import { selectTrainerProfile } from "./trainersSlice.ts";
+import { selectOneTrainer } from "./trainersSlice.ts";
 import { getTrainerProfile } from "./trainersThunks.ts";
 import { apiURL } from "../../constants.ts";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
@@ -10,14 +10,14 @@ import { selectCourses } from "../courses/coursesSlice.ts";
 import { selectUser } from "../users/userSlice.ts";
 import { toast } from "react-toastify";
 import { selectError } from "../reviewForm/reviewSlice.ts";
+import { ITrainer } from "../../types/trainerTypes.ts";
 import { createReview } from "../reviewForm/reviewThunk.ts";
 import TrainerProfileDetails from "./components/TrainerProfileDetails.tsx";
-import { ITrainer } from "../../types/trainerTypes.ts";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
-  const trainerProfile = useAppSelector(selectTrainerProfile);
+  const oneTrainer = useAppSelector(selectOneTrainer);
   const user = useAppSelector(selectUser);
   const courses = useAppSelector(selectCourses);
   const reviewError = useAppSelector(selectError);
@@ -34,8 +34,8 @@ const OneTrainer = () => {
     }
   }, [reviewError]);
 
-  const avatarImage = trainerProfile?.user.avatar
-    ? `${apiURL}/${trainerProfile.user.avatar}`
+  const avatarImage = oneTrainer?.user.avatar
+    ? `${apiURL}/${oneTrainer.user.avatar}`
     : imageNotFound;
 
   const handleReviewSubmit = async (
@@ -59,21 +59,23 @@ const OneTrainer = () => {
     }
   };
 
-  const isOwner = user?._id === trainerProfile?.user._id;
+  const isOwner = user?._id === oneTrainer?.user._id;
 
   return (
-    <>
-      <TrainerProfileDetails
-        avatarImage={avatarImage}
-        trainerProfile={trainerProfile as ITrainer}
-        courses={courses}
-        isOwner={isOwner}
-        id={id}
-        showForm={showForm}
-        setShowForm={setShowForm}
-        handleReviewSubmit={handleReviewSubmit}
-      />
-    </>
+    oneTrainer && (
+      <>
+        <TrainerProfileDetails
+          avatarImage={avatarImage}
+          trainerProfile={oneTrainer as ITrainer}
+          courses={courses}
+          isOwner={isOwner}
+          id={id}
+          showForm={showForm}
+          setShowForm={setShowForm}
+          handleReviewSubmit={handleReviewSubmit}
+        />
+      </>
+    )
   );
 };
 
