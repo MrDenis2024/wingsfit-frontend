@@ -24,7 +24,7 @@ jobs:
           mongodb-version: 8.0
           mongodb-db: wingsfit
       - name: Start backend
-        run: ls && npm run dev
+        run: cd wingsfit-backend && npm run dev &
       - name: Get frontend repository code
         uses: actions/checkout@v4
       - name: Install dependecies frontend
