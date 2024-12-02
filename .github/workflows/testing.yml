@@ -16,7 +16,7 @@ jobs:
       - name: Repo
         run: pwd;ls 
       - name: Install dependecies backend
-        run: npm ci && npm run dev &
+        run: cd .. && cd wingsfit-backend && npm ci && npm run dev &
       - name: backend test
         run: curl localhost:8000
           
