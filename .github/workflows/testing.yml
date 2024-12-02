@@ -13,6 +13,8 @@ jobs:
         uses: actions/checkout@v4
         with: 
           path: 'https://github.com/MrDenis2024/wingsfit-backend'
+      - name: Repo
+        run: pwd;ls 
       - name: Install dependecies backend
         run: npm ci && npm run dev &
       - name: backend test
