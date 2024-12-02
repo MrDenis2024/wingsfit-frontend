@@ -14,8 +14,6 @@ jobs:
         with: 
           repository: 'MrDenis2024/wingsfit-backend'
           path: 'wingsfit-backend'
-      - name: Repo
-        run: pwd;ls;ls wingsfit-backend 
       - name: Install dependecies backend
         run: cd wingsfit-backend && npm ci
       - name: Start MongoDB
@@ -25,6 +23,8 @@ jobs:
           mongodb-db: wingsfit
       - name: Start backend
         run: cd wingsfit-backend && npm run dev &
+      - name: Test backend
+        run: curl localhost:8000; ps aux; lsof -i
       - name: Get frontend repository code
         uses: actions/checkout@v4
       - name: Install dependecies frontend
