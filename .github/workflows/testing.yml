@@ -17,7 +17,14 @@ jobs:
       - name: Repo
         run: pwd;ls;ls wingsfit-backend 
       - name: Install dependecies backend
-        run: cd wingsfit-backend && npm ci && npm run dev
+        run: cd wingsfit-backend && npm ci
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-version: 8.0
+          mongodb-db: wingsfit
+      - name: Start backend
+        run: npm run dev
       - name: Get frontend repository code
         uses: actions/checkout@v4
       - name: Install dependecies frontend
