@@ -12,7 +12,8 @@ jobs:
       - name: Get backend repository code
         uses: actions/checkout@v4
         with: 
-          path: 'https://github.com/MrDenis2024/wingsfit-backend'
+          repository: 'MrDenis2024/wingsfit-backend'
+          path: 'wingsfit-backend'
       - name: Repo
         run: pwd;ls;ls /home/runner/work/wingsfit-frontend/wingsfit-frontend/https:/github.com/MrDenis2024/wingsfit-backend 
       - name: Install dependecies backend
