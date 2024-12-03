@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "ts-node src/backend.ts",
+    "start": "npx src/backend.ts",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
