@@ -30,7 +30,7 @@ jobs:
       - name: Install dependecies frontend
         run: npm ci && nohup npm run dev > out.txt 2>&1 &
       - name: Get page
-        run: curl localhost:5173/trainers && cat out.txt
+        run: cat out.txt
       - name: Test install dependecies
         run: cd tests/ && npm ci
       - name: Test run
