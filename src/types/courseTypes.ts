@@ -25,7 +25,7 @@ export interface ICourse {
   };
   title: string;
   courseType: {
-    id:string;
+    id: string;
     name: string;
   };
   description: string;

@@ -92,14 +92,14 @@ const App = () => {
             path="*"
             element={<h1 className="text-center">Not found</h1>}
           />
-            <Route
-                path="/trainers"
-                element={
-                    <>
-                        <TrainersPage />
-                    </>
-                }
-            />
+          <Route
+            path="/trainers"
+            element={
+              <>
+                <TrainersPage />
+              </>
+            }
+          />
           <Route
             path="/trainers/:id"
             element={
