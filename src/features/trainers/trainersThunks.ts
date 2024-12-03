@@ -24,6 +24,17 @@ export const getTrainerProfile = createAsyncThunk<ITrainer, string>(
     return trainer;
   },
 );
+
+export const fetchOneTrainer = createAsyncThunk<ITrainerProfile, string>(
+    "trainers/fetchOneTrainerProfile",
+    async (id) => {
+        const { data: trainer } = await axiosApi.get<ITrainerProfile>(
+            `/trainers/${id}`,
+        );
+        return trainer;
+    },
+);
+
 export const createTrainerProfile = createAsyncThunk<
   ITrainer,
   FullTrainerProfileMutation
