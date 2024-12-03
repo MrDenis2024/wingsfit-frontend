@@ -30,18 +30,18 @@ jobs:
       - name: Install dependecies frontend
         run: npm ci
       - name: Start frontend
-        run: npm run dev
+        run: npm run dev&
 
         
-      # - name: Test install dependecies
-      #   run: cd tests/ && npm ci
-      # - name: Test run
-      #   run: | 
-      #     cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
-      # - uses: actions/upload-artifact@v4
-      #   if: ${{always()}}
-      #   with:
-      #     name: my-artifact
-      #     path: /home/runner/work/wingsfit-frontend/wingsfit-frontend/tests/output
+      - name: Test install dependecies
+        run: cd tests/ && npm ci
+      - name: Test run
+        run: | 
+          cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
+      - uses: actions/upload-artifact@v4
+        if: ${{always()}}
+        with:
+          name: my-artifact
+          path: /home/runner/work/wingsfit-frontend/wingsfit-frontend/tests/output
 
       
