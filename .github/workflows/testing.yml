@@ -28,11 +28,7 @@ jobs:
       - name: Get frontend repository code
         uses: actions/checkout@v4
       - name: Install dependecies frontend
-        run: npm ci
-      - name: Start frontend
-        run: npm run start
-
-
+        run: npm ci && nohup npm run dev > out.txt 2>&1 &
       - name: Test install dependecies
         run: cd tests/ && npm ci
       - name: Test run

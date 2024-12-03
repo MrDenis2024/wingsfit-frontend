@@ -8,9 +8,11 @@ import { CourseMutation, ICourse } from "../../types/courseTypes.ts";
 export const fetchCourses = createAsyncThunk<ICourse[], string | undefined>(
   "courses/fetchAll",
   async (trainerId = "") => {
-    const { data: courses } = await axiosApi.get<ICourse[]>(
+    const { data: courses, status: status } = await axiosApi.get<ICourse[]>(
       `/courses?trainerId=${trainerId}`,
     );
+
+    console.log(status, courses);
 
     if (!courses) {
       return [];
