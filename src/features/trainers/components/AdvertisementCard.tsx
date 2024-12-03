@@ -8,7 +8,7 @@ interface Props {
   courses: ICourse;
 }
 
-const UpdTrainerCard: React.FC<Props> = ({ courses }) => {
+const AdvertisementCard: React.FC<Props> = ({ courses }) => {
   return (
     <Card
       sx={{
@@ -34,13 +34,11 @@ const UpdTrainerCard: React.FC<Props> = ({ courses }) => {
             textTransform: "uppercase",
           }}
         >
-          {courses.schedule ? courses.schedule : "Расписание пока не указано"}
+          {courses.schedule}
         </Typography>
 
         <Typography variant="body1" sx={{ fontWeight: "bold", mb: 1 }}>
-          {courses.title
-            ? `${courses.title} с ${courses.user.firstName} ${courses.user.lastName}`
-            : `${courses.user.firstName} ${courses.user.lastName}`}
+          {`${courses.title} ведёт ${courses.user.firstName} ${courses.user.lastName}`}
         </Typography>
 
         <Typography variant="caption" color="textSecondary" sx={{ mb: 4 }}>
@@ -53,4 +51,4 @@ const UpdTrainerCard: React.FC<Props> = ({ courses }) => {
   );
 };
 
-export default UpdTrainerCard;
+export default AdvertisementCard;

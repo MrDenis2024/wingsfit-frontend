@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { fetchCourses } from "../courses/coursesThunks.ts";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectCourses } from "../courses/coursesSlice.ts";
-import UpdTrainerCard from "./components/UpdTrainerCard.tsx";
-import { Box, Stack, Typography } from "@mui/material";
+import AdvertisementCard from "./components/AdvertisementCard.tsx";
+import { Stack, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import BeRoleButton from "../welcomePage/components/buttons/BeRoleButton.tsx";
+import Grid from "@mui/material/Grid2";
 
 const TrainersPage = () => {
   const dispatch = useAppDispatch();
@@ -20,25 +21,38 @@ const TrainersPage = () => {
   }, [dispatch]);
 
   return (
-    <Box
+    <Grid
+      container
+      spacing={2}
+      direction={"column"}
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "15px",
-        marginTop: "10px",
+        my: 3,
       }}
     >
-      <Box sx={{ display: "flex", flexDirection: "row", gap: "15px" }}>
+      <Typography component="h1" variant="h4">
+        Trainers
+      </Typography>
+      <Grid container spacing={2}>
         {courses.map((course) => (
-          <UpdTrainerCard key={course._id} courses={course} />
+          <Grid
+            size={{ md: 4, xs: 12, sm: 6 }}
+            key={course._id}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <AdvertisementCard courses={course} />
+          </Grid>
         ))}
         {courses.length === 0 && (
           <Typography variant="body2" color="text.secondary">
             Курсы отсутствуют.
           </Typography>
         )}
-      </Box>
-      <Box>
+      </Grid>
+      <Grid>
         <Stack
           direction="row"
           gap={2}
@@ -57,8 +71,8 @@ const TrainersPage = () => {
             <BeRoleButton text="Хочу тренироваться!" />
           </NavLink>
         </Stack>
-      </Box>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 
