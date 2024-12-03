@@ -3,7 +3,6 @@ import axiosApi from "../../axiosApi.ts";
 import {
   FullTrainerProfileMutation,
   ITrainer,
-  ITrainerProfile,
   Review,
 } from "../../types/trainerTypes.ts";
 
@@ -18,12 +17,10 @@ export const getTrainers = createAsyncThunk<ITrainer[]>(
   },
 );
 
-export const getTrainerProfile = createAsyncThunk<ITrainerProfile, string>(
+export const getTrainerProfile = createAsyncThunk<ITrainer, string>(
   "trainers/profile",
   async (id) => {
-    const { data: trainer } = await axiosApi.get<ITrainerProfile>(
-      `/trainers/${id}`,
-    );
+    const { data: trainer } = await axiosApi.get<ITrainer>(`/trainers/${id}`);
     return trainer;
   },
 );
@@ -39,7 +36,7 @@ export const fetchOneTrainer = createAsyncThunk<ITrainerProfile, string>(
 );
 
 export const createTrainerProfile = createAsyncThunk<
-  ITrainerProfile,
+  ITrainer,
   FullTrainerProfileMutation
 >("trainers/createTrainerProfile", async (trainerProfileMutation) => {
   console.log(trainerProfileMutation);

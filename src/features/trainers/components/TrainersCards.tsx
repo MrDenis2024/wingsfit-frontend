@@ -14,7 +14,7 @@ const TrainersCards: React.FC<Props> = ({ trainers }) => {
         return (
           <TrainerCard
             key={trainer._id}
-            _id={trainer._id}
+            _id={trainer.user._id}
             firstName={trainer.user.firstName}
             lastName={trainer.user.lastName}
             avatar={trainer.user.avatar}

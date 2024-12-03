@@ -52,7 +52,6 @@ const OneClient = () => {
   if (oneClient && oneClient.user.avatar) {
     avatarImage = `${apiURL}/${oneClient.user.avatar}`;
   }
-  console.log("Avatar Image URL:", avatarImage);
 
   return (
     <>

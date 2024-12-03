@@ -24,12 +24,15 @@ export interface ICourse {
     lastName: string;
   };
   title: string;
-  courseType: string;
+  courseType: {
+    id: string;
+    name: string;
+  };
   description: string;
   format: string;
   schedule: string;
   scheduleLength: string;
   price: number;
-  maxClients: string;
+  maxClients: number;
   image: string | null;
 }
