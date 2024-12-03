@@ -2,16 +2,16 @@ name: Tests
 
 on: push
 
-env: 
+env:
   SERVER_HOST: 209.38.96.160
-  
-jobs: 
+
+jobs:
   test:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
     steps:
       - name: Get backend repository code
         uses: actions/checkout@v4
-        with: 
+        with:
           repository: 'MrDenis2024/wingsfit-backend'
           path: 'wingsfit-backend'
       - name: Install dependecies backend
@@ -28,11 +28,15 @@ jobs:
       - name: Get frontend repository code
         uses: actions/checkout@v4
       - name: Install dependecies frontend
-        run: npm ci && npm run dev &
+        run: npm ci
+      - name: Start frontend
+        run: npm run dev&
+
+
       - name: Test install dependecies
         run: cd tests/ && npm ci
       - name: Test run
-        run: | 
+        run: |
           cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
       - uses: actions/upload-artifact@v4
         if: ${{always()}}
@@ -40,4 +44,3 @@ jobs:
           name: my-artifact
           path: /home/runner/work/wingsfit-frontend/wingsfit-frontend/tests/output
 
-      
