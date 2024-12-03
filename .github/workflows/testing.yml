@@ -29,6 +29,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependecies frontend
         run: npm ci && npm run dev &
+        
       - name: Test install dependecies
         run: cd tests/ && npm ci
       - name: Test run
