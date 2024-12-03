@@ -23,6 +23,7 @@ import OneCourse from "./features/courses/OneCourse.tsx";
 import { fetchCourseTypes } from "./features/CourseTypes/CourseTypesThunks.ts";
 import NewGroup from "./features/groups/NewGroup.tsx";
 import Chat from "./features/chat/Chat.tsx";
+import TrainersPage from "./features/trainers/TrainersPage.tsx";
 const App = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -91,6 +92,14 @@ const App = () => {
             path="*"
             element={<h1 className="text-center">Not found</h1>}
           />
+            <Route
+                path="/trainers"
+                element={
+                    <>
+                        <TrainersPage />
+                    </>
+                }
+            />
           <Route
             path="/trainers/:id"
             element={

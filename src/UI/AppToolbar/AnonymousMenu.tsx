@@ -28,7 +28,7 @@ const AnonymousMenu = () => {
   return (
     <Stack direction="row" spacing={4}>
       <CustomStyledLink href="/">Расписание</CustomStyledLink>
-      <CustomStyledLink href="/">Тренеры</CustomStyledLink>
+      <CustomStyledLink href="/trainers">Тренеры</CustomStyledLink>
       <CustomStyledLink href="/">Контакты</CustomStyledLink>
     </Stack>
   );
