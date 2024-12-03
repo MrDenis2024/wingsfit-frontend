@@ -30,7 +30,7 @@ jobs:
       - name: Install dependecies frontend
         run: npm ci
       - name: Start frontend
-        run: npm run dev&
+        run: npm run start
 
 
       - name: Test install dependecies
