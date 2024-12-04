@@ -8,7 +8,6 @@ interface Props {
 }
 
 const TrainersCards: React.FC<Props> = ({ trainers }) => {
-  console.log(trainers);
   return (
     <Grid2 container spacing={2}>
       {trainers.map((trainer) => {
