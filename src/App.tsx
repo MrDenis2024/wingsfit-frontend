@@ -23,6 +23,7 @@ import OneCourse from "./features/courses/OneCourse.tsx";
 import { fetchCourseTypes } from "./features/CourseTypes/CourseTypesThunks.ts";
 import NewGroup from "./features/groups/NewGroup.tsx";
 import Chat from "./features/chat/Chat.tsx";
+import TrainerStatistics from "./features/trainers/statistic/TrainerStatistics.tsx";
 const App = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -112,6 +113,38 @@ const App = () => {
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                 <NewCourse />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/trainer/statistics"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <TrainerStatistics />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/trainer/statistics/clients"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <TrainerStatistics />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/trainer/statistics/groups"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <TrainerStatistics />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/trainer/statistics/chart"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <TrainerStatistics />
               </ProtectedRoute>
             }
           />

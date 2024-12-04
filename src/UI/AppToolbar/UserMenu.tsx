@@ -18,6 +18,7 @@ import { logout } from "../../features/users/userThunk.ts";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import ChatIcon from "@mui/icons-material/Chat";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import AddchartIcon from "@mui/icons-material/Addchart";
 
 interface Props {
   user: UserProfile;
@@ -90,6 +91,12 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           <CalendarMonthIcon sx={{ mr: 2 }} />
           Calendar
         </MenuItem>
+        {user.role === "trainer" && (
+          <MenuItem onClick={() => navigate(`/${user.role}/statistics`)}>
+            <AddchartIcon sx={{ mr: 2 }} />
+            My statistic
+          </MenuItem>
+        )}
         <MenuItem onClick={handleLogout}>
           <LogoutIcon sx={{ mr: 2 }} />
           Logout
