@@ -17,6 +17,7 @@
     "@mui/icons-material": "^6.1.0",
     "@mui/lab": "^6.0.0-beta.9",
     "@mui/material": "^6.1.0",
+    "@mui/x-charts": "^7.23.0",
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^2.2.7",
     "axios": "^1.7.7",
