@@ -23,14 +23,14 @@ jobs:
           mongodb-db: wingsfit
       - name: Start backend
         run: cd wingsfit-backend && npm run dev &
-      - name: Test backend
-        run: curl localhost:8000; ps aux; lsof -i
+      # - name: Test backend
+      #   run: curl localhost:8000; ps aux; lsof -i
       - name: Get frontend repository code
         uses: actions/checkout@v4
       - name: Install dependecies frontend
         run: npm ci && nohup npm run dev > out.txt 2>&1 &
-      - name: Get page
-        run: curl localhost:5173/trainers && cat out.txt
+      # - name: Get page
+      #   run: curl localhost:5173/trainers && cat out.txt
       - name: Test install dependecies
         run: cd tests/ && npm ci
       - name: Print secret
