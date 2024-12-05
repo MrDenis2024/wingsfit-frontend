@@ -1,4 +1,12 @@
-import { Box, Button, CardMedia, Container, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CardMedia,
+  Container,
+  Dialog,
+  Grid2,
+  Typography,
+} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import CelebrationIcon from "@mui/icons-material/Celebration";
@@ -7,12 +15,25 @@ import FemaleIcon from "@mui/icons-material/Female";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ICourse } from "../../../types/courseTypes.ts";
 import CourseCards from "../../courses/components/CourseCards.tsx";
 import RatingAndReviews from "./RatingAndReviews.tsx";
 import ReviewFormBlock from "../../reviewForm/components/ReviewFormBlock.tsx";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import FileInput from "../../../UI/FileInput/FileInput.tsx";
+import imageNotFound from "/src/assets/images/user-icon-not-found.png";
+import { toast } from "react-toastify";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
+import {
+  fetchUpdateAvatarTrainer,
+  getTrainerProfile,
+} from "../trainersThunks.ts";
+import { apiURL } from "../../../constants.ts";
+import { selectOneTrainer } from "../trainersSlice.ts";
+import NewAddTrainerCertificates from "../NewAddTrainerCertificates.tsx";
 import { ITrainer } from "../../../types/trainerTypes.ts";
+import TrainerCertificates from "./TrainerCertificates.tsx";
 
 interface TrainerProfileDetailsProps {
   avatarImage: string;
@@ -26,7 +47,6 @@ interface TrainerProfileDetailsProps {
 }
 
 const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
-  avatarImage,
   trainerProfile,
   courses,
   isOwner,
@@ -35,17 +55,87 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   setShowForm,
   handleReviewSubmit,
 }) => {
+  const dispatch = useAppDispatch();
+  const oneTrainer = useAppSelector(selectOneTrainer);
+  const [open, setOpen] = useState(false);
+  const [avatarImage, setAvatarImage] = useState(imageNotFound);
+  const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
+  let cardImage = imageNotFound;
+
+  if (oneTrainer && oneTrainer.user.avatar) {
+    cardImage = `${apiURL}/${oneTrainer.user.avatar}`;
+  }
+
+  useEffect(() => {
+    if (oneTrainer?.user.avatar) {
+      setAvatarImage(`${apiURL}/${oneTrainer.user.avatar}`);
+    }
+  }, [oneTrainer]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setAvatarImage(cardImage);
+    setSelectedAvatar(null);
+  };
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    if (file) {
+      setSelectedAvatar(file);
+      const objectUrl = URL.createObjectURL(file);
+      setAvatarImage(objectUrl);
+    }
+  };
+
+  const handleAvatarSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!selectedAvatar) return;
+
+    try {
+      await dispatch(fetchUpdateAvatarTrainer(selectedAvatar)).unwrap();
+      await dispatch(getTrainerProfile(id));
+      toast("Avatar updated successfully");
+      setSelectedAvatar(null);
+      handleClose();
+    } catch (err) {
+      console.error("Failed to update avatar:", err);
+      toast("Failed to update avatar");
+    }
+  };
+
+  const handleDeleteAvatar = async () => {
+    try {
+      await dispatch(fetchUpdateAvatarTrainer(null)).unwrap();
+      toast("Avatar deleted successfully");
+      dispatch(getTrainerProfile(id));
+      setAvatarImage(imageNotFound);
+    } catch (err) {
+      console.error("Failed to delete avatar:", err);
+      toast("Failed to delete avatar");
+    }
+  };
   return (
     <>
       <Box sx={{ backgroundColor: "#dedfe3", paddingY: "25px" }}>
         <Container maxWidth="xl">
           <Grid container spacing={2} alignItems="center">
             <Grid
-              sx={{ gridColumn: { xs: "span 12", sm: "span 4", md: "span 3" } }}
+              sx={{
+                gridColumn: {
+                  xs: "span 12",
+                  sm: "span 4",
+                  md: "span 3",
+                  marginBottom: "auto",
+                },
+              }}
             >
               <CardMedia
                 component="img"
-                image={avatarImage}
+                image={cardImage}
                 alt={`Фото тренера ${trainerProfile.user.firstName}`}
                 sx={{
                   width: 200,
@@ -55,6 +145,15 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   margin: "0 auto",
                 }}
               />
+              {isOwner && (
+                <Button
+                  onClick={handleClickOpen}
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  Изменить аватарку
+                  <CameraAltIcon sx={{ marginLeft: 1 }} />
+                </Button>
+              )}
             </Grid>
             <Grid
               sx={{ gridColumn: { xs: "span 12", sm: "span 8", md: "span 9" } }}
@@ -130,6 +229,8 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   <strong>Experience:</strong>{" "}
                   {trainerProfile.experience || "Experience not provided"}
                 </Typography>
+                <TrainerCertificates />
+                {isOwner && <NewAddTrainerCertificates />}
                 {!isOwner && (
                   <Button
                     variant="contained"
@@ -241,6 +342,78 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
             )}
           </Box>
         </Container>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              maxWidth: "90vw",
+              maxHeight: "90vh",
+              display: "flex",
+              flexDirection: "column",
+              padding: "20px",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <CardMedia
+              component="img"
+              image={avatarImage}
+              alt="Фото замены"
+              sx={{
+                width: 350,
+                height: 350,
+                borderRadius: "50%",
+                objectFit: "cover",
+                marginBottom: "25px",
+              }}
+            />
+            <Box sx={{ width: "100%" }}>
+              <Grid2>
+                <FileInput
+                  label="Выберите аватарку"
+                  name="image"
+                  onChange={handleAvatarChange}
+                />
+              </Grid2>
+              <Grid2
+                container
+                justifyContent="space-between"
+                sx={{ width: "100%", marginY: 2 }}
+              >
+                <Button
+                  variant="outlined"
+                  sx={{ width: "200px", marginRight: 2, marginBottom: 2 }}
+                  onClick={handleAvatarSubmit}
+                  disabled={!selectedAvatar}
+                >
+                  Сохранить аватарку
+                </Button>
+                <Button
+                  variant="outlined"
+                  sx={{ width: "200px", marginBottom: 2 }}
+                  color="error"
+                  onClick={handleDeleteAvatar}
+                >
+                  Удалить аватарку
+                </Button>
+              </Grid2>
+            </Box>
+            <Button
+              onClick={handleClose}
+              variant="contained"
+              sx={{ width: "90px", alignSelf: "flex-end" }}
+            >
+              Close
+            </Button>
+          </Box>
+        </Dialog>
       </Box>
     </>
   );
