@@ -22,23 +22,20 @@ jobs:
           mongodb-version: 8.0
           mongodb-db: wingsfit
       - name: Start backend
-        run: cd wingsfit-backend && npm run dev &
+        run: cd wingsfit-backend && npm run seed && npm run dev &
       # - name: Test backend
       #   run: curl localhost:8000; ps aux; lsof -i
       - name: Get frontend repository code
         uses: actions/checkout@v4
       - name: Install dependecies frontend
-        run: npm ci && nohup npm run dev > out.txt 2>&1 &
+        run: npm ci && npm run dev &
       # - name: Get page
       #   run: curl localhost:5173/trainers && cat out.txt
       - name: Test install dependecies
         run: cd tests/ && npm ci
-      - name: Print secret
-        run: echo ${{secrets.SERVER_FILED_KEY}}
-        
-#      - name: Test run
-#        run: |
-#          cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
+      - name: Test run
+        run: |
+         cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
 #      - uses: actions/upload-artifact@v4
 #        if: ${{always()}}
 #        with:
