@@ -1,4 +1,11 @@
-import {Box, Collapse, Grid2, IconButton, TextField, Typography} from "@mui/material";
+import {
+  Box,
+  Collapse,
+  Grid2,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import React, { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
@@ -55,13 +62,15 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
 
   return (
     <Grid2 container spacing={2}>
-      <Grid2  onClick={toggleStatus}>
-        <Box  sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "start",
-          cursor: "pointer",
-        }}>
+      <Grid2 onClick={toggleStatus}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "start",
+            cursor: "pointer",
+          }}
+        >
           <Typography variant="h5" sx={{ fontWeight: "bold" }}>
             Добавить сертификат
           </Typography>
@@ -70,42 +79,44 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
           </IconButton>
         </Box>
         <Collapse in={isStatusOpen}>
-        <Box component="form" onSubmit={submitFormHandler} onClick={(e) => e.stopPropagation()}>
-          <Grid2 container spacing={2} flexDirection="column">
-            <Box>
-              <Grid2>
-                <TextField
+          <Box
+            component="form"
+            onSubmit={submitFormHandler}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Grid2 container spacing={2} flexDirection="column">
+              <Box>
+                <Grid2>
+                  <TextField
                     label="Название сертификата"
                     value={state.title}
                     name="title"
                     onChange={inputChangeHandler}
                     required
                     sx={{ width: "100%", maxWidth: "300px", mb: 2 }}
-                />
-              </Grid2>
-              <Grid2
-                  sx={{ width: "450px" }}
-              >
-                <FileInput
+                  />
+                </Grid2>
+                <Grid2 sx={{ width: "450px" }}>
+                  <FileInput
                     label="Загрузить сертификат"
                     name="image"
                     onChange={fileInputChangeHandler}
-                />
+                  />
+                </Grid2>
+              </Box>
+              <Grid2>
+                <LoadingButton
+                  type="submit"
+                  loading={isLoading}
+                  loadingPosition="start"
+                  startIcon={<SaveIcon />}
+                  variant="contained"
+                >
+                  <span>Сохранить</span>
+                </LoadingButton>
               </Grid2>
-            </Box>
-            <Grid2>
-              <LoadingButton
-                type="submit"
-                loading={isLoading}
-                loadingPosition="start"
-                startIcon={<SaveIcon />}
-                variant="contained"
-              >
-                <span>Сохранить</span>
-              </LoadingButton>
             </Grid2>
-          </Grid2>
-        </Box>
+          </Box>
         </Collapse>
       </Grid2>
     </Grid2>

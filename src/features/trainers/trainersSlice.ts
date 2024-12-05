@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  createTrainerProfile, deleteCertificate,
+  createTrainerProfile,
+  deleteCertificate,
   getTrainerProfile,
   getTrainers,
   getTrainersReview,
@@ -98,15 +99,18 @@ export const trainersSlice = createSlice({
         state.fetchReviewsLoading = false;
       });
     builder
-        .addCase(deleteCertificate.pending, (state, { meta: { arg: trackId } }) => {
+      .addCase(
+        deleteCertificate.pending,
+        (state, { meta: { arg: trackId } }) => {
           state.deleteLoading = trackId;
-        })
-        .addCase(deleteCertificate.fulfilled, (state) => {
-          state.deleteLoading = false;
-        })
-        .addCase(deleteCertificate.rejected, (state) => {
-          state.deleteLoading = false;
-        });
+        },
+      )
+      .addCase(deleteCertificate.fulfilled, (state) => {
+        state.deleteLoading = false;
+      })
+      .addCase(deleteCertificate.rejected, (state) => {
+        state.deleteLoading = false;
+      });
   },
   selectors: {
     selectTrainerProfile: (state) => state.trainerProfile,

@@ -30,7 +30,7 @@ import {
   getTrainerProfile,
 } from "../trainersThunks.ts";
 import { apiURL } from "../../../constants.ts";
-import {selectOneTrainer} from "../trainersSlice.ts";
+import { selectOneTrainer } from "../trainersSlice.ts";
 import NewAddTrainerCertificates from "../NewAddTrainerCertificates.tsx";
 import { ITrainer } from "../../../types/trainerTypes.ts";
 import TrainerCertificates from "./TrainerCertificates.tsx";
@@ -124,7 +124,14 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
         <Container maxWidth="xl">
           <Grid container spacing={2} alignItems="center">
             <Grid
-              sx={{ gridColumn: { xs: "span 12", sm: "span 4", md: "span 3", marginBottom: "auto" } }}
+              sx={{
+                gridColumn: {
+                  xs: "span 12",
+                  sm: "span 4",
+                  md: "span 3",
+                  marginBottom: "auto",
+                },
+              }}
             >
               <CardMedia
                 component="img"
@@ -139,13 +146,13 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 }}
               />
               {isOwner && (
-              <Button
-                onClick={handleClickOpen}
-                sx={{ display: "flex", alignItems: "center" }}
-              >
-                Изменить аватарку
-                <CameraAltIcon sx={{ marginLeft: 1 }} />
-              </Button>
+                <Button
+                  onClick={handleClickOpen}
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
+                  Изменить аватарку
+                  <CameraAltIcon sx={{ marginLeft: 1 }} />
+                </Button>
               )}
             </Grid>
             <Grid
@@ -222,10 +229,8 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   <strong>Experience:</strong>{" "}
                   {trainerProfile.experience || "Experience not provided"}
                 </Typography>
-                  <TrainerCertificates />
-                {isOwner && (
-                <NewAddTrainerCertificates />
-                )}
+                <TrainerCertificates />
+                {isOwner && <NewAddTrainerCertificates />}
                 {!isOwner && (
                   <Button
                     variant="contained"

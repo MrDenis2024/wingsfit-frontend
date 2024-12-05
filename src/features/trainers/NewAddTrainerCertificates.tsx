@@ -1,11 +1,11 @@
 import { useState } from "react";
-import {createCertificate, getTrainerProfile} from "./trainersThunks.ts";
+import { createCertificate, getTrainerProfile } from "./trainersThunks.ts";
 import AddTrainerCertificates from "./components/addTrainerCertificates.tsx";
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {selectOneTrainer} from "./trainersSlice.ts";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
+import { selectOneTrainer } from "./trainersSlice.ts";
 
 const NewAddTrainerCertificates = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const oneTrainer = useAppSelector(selectOneTrainer);
   const [isLoading, setIsLoading] = useState(false);
 
