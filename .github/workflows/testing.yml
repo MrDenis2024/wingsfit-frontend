@@ -33,12 +33,28 @@ jobs:
         run: curl localhost:5173/trainers && cat out.txt
       - name: Test install dependecies
         run: cd tests/ && npm ci
-      - name: Test run
-        run: |
-          cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
-      - uses: actions/upload-artifact@v4
-        if: ${{always()}}
-        with:
-          name: my-artifact
-          path: /home/runner/work/wingsfit-frontend/wingsfit-frontend/tests/output
+      - name: Print secret
+        run: echo ${{secret.SERVER_FILED_KEY}}
+#      - name: Test run
+#        run: |
+#          cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
+#      - uses: actions/upload-artifact@v4
+#        if: ${{always()}}
+#        with:
+#          name: my-artifact
+#          path: /home/runner/work/wingsfit-frontend/wingsfit-frontend/tests/output
+#      - name: Set up SSH
+#        uses: webfactory/ssh-agent@v0.5.4
+#        with:
+#          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#
+#      # 3. Выполнение команд на удалённом сервере
+#      - name: Deploy to Server
+#        run: |
+#          ssh -o StrictHostKeyChecking=no wingsfit-admin@209.38.96.160 << 'EOF'
+#            cd /path/to/your/project
+#            git pull origin main
+#            npm install # или другая команда для установки зависимостей
+#            pm2 restart app # или команда для перезапуска сервера
+#          EOF
 
