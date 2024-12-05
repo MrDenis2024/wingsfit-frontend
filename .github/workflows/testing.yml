@@ -34,7 +34,7 @@ jobs:
       - name: Test install dependecies
         run: cd tests/ && npm ci
       - name: Print secret
-        run: echo ${{secret.SERVER_FILED_KEY}}
+        run: echo ${{secrets.SERVER_FILED_KEY}}
         
 #      - name: Test run
 #        run: |
