@@ -1,10 +1,10 @@
 import {
   Box,
   Button,
-  CardMedia,
+  CardMedia, CircularProgress, Collapse,
   Container,
   Dialog,
-  Grid2,
+  Grid2, IconButton,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -15,6 +15,7 @@ import FemaleIcon from "@mui/icons-material/Female";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import React, { useEffect, useState } from "react";
 import { ICourse } from "../../../types/courseTypes.ts";
 import CourseCards from "../../courses/components/CourseCards.tsx";
@@ -30,9 +31,11 @@ import {
   getTrainerProfile,
 } from "../trainersThunks.ts";
 import { apiURL } from "../../../constants.ts";
-import { selectOneTrainer } from "../trainersSlice.ts";
+import {selectOneTrainer, selectOneTrainerLoading} from "../trainersSlice.ts";
 import NewAddTrainerCertificates from "../NewAddTrainerCertificates.tsx";
 import { ITrainer } from "../../../types/trainerTypes.ts";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface TrainerProfileDetailsProps {
   avatarImage: string;
@@ -56,10 +59,12 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const oneTrainer = useAppSelector(selectOneTrainer);
+  const isFetching = useAppSelector(selectOneTrainerLoading);
   const [open, setOpen] = useState(false);
   const [avatarImage, setAvatarImage] = useState(imageNotFound);
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
-
+  const [isStatusOpen, setIsStatusOpen] = useState(false);
+  const toggleStatus = () => setIsStatusOpen((prev) => !prev);
   let cardImage = imageNotFound;
 
   if (oneTrainer && oneTrainer.user.avatar) {
@@ -124,7 +129,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
         <Container maxWidth="xl">
           <Grid container spacing={2} alignItems="center">
             <Grid
-              sx={{ gridColumn: { xs: "span 12", sm: "span 4", md: "span 3" } }}
+              sx={{ gridColumn: { xs: "span 12", sm: "span 4", md: "span 3", marginBottom: "auto" } }}
             >
               <CardMedia
                 component="img"
@@ -138,6 +143,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   margin: "0 auto",
                 }}
               />
+              {isOwner && (
               <Button
                 onClick={handleClickOpen}
                 sx={{ display: "flex", alignItems: "center" }}
@@ -145,6 +151,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 Изменить аватарку
                 <CameraAltIcon sx={{ marginLeft: 1 }} />
               </Button>
+              )}
             </Grid>
             <Grid
               sx={{ gridColumn: { xs: "span 12", sm: "span 8", md: "span 9" } }}
@@ -220,7 +227,76 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   <strong>Experience:</strong>{" "}
                   {trainerProfile.experience || "Experience not provided"}
                 </Typography>
+                <Box
+                sx={{   maxWidth: "1200px",
+                  width: "100%",}}
+                >
+                  <Box
+                      onClick={toggleStatus}
+                      sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "start",
+                    cursor: "pointer",
+                  }}>
+                  <Typography
+                      variant="body1"
+                      sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                    <WorkspacePremiumIcon />
+                    <strong>Показать сертификаты:</strong>
+                  </Typography>
+                  <IconButton>
+                    {isStatusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                  </IconButton>
+                  </Box>
+                  <Collapse in={isStatusOpen}>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start",gap: "15px", }}>
+                      {isFetching ? (
+                          <CircularProgress />
+                      ) : trainerProfile.certificates?.length ? (
+                          trainerProfile.certificates.map((certificate) => (
+                              <Box
+                                  key={certificate._id}
+                                  sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    maxWidth: 200,
+                                    width: "100%",
+                                    padding: "10px",
+                                    boxSizing: "border-box",
+                                    borderRadius: "10px",
+                                    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                                    marginBottom: "15px",
+                                  }}
+                              >
+                                <Typography variant="body1" sx={{ fontWeight: "bold", alignItems: "start" }}>
+                                  {certificate.title}
+                                </Typography>
+                                <CardMedia
+                                    component="img"
+                                    image={`${apiURL}/${certificate.image}`}
+                                    alt={certificate.title}
+                                    sx={{
+                                      width: 150,
+                                      height: 150,
+                                      objectFit: "cover",
+                                      borderRadius: "10px",
+                                      marginTop: "5px",
+                                    }}
+                                />
+                              </Box>
+                          ))
+                      ) : (
+                          <Typography>Сертификаты отсутствуют.</Typography>
+                      )}
+                    </Box>
+                  </Collapse>
+                </Box>
+                {isOwner && (
                 <NewAddTrainerCertificates />
+                )}
                 {!isOwner && (
                   <Button
                     variant="contained"

@@ -1,8 +1,10 @@
-import { Box, Grid2, TextField, Typography } from "@mui/material";
+import {Box, Collapse, Grid2, IconButton, TextField, Typography} from "@mui/material";
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import React, { useState } from "react";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface Props {
   onSubmit: (certificates: { title: string; image: File }[]) => void;
@@ -14,6 +16,8 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
     title: "",
     image: null,
   });
+  const [isStatusOpen, setIsStatusOpen] = useState(false);
+  const toggleStatus = () => setIsStatusOpen((prev) => !prev);
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -50,30 +54,45 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
   };
 
   return (
-    <Grid2 container spacing={2} sx={{ mt: 4 }}>
-      <Grid2>
-        <Typography variant="h5" sx={{ fontWeight: "bold", mb: 2 }}>
-          Добавить сертификат
-        </Typography>
-        <Box component="form" onSubmit={submitFormHandler}>
-          <Grid2 container spacing={2}>
-            <Grid2>
-              <TextField
-                label="Название сертификата"
-                value={state.title}
-                name="title"
-                onChange={inputChangeHandler}
-                fullWidth
-                required
-              />
-            </Grid2>
-            <Grid2>
-              <FileInput
-                label="Загрузить сертификат"
-                name="image"
-                onChange={fileInputChangeHandler}
-              />
-            </Grid2>
+    <Grid2 container spacing={2}>
+      <Grid2  onClick={toggleStatus}>
+        <Box  sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "start",
+          cursor: "pointer",
+        }}>
+          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+            Добавить сертификат
+          </Typography>
+          <IconButton>
+            {isStatusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </IconButton>
+        </Box>
+        <Collapse in={isStatusOpen}>
+        <Box component="form" onSubmit={submitFormHandler} onClick={(e) => e.stopPropagation()}>
+          <Grid2 container spacing={2} flexDirection="column">
+            <Box>
+              <Grid2>
+                <TextField
+                    label="Название сертификата"
+                    value={state.title}
+                    name="title"
+                    onChange={inputChangeHandler}
+                    required
+                    sx={{ width: "100%", maxWidth: "300px", mb: 2 }}
+                />
+              </Grid2>
+              <Grid2
+                  sx={{ width: "450px" }}
+              >
+                <FileInput
+                    label="Загрузить сертификат"
+                    name="image"
+                    onChange={fileInputChangeHandler}
+                />
+              </Grid2>
+            </Box>
             <Grid2>
               <LoadingButton
                 type="submit"
@@ -87,6 +106,7 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
             </Grid2>
           </Grid2>
         </Box>
+        </Collapse>
       </Grid2>
     </Grid2>
   );
