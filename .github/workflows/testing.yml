@@ -35,6 +35,7 @@ jobs:
         run: cd tests/ && npm ci
       - name: Print secret
         run: echo ${{secret.SERVER_FILED_KEY}}
+        
 #      - name: Test run
 #        run: |
 #          cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
