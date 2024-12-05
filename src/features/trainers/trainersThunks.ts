@@ -96,3 +96,18 @@ export const createCertificate = createAsyncThunk<
     }
   },
 );
+
+export const deleteCertificate = createAsyncThunk<ITrainer, string>(
+    'trainers/certificates/fetchDelete',
+    async (_id, { rejectWithValue }) => {
+        try {
+            const { data: certificate } = await axiosApi.delete<ITrainer>(`/trainers/certificates/${_id}`);
+            return certificate;
+        } catch (e) {
+            if (isAxiosError(e) && e.response) {
+                return rejectWithValue(e.response.data);
+            }
+            throw e;
+        }
+    }
+);
