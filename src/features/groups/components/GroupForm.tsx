@@ -25,7 +25,7 @@ interface Props {
   isLoading: boolean;
 }
 
-const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
+const GroupForm: React.FC<Props> = ({ onSubmit, isLoading}) => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
   const coursesFetching = useAppSelector(selectCoursesFetching);
@@ -41,7 +41,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
     dispatch(fetchCourses(user?._id));
   }, [dispatch]);
 
-  const submitFormHandler = (event: React.FormEvent) => {
+  const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit({ ...state });
   };
@@ -118,13 +118,13 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       </Grid2>
       <Grid2>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <InputLabel id="demo-simple-select-label">Training level</InputLabel>
           <Select
               required
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={state.trainingLevel}
-              label="Age"
+              label="Training level"
               variant="outlined"
               onChange={handleChange}
           >
