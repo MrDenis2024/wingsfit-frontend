@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   createTrainerProfile,
   editTrainer,
+  deleteCertificate,
   getTrainerProfile,
   getTrainers,
   getTrainersReview,
@@ -19,6 +20,7 @@ interface TrainersState {
   review: Review[];
   fetchReviewsLoading: boolean;
   editLoading: boolean;
+  deleteLoading: string | false;
 }
 
 const initialState: TrainersState = {
@@ -32,6 +34,7 @@ const initialState: TrainersState = {
   review: [],
   fetchReviewsLoading: false,
   editLoading: false,
+  deleteLoading: false,
 };
 
 export const trainersSlice = createSlice({
@@ -109,6 +112,20 @@ export const trainersSlice = createSlice({
       .addCase(editTrainer.rejected, (state) => {
         state.editLoading = false;
       });
+
+    builder
+      .addCase(
+        deleteCertificate.pending,
+        (state, { meta: { arg: trackId } }) => {
+          state.deleteLoading = trackId;
+        },
+      )
+      .addCase(deleteCertificate.fulfilled, (state) => {
+        state.deleteLoading = false;
+      })
+      .addCase(deleteCertificate.rejected, (state) => {
+        state.deleteLoading = false;
+      });
   },
   selectors: {
     selectTrainerProfile: (state) => state.trainerProfile,
@@ -120,6 +137,7 @@ export const trainersSlice = createSlice({
     selectCreatingTrainerProfile: (state) => state.creatingTrainerProfile,
     selectReview: (state) => state.review,
     selectFetchReviewsLoading: (state) => state.fetchReviewsLoading,
+    selectDeleteCertificateLoading: (state) => state.deleteLoading,
     selectEditLoading: (state) => state.editLoading,
   },
 });
