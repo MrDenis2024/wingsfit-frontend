@@ -41,7 +41,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
     dispatch(fetchCourses(user?._id));
   }, [dispatch]);
 
-  const submitFormHandler = async (event: React.FormEvent) => {
+  const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit({ ...state });
   };
