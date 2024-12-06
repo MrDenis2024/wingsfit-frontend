@@ -20,7 +20,7 @@ const NewGroup = () => {
       if (!error?.error) {
         toast.success("Группа успешно создана!");
         setTimeout(() => {
-          navigate("/main");
+          navigate("/");
         }, 2500);
       }
     } catch (error) {
