@@ -25,6 +25,7 @@ import NewGroup from "./features/groups/NewGroup.tsx";
 import Chat from "./features/chat/Chat.tsx";
 import TrainersPage from "./features/trainers/TrainersPage.tsx";
 import TrainerStatistics from "./features/trainers/statistic/TrainerStatistics.tsx";
+import EditTrainer from "./features/trainers/components/EditTrainer.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -108,6 +109,14 @@ const App = () => {
               <>
                 <OneTrainer />
               </>
+            }
+          />
+          <Route
+            path="/edit-trainer/:id"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <EditTrainer />
+              </ProtectedRoute>
             }
           />
           <Route

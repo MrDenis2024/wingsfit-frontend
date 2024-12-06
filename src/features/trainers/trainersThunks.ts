@@ -30,7 +30,6 @@ export const createTrainerProfile = createAsyncThunk<
   ITrainer,
   FullTrainerProfileMutation
 >("trainers/createTrainerProfile", async (trainerProfileMutation) => {
-  console.log(trainerProfileMutation);
   const { data: trainerProfile } = await axiosApi.post(
     "/trainers",
     trainerProfileMutation,
@@ -46,6 +45,13 @@ export const getTrainersReview = createAsyncThunk<Review[], string>(
       `/review/${trainerId}`,
     );
     return review;
+  },
+);
+
+export const editTrainer = createAsyncThunk<void, FullTrainerProfileMutation>(
+  "trainers/edit",
+  async (trainerProfileMutation) => {
+    await axiosApi.put("/trainers", trainerProfileMutation);
   },
 );
 

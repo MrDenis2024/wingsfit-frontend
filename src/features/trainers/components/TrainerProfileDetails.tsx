@@ -33,6 +33,7 @@ import { apiURL } from "../../../constants.ts";
 import { selectOneTrainer } from "../trainersSlice.ts";
 import NewAddTrainerCertificates from "../NewAddTrainerCertificates.tsx";
 import { ITrainer } from "../../../types/trainerTypes.ts";
+import { Link } from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
 
 interface TrainerProfileDetailsProps {
@@ -241,21 +242,26 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   </Button>
                 )}
                 {isOwner && (
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      width: "fit-content",
-                      color: "#0288D1",
-                      borderColor: "#0288D1",
-                      borderRadius: "7px",
-                      "&:hover": {
-                        backgroundColor: "#dff3fc",
-                        borderColor: "#0288D1",
-                      },
-                    }}
+                  <Link
+                    to={`/edit-trainer/${id}`}
+                    style={{ textDecoration: "none" }}
                   >
-                    Edit profile
-                  </Button>
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        width: "fit-content",
+                        color: "#0288D1",
+                        borderColor: "#0288D1",
+                        borderRadius: "7px",
+                        "&:hover": {
+                          backgroundColor: "#dff3fc",
+                          borderColor: "#0288D1",
+                        },
+                      }}
+                    >
+                      Edit profile
+                    </Button>
+                  </Link>
                 )}
               </Box>
             </Grid>
