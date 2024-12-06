@@ -24,20 +24,18 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
+import { useAppDispatch } from "../../../app/hooks.ts";
 import {
   fetchUpdateAvatarTrainer,
   getTrainerProfile,
 } from "../trainersThunks.ts";
 import { apiURL } from "../../../constants.ts";
-import { selectOneTrainer } from "../trainersSlice.ts";
 import NewAddTrainerCertificates from "../NewAddTrainerCertificates.tsx";
 import { ITrainer } from "../../../types/trainerTypes.ts";
 import TrainerCertificates from "./TrainerCertificates.tsx";
 
 interface TrainerProfileDetailsProps {
-  avatarImage: string;
-  trainerProfile: ITrainer;
+  trainerProfile: ITrainer | null;
   courses: ICourse[];
   isOwner: boolean;
   id: string;
@@ -56,21 +54,20 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   handleReviewSubmit,
 }) => {
   const dispatch = useAppDispatch();
-  const oneTrainer = useAppSelector(selectOneTrainer);
   const [open, setOpen] = useState(false);
   const [avatarImage, setAvatarImage] = useState(imageNotFound);
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
   let cardImage = imageNotFound;
 
-  if (oneTrainer && oneTrainer.user.avatar) {
-    cardImage = `${apiURL}/${oneTrainer.user.avatar}`;
+  if (trainerProfile && trainerProfile.user.avatar) {
+    cardImage = `${apiURL}/${trainerProfile.user.avatar}`;
   }
 
   useEffect(() => {
-    if (oneTrainer?.user.avatar) {
-      setAvatarImage(`${apiURL}/${oneTrainer.user.avatar}`);
+    if (trainerProfile?.user.avatar) {
+      setAvatarImage(`${apiURL}/${trainerProfile.user.avatar}`);
     }
-  }, [oneTrainer]);
+  }, [trainerProfile]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -136,7 +133,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               <CardMedia
                 component="img"
                 image={cardImage}
-                alt={`Фото тренера ${trainerProfile.user.firstName}`}
+                alt={`Фото тренера ${trainerProfile?.user.firstName}`}
                 sx={{
                   width: 200,
                   height: 200,
@@ -162,7 +159,8 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
               >
                 <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                  {trainerProfile.user.firstName} {trainerProfile.user.lastName}
+                  {trainerProfile?.user.firstName}{" "}
+                  {trainerProfile?.user.lastName}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -176,7 +174,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 >
                   <LocalPhoneIcon />
                   <strong>Phone number:</strong>{" "}
-                  <span>{trainerProfile.user.phoneNumber || "N/A"}</span>
+                  <span>{trainerProfile?.user.phoneNumber || "N/A"}</span>
                 </Typography>
                 <Typography
                   variant="body2"
@@ -191,7 +189,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   <CelebrationIcon />
                   <strong>Date of Birth: </strong>
                   <span>
-                    {trainerProfile.user.dateOfBirth.slice(0, 10) || "N/A"}
+                    {trainerProfile?.user.dateOfBirth.slice(0, 10) || "N/A"}
                   </span>
                 </Typography>
                 <Typography
@@ -204,13 +202,13 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                     marginBottom: "5px",
                   }}
                 >
-                  {trainerProfile.user.gender === "male" && <MaleIcon />}
-                  {trainerProfile.user.gender === "female" && <FemaleIcon />}
-                  {trainerProfile.user.gender === "other" && (
+                  {trainerProfile?.user.gender === "male" && <MaleIcon />}
+                  {trainerProfile?.user.gender === "female" && <FemaleIcon />}
+                  {trainerProfile?.user.gender === "other" && (
                     <TransgenderIcon />
                   )}
                   <strong>Gender:</strong>{" "}
-                  <span>{trainerProfile.user.gender || "N/A"}</span>
+                  <span>{trainerProfile?.user.gender || "N/A"}</span>
                 </Typography>
                 <Typography
                   variant="body1"
@@ -218,7 +216,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 >
                   <FitnessCenterIcon />
                   <strong>Specialization:</strong>{" "}
-                  {trainerProfile.specialization ||
+                  {trainerProfile?.specialization ||
                     "No specialization provided"}
                 </Typography>
                 <Typography
@@ -227,9 +225,11 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 >
                   <AutoAwesomeIcon />
                   <strong>Experience:</strong>{" "}
-                  {trainerProfile.experience || "Experience not provided"}
+                  {trainerProfile?.experience || "Experience not provided"}
                 </Typography>
-                <TrainerCertificates />
+
+                <TrainerCertificates trainerProfile={trainerProfile} />
+
                 {isOwner && <NewAddTrainerCertificates />}
                 {!isOwner && (
                   <Button
@@ -269,7 +269,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
             variant="body1"
             sx={{ fontSize: "16px", lineHeight: "1.6" }}
           >
-            {trainerProfile.description || "No description available."}
+            {trainerProfile?.description || "No description available."}
           </Typography>
         </Container>
       </Box>

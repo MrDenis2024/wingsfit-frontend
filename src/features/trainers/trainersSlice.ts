@@ -7,11 +7,12 @@ import {
   getTrainersReview,
 } from "./trainersThunks.ts";
 import { ITrainer, Review } from "../../types/trainerTypes.ts";
+import { GlobalError } from "../../types/userTypes.ts";
 
 interface TrainersState {
   trainerProfile: ITrainer | null;
   oneTrainer: ITrainer | null;
-  fetchOneTrainer: boolean;
+  trainerProfileError: GlobalError | null;
   trainerProfileLoading: boolean;
   trainers: ITrainer[];
   fetchingTrainers: boolean;
@@ -24,8 +25,8 @@ interface TrainersState {
 const initialState: TrainersState = {
   trainerProfile: null,
   trainerProfileLoading: false,
+  trainerProfileError: null,
   oneTrainer: null,
-  fetchOneTrainer: false,
   trainers: [],
   fetchingTrainers: false,
   creatingTrainerProfile: false,
@@ -37,26 +38,28 @@ const initialState: TrainersState = {
 export const trainersSlice = createSlice({
   name: "trainers",
   initialState,
-  reducers: {},
+  reducers: {
+    resetTrainerError: (state) => {
+      state.trainerProfileError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTrainerProfile.pending, (state) => {
         state.oneTrainer = null;
         state.trainerProfileLoading = true;
-        state.fetchOneTrainer = true;
       })
       .addCase(getTrainerProfile.fulfilled, (state, { payload }) => {
-        if (payload.user._id === state.trainerProfile?.user._id) {
-          state.trainerProfile = payload;
+        if (payload.isUserProfile) {
+          state.trainerProfile = payload.trainer;
         } else {
-          state.oneTrainer = payload;
+          state.oneTrainer = payload.trainer;
         }
         state.trainerProfileLoading = false;
-        state.fetchOneTrainer = false;
       })
-      .addCase(getTrainerProfile.rejected, (state) => {
+      .addCase(getTrainerProfile.rejected, (state, { payload: error }) => {
+        state.trainerProfileError = error || null;
         state.trainerProfileLoading = false;
-        state.fetchOneTrainer = false;
       });
 
     builder
@@ -116,12 +119,12 @@ export const trainersSlice = createSlice({
     selectTrainerProfile: (state) => state.trainerProfile,
     selectTrainerProfileLoading: (state) => state.trainerProfileLoading,
     selectOneTrainer: (state) => state.oneTrainer,
-    selectOneTrainerLoading: (state) => state.fetchOneTrainer,
     selectTrainers: (state) => state.trainers,
     selectFetchingTrainers: (state) => state.fetchingTrainers,
     selectCreatingTrainerProfile: (state) => state.creatingTrainerProfile,
     selectReview: (state) => state.review,
     selectFetchReviewsLoading: (state) => state.fetchReviewsLoading,
+    selectTrainerProfileError: (state) => state.trainerProfileError,
     selectDeleteCertificateLoading: (state) => state.deleteLoading,
   },
 });
@@ -135,7 +138,9 @@ export const {
   selectCreatingTrainerProfile,
   selectFetchingTrainers,
   selectOneTrainer,
-  selectOneTrainerLoading,
   selectReview,
   selectFetchReviewsLoading,
+  selectTrainerProfileError,
+  selectDeleteCertificateLoading,
 } = trainersSlice.selectors;
+export const { resetTrainerError } = trainersSlice.actions;

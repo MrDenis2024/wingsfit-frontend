@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createClientProfile, getClientProfile } from "./clientThunk.ts";
 import { IClient } from "../../types/clientTypes.ts";
+import { GlobalError } from "../../types/userTypes.ts";
 
 interface ClientState {
   clientProfile: IClient | null;
+  clientProfileError: GlobalError | null;
   clientProfileLoading: boolean;
   oneClientProfile: IClient | null;
   oneClientProfileLoading: boolean;
@@ -12,6 +14,7 @@ interface ClientState {
 
 const initialState: ClientState = {
   clientProfile: null,
+  clientProfileError: null,
   clientProfileLoading: false,
   oneClientProfile: null,
   oneClientProfileLoading: false,
@@ -21,11 +24,16 @@ const initialState: ClientState = {
 export const clientSlice = createSlice({
   name: "clients",
   initialState,
-  reducers: {},
+  reducers: {
+    resetClientError: (state) => {
+      state.clientProfileError = null;
+    },
+  },
   selectors: {
     selectClientProfile: (state) => state.clientProfile,
     selectClientProfileLoading: (state) => state.clientProfileLoading,
     selectCreatingClientProfile: (state) => state.creatingClientProfile,
+    selectClientProfileError: (state) => state.clientProfileError,
   },
   extraReducers: (builder) => {
     builder
@@ -36,7 +44,8 @@ export const clientSlice = createSlice({
         state.clientProfile = user;
         state.clientProfileLoading = false;
       })
-      .addCase(getClientProfile.rejected, (state) => {
+      .addCase(getClientProfile.rejected, (state, { payload: error }) => {
+        state.clientProfileError = error || null;
         state.clientProfileLoading = false;
       });
 
@@ -64,4 +73,7 @@ export const {
   selectClientProfile,
   selectClientProfileLoading,
   selectCreatingClientProfile,
+  selectClientProfileError,
 } = clientSlice.selectors;
+
+export const { resetClientError } = clientSlice.actions;

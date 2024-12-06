@@ -141,7 +141,7 @@ const Footer = () => {
           justifyContent="center"
           sx={{ alignItems: "center" }}
         >
-          <StyledLink to="/main" end>
+          <StyledLink to="/" end>
             Home
           </StyledLink>
           {links.map((link) => (
