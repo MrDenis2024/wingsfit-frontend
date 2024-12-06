@@ -24,6 +24,7 @@ import { fetchCourseTypes } from "./features/CourseTypes/CourseTypesThunks.ts";
 import NewGroup from "./features/groups/NewGroup.tsx";
 import Chat from "./features/chat/Chat.tsx";
 import TrainersPage from "./features/trainers/TrainersPage.tsx";
+import EditTrainer from "./features/trainers/components/EditTrainer.tsx";
 const App = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -106,6 +107,14 @@ const App = () => {
               <>
                 <OneTrainer />
               </>
+            }
+          />
+          <Route
+            path="/edit-trainer/:id"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <EditTrainer />
+              </ProtectedRoute>
             }
           />
           <Route

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createTrainerProfile,
+  editTrainer,
   getTrainerProfile,
   getTrainers,
   getTrainersReview,
@@ -17,6 +18,7 @@ interface TrainersState {
   creatingTrainerProfile: boolean;
   review: Review[];
   fetchReviewsLoading: boolean;
+  editLoading: boolean;
 }
 
 const initialState: TrainersState = {
@@ -29,6 +31,7 @@ const initialState: TrainersState = {
   creatingTrainerProfile: false,
   review: [],
   fetchReviewsLoading: false,
+  editLoading: false,
 };
 
 export const trainersSlice = createSlice({
@@ -95,6 +98,17 @@ export const trainersSlice = createSlice({
       .addCase(getTrainersReview.rejected, (state) => {
         state.fetchReviewsLoading = false;
       });
+
+    builder
+      .addCase(editTrainer.pending, (state) => {
+        state.editLoading = true;
+      })
+      .addCase(editTrainer.fulfilled, (state) => {
+        state.editLoading = false;
+      })
+      .addCase(editTrainer.rejected, (state) => {
+        state.editLoading = false;
+      });
   },
   selectors: {
     selectTrainerProfile: (state) => state.trainerProfile,
@@ -106,6 +120,7 @@ export const trainersSlice = createSlice({
     selectCreatingTrainerProfile: (state) => state.creatingTrainerProfile,
     selectReview: (state) => state.review,
     selectFetchReviewsLoading: (state) => state.fetchReviewsLoading,
+    selectEditLoading: (state) => state.editLoading,
   },
 });
 
@@ -121,4 +136,5 @@ export const {
   selectOneTrainerLoading,
   selectReview,
   selectFetchReviewsLoading,
+  selectEditLoading,
 } = trainersSlice.selectors;
