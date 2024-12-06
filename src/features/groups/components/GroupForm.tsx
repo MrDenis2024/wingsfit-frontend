@@ -14,18 +14,18 @@ import {
   MenuItem,
   Select,
   SelectChangeEvent,
-  TextField
+  TextField,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
-import {selectUser} from "../../users/userSlice.ts";
+import { selectUser } from "../../users/userSlice.ts";
 
 interface Props {
   onSubmit: (course: GroupMutation) => void;
   isLoading: boolean;
 }
 
-const GroupForm: React.FC<Props> = ({ onSubmit, isLoading}) => {
+const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
   const coursesFetching = useAppSelector(selectCoursesFetching);
@@ -34,7 +34,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading}) => {
     title: "",
     course: "",
     startTime: "",
-    trainingLevel:"junior",
+    trainingLevel: "junior",
   });
 
   useEffect(() => {
@@ -120,17 +120,17 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading}) => {
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">Training level</InputLabel>
           <Select
-              required
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={state.trainingLevel}
-              label="Training level"
-              variant="outlined"
-              onChange={handleChange}
+            required
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={state.trainingLevel}
+            label="Training level"
+            variant="outlined"
+            onChange={handleChange}
           >
-            <MenuItem value={'junior'}>Junior</MenuItem>
-            <MenuItem value={'middle'}>Middle</MenuItem>
-            <MenuItem value={'advanced'}>Advanced</MenuItem>
+            <MenuItem value={"junior"}>Junior</MenuItem>
+            <MenuItem value={"middle"}>Middle</MenuItem>
+            <MenuItem value={"advanced"}>Advanced</MenuItem>
           </Select>
         </FormControl>
       </Grid2>

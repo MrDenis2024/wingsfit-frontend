@@ -19,7 +19,7 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import ChatIcon from "@mui/icons-material/Chat";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddchartIcon from "@mui/icons-material/Addchart";
-import GroupIcon from '@mui/icons-material/Group';
+import GroupIcon from "@mui/icons-material/Group";
 
 interface Props {
   user: UserProfile;
@@ -83,10 +83,10 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           My Courses
         </MenuItem>
         {user.role === "trainer" && (
-            <MenuItem onClick={() => navigate(`/add-new-group`)}>
-              <GroupIcon sx={{ mr: 2 }} />
-              Create group
-            </MenuItem>
+          <MenuItem onClick={() => navigate(`/add-new-group`)}>
+            <GroupIcon sx={{ mr: 2 }} />
+            Create group
+          </MenuItem>
         )}
         <MenuItem onClick={() => navigate(`/${user.role}s/chats/${user._id}`)}>
           <ChatIcon sx={{ mr: 2 }} />
