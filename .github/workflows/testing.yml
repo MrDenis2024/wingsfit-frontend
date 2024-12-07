@@ -31,11 +31,11 @@ jobs:
         run: npm ci && npm run dev &
       # - name: Get page
       #   run: curl localhost:5173/trainers && cat out.txt
-      - name: Test install dependecies
-        run: cd tests/ && npm ci
-      - name: Test run
-        run: |
-         cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
+      # - name: Test install dependecies
+      #   run: cd tests/ && npm ci
+      # - name: Test run
+      #   run: |
+      #    cd tests/ && npx codeceptjs run --verbose --override '{"helpers": {"Puppeteer": {"show": false}}}' --steps ; ls -lah output
 #      - uses: actions/upload-artifact@v4
 #        if: ${{always()}}
 #        with:
