@@ -1,27 +1,31 @@
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { useEffect, useState } from "react";
-import { selectOneTrainer } from "./trainersSlice.ts";
+import {
+  selectOneTrainer,
+  selectTrainerProfile,
+  selectTrainerProfileLoading,
+} from "./trainersSlice.ts";
 import { getTrainerProfile } from "./trainersThunks.ts";
-import { apiURL } from "../../constants.ts";
-import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { fetchCourses } from "../courses/coursesThunks.ts";
 import { selectCourses } from "../courses/coursesSlice.ts";
 import { selectUser } from "../users/userSlice.ts";
 import { toast } from "react-toastify";
 import { selectError } from "../reviewForm/reviewSlice.ts";
-import { ITrainer } from "../../types/trainerTypes.ts";
 import { createReview } from "../reviewForm/reviewThunk.ts";
 import TrainerProfileDetails from "./components/TrainerProfileDetails.tsx";
+import { CircularProgress } from "@mui/material";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
+  const trainerProfile = useAppSelector(selectTrainerProfile);
   const oneTrainer = useAppSelector(selectOneTrainer);
   const user = useAppSelector(selectUser);
   const courses = useAppSelector(selectCourses);
   const reviewError = useAppSelector(selectError);
   const [showForm, setShowForm] = useState(false);
+  const loading = useAppSelector(selectTrainerProfileLoading);
 
   useEffect(() => {
     dispatch(getTrainerProfile(id));
@@ -33,10 +37,6 @@ const OneTrainer = () => {
       toast.error(reviewError);
     }
   }, [reviewError]);
-
-  const avatarImage = oneTrainer?.user.avatar
-    ? `${apiURL}/${oneTrainer.user.avatar}`
-    : imageNotFound;
 
   const handleReviewSubmit = async (
     reviewText: string,
@@ -59,23 +59,24 @@ const OneTrainer = () => {
     }
   };
 
-  const isOwner = user?._id === oneTrainer?.user._id;
+  const isMyProfile = user?._id === id;
 
   return (
-    oneTrainer && (
-      <>
+    <>
+      {loading ? (
+        <CircularProgress />
+      ) : (
         <TrainerProfileDetails
-          avatarImage={avatarImage}
-          trainerProfile={oneTrainer as ITrainer}
+          trainerProfile={isMyProfile ? trainerProfile : oneTrainer}
           courses={courses}
-          isOwner={isOwner}
+          isOwner={isMyProfile}
           id={id}
           showForm={showForm}
           setShowForm={setShowForm}
           handleReviewSubmit={handleReviewSubmit}
         />
-      </>
-    )
+      )}
+    </>
   );
 };
 

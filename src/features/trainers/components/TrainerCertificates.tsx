@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,16 +14,20 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { apiURL } from "../../../constants.ts";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
-import { selectOneTrainer, selectOneTrainerLoading } from "../trainersSlice.ts";
+import { selectTrainerProfileLoading } from "../trainersSlice.ts";
 import { deleteCertificate, getTrainerProfile } from "../trainersThunks.ts";
 import { toast } from "react-toastify";
 import { selectUser } from "../../users/userSlice.ts";
+import { ITrainer } from "../../../types/trainerTypes.ts";
 
-const TrainerCertificates = () => {
+interface Props {
+  trainerProfile: ITrainer | null;
+}
+
+const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
   const dispatch = useAppDispatch();
-  const oneTrainer = useAppSelector(selectOneTrainer);
   const iUser = useAppSelector(selectUser);
-  const isFetching = useAppSelector(selectOneTrainerLoading);
+  const isFetching = useAppSelector(selectTrainerProfileLoading);
   const [selectedCertificate, setSelectedCertificate] = useState<{
     _id: string;
     title: string;
@@ -34,10 +38,10 @@ const TrainerCertificates = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (oneTrainer?.certificates?.length) {
-      setSelectedCertificate(oneTrainer.certificates[0]);
+    if (trainerProfile?.certificates?.length) {
+      setSelectedCertificate(trainerProfile.certificates[0]);
     }
-  }, [oneTrainer]);
+  }, [trainerProfile]);
 
   const handleClickOpen = (certificate: {
     _id: string;
@@ -53,7 +57,7 @@ const TrainerCertificates = () => {
   };
 
   const handleDeleteCertificate = async () => {
-    if (selectedCertificate && oneTrainer) {
+    if (selectedCertificate && trainerProfile) {
       if (
         window.confirm(
           `Are you sure you want to delete the certificate "${selectedCertificate.title}"?`,
@@ -61,7 +65,7 @@ const TrainerCertificates = () => {
       ) {
         try {
           await dispatch(deleteCertificate(selectedCertificate._id)).unwrap();
-          dispatch(getTrainerProfile(oneTrainer.user._id));
+          dispatch(getTrainerProfile(trainerProfile.user._id));
           toast.success("Certificate deleted successfully.");
         } catch (error) {
           console.error("Delete certificate error: ", error);
@@ -105,8 +109,8 @@ const TrainerCertificates = () => {
         >
           {isFetching ? (
             <CircularProgress />
-          ) : oneTrainer?.certificates?.length ? (
-            oneTrainer.certificates.map((certificate) => (
+          ) : trainerProfile?.certificates?.length ? (
+            trainerProfile.certificates.map((certificate) => (
               <Box
                 key={certificate._id}
                 sx={{
@@ -210,9 +214,9 @@ const TrainerCertificates = () => {
               </Typography>
             </>
           )}
-          {(oneTrainer?.user?.role === "admin" ||
-            oneTrainer?.user?.role === "superAdmin" ||
-            iUser?._id === oneTrainer?.user?._id) && (
+          {(trainerProfile?.user?.role === "admin" ||
+            trainerProfile?.user?.role === "superAdmin" ||
+            iUser?._id === trainerProfile?.user?._id) && (
             <Button
               variant="outlined"
               sx={{ width: "200px", marginBottom: 2 }}
