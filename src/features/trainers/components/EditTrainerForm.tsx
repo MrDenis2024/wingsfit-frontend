@@ -53,9 +53,21 @@ const EditTrainerForm: React.FC<Props> = ({
     dispatch(fetchCourseTypes());
   }, [dispatch]);
 
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const inputChangeHandlerPersonal = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const { name, value } = event.target;
     setPersonalInfo((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const inputChangeHandlerOptional = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const { name, value } = event.target;
+    setOptionalInfo((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -99,7 +111,7 @@ const EditTrainerForm: React.FC<Props> = ({
       <EditUser
         personalInfo={personalInfo}
         onTimezoneChange={changeTimezone}
-        inputChangeHandler={inputChangeHandler}
+        inputChangeHandler={inputChangeHandlerPersonal}
       />
       <Grid>
         <Typography variant="h6">Fill optional Info</Typography>
@@ -111,7 +123,7 @@ const EditTrainerForm: React.FC<Props> = ({
           minRows={2}
           label="Description"
           name="description"
-          onChange={inputChangeHandler}
+          onChange={inputChangeHandlerOptional}
           value={optionalInfo.description}
         />
       </Grid>
@@ -120,7 +132,7 @@ const EditTrainerForm: React.FC<Props> = ({
           type="text"
           label="Specialization"
           name="specialization"
-          onChange={inputChangeHandler}
+          onChange={inputChangeHandlerOptional}
           value={optionalInfo.specialization}
         />
       </Grid>
@@ -131,7 +143,7 @@ const EditTrainerForm: React.FC<Props> = ({
           minRows={2}
           label="Experience"
           name="experience"
-          onChange={inputChangeHandler}
+          onChange={inputChangeHandlerOptional}
           value={optionalInfo.experience}
         />
       </Grid>
@@ -147,7 +159,7 @@ const EditTrainerForm: React.FC<Props> = ({
           type="text"
           label="Available Days"
           name="availableDays"
-          onChange={inputChangeHandler}
+          onChange={inputChangeHandlerOptional}
           value={optionalInfo.availableDays}
         />
       </Grid>
