@@ -28,26 +28,14 @@ const usersPersistConfig = {
   whitelist: ["user"],
 };
 
-const clientsPersistConfig = {
-  key: "wingsfit:clients",
-  storage,
-  whitelist: ["clientProfile"],
-};
-
-const trainersPersistConfig = {
-  key: "wingsfit:trainers",
-  storage,
-  whitelist: ["trainerProfile"],
-};
-
 const rootReducer = combineReducers({
   courses: coursesReducer,
   courseTypes: courseTypesReducer,
   groups: groupsReducer,
   users: persistReducer(usersPersistConfig, usersReducer),
   lessons: lessonsReducer,
-  clients: persistReducer(clientsPersistConfig, clientsReducer),
-  trainers: persistReducer(trainersPersistConfig, trainersReducer),
+  clients: clientsReducer,
+  trainers: trainersReducer,
   adminClients: adminClientsReducer,
   admins: adminsReducer,
   review: reviewReducer,

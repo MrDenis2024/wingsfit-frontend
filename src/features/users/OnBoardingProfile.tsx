@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Step, StepLabel, Stepper } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import UserRegisterForm from "./components/UserRegisterForm.tsx";
@@ -19,6 +19,10 @@ import ClientRegisterForm from "./components/ClientRegisterForm.tsx";
 import { createClientProfile } from "../clients/clientThunk.ts";
 import { createTrainerProfile } from "../trainers/trainersThunks.ts";
 import { useNavigate } from "react-router-dom";
+import { resetTrainerError } from "../trainers/trainersSlice.ts";
+import { toast } from "react-toastify";
+import { resetClientError } from "../clients/clientSlice.ts";
+import {reloadUser} from "./userThunk.ts";
 
 const OnBoardingProfile = () => {
   const dispatch = useAppDispatch();
@@ -48,6 +52,10 @@ const OnBoardingProfile = () => {
   });
 
   const role = user?.role;
+  useEffect(() => {
+    dispatch(resetTrainerError());
+    dispatch(resetClientError());
+  }, [dispatch]);
 
   if (role !== "client" && role !== "trainer") {
     throw new Error("Invalid role: expected 'client' or 'trainer'");
@@ -102,19 +110,19 @@ const OnBoardingProfile = () => {
           ...clientData,
         };
 
-        await dispatch(createClientProfile(clientProfile));
-        navigate("/main");
+        await dispatch(createClientProfile(clientProfile)).unwrap();
       } else if (role === "trainer") {
         const trainerProfile: FullTrainerProfileMutation = {
           ...personalData,
           ...trainerData,
         };
-
-        await dispatch(createTrainerProfile(trainerProfile));
-        navigate("/main");
+        await dispatch(createTrainerProfile(trainerProfile)).unwrap();
       }
+      await dispatch(reloadUser());
+      navigate("/");
     } catch (e) {
-      console.log(e);
+      const error = e as Error;
+      toast.error(error.message);
     }
   };
 

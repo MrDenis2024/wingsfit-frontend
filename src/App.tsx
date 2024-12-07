@@ -11,7 +11,7 @@ import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import OneClient from "./features/clients/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
 import MainPage from "./features/main/MainPage.tsx";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { getTrainerProfile } from "./features/trainers/trainersThunks.ts";
 import { getClientProfile } from "./features/clients/clientThunk.ts";
 import Layout from "./UI/Layout/Layout.tsx";
@@ -25,26 +25,32 @@ import NewGroup from "./features/groups/NewGroup.tsx";
 import Chat from "./features/chat/Chat.tsx";
 import TrainersPage from "./features/trainers/TrainersPage.tsx";
 import TrainerStatistics from "./features/trainers/statistic/TrainerStatistics.tsx";
+import EditTrainer from "./features/trainers/components/EditTrainer.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    try {
-      if (user && user.role === "trainer") {
-        void dispatch(getTrainerProfile(user._id)).unwrap();
-      } else if (user && user.role === "client") {
-        void dispatch(getClientProfile(user._id)).unwrap();
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  }, [user, dispatch]);
-
-  useEffect(() => {
     dispatch(fetchCourseTypes());
   }, [dispatch]);
+  const getProfile = useCallback(() => {
+    if (user) {
+      try {
+        if (user.role === "trainer") {
+          dispatch(getTrainerProfile(user._id));
+        } else if (user.role === "client") {
+          dispatch(getClientProfile(user._id));
+        }
+      } catch (e) {
+        console.log(e as Error);
+      }
+    }
+  }, [dispatch, user]);
+
+  useEffect(() => {
+    void getProfile();
+  }, [getProfile]);
 
   return (
     <>
@@ -54,68 +60,46 @@ const App = () => {
             path="/"
             element={
               <>
-                <WelcomePage />
+                {user ? (
+                  <ProtectedRoute isAllowed={!!user}>
+                    <MainPage />
+                  </ProtectedRoute>
+                ) : (
+                  <WelcomePage />
+                )}
               </>
             }
-          />
-          <Route
-            path="/main"
-            element={
-              <>
-                <MainPage />
-              </>
-            }
-          />
-          <Route
-            path="/register/:role"
-            element={
-              <>
-                <Register />
-              </>
-            }
-          />
-          <Route
-            path="/fill-profile/:role"
-            element={
-              <>
-                <OnBoardingProfile />
-              </>
-            }
-          />
-          <Route
-            path="/login/:role"
-            element={
-              <>
-                <Login />
-              </>
-            }
-          />
-          <Route
-            path="*"
-            element={<h1 className="text-center">Not found</h1>}
           />
           <Route
             path="/trainers"
             element={
-              <>
+              <ProtectedRoute isAllowed={!!user}>
                 <TrainersPage />
-              </>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/trainers/:id"
             element={
-              <>
+              <ProtectedRoute isAllowed={!!user}>
                 <OneTrainer />
-              </>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-trainer/:id"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <EditTrainer />
+              </ProtectedRoute>
             }
           />
           <Route
             path="/trainers/courses/:trainerId"
             element={
-              <>
+              <ProtectedRoute isAllowed={!!user}>
                 <Courses />
-              </>
+              </ProtectedRoute>
             }
           />
           <Route
@@ -169,35 +153,29 @@ const App = () => {
           <Route
             path="/courses/:id"
             element={
-              <>
+              <ProtectedRoute isAllowed={!!user}>
                 <OneCourse />
-              </>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/add-new-lesson"
             element={
-              <>
+              <ProtectedRoute isAllowed={!!user}>
                 <AddNewLesson />
-              </>
+              </ProtectedRoute>
             }
           />
           <Route
             path="/clients/:id"
             element={
-              <>
+              /////
+              <ProtectedRoute isAllowed={!!user}>
                 <OneClient />
-              </>
+              </ProtectedRoute>
             }
           />
-          <Route
-            path="/admin-login"
-            element={
-              <>
-                <LoginAdmin />
-              </>
-            }
-          />
+          <Route path="/admin-login" element={<LoginAdmin />} />
           <Route
             path="/admin/clients-stats"
             element={
@@ -221,10 +199,25 @@ const App = () => {
           <Route
             path="/chat"
             element={
-              <>
+              <ProtectedRoute isAllowed={!!user}>
                 <Chat />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/register/:role" element={<Register />} />
+          <Route
+            path="/fill-profile/:role"
+            element={
+              /// добавить протект для пользователя без профиля или с ошибкой
+              <>
+                <OnBoardingProfile />
               </>
             }
+          />
+          <Route path="/login/:role" element={<Login />} />
+          <Route
+            path="*"
+            element={<h1 className="text-center">Not found</h1>}
           />
         </Routes>
       </Layout>

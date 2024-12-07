@@ -2,11 +2,11 @@ import { useState } from "react";
 import { createCertificate, getTrainerProfile } from "./trainersThunks.ts";
 import AddTrainerCertificates from "./components/addTrainerCertificates.tsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import { selectOneTrainer } from "./trainersSlice.ts";
+import { selectTrainerProfile } from "./trainersSlice.ts";
 
 const NewAddTrainerCertificates = () => {
   const dispatch = useAppDispatch();
-  const oneTrainer = useAppSelector(selectOneTrainer);
+  const trainerProfile = useAppSelector(selectTrainerProfile);
   const [isLoading, setIsLoading] = useState(false);
 
   const onFormSubmit = async (
@@ -16,7 +16,7 @@ const NewAddTrainerCertificates = () => {
     try {
       for (const certificate of certificates) {
         await dispatch(createCertificate([certificate]));
-        dispatch(getTrainerProfile(oneTrainer!.user._id));
+        dispatch(getTrainerProfile(trainerProfile!.user._id));
       }
     } catch (error) {
       console.error("Ошибка при создании сертификатов", error);

@@ -2,6 +2,7 @@ export interface GroupMutation {
   title: string;
   course: string;
   startTime: string;
+  trainingLevel: string;
 }
 
 export interface IGroup {

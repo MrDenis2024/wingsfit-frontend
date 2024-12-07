@@ -7,6 +7,7 @@ import {
 } from "../../types/trainerTypes.ts";
 import { GlobalError } from "../../types/userTypes.ts";
 import { isAxiosError } from "axios";
+import { RootState } from "../../app/store.ts";
 
 export const getTrainers = createAsyncThunk<ITrainer[]>(
   "trainers/fetchAll",
@@ -19,18 +20,35 @@ export const getTrainers = createAsyncThunk<ITrainer[]>(
   },
 );
 
-export const getTrainerProfile = createAsyncThunk<ITrainer, string>(
-  "trainers/profile",
-  async (id) => {
+export const getTrainerProfile = createAsyncThunk<
+  { isUserProfile: boolean; trainer: ITrainer },
+  string,
+  { state: RootState; rejectValue: GlobalError }
+>("trainers/profile", async (id, { getState, rejectWithValue }) => {
+  const user = getState().users.user?._id;
+  try {
     const { data: trainer } = await axiosApi.get<ITrainer>(`/trainers/${id}`);
-    return trainer;
-  },
-);
+    if (user === id) {
+      return { isUserProfile: true, trainer: trainer };
+    } else {
+      return { isUserProfile: false, trainer: trainer };
+    }
+  } catch (e) {
+    if (
+      isAxiosError(e) &&
+      e.response &&
+      e.response.status === 404 &&
+      user === id
+    ) {
+      return rejectWithValue(e.response.data as GlobalError);
+    }
+    throw e;
+  }
+});
 export const createTrainerProfile = createAsyncThunk<
   ITrainer,
   FullTrainerProfileMutation
 >("trainers/createTrainerProfile", async (trainerProfileMutation) => {
-  console.log(trainerProfileMutation);
   const { data: trainerProfile } = await axiosApi.post(
     "/trainers",
     trainerProfileMutation,
@@ -46,6 +64,13 @@ export const getTrainersReview = createAsyncThunk<Review[], string>(
       `/review/${trainerId}`,
     );
     return review;
+  },
+);
+
+export const editTrainer = createAsyncThunk<void, FullTrainerProfileMutation>(
+  "trainers/edit",
+  async (trainerProfileMutation) => {
+    await axiosApi.put("/trainers", trainerProfileMutation);
   },
 );
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { ITrainer } from "../../../types/trainerTypes.ts";
 import TrainerCard from "./TrainerCard.tsx";
-import { Grid2 } from "@mui/material";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   trainers: ITrainer[];
@@ -9,7 +9,7 @@ interface Props {
 
 const TrainersCards: React.FC<Props> = ({ trainers }) => {
   return (
-    <Grid2 container spacing={2}>
+    <Grid container spacing={2}>
       {trainers.map((trainer) => {
         return (
           <TrainerCard
@@ -22,7 +22,7 @@ const TrainersCards: React.FC<Props> = ({ trainers }) => {
           />
         );
       })}
-    </Grid2>
+    </Grid>
   );
 };
 
