@@ -38,7 +38,7 @@ const Login = () => {
             role: role,
           }),
         ).unwrap();
-        navigate("/main");
+        navigate("/");
       }
     } catch (e) {
       console.error(e);
@@ -54,7 +54,7 @@ const Login = () => {
       };
 
       await dispatch(login(userMutation)).unwrap();
-      navigate("/main");
+      navigate("/");
     } catch (e) {
       console.error(e);
     }

@@ -4,10 +4,17 @@ import {
   UserProfile,
   ValidationError,
 } from "../../types/userTypes";
-import { googleLogin, login, loginAdmin, register } from "./userThunk";
+import {
+  googleLogin,
+  login,
+  loginAdmin,
+  register,
+  reloadUser,
+} from "./userThunk";
 
 interface UserState {
   user: UserProfile | null;
+  reloadUser: boolean;
   loginLoading: boolean;
   loginError: GlobalError | null;
   registerLoading: boolean;
@@ -18,6 +25,7 @@ interface UserState {
 
 const initialState: UserState = {
   user: null,
+  reloadUser: false,
   loginLoading: false,
   loginError: null,
   registerLoading: false,
@@ -35,6 +43,17 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(reloadUser.pending, (state) => {
+        state.reloadUser = true;
+      })
+      .addCase(reloadUser.fulfilled, (state, { payload: user }) => {
+        state.user = user;
+        state.reloadUser = false;
+      })
+      .addCase(reloadUser.rejected, (state) => {
+        state.reloadUser = false;
+      });
     builder.addCase(googleLogin.pending, (state) => {
       state.loginLoading = true;
     });
@@ -88,6 +107,7 @@ export const userSlice = createSlice({
   },
   selectors: {
     selectUser: (state) => state.user,
+    selectReloadUser: (state) => state.reloadUser,
     selectLoginLoading: (state) => state.loginLoading,
     selectLoginError: (state) => state.loginError,
     selectRegisterLoading: (state) => state.registerLoading,
@@ -103,6 +123,7 @@ export const { unsetUser } = userSlice.actions;
 
 export const {
   selectUser,
+  selectReloadUser,
   selectLoginLoading,
   selectLoginError,
   selectRegisterLoading,
