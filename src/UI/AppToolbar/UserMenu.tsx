@@ -20,6 +20,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddchartIcon from "@mui/icons-material/Addchart";
 import GroupIcon from "@mui/icons-material/Group";
+import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 
 interface Props {
   user: UserProfile;
@@ -98,6 +99,12 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           <CalendarMonthIcon sx={{ mr: 2 }} />
           Calendar
         </MenuItem>
+        {user.role === "client" && (
+          <MenuItem onClick={() => navigate(`/${user.role}/select-course`)}>
+            <AssignmentTurnedInOutlinedIcon sx={{ mr: 2 }} />
+            Select course
+          </MenuItem>
+        )}
         {user.role === "trainer" && (
           <MenuItem onClick={() => navigate(`/${user.role}/statistics`)}>
             <AddchartIcon sx={{ mr: 2 }} />
