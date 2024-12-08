@@ -11,6 +11,14 @@ import axiosApi from "../../axiosApi";
 import { unsetUser } from "./userSlice.ts";
 import { AdminMutation } from "../../types/adminTypes.ts";
 
+export const reloadUser = createAsyncThunk<UserProfile>(
+  "users/reload",
+  async () => {
+    const { data: user } = await axiosApi.get("/users/reload");
+    return user;
+  },
+);
+
 export const googleLogin = createAsyncThunk<
   UserProfile,
   { credential: string; role: string | null },

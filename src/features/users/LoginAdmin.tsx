@@ -38,7 +38,7 @@ const LoginAdmin = () => {
       console.log(userMutation);
 
       await dispatch(loginAdmin(userMutation)).unwrap();
-      navigate("/main");
+      navigate("/");
     } catch (e) {
       console.error(e);
     }

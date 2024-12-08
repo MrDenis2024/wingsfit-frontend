@@ -1,59 +1,68 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createTrainerProfile,
+  editTrainer,
+  deleteCertificate,
   getTrainerProfile,
   getTrainers,
   getTrainersReview,
 } from "./trainersThunks.ts";
 import { ITrainer, Review } from "../../types/trainerTypes.ts";
+import { GlobalError } from "../../types/userTypes.ts";
 
 interface TrainersState {
   trainerProfile: ITrainer | null;
   oneTrainer: ITrainer | null;
-  fetchOneTrainer: boolean;
+  trainerProfileError: GlobalError | null;
   trainerProfileLoading: boolean;
   trainers: ITrainer[];
   fetchingTrainers: boolean;
   creatingTrainerProfile: boolean;
   review: Review[];
   fetchReviewsLoading: boolean;
+  editLoading: boolean;
+  deleteLoading: string | false;
 }
 
 const initialState: TrainersState = {
   trainerProfile: null,
   trainerProfileLoading: false,
+  trainerProfileError: null,
   oneTrainer: null,
-  fetchOneTrainer: false,
   trainers: [],
   fetchingTrainers: false,
   creatingTrainerProfile: false,
   review: [],
   fetchReviewsLoading: false,
+  editLoading: false,
+  deleteLoading: false,
 };
 
 export const trainersSlice = createSlice({
   name: "trainers",
   initialState,
-  reducers: {},
+  reducers: {
+    resetTrainerError: (state) => {
+      state.trainerProfileError = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getTrainerProfile.pending, (state) => {
         state.oneTrainer = null;
         state.trainerProfileLoading = true;
-        state.fetchOneTrainer = true;
       })
       .addCase(getTrainerProfile.fulfilled, (state, { payload }) => {
-        if (payload.user._id === state.trainerProfile?.user._id) {
-          state.trainerProfile = payload;
+        if (payload.isUserProfile) {
+          state.trainerProfile = payload.trainer;
         } else {
-          state.oneTrainer = payload;
+          state.oneTrainer = payload.trainer;
         }
         state.trainerProfileLoading = false;
-        state.fetchOneTrainer = false;
       })
-      .addCase(getTrainerProfile.rejected, (state) => {
+      .addCase(getTrainerProfile.rejected, (state, { payload: error }) => {
+        state.trainerProfileError = error || null;
         state.trainerProfileLoading = false;
-        state.fetchOneTrainer = false;
       });
 
     builder
@@ -95,17 +104,44 @@ export const trainersSlice = createSlice({
       .addCase(getTrainersReview.rejected, (state) => {
         state.fetchReviewsLoading = false;
       });
+
+    builder
+      .addCase(editTrainer.pending, (state) => {
+        state.editLoading = true;
+      })
+      .addCase(editTrainer.fulfilled, (state) => {
+        state.editLoading = false;
+      })
+      .addCase(editTrainer.rejected, (state) => {
+        state.editLoading = false;
+      });
+
+    builder
+      .addCase(
+        deleteCertificate.pending,
+        (state, { meta: { arg: trackId } }) => {
+          state.deleteLoading = trackId;
+        },
+      )
+      .addCase(deleteCertificate.fulfilled, (state) => {
+        state.deleteLoading = false;
+      })
+      .addCase(deleteCertificate.rejected, (state) => {
+        state.deleteLoading = false;
+      });
   },
   selectors: {
     selectTrainerProfile: (state) => state.trainerProfile,
     selectTrainerProfileLoading: (state) => state.trainerProfileLoading,
     selectOneTrainer: (state) => state.oneTrainer,
-    selectOneTrainerLoading: (state) => state.fetchOneTrainer,
     selectTrainers: (state) => state.trainers,
     selectFetchingTrainers: (state) => state.fetchingTrainers,
     selectCreatingTrainerProfile: (state) => state.creatingTrainerProfile,
     selectReview: (state) => state.review,
     selectFetchReviewsLoading: (state) => state.fetchReviewsLoading,
+    selectTrainerProfileError: (state) => state.trainerProfileError,
+    selectDeleteCertificateLoading: (state) => state.deleteLoading,
+    selectEditLoading: (state) => state.editLoading,
   },
 });
 
@@ -118,7 +154,10 @@ export const {
   selectCreatingTrainerProfile,
   selectFetchingTrainers,
   selectOneTrainer,
-  selectOneTrainerLoading,
   selectReview,
   selectFetchReviewsLoading,
+  selectTrainerProfileError,
+  selectDeleteCertificateLoading,
+  selectEditLoading,
 } = trainersSlice.selectors;
+export const { resetTrainerError } = trainersSlice.actions;
