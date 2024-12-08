@@ -44,16 +44,10 @@ const CourseCard: React.FC<Props> = ({ course }) => {
   }
 
   return (
-    <Grid2
-      sx={{
-        width: {
-          xs: "375px",
-          md: "365px",
-        },
-      }}
-    >
+
       <Card
         sx={{
+          m:1,
           padding: "10px",
           display: "flex",
           flexDirection: "column",
@@ -88,7 +82,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
                 </Grid2>
                 <Grid2 size={8} mb={3} flexDirection="column">
                   <Typography variant="body2" color="textSecondary">
-                    {findCourseTypes(course.courseType)}
+                    {findCourseTypes(course.courseType.id)}
                   </Typography>
                   <Typography variant="body2" sx={{ padding: "5px 0" }}>
                     {course.schedule}
@@ -127,7 +121,6 @@ const CourseCard: React.FC<Props> = ({ course }) => {
           </Grid2>
         </Grid2>
       </Card>
-    </Grid2>
   );
 };
 
