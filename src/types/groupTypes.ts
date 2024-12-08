@@ -13,9 +13,9 @@ export interface IGroup {
     title: string;
   };
   clients: {
-    _id: string,
-    firstName: string,
-    lastName: string,
+    _id: string;
+    firstName: string;
+    lastName: string;
   }[];
   clientsLimit: number;
   startTime: string;

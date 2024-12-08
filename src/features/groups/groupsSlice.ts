@@ -1,7 +1,11 @@
 import { GlobalError } from "../../types/userTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
-import {createGroup, fetchAllGroups, fetchCourseGroups} from "./groupsThunk.ts";
-import {IGroup} from "../../types/groupTypes.ts";
+import {
+  createGroup,
+  fetchAllGroups,
+  fetchCourseGroups,
+} from "./groupsThunk.ts";
+import { IGroup } from "../../types/groupTypes.ts";
 
 export interface GroupsState {
   groupsData: IGroup[];
@@ -41,27 +45,28 @@ export const groupsSlice = createSlice({
       .addCase(fetchAllGroups.pending, (state) => {
         state.fetchGroups = true;
       })
-      .addCase(fetchAllGroups.fulfilled, (state, {payload: groupsData}) => {
+      .addCase(fetchAllGroups.fulfilled, (state, { payload: groupsData }) => {
         state.groupsData = groupsData;
         state.fetchGroups = false;
       })
-      .addCase(fetchAllGroups.rejected, (state,) => {
+      .addCase(fetchAllGroups.rejected, (state) => {
         state.fetchGroups = false;
       });
-
 
     builder
       .addCase(fetchCourseGroups.pending, (state) => {
         state.fetchCourseGroups = true;
       })
-      .addCase(fetchCourseGroups.fulfilled, (state, {payload: groupsData}) => {
-        state.groupsData = groupsData;
-        state.fetchCourseGroups = false;
-      })
-      .addCase(fetchCourseGroups.rejected, (state,) => {
+      .addCase(
+        fetchCourseGroups.fulfilled,
+        (state, { payload: groupsData }) => {
+          state.groupsData = groupsData;
+          state.fetchCourseGroups = false;
+        },
+      )
+      .addCase(fetchCourseGroups.rejected, (state) => {
         state.fetchCourseGroups = false;
       });
-
   },
   selectors: {
     selectGroups: (state) => state.groupsData,
@@ -79,5 +84,5 @@ export const {
   selectGroupError,
   selectFetchGroups,
   selectFetchCourseGroups,
-  selectGroups
+  selectGroups,
 } = groupsSlice.selectors;
