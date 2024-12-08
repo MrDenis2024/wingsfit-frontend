@@ -20,7 +20,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddchartIcon from "@mui/icons-material/Addchart";
 import GroupIcon from "@mui/icons-material/Group";
-import AssignmentTurnedInOutlinedIcon from '@mui/icons-material/AssignmentTurnedInOutlined';
+import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 
 interface Props {
   user: UserProfile;

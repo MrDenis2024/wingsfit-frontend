@@ -1,11 +1,11 @@
 import SelectCourseForm from "./components/SelectCourseForm.tsx";
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {selectCourses, selectCoursesFetching} from "./coursesSlice.ts";
-import {fetchCourses} from "./coursesThunks.ts";
-import {useEffect, useState} from "react";
-import {Box, CircularProgress, Grid2, Stack, Typography} from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
+import { selectCourses, selectCoursesFetching } from "./coursesSlice.ts";
+import { fetchCourses } from "./coursesThunks.ts";
+import { useEffect, useState } from "react";
+import { Box, CircularProgress, Grid2, Stack, Typography } from "@mui/material";
 import CourseCard from "./components/CourseCard.tsx";
-import {ICourse} from "../../types/courseTypes.ts";
+import { ICourse } from "../../types/courseTypes.ts";
 
 const cardBoxSx = {
   width: {
@@ -13,7 +13,7 @@ const cardBoxSx = {
     sm: "50%",
     md: "50%",
     lg: "33%",
-  }
+  },
 };
 
 const ClientsSelectCourses = () => {
@@ -31,10 +31,10 @@ const ClientsSelectCourses = () => {
 
   const submitHandler = (selectedSchedules: string[]) => {
     const matchingCourses = allCourses.filter((course) =>
-      selectedSchedules.includes(course.schedule)
+      selectedSchedules.includes(course.schedule),
     );
     const nonMatchingCourses = allCourses.filter(
-      (course) => !selectedSchedules.includes(course.schedule)
+      (course) => !selectedSchedules.includes(course.schedule),
     );
     setFilteredCourses(matchingCourses);
     setNonMatchingCourses(nonMatchingCourses);
@@ -42,15 +42,22 @@ const ClientsSelectCourses = () => {
   };
 
   return (
-    <Stack direction="column" spacing={3} sx={{my: 2, mx: 4}}>
+    <Stack direction="column" spacing={3} sx={{ my: 2, mx: 4 }}>
       <Grid2>
-        <SelectCourseForm onSubmit={submitHandler} isLoading={coursesLoading}/>
+        <SelectCourseForm onSubmit={submitHandler} isLoading={coursesLoading} />
       </Grid2>
       {submitted && (
         <>
           {coursesLoading && (
-            <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50vh'}}>
-              <CircularProgress/>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "50vh",
+              }}
+            >
+              <CircularProgress />
             </Box>
           )}
           {!coursesLoading && filteredCourses.length > 0 && (
@@ -61,7 +68,7 @@ const ClientsSelectCourses = () => {
               <Grid2 container>
                 {filteredCourses.map((course: ICourse) => (
                   <Grid2 key={course._id} sx={cardBoxSx}>
-                    <CourseCard course={course}/>
+                    <CourseCard course={course} />
                   </Grid2>
                 ))}
               </Grid2>
@@ -75,7 +82,7 @@ const ClientsSelectCourses = () => {
               <Grid2 container>
                 {nonMatchingCourses.map((course: ICourse) => (
                   <Grid2 key={course._id} sx={cardBoxSx}>
-                    <CourseCard course={course}/>
+                    <CourseCard course={course} />
                   </Grid2>
                 ))}
               </Grid2>

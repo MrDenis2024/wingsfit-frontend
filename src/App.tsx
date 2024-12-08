@@ -176,11 +176,14 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="/client/select-course" element={
-            <ProtectedRoute isAllowed={!!user && user.role === "client"}>
-              <ClientsSelectCourses />
-            </ProtectedRoute>
-          }/>
+          <Route
+            path="/client/select-course"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "client"}>
+                <ClientsSelectCourses />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/admin-login" element={<LoginAdmin />} />
           <Route
             path="/admin/clients-stats"

@@ -11,7 +11,7 @@ const cardBoxSx = {
     sm: "50%",
     md: "50%",
     lg: "33%",
-  }
+  },
 };
 
 interface Props {
@@ -21,17 +21,13 @@ interface Props {
 const CourseCards: React.FC<Props> = ({ courses }) => {
   const isLoading = useAppSelector(selectCoursesFetching);
   return (
-    <Grid2
-      container
-      justifyContent="space-around"
-      alignItems="center"
-    >
+    <Grid2 container justifyContent="space-around" alignItems="center">
       {!isLoading ? (
-        courses.map((course) =>
+        courses.map((course) => (
           <Grid2 key={course._id} sx={cardBoxSx}>
-          <CourseCard course={course} />
+            <CourseCard course={course} />
           </Grid2>
-        )
+        ))
       ) : (
         <CircularProgress />
       )}

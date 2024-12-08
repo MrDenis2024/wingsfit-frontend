@@ -1,25 +1,25 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   Checkbox,
   FormControl,
   FormControlLabel,
-  Grid2, InputLabel,
+  Grid2,
+  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
-  Typography
+  Typography,
 } from "@mui/material";
-import {useAppSelector} from "../../../app/hooks.ts";
-import {selectCourses} from "../coursesSlice.ts";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectCourses } from "../coursesSlice.ts";
 import LoadingButton from "@mui/lab/LoadingButton";
-
 
 interface Props {
   onSubmit: (selectedSchedules: string[]) => void;
   isLoading: boolean;
 }
 
-const SelectCourseForm: React.FC<Props> = ({onSubmit, isLoading}) => {
+const SelectCourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
   const courses = useAppSelector(selectCourses);
 
   const [courseData, setCourseData] = useState({
@@ -32,11 +32,10 @@ const SelectCourseForm: React.FC<Props> = ({onSubmit, isLoading}) => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-
   const courseInputChangeHandler = (event: SelectChangeEvent) => {
     const selectedCourseTypeName = event.target.value;
 
-    setCourseData({courseTypeName: selectedCourseTypeName});
+    setCourseData({ courseTypeName: selectedCourseTypeName });
 
     const selectedCourseSchedules = courses
       .filter((course) => course.courseType.name === selectedCourseTypeName)
@@ -50,17 +49,20 @@ const SelectCourseForm: React.FC<Props> = ({onSubmit, isLoading}) => {
     setSelectedSchedules((prevSelected) =>
       prevSelected.includes(schedule)
         ? prevSelected.filter((s) => s !== schedule)
-        : [...prevSelected, schedule]
+        : [...prevSelected, schedule],
     );
   };
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!courseData.courseTypeName || courseSchedules.length > 0 && selectedSchedules.length === 0) {
-      setErrorMessage('Выберите курс и расписание');
+    if (
+      !courseData.courseTypeName ||
+      (courseSchedules.length > 0 && selectedSchedules.length === 0)
+    ) {
+      setErrorMessage("Выберите курс и расписание");
       return;
     }
-    setErrorMessage('');
+    setErrorMessage("");
     onSubmit(selectedSchedules);
   };
 
@@ -82,17 +84,27 @@ const SelectCourseForm: React.FC<Props> = ({onSubmit, isLoading}) => {
             onChange={courseInputChangeHandler}
           >
             {Object.values(
-              courses.reduce((acc, course) => {
-                acc[course.courseType.name] = course;
-                return acc;
-              }, {} as Record<string, typeof courses[0]>)
+              courses.reduce(
+                (acc, course) => {
+                  acc[course.courseType.name] = course;
+                  return acc;
+                },
+                {} as Record<string, (typeof courses)[0]>,
+              ),
             ).map((uniqueCourse) => (
-              <MenuItem key={uniqueCourse.courseType.name} value={uniqueCourse.courseType.name}>
+              <MenuItem
+                key={uniqueCourse.courseType.name}
+                value={uniqueCourse.courseType.name}
+              >
                 {uniqueCourse.courseType.name}
               </MenuItem>
             ))}
           </Select>
-          {!!errorMessage && !courseData.courseTypeName && <Typography color="error" mt={2}>{errorMessage}</Typography>}
+          {!!errorMessage && !courseData.courseTypeName && (
+            <Typography color="error" mt={2}>
+              {errorMessage}
+            </Typography>
+          )}
         </FormControl>
       </Grid2>
       <Grid2>
@@ -113,9 +125,11 @@ const SelectCourseForm: React.FC<Props> = ({onSubmit, isLoading}) => {
                 label={schedule}
               />
             ))}
-            {!!errorMessage && courseSchedules.length > 0 && selectedSchedules.length === 0 && (
-              <Typography color="error">{errorMessage}</Typography>
-            )}
+            {!!errorMessage &&
+              courseSchedules.length > 0 &&
+              selectedSchedules.length === 0 && (
+                <Typography color="error">{errorMessage}</Typography>
+              )}
           </>
         ) : (
           courseData.courseTypeName && (
@@ -136,7 +150,6 @@ const SelectCourseForm: React.FC<Props> = ({onSubmit, isLoading}) => {
         </LoadingButton>
       </Grid2>
     </Grid2>
-
   );
 };
 
