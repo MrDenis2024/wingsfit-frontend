@@ -25,6 +25,7 @@ import NewGroup from "./features/groups/NewGroup.tsx";
 import Chat from "./features/chat/Chat.tsx";
 import TrainersPage from "./features/trainers/TrainersPage.tsx";
 import TrainerStatistics from "./features/trainers/statistic/TrainerStatistics.tsx";
+import ClientsSelectCourses from "./features/courses/ClientsSelectCourses.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -190,6 +191,11 @@ const App = () => {
               </>
             }
           />
+          <Route path="/client/select-course" element={
+            <ProtectedRoute isAllowed={!!user && user.role === "client"}>
+              <ClientsSelectCourses />
+            </ProtectedRoute>
+          }/>
           <Route
             path="/admin-login"
             element={
