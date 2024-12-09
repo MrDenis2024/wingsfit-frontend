@@ -57,6 +57,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
   const [avatarImage, setAvatarImage] = useState(imageNotFound);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
   let cardImage = imageNotFound;
 
@@ -105,16 +106,21 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
     }
   };
 
-  const handleDeleteAvatar = async () => {
+  const handleDeleteAvatarConfirm = async () => {
     try {
       await dispatch(fetchUpdateAvatarTrainer(null)).unwrap();
       toast("Avatar deleted successfully");
       dispatch(getTrainerProfile(id));
       setAvatarImage(imageNotFound);
+      setConfirmOpen(false);
     } catch (err) {
       console.error("Failed to delete avatar:", err);
       toast("Failed to delete avatar");
     }
+  };
+
+  const handleDeleteAvatar = () => {
+    setConfirmOpen(true);
   };
   return (
     <>
@@ -418,6 +424,43 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
             >
               Close
             </Button>
+          </Box>
+        </Dialog>
+        <Dialog
+          open={confirmOpen}
+          onClose={() => setConfirmOpen(false)}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Box
+            sx={{
+              padding: "20px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Typography>Вы уверены, что хотите удалить аватар?</Typography>
+            <Box sx={{ marginTop: "15px" }}>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleDeleteAvatarConfirm}
+                sx={{ marginRight: "10px" }}
+              >
+                Удалить
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={() => setConfirmOpen(false)}
+                sx={{ color: "black" }}
+              >
+                Отмена
+              </Button>
+            </Box>
           </Box>
         </Dialog>
       </Box>

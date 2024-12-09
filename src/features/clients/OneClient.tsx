@@ -41,6 +41,7 @@ const OneClient = () => {
   const [avatarImage, setAvatarImage] = useState(imageNotFound);
   const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
   const [open, setOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   let cardImage = imageNotFound;
 
@@ -104,16 +105,21 @@ const OneClient = () => {
     }
   };
 
-  const handleDeleteAvatar = async () => {
+  const handleDeleteAvatarConfirm = async () => {
     try {
       await dispatch(fetchUpdateAvatarClient(null)).unwrap();
       toast("Avatar deleted successfully");
       setAvatarImage(imageNotFound);
       dispatch(getClientProfile(id));
+      setConfirmOpen(false);
     } catch (err) {
       console.error("Failed to delete avatar:", err);
       toast("Failed to delete avatar");
     }
+  };
+
+  const handleDeleteAvatar = () => {
+    setConfirmOpen(true);
   };
 
   return (
@@ -435,6 +441,43 @@ const OneClient = () => {
               >
                 Close
               </Button>
+            </Box>
+          </Dialog>
+          <Dialog
+            open={confirmOpen}
+            onClose={() => setConfirmOpen(false)}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Typography>Вы уверены, что хотите удалить аватар?</Typography>
+              <Box sx={{ marginTop: "15px" }}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={handleDeleteAvatarConfirm}
+                  sx={{ marginRight: "10px" }}
+                >
+                  Удалить
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => setConfirmOpen(false)}
+                  sx={{ color: "black" }}
+                >
+                  Отмена
+                </Button>
+              </Box>
             </Box>
           </Dialog>
         </Box>

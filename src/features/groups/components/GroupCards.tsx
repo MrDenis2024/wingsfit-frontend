@@ -30,7 +30,9 @@ const CourseCards: React.FC<Props> = ({ groups }) => {
             </Grid2>
           ))
         ) : (
-          <Alert severity="info" sx={{ width: "100%" }}>Здесь пока нет никаких групп!</Alert>
+          <Alert severity="info" sx={{ width: "100%" }}>
+            Здесь пока нет никаких групп!
+          </Alert>
         )
       ) : (
         <CircularProgress />

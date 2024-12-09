@@ -30,7 +30,9 @@ const CourseCards: React.FC<Props> = ({ courses }) => {
             </Grid2>
           ))
         ) : (
-          <Alert severity="info" sx={{ width: "100%" }} >Здесь пока нет никаких курсов!</Alert>
+          <Alert severity="info" sx={{ width: "100%" }}>
+            Здесь пока нет никаких курсов!
+          </Alert>
         )
       ) : (
         <CircularProgress />
