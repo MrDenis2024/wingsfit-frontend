@@ -6,7 +6,7 @@ import { selectGroups } from "../../groups/groupsSlice.ts";
 import { useEffect } from "react";
 import { fetchCourses } from "../../courses/coursesThunks.ts";
 import { fetchAllGroups } from "../../groups/groupsThunk.ts";
-import { Button, Typography } from "@mui/material";
+import {Alert, Button, Typography} from "@mui/material";
 import CourseCards from "../../courses/components/CourseCards.tsx";
 import GroupCards from "../../groups/components/GroupCards.tsx";
 import { Link } from "react-router-dom";
@@ -26,7 +26,7 @@ const TrainerMainPage = () => {
     <Grid container spacing={2} direction="column">
       <Grid>
         <Typography variant="h3">My courses</Typography>
-        <Grid container justifyContent="flex-end" my={1}>
+        <Grid container justifyContent="flex-end" my={2}>
           <Button
             component={Link}
             to="/add-new-course"
@@ -36,11 +36,17 @@ const TrainerMainPage = () => {
             Add course +
           </Button>
         </Grid>
-        <CourseCards courses={courses} />
+        { courses.length > 0 ? (
+          <CourseCards courses={courses} />
+        ) : (
+          <Alert severity="info">
+            У вас пока нет никаких курсов!
+          </Alert>
+        )}
       </Grid>
       <Grid>
         <Typography variant="h3">My Groups</Typography>
-        <Grid container justifyContent="flex-end" my={1}>
+        <Grid container justifyContent="flex-end" my={2}>
           <Button
             component={Link}
             to="/add-new-group"
@@ -50,7 +56,13 @@ const TrainerMainPage = () => {
             Add group +
           </Button>
         </Grid>
-        <GroupCards groups={groups} />
+        {groups.length > 0 ? (
+          <GroupCards groups={groups} />
+        ) : (
+          <Alert severity="info">
+            У вас пока нет никаких групп!
+          </Alert>
+        )}
       </Grid>
     </Grid>
   );

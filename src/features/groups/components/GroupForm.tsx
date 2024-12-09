@@ -39,7 +39,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
 
   useEffect(() => {
     dispatch(fetchCourses(user?._id));
-  }, [dispatch]);
+  }, [dispatch, user?._id]);
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
