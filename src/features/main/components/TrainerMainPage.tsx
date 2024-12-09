@@ -25,8 +25,8 @@ const TrainerMainPage = () => {
   return (
     <Grid container spacing={2} direction="column">
       <Grid>
-        <Typography variant="h2">My courses</Typography>
-        <Grid container justifyContent="flex-end" mt={1}>
+        <Typography variant="h3">My courses</Typography>
+        <Grid container justifyContent="flex-end" my={1}>
           <Button
             component={Link}
             to="/add-new-course"
@@ -39,8 +39,8 @@ const TrainerMainPage = () => {
         <CourseCards courses={courses} />
       </Grid>
       <Grid>
-        <Typography variant="h2">My Groups</Typography>
-        <Grid container justifyContent="flex-end" mt={1}>
+        <Typography variant="h3">My Groups</Typography>
+        <Grid container justifyContent="flex-end" my={1}>
           <Button
             component={Link}
             to="/add-new-group"
