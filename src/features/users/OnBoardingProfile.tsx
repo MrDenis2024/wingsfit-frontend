@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { resetTrainerError } from "../trainers/trainersSlice.ts";
 import { toast } from "react-toastify";
 import { resetClientError } from "../clients/clientSlice.ts";
-import {reloadUser} from "./userThunk.ts";
+import { reloadUser } from "./userThunk.ts";
 
 const OnBoardingProfile = () => {
   const dispatch = useAppDispatch();

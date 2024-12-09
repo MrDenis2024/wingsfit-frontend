@@ -59,3 +59,10 @@ export const fetchUpdateAvatarClient = createAsyncThunk<
     throw e;
   }
 });
+
+export const editClient = createAsyncThunk<void, FullClientProfileMutation>(
+  "clients/edit",
+  async (clientProfileMutation) => {
+    await axiosApi.put("/clients", clientProfileMutation);
+  },
+);

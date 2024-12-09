@@ -1,5 +1,5 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectClientProfile } from "./clientSlice.ts";
 import { fetchUpdateAvatarClient, getClientProfile } from "./clientThunk.ts";
@@ -342,20 +342,26 @@ const OneClient = () => {
                   marginTop: "20px",
                 }}
               >
-                <Button
-                  variant="outlined"
-                  sx={{
-                    color: "#0288D1",
-                    borderColor: "#0288D1",
-                    borderRadius: "7px",
-                    "&:hover": {
-                      backgroundColor: "#dff3fc",
-                      borderColor: "#0288D1",
-                    },
-                  }}
+                <Link
+                  to={`/edit-client/${id}`}
+                  style={{ textDecoration: "none" }}
                 >
-                  Edit profile
-                </Button>
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      width: "fit-content",
+                      color: "#0288D1",
+                      borderColor: "#0288D1",
+                      borderRadius: "7px",
+                      "&:hover": {
+                        backgroundColor: "#dff3fc",
+                        borderColor: "#0288D1",
+                      },
+                    }}
+                  >
+                    Edit profile
+                  </Button>
+                </Link>
               </Box>
             </Box>
           </Container>
