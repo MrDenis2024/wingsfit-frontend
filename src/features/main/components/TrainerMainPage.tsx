@@ -6,7 +6,7 @@ import { selectGroups } from "../../groups/groupsSlice.ts";
 import { useEffect } from "react";
 import { fetchCourses } from "../../courses/coursesThunks.ts";
 import { fetchAllGroups } from "../../groups/groupsThunk.ts";
-import {Alert, Button, Typography} from "@mui/material";
+import { Alert, Button, Typography } from "@mui/material";
 import CourseCards from "../../courses/components/CourseCards.tsx";
 import GroupCards from "../../groups/components/GroupCards.tsx";
 import { Link } from "react-router-dom";
@@ -36,12 +36,10 @@ const TrainerMainPage = () => {
             Add course +
           </Button>
         </Grid>
-        { courses.length > 0 ? (
+        {courses.length > 0 ? (
           <CourseCards courses={courses} />
         ) : (
-          <Alert severity="info">
-            У вас пока нет никаких курсов!
-          </Alert>
+          <Alert severity="info">У вас пока нет никаких курсов!</Alert>
         )}
       </Grid>
       <Grid>
@@ -59,9 +57,7 @@ const TrainerMainPage = () => {
         {groups.length > 0 ? (
           <GroupCards groups={groups} />
         ) : (
-          <Alert severity="info">
-            У вас пока нет никаких групп!
-          </Alert>
+          <Alert severity="info">У вас пока нет никаких групп!</Alert>
         )}
       </Grid>
     </Grid>
