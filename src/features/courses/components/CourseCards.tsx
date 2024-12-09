@@ -1,7 +1,7 @@
 import { ICourse } from "../../../types/courseTypes.ts";
 import React from "react";
 import { useAppSelector } from "../../../app/hooks.ts";
-import { CircularProgress, Grid2 } from "@mui/material";
+import { Alert, CircularProgress, Grid2 } from "@mui/material";
 import CourseCard from "./CourseCard.tsx";
 import { selectCoursesFetching } from "../coursesSlice.ts";
 
@@ -23,11 +23,15 @@ const CourseCards: React.FC<Props> = ({ courses }) => {
   return (
     <Grid2 container justifyContent="space-around" alignItems="center">
       {!isLoading ? (
-        courses.map((course) => (
-          <Grid2 key={course._id} sx={cardBoxSx}>
-            <CourseCard course={course} />
-          </Grid2>
-        ))
+        courses.length > 0 ? (
+          courses.map((course) => (
+            <Grid2 key={course._id} sx={cardBoxSx}>
+              <CourseCard course={course} />
+            </Grid2>
+          ))
+        ) : (
+          <Alert severity="info" sx={{ width: "100%" }} >Здесь пока нет никаких курсов!</Alert>
+        )
       ) : (
         <CircularProgress />
       )}
