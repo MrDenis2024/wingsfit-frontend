@@ -34,6 +34,7 @@ import NewAddTrainerCertificates from "../NewAddTrainerCertificates.tsx";
 import { ITrainer } from "../../../types/trainerTypes.ts";
 import { Link } from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
+import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 
 interface TrainerProfileDetailsProps {
   trainerProfile: ITrainer | null;
@@ -112,10 +113,11 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
       toast("Avatar deleted successfully");
       dispatch(getTrainerProfile(id));
       setAvatarImage(imageNotFound);
-      setConfirmOpen(false);
     } catch (err) {
       console.error("Failed to delete avatar:", err);
       toast("Failed to delete avatar");
+    } finally {
+      setConfirmOpen(false);
     }
   };
 
@@ -426,43 +428,15 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
             </Button>
           </Box>
         </Dialog>
-        <Dialog
+        <CustomConfirmDialog
           open={confirmOpen}
-          onClose={() => setConfirmOpen(false)}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            sx={{
-              padding: "20px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Typography>Вы уверены, что хотите удалить аватар?</Typography>
-            <Box sx={{ marginTop: "15px" }}>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={handleDeleteAvatarConfirm}
-                sx={{ marginRight: "10px" }}
-              >
-                Удалить
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={() => setConfirmOpen(false)}
-                sx={{ color: "black" }}
-              >
-                Отмена
-              </Button>
-            </Box>
-          </Box>
-        </Dialog>
+          title="Удалить аватар"
+          description="Вы уверены, что хотите удалить аватар?"
+          confirmText="Удалить"
+          cancelText="Отмена"
+          onConfirm={handleDeleteAvatarConfirm}
+          onCancel={() => setConfirmOpen(false)}
+        />
       </Box>
     </>
   );
