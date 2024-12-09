@@ -1,7 +1,10 @@
 import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
-import { selectClientProfile } from "./clientSlice.ts";
+import {
+  selectClientProfile,
+  selectClientProfileLoading,
+} from "./clientSlice.ts";
 import { fetchUpdateAvatarClient, getClientProfile } from "./clientThunk.ts";
 import {
   Box,
@@ -31,11 +34,13 @@ import { selectCourseTypes } from "../CourseTypes/CourseTypesSlice.ts";
 import { CourseTypeFields } from "../../types/courseTypes.ts";
 import { toast } from "react-toastify";
 import FileInput from "../../UI/FileInput/FileInput.tsx";
+import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const OneClient = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const oneClient = useAppSelector(selectClientProfile);
+  const isLoading = useAppSelector(selectClientProfileLoading);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const courseTypes = useAppSelector(selectCourseTypes);
   const [avatarImage, setAvatarImage] = useState(imageNotFound);
@@ -121,6 +126,21 @@ const OneClient = () => {
   const handleDeleteAvatar = () => {
     setConfirmOpen(true);
   };
+
+  if (isLoading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <LoadingIndicator />
+      </Box>
+    );
+  }
 
   return (
     oneClient && (

@@ -8,7 +8,6 @@ import {
   selectTrainerProfileLoading,
 } from "../trainersSlice.ts";
 import Grid from "@mui/material/Grid2";
-import { CircularProgress } from "@mui/material";
 import EditTrainerForm from "./EditTrainerForm.tsx";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import {
@@ -16,6 +15,7 @@ import {
   TrainerProfileMutation,
 } from "../../../types/trainerTypes.ts";
 import { toast } from "react-toastify";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const EditTrainer = () => {
   const { id } = useParams() as { id: string };
@@ -49,7 +49,7 @@ const EditTrainer = () => {
 
   return (
     <Grid>
-      {isLoading && <CircularProgress />}
+      {isLoading && <LoadingIndicator />}
       {trainerProfile && (
         <EditTrainerForm
           editLoading={editLoading}

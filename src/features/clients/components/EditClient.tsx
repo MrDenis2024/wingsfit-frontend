@@ -8,7 +8,6 @@ import {
   selectEditClientLoading,
 } from "../clientSlice.ts";
 import Grid from "@mui/material/Grid2";
-import { CircularProgress } from "@mui/material";
 import EditClientForm from "./EditClientForm.tsx";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import {
@@ -16,6 +15,7 @@ import {
   FullClientProfileMutation,
 } from "../../../types/clientTypes.ts";
 import { toast } from "react-toastify";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const EditClient = () => {
   const { id } = useParams() as { id: string };
@@ -48,7 +48,7 @@ const EditClient = () => {
 
   return (
     <Grid>
-      {isLoading && <CircularProgress />}
+      {isLoading && <LoadingIndicator />}
       {clientProfile && (
         <EditClientForm
           editLoading={editLoading}

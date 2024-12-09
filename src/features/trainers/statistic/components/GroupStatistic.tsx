@@ -7,7 +7,6 @@ import {
 import { getStatisticGroup } from "../trainerStatisticThunks.ts";
 import {
   Alert,
-  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -18,6 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import LoadingIndicator from "../../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const GroupStatistic = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ const GroupStatistic = () => {
   return (
     <>
       {isLoading ? (
-        <CircularProgress />
+        <LoadingIndicator />
       ) : (
         <Grid>
           {statisticGroup.length > 0 ? (

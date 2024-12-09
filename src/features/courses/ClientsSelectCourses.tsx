@@ -3,9 +3,10 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectCourses, selectCoursesFetching } from "./coursesSlice.ts";
 import { fetchCourses } from "./coursesThunks.ts";
 import { useEffect, useState } from "react";
-import { Box, CircularProgress, Grid2, Stack, Typography } from "@mui/material";
+import { Box, Grid2, Stack, Typography } from "@mui/material";
 import CourseCard from "./components/CourseCard.tsx";
 import { ICourse } from "../../types/courseTypes.ts";
+import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const cardBoxSx = {
   width: {
@@ -57,7 +58,7 @@ const ClientsSelectCourses = () => {
                 height: "50vh",
               }}
             >
-              <CircularProgress />
+              <LoadingIndicator />
             </Box>
           )}
           {!coursesLoading && filteredCourses.length > 0 && (

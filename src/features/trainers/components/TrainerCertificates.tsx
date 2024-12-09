@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   CardMedia,
-  CircularProgress,
   Collapse,
   Dialog,
   IconButton,
@@ -20,6 +19,7 @@ import { toast } from "react-toastify";
 import { selectUser } from "../../users/userSlice.ts";
 import { ITrainer } from "../../../types/trainerTypes.ts";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 interface Props {
   trainerProfile: ITrainer | null;
@@ -113,7 +113,7 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
           }}
         >
           {isFetching ? (
-            <CircularProgress />
+            <LoadingIndicator />
           ) : trainerProfile?.certificates?.length ? (
             trainerProfile.certificates.map((certificate) => (
               <Box

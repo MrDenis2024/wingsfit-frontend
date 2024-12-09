@@ -7,7 +7,6 @@ import {
 import { GroupMutation } from "../../../types/groupTypes.ts";
 import { fetchCourses } from "../../courses/coursesThunks.ts";
 import {
-  CircularProgress,
   FormControl,
   Grid2,
   InputLabel,
@@ -19,6 +18,7 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import { selectUser } from "../../users/userSlice.ts";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 interface Props {
   onSubmit: (course: GroupMutation) => void;
@@ -84,7 +84,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
 
       <Grid2>
         {coursesFetching ? (
-          <CircularProgress />
+          <LoadingIndicator />
         ) : (
           <TextField
             required

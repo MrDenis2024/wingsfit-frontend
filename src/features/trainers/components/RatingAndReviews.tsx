@@ -1,10 +1,11 @@
-import { Button, CircularProgress, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectFetchReviewsLoading, selectReview } from "../trainersSlice.ts";
 import { getTrainersReview } from "../trainersThunks.ts";
 import Grid from "@mui/material/Grid2";
 import { Star, StarHalf, StarOutline } from "@mui/icons-material";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 interface Props {
   id: string;
@@ -51,7 +52,7 @@ const RatingAndReviews: React.FC<Props> = ({ id }) => {
 
   return (
     <Grid>
-      {reviewsLoading && <CircularProgress />}
+      {reviewsLoading && <LoadingIndicator />}
       {!reviewsLoading && reviews.length > 0 ? (
         <Grid>
           <Grid
