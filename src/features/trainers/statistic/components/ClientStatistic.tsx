@@ -8,7 +8,6 @@ import { getStatisticClient } from "../trainerStatisticThunks.ts";
 import Grid from "@mui/material/Grid2";
 import {
   Alert,
-  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -18,6 +17,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import LoadingIndicator from "../../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const ClientStatistic = () => {
   const dispatch = useAppDispatch();
@@ -31,7 +31,7 @@ const ClientStatistic = () => {
   return (
     <>
       {isLoading ? (
-        <CircularProgress />
+        <LoadingIndicator />
       ) : (
         <Grid>
           {statisticClient.length > 0 ? (

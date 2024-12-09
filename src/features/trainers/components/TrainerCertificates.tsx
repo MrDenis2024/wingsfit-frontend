@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   CardMedia,
-  CircularProgress,
   Collapse,
   Dialog,
   IconButton,
@@ -19,6 +18,8 @@ import { deleteCertificate, getTrainerProfile } from "../trainersThunks.ts";
 import { toast } from "react-toastify";
 import { selectUser } from "../../users/userSlice.ts";
 import { ITrainer } from "../../../types/trainerTypes.ts";
+import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 interface Props {
   trainerProfile: ITrainer | null;
@@ -28,6 +29,7 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
   const dispatch = useAppDispatch();
   const iUser = useAppSelector(selectUser);
   const isFetching = useAppSelector(selectTrainerProfileLoading);
+
   const [selectedCertificate, setSelectedCertificate] = useState<{
     _id: string;
     title: string;
@@ -35,7 +37,9 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
   } | null>(null);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const toggleStatus = () => setIsStatusOpen((prev) => !prev);
+
   const [open, setOpen] = useState(false);
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false); // Состояние для диалога подтверждения
 
   useEffect(() => {
     if (trainerProfile?.certificates?.length) {
@@ -58,24 +62,25 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
 
   const handleDeleteCertificate = async () => {
     if (selectedCertificate && trainerProfile) {
-      if (
-        window.confirm(
-          `Are you sure you want to delete the certificate "${selectedCertificate.title}"?`,
-        )
-      ) {
-        try {
-          await dispatch(deleteCertificate(selectedCertificate._id)).unwrap();
-          dispatch(getTrainerProfile(trainerProfile.user._id));
-          toast.success("Certificate deleted successfully.");
-        } catch (error) {
-          console.error("Delete certificate error: ", error);
-          toast.error("Failed to delete certificate.");
-        }
+      try {
+        await dispatch(deleteCertificate(selectedCertificate._id)).unwrap();
+        dispatch(getTrainerProfile(trainerProfile.user._id));
+        toast.success("Certificate deleted successfully.");
+      } catch (error) {
+        console.error("Delete certificate error: ", error);
+        toast.error("Failed to delete certificate.");
+      } finally {
+        setIsConfirmDialogOpen(false);
       }
     } else {
       console.error("No certificate selected.");
     }
   };
+
+  const handleOpenConfirmDialog = () => {
+    setIsConfirmDialogOpen(true); // Открыть кастомный диалог
+  };
+
   return (
     <Box sx={{ maxWidth: "1200px", width: "100%" }}>
       <Box
@@ -108,7 +113,7 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
           }}
         >
           {isFetching ? (
-            <CircularProgress />
+            <LoadingIndicator />
           ) : trainerProfile?.certificates?.length ? (
             trainerProfile.certificates.map((certificate) => (
               <Box
@@ -221,7 +226,7 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
               variant="outlined"
               sx={{ width: "200px", marginBottom: 2 }}
               color="error"
-              onClick={handleDeleteCertificate}
+              onClick={handleOpenConfirmDialog}
             >
               Удалить сертификат
             </Button>
@@ -235,6 +240,15 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
           </Button>
         </Box>
       </Dialog>
+      <CustomConfirmDialog
+        open={isConfirmDialogOpen}
+        title="Удалить сертификат"
+        description={`Вы уверены, что хотите удалить сертификат "${selectedCertificate?.title}"?`}
+        confirmText="Удалить"
+        cancelText="Отмена"
+        onConfirm={handleDeleteCertificate}
+        onCancel={() => setIsConfirmDialogOpen(false)}
+      />
     </Box>
   );
 };

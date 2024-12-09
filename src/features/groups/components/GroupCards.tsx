@@ -1,9 +1,10 @@
 import React from "react";
 import { useAppSelector } from "../../../app/hooks.ts";
-import { Alert, CircularProgress, Grid2 } from "@mui/material";
+import { Alert, Grid2 } from "@mui/material";
 import { IGroup } from "../../../types/groupTypes.ts";
 import GroupCard from "./GroupCard.tsx";
 import { selectFetchGroups } from "../groupsSlice.ts";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const cardBoxSx = {
   width: {
@@ -30,10 +31,12 @@ const CourseCards: React.FC<Props> = ({ groups }) => {
             </Grid2>
           ))
         ) : (
-          <Alert severity="info" sx={{ width: "100%" }}>Здесь пока нет никаких групп!</Alert>
+          <Alert severity="info" sx={{ width: "100%" }}>
+            Здесь пока нет никаких групп!
+          </Alert>
         )
       ) : (
-        <CircularProgress />
+        <LoadingIndicator />
       )}
     </Grid2>
   );

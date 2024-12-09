@@ -1,9 +1,10 @@
 import { ICourse } from "../../../types/courseTypes.ts";
 import React from "react";
 import { useAppSelector } from "../../../app/hooks.ts";
-import { Alert, CircularProgress, Grid2 } from "@mui/material";
+import { Alert, Grid2 } from "@mui/material";
 import CourseCard from "./CourseCard.tsx";
 import { selectCoursesFetching } from "../coursesSlice.ts";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const cardBoxSx = {
   width: {
@@ -30,10 +31,12 @@ const CourseCards: React.FC<Props> = ({ courses }) => {
             </Grid2>
           ))
         ) : (
-          <Alert severity="info" sx={{ width: "100%" }} >Здесь пока нет никаких курсов!</Alert>
+          <Alert severity="info" sx={{ width: "100%" }}>
+            Здесь пока нет никаких курсов!
+          </Alert>
         )
       ) : (
-        <CircularProgress />
+        <LoadingIndicator />
       )}
     </Grid2>
   );

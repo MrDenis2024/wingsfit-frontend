@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import { selectError } from "../reviewForm/reviewSlice.ts";
 import { createReview } from "../reviewForm/reviewThunk.ts";
 import TrainerProfileDetails from "./components/TrainerProfileDetails.tsx";
-import { CircularProgress } from "@mui/material";
+import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
@@ -64,7 +64,7 @@ const OneTrainer = () => {
   return (
     <>
       {loading ? (
-        <CircularProgress />
+        <LoadingIndicator />
       ) : (
         <TrainerProfileDetails
           trainerProfile={isMyProfile ? trainerProfile : oneTrainer}

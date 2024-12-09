@@ -3,16 +3,9 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectOneCourse, selectOneCourseLoading } from "./coursesSlice.ts";
 import { useEffect } from "react";
 import { getOneCourse } from "./coursesThunks.ts";
-import {
-  Box,
-  Button,
-  Card,
-  CardMedia,
-  CircularProgress,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Card, CardMedia, Stack, Typography } from "@mui/material";
 import { apiURL } from "../../constants.ts";
+import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const OneCourse = () => {
   const { id } = useParams<{ id: string }>();
@@ -42,7 +35,7 @@ const OneCourse = () => {
           height: "100vh",
         }}
       >
-        <CircularProgress />
+        <LoadingIndicator />
       </Box>
     );
   }

@@ -1,11 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  Divider,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, Paper, Stack, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { useEffect } from "react";
 import UserStatistics from "../components/UserStatistics.tsx";
@@ -16,6 +9,7 @@ import {
   selectAdminClientsFetching,
   selectTotalClient,
 } from "./adminClientsSlice.ts";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const ClientStatistics = () => {
   const dispatch = useAppDispatch();
@@ -46,7 +40,7 @@ const ClientStatistics = () => {
             height: "50vh",
           }}
         >
-          <CircularProgress />
+          <LoadingIndicator />
         </Box>
       ) : (
         <>
