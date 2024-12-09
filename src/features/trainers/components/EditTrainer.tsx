@@ -4,7 +4,7 @@ import { editTrainer, getTrainerProfile } from "../trainersThunks.ts";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   selectEditLoading,
-  selectOneTrainer,
+  selectTrainerProfile,
   selectTrainerProfileLoading,
 } from "../trainersSlice.ts";
 import Grid from "@mui/material/Grid2";
@@ -21,7 +21,7 @@ const EditTrainer = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const trainerProfile = useAppSelector(selectOneTrainer);
+  const trainerProfile = useAppSelector(selectTrainerProfile);
   const isLoading = useAppSelector(selectTrainerProfileLoading);
   const editLoading = useAppSelector(selectEditLoading);
 
@@ -43,7 +43,7 @@ const EditTrainer = () => {
       navigate(`/trainers/${id}`);
       toast.success("Данный успешно обновлены");
     } catch {
-      toast.error("Данные не обновлены");
+      toast.error("Произошла ошибка обновления данных");
     }
   };
 

@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createClientProfile, getClientProfile } from "./clientThunk.ts";
+import {
+  createClientProfile,
+  editClient,
+  getClientProfile,
+} from "./clientThunk.ts";
 import { IClient } from "../../types/clientTypes.ts";
 import { GlobalError } from "../../types/userTypes.ts";
 
@@ -10,6 +14,7 @@ interface ClientState {
   oneClientProfile: IClient | null;
   oneClientProfileLoading: boolean;
   creatingClientProfile: boolean;
+  editClientLoading: boolean;
 }
 
 const initialState: ClientState = {
@@ -19,6 +24,7 @@ const initialState: ClientState = {
   oneClientProfile: null,
   oneClientProfileLoading: false,
   creatingClientProfile: false,
+  editClientLoading: false,
 };
 
 export const clientSlice = createSlice({
@@ -34,6 +40,7 @@ export const clientSlice = createSlice({
     selectClientProfileLoading: (state) => state.clientProfileLoading,
     selectCreatingClientProfile: (state) => state.creatingClientProfile,
     selectClientProfileError: (state) => state.clientProfileError,
+    selectEditClientLoading: (state) => state.editClientLoading,
   },
   extraReducers: (builder) => {
     builder
@@ -64,6 +71,17 @@ export const clientSlice = createSlice({
       .addCase(createClientProfile.rejected, (state) => {
         state.creatingClientProfile = false;
       });
+
+    builder
+      .addCase(editClient.pending, (state) => {
+        state.editClientLoading = true;
+      })
+      .addCase(editClient.fulfilled, (state) => {
+        state.editClientLoading = false;
+      })
+      .addCase(editClient.rejected, (state) => {
+        state.editClientLoading = false;
+      });
   },
 });
 
@@ -74,6 +92,7 @@ export const {
   selectClientProfileLoading,
   selectCreatingClientProfile,
   selectClientProfileError,
+  selectEditClientLoading,
 } = clientSlice.selectors;
 
 export const { resetClientError } = clientSlice.actions;

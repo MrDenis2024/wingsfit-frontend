@@ -26,6 +26,7 @@ import Chat from "./features/chat/Chat.tsx";
 import TrainersPage from "./features/trainers/TrainersPage.tsx";
 import TrainerStatistics from "./features/trainers/statistic/TrainerStatistics.tsx";
 import EditTrainer from "./features/trainers/components/EditTrainer.tsx";
+import EditClient from "./features/clients/components/EditClient.tsx";
 import ClientsSelectCourses from "./features/courses/ClientsSelectCourses.tsx";
 
 const App = () => {
@@ -92,6 +93,14 @@ const App = () => {
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                 <EditTrainer />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-client/:id"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "client"}>
+                <EditClient />
               </ProtectedRoute>
             }
           />
