@@ -18,23 +18,31 @@ import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 
 interface Props {
   existingProfile: IClient;
-  updateClientProfile: (personalInfo: UserInfoMutation, optionalInfo: ClientProfileMutation) => void;
+  updateClientProfile: (
+    personalInfo: UserInfoMutation,
+    optionalInfo: ClientProfileMutation,
+  ) => void;
   editLoading: boolean;
 }
 
-const EditClientForm: React.FC<Props> = ({ existingProfile, updateClientProfile, editLoading }) => {
+const EditClientForm: React.FC<Props> = ({
+  existingProfile,
+  updateClientProfile,
+  editLoading,
+}) => {
   const dispatch = useAppDispatch();
   const courseTypes = useAppSelector(selectCourseTypes);
-  const [clientPersonalInfo, setClientPersonalInfo] = useState<UserInfoMutation>({
-    firstName: existingProfile.user.firstName,
-    lastName: existingProfile.user.lastName,
-    timeZone: existingProfile.user.timeZone,
-    phoneNumber: existingProfile.user.phoneNumber,
-    dateOfBirth: new Date(existingProfile.user.dateOfBirth)
-      .toISOString()
-      .split("T")[0],
-    gender: existingProfile.user.gender,
-  });
+  const [clientPersonalInfo, setClientPersonalInfo] =
+    useState<UserInfoMutation>({
+      firstName: existingProfile.user.firstName,
+      lastName: existingProfile.user.lastName,
+      timeZone: existingProfile.user.timeZone,
+      phoneNumber: existingProfile.user.phoneNumber,
+      dateOfBirth: new Date(existingProfile.user.dateOfBirth)
+        .toISOString()
+        .split("T")[0],
+      gender: existingProfile.user.gender,
+    });
   const [optionalInfo, setOptionalInfo] = useState<ClientProfileMutation>({
     preferredWorkoutType: existingProfile.preferredWorkoutType,
     trainingLevel: existingProfile.trainingLevel,
