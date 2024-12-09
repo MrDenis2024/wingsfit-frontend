@@ -35,6 +35,7 @@ import { CourseTypeFields } from "../../types/courseTypes.ts";
 import { toast } from "react-toastify";
 import FileInput from "../../UI/FileInput/FileInput.tsx";
 import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
+import CustomConfirmDialog from "../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 
 const OneClient = () => {
   const { id } = useParams() as { id: string };
@@ -116,10 +117,11 @@ const OneClient = () => {
       toast("Avatar deleted successfully");
       setAvatarImage(imageNotFound);
       dispatch(getClientProfile(id));
-      setConfirmOpen(false);
     } catch (err) {
       console.error("Failed to delete avatar:", err);
       toast("Failed to delete avatar");
+    } finally {
+      setConfirmOpen(false);
     }
   };
 
@@ -463,43 +465,15 @@ const OneClient = () => {
               </Button>
             </Box>
           </Dialog>
-          <Dialog
+          <CustomConfirmDialog
             open={confirmOpen}
-            onClose={() => setConfirmOpen(false)}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Box
-              sx={{
-                padding: "20px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Typography>Вы уверены, что хотите удалить аватар?</Typography>
-              <Box sx={{ marginTop: "15px" }}>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={handleDeleteAvatarConfirm}
-                  sx={{ marginRight: "10px" }}
-                >
-                  Удалить
-                </Button>
-                <Button
-                  variant="outlined"
-                  onClick={() => setConfirmOpen(false)}
-                  sx={{ color: "black" }}
-                >
-                  Отмена
-                </Button>
-              </Box>
-            </Box>
-          </Dialog>
+            title="Удалить аватар"
+            description="Вы уверены, что хотите удалить аватар?"
+            confirmText="Удалить"
+            cancelText="Отмена"
+            onConfirm={handleDeleteAvatarConfirm}
+            onCancel={() => setConfirmOpen(false)}
+          />
         </Box>
       </>
     )
