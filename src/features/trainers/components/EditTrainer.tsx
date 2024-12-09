@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   selectEditLoading,
   selectOneTrainer,
-  selectOneTrainerLoading,
+  selectTrainerProfileLoading,
 } from "../trainersSlice.ts";
 import Grid from "@mui/material/Grid2";
 import { CircularProgress } from "@mui/material";
@@ -22,7 +22,7 @@ const EditTrainer = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const trainerProfile = useAppSelector(selectOneTrainer);
-  const isLoading = useAppSelector(selectOneTrainerLoading);
+  const isLoading = useAppSelector(selectTrainerProfileLoading);
   const editLoading = useAppSelector(selectEditLoading);
 
   useEffect(() => {
