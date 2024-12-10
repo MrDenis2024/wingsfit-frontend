@@ -6,7 +6,7 @@ import { OneChat } from "../../types/chatTypes.ts";
 
 const Chat = () => {
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
-  const [chats, setChats] = useState<OneChat[]>([
+  const [chats] = useState<OneChat[]>([
     {
       _id: "123",
       title: "Anton",

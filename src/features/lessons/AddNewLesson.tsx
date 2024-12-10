@@ -44,7 +44,10 @@ const AddNewLesson = () => {
   const [state, setState] = useState<LessonMutation>({
     course: "672cade9cc1f8f43e89c74ff",
     title: "",
-    timeZone: "",
+    timeZone: {
+      value: "",
+      label: "",
+    },
     groupLevel: "",
     quantityClients: "",
     ageLimit: "",
@@ -64,7 +67,7 @@ const AddNewLesson = () => {
       if (
         !state.course.trim() ||
         !state.title.trim() ||
-        !state.timeZone.trim() ||
+        !state.timeZone ||
         Number(state.groupLevel) < 1 ||
         Number(state.quantityClients) < 1
       ) {
@@ -169,7 +172,7 @@ const AddNewLesson = () => {
                     type="text"
                     label="Time Zone"
                     name="timeZone"
-                    value={state.timeZone}
+                    value={state.timeZone.label}
                     onChange={inputChangeHandler}
                   />
                 </Grid>
