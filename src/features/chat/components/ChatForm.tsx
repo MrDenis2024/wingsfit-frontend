@@ -7,7 +7,7 @@ interface Props {
   chatId: string;
 }
 
-const ChatForm: React.FC<Props> = ({ chatId }) => {
+const ChatForm: React.FC<Props> = () => {
   const [message, setMessage] = useState("");
   return (
     <Grid component="form" sx={{ display: "flex", padding: 2 }}>

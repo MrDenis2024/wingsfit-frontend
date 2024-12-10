@@ -1,16 +1,9 @@
 import React from "react";
 import { Box, Stack, Typography, Divider } from "@mui/material";
+import { IUser } from "../../../types/userTypes.ts";
 
 interface UserStatisticsProps {
-  user: {
-    _id: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-    createdAt: string;
-    updatedAt: string;
-    lastActivity: string;
-  };
+  user: IUser;
   index: number;
   totalUsers: number;
 }
@@ -54,7 +47,7 @@ const UserStatistics: React.FC<UserStatisticsProps> = ({
           >
             Created At:{" "}
           </Box>
-          {new Date(user.createdAt).toLocaleDateString()}
+          {/*{new Date(user.createdAt).toLocaleDateString()}*/}
         </Typography>
         <Typography sx={{ width: { sm: "20%" } }}>
           <Box
@@ -63,7 +56,7 @@ const UserStatistics: React.FC<UserStatisticsProps> = ({
           >
             Updated At:{" "}
           </Box>
-          {new Date(user.updatedAt).toLocaleDateString()}
+          {/*{new Date(user.updatedAt).toLocaleDateString()}*/}
         </Typography>
         <Typography
           sx={{ flexGrow: 1, textAlign: { xs: "left", sm: "center" } }}
@@ -74,7 +67,7 @@ const UserStatistics: React.FC<UserStatisticsProps> = ({
           >
             Last Activity:{" "}
           </Box>
-          {new Date(user.lastActivity).toLocaleDateString()}
+          {/*{new Date(user.lastActivity).toLocaleDateString()}*/}
         </Typography>
       </Stack>
       {index < totalUsers - 1 && <Divider />}

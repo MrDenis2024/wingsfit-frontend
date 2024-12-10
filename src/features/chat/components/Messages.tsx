@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Typography } from "@mui/material";
 import MessagesList from "./MessagesList.tsx";
 import Grid from "@mui/material/Grid2";
 import ChatForm from "./ChatForm.tsx";
-import { Message } from "../../../types/chatTypes.ts";
 
 interface Props {
   chatId: string | null;
@@ -40,7 +39,7 @@ const Messages: React.FC<Props> = ({ chatId }) => {
     ];
   }
 
-  const [messages1, setMessages1] = useState<Message[]>(messages);
+  // const [messages1, setMessages1] = useState<Message[]>(messages);
 
   if (!chatId) {
     return (
