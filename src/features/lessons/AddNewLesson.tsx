@@ -22,6 +22,7 @@ import {
 import { selectLessonCreating } from "./lessonsSlice.ts";
 import { fetchCourses } from "../courses/coursesThunks.ts";
 import TimeZone from "../../UI/TimeZone/TimeZone.tsx";
+import { toast } from "react-toastify";
 
 const AddNewLesson = () => {
   const dispatch = useAppDispatch();
@@ -48,7 +49,11 @@ const AddNewLesson = () => {
   const coursesLoading = useAppSelector(selectCoursesFetching);
 
   useEffect(() => {
-    dispatch(fetchCourses());
+    dispatch(fetchCourses())
+      .unwrap()
+      .catch(() => {
+        toast.error("Ошибка при загрузке курсов. Повторите попытку.");
+      });
   }, [dispatch]);
 
   const submitFormHandler = async (event: React.FormEvent) => {
@@ -61,12 +66,15 @@ const AddNewLesson = () => {
       !state.quantityClients
     ) {
       setError(true);
+      toast.error("Заполните все обязательные поля!");
       return;
     }
     try {
       await dispatch(createLesson(state)).unwrap();
+      toast.success("Урок успешно создан!");
       navigate("/lessons");
     } catch (e) {
+      toast.error("Ошибка при создании урока. Попробуйте снова.");
       console.error(e);
     }
   };

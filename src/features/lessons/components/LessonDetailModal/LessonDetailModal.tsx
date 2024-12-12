@@ -24,6 +24,7 @@ import {
 import { IUser } from "../../../../types/userTypes.ts";
 import { LoadingButton } from "@mui/lab";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 interface LessonDetailModalProps {
   lessonId: string;
@@ -67,7 +68,7 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
   const handleSavePresence = async () => {
     try {
       if (!lesson) {
-        console.error("Урок не найден");
+        toast.error("Урок не найден");
         return;
       }
       const usersToAdd = presentUsers.filter(
@@ -75,6 +76,7 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
       );
 
       if (usersToAdd.length === 0) {
+        toast.info("Нет изменений для сохранения");
         return;
       }
 
@@ -85,9 +87,12 @@ const LessonDetailModal: React.FC<LessonDetailModalProps> = ({
         }),
       );
       unwrapResult(resultAction);
+
       await dispatch(fetchLesson(lessonId)).unwrap();
+      toast.success("Присутствие успешно сохранено!");
     } catch (error) {
       console.error("Ошибка при сохранении данных:", error);
+      toast.error("Произошла ошибка при сохранении данных. Повторите попытку.");
     }
   };
 
