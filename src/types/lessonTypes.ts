@@ -1,16 +1,33 @@
 import { ITimezone } from "./globalTypes.ts";
+import { IUser } from "./userTypes.ts";
 
 export interface Lesson {
   _id: string;
-  course: string;
+  course: {
+    _id: string;
+    title: string;
+    participants: IUser[];
+    user: {
+      firstName: string;
+      lastName: string;
+    };
+    courseType: {
+      name: string;
+    };
+  };
   title: string;
   timeZone: ITimezone;
   groupLevel: number;
   quantityClients: number;
   ageLimit: number;
   description: string;
-  participants: string[];
-  presentUser: string[];
+  participants: IUser[];
+  presentUser: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  }[];
+  userId?: string[];
 }
 
 export interface LessonMutation {
@@ -21,6 +38,6 @@ export interface LessonMutation {
   quantityClients: string;
   ageLimit: string;
   description: string;
-  participants: string[];
+  participants: IUser[];
   presentUser: string[];
 }
