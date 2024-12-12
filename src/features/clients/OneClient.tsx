@@ -1,9 +1,22 @@
-import {Link, useParams} from "react-router-dom";
-import React, {useEffect, useState} from "react";
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {selectClientProfile, selectClientProfileLoading,} from "./clientSlice.ts";
-import {fetchUpdateAvatarClient, getClientProfile} from "./clientThunk.ts";
-import {Box, Button, CardMedia, Collapse, Container, Dialog, Grid2, IconButton, Typography,} from "@mui/material";
+import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
+import {
+  selectClientProfile,
+  selectClientProfileLoading,
+} from "./clientSlice.ts";
+import { fetchUpdateAvatarClient, getClientProfile } from "./clientThunk.ts";
+import {
+  Box,
+  Button,
+  CardMedia,
+  Collapse,
+  Container,
+  Dialog,
+  Grid2,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
@@ -16,14 +29,14 @@ import HealingIcon from "@mui/icons-material/Healing";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import {apiURL, findCourseTypes} from "../../constants.ts";
-import {selectCourseTypes} from "../CourseTypes/CourseTypesSlice.ts";
-import {CourseTypeFields} from "../../types/courseTypes.ts";
-import {toast} from "react-toastify";
+import { apiURL, findCourseTypes } from "../../constants.ts";
+import { selectCourseTypes } from "../CourseTypes/CourseTypesSlice.ts";
+import { CourseTypeFields } from "../../types/courseTypes.ts";
+import { toast } from "react-toastify";
 import FileInput from "../../UI/FileInput/FileInput.tsx";
 import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import CustomConfirmDialog from "../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
-import {reloadUser} from "../users/userThunk.ts";
+import { reloadUser } from "../users/userThunk.ts";
 
 const OneClient = () => {
   const { id } = useParams() as { id: string };
@@ -89,7 +102,7 @@ const OneClient = () => {
 
     try {
       await dispatch(fetchUpdateAvatarClient(selectedAvatar)).unwrap();
-      dispatch(reloadUser())
+      dispatch(reloadUser());
       toast("Avatar updated successfully");
       setSelectedAvatar(null);
       handleClose();
@@ -104,8 +117,7 @@ const OneClient = () => {
       await dispatch(fetchUpdateAvatarClient(null)).unwrap();
       toast("Avatar deleted successfully");
       setAvatarImage(imageNotFound);
-      await dispatch(reloadUser())
-
+      await dispatch(reloadUser());
     } catch (err) {
       console.error("Failed to delete avatar:", err);
       toast("Failed to delete avatar");
