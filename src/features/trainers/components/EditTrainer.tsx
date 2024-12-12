@@ -1,22 +1,15 @@
-import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
-import { useEffect } from "react";
-import { editTrainer, getTrainerProfile } from "../trainersThunks.ts";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  selectEditLoading,
-  selectTrainerProfile,
-  selectTrainerProfileLoading,
-} from "../trainersSlice.ts";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
+import {useEffect} from "react";
+import {editTrainer, getTrainerProfile} from "../trainersThunks.ts";
+import {useNavigate, useParams} from "react-router-dom";
+import {selectEditLoading, selectTrainerProfile, selectTrainerProfileLoading,} from "../trainersSlice.ts";
 import Grid from "@mui/material/Grid2";
 import EditTrainerForm from "./EditTrainerForm.tsx";
-import { UserInfoMutation } from "../../../types/userTypes.ts";
-import {
-  FullTrainerProfileMutation,
-  TrainerProfileMutation,
-} from "../../../types/trainerTypes.ts";
-import { toast } from "react-toastify";
+import {UserInfoMutation} from "../../../types/userTypes.ts";
+import {FullTrainerProfileMutation, TrainerProfileMutation,} from "../../../types/trainerTypes.ts";
+import {toast} from "react-toastify";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
-import {updateName} from "../../users/userSlice.ts";
+import {reloadUser} from "../../users/userThunk.ts";
 
 const EditTrainer = () => {
   const { id } = useParams() as { id: string };
@@ -41,10 +34,7 @@ const EditTrainer = () => {
       };
 
       await dispatch(editTrainer(trainerProfile)).unwrap();
-      dispatch(updateName({
-        firstName: trainerProfile.firstName,
-        lastName: trainerProfile.lastName
-      }));
+      await (dispatch(reloadUser()))
 
       navigate(`/trainers/${id}`);
       toast.success("Данный успешно обновлены");

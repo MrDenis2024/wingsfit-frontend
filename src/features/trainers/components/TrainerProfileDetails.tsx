@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  CardMedia,
-  Container,
-  Dialog,
-  Grid2,
-  Typography,
-} from "@mui/material";
+import {Box, Button, CardMedia, Container, Dialog, Grid2, Typography,} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import CelebrationIcon from "@mui/icons-material/Celebration";
@@ -15,26 +7,24 @@ import FemaleIcon from "@mui/icons-material/Female";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import React, { useEffect, useState } from "react";
-import { ICourse } from "../../../types/courseTypes.ts";
+import React, {useEffect, useState} from "react";
+import {ICourse} from "../../../types/courseTypes.ts";
 import CourseCards from "../../courses/components/CourseCards.tsx";
 import RatingAndReviews from "./RatingAndReviews.tsx";
 import ReviewFormBlock from "../../reviewForm/components/ReviewFormBlock.tsx";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
-import { toast } from "react-toastify";
-import { useAppDispatch } from "../../../app/hooks.ts";
-import {
-  fetchUpdateAvatarTrainer,
-  getTrainerProfile,
-} from "../trainersThunks.ts";
-import { apiURL } from "../../../constants.ts";
+import {toast} from "react-toastify";
+import {useAppDispatch} from "../../../app/hooks.ts";
+import {fetchUpdateAvatarTrainer,} from "../trainersThunks.ts";
+import {apiURL} from "../../../constants.ts";
 import NewAddTrainerCertificates from "../NewAddTrainerCertificates.tsx";
-import { ITrainer } from "../../../types/trainerTypes.ts";
-import { Link } from "react-router-dom";
+import {ITrainer} from "../../../types/trainerTypes.ts";
+import {Link} from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
+import {reloadUser} from "../../users/userThunk.ts";
 
 interface TrainerProfileDetailsProps {
   trainerProfile: ITrainer | null;
@@ -97,7 +87,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
 
     try {
       await dispatch(fetchUpdateAvatarTrainer(selectedAvatar)).unwrap();
-      await dispatch(getTrainerProfile(id));
+      await dispatch(reloadUser())
       toast("Avatar updated successfully");
       setSelectedAvatar(null);
       handleClose();
@@ -111,7 +101,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
     try {
       await dispatch(fetchUpdateAvatarTrainer(null)).unwrap();
       toast("Avatar deleted successfully");
-      dispatch(getTrainerProfile(id));
+      await dispatch(reloadUser())
       setAvatarImage(imageNotFound);
     } catch (err) {
       console.error("Failed to delete avatar:", err);

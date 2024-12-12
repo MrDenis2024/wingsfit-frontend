@@ -16,7 +16,7 @@ import {
 } from "../../../types/clientTypes.ts";
 import { toast } from "react-toastify";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
-import {updateName} from "../../users/userSlice.ts";
+import {reloadUser} from "../../users/userThunk.ts";
 
 const EditClient = () => {
   const { id } = useParams() as { id: string };
@@ -41,10 +41,7 @@ const EditClient = () => {
       };
 
       await dispatch(editClient(clientProfile)).unwrap();
-      dispatch(updateName({
-        firstName: clientProfile.firstName,
-        lastName: clientProfile.lastName
-      }));
+      await (dispatch(reloadUser()))
       navigate(`/clients/${id}`);
     } catch {
       toast.error("Произошла ошибка обновления данных");
