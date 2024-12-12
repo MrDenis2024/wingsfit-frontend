@@ -16,6 +16,7 @@ import {
 } from "../../../types/trainerTypes.ts";
 import { toast } from "react-toastify";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
+import {updateName} from "../../users/userSlice.ts";
 
 const EditTrainer = () => {
   const { id } = useParams() as { id: string };
@@ -40,6 +41,11 @@ const EditTrainer = () => {
       };
 
       await dispatch(editTrainer(trainerProfile)).unwrap();
+      dispatch(updateName({
+        firstName: trainerProfile.firstName,
+        lastName: trainerProfile.lastName
+      }));
+
       navigate(`/trainers/${id}`);
       toast.success("Данный успешно обновлены");
     } catch {

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {
   GlobalError,
   UserProfile,
@@ -40,6 +40,21 @@ export const userSlice = createSlice({
   reducers: {
     unsetUser: (state) => {
       state.user = null;
+    },
+    updateName: (state, action: PayloadAction<{ firstName?: string; lastName?: string }>) => {
+      if (state.user) {
+        if (action.payload.firstName) {
+          state.user.firstName = action.payload.firstName;
+        }
+        if (action.payload.lastName) {
+          state.user.lastName = action.payload.lastName;
+        }
+      }
+    },
+    updateAvatar: (state, action: PayloadAction<string>) => {
+      if (state.user) {
+        state.user.avatar = action.payload;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -119,7 +134,7 @@ export const userSlice = createSlice({
 
 export const usersReducer = userSlice.reducer;
 
-export const { unsetUser } = userSlice.actions;
+export const { unsetUser , updateName , updateAvatar } = userSlice.actions;
 
 export const {
   selectUser,

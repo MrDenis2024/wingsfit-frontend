@@ -14,7 +14,7 @@ import { useAppSelector } from "../../app/hooks.ts";
 import { selectUser } from "../../features/users/userSlice.ts";
 import UserMenu from "./UserMenu.tsx";
 import AnonymousMenu from "./AnonymousMenu.tsx";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SideBarMenu from "./SideBarMenu.tsx";
 
@@ -40,7 +40,9 @@ const AppToolbar = () => {
   const closeDrawer = () => {
     setDrawerOpen(false);
   };
-
+  useEffect(() => {
+    console.log(user)
+  }, [user]);
   return (
     <>
       <AppBar position="sticky" color="inherit">
