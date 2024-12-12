@@ -36,6 +36,7 @@ import { toast } from "react-toastify";
 import FileInput from "../../UI/FileInput/FileInput.tsx";
 import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import CustomConfirmDialog from "../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
+import { reloadUser } from "../users/userThunk.ts";
 
 const OneClient = () => {
   const { id } = useParams() as { id: string };
@@ -101,7 +102,7 @@ const OneClient = () => {
 
     try {
       await dispatch(fetchUpdateAvatarClient(selectedAvatar)).unwrap();
-      dispatch(getClientProfile(id));
+      dispatch(reloadUser());
       toast("Avatar updated successfully");
       setSelectedAvatar(null);
       handleClose();
@@ -116,7 +117,7 @@ const OneClient = () => {
       await dispatch(fetchUpdateAvatarClient(null)).unwrap();
       toast("Avatar deleted successfully");
       setAvatarImage(imageNotFound);
-      dispatch(getClientProfile(id));
+      await dispatch(reloadUser());
     } catch (err) {
       console.error("Failed to delete avatar:", err);
       toast("Failed to delete avatar");

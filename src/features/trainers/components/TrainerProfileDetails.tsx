@@ -25,16 +25,14 @@ import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../../app/hooks.ts";
-import {
-  fetchUpdateAvatarTrainer,
-  getTrainerProfile,
-} from "../trainersThunks.ts";
+import { fetchUpdateAvatarTrainer } from "../trainersThunks.ts";
 import { apiURL } from "../../../constants.ts";
 import NewAddTrainerCertificates from "../NewAddTrainerCertificates.tsx";
 import { ITrainer } from "../../../types/trainerTypes.ts";
 import { Link } from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
+import { reloadUser } from "../../users/userThunk.ts";
 
 interface TrainerProfileDetailsProps {
   trainerProfile: ITrainer | null;
@@ -97,7 +95,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
 
     try {
       await dispatch(fetchUpdateAvatarTrainer(selectedAvatar)).unwrap();
-      await dispatch(getTrainerProfile(id));
+      await dispatch(reloadUser());
       toast("Avatar updated successfully");
       setSelectedAvatar(null);
       handleClose();
@@ -111,7 +109,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
     try {
       await dispatch(fetchUpdateAvatarTrainer(null)).unwrap();
       toast("Avatar deleted successfully");
-      dispatch(getTrainerProfile(id));
+      await dispatch(reloadUser());
       setAvatarImage(imageNotFound);
     } catch (err) {
       console.error("Failed to delete avatar:", err);
