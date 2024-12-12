@@ -14,7 +14,7 @@ import { useAppSelector } from "../../app/hooks.ts";
 import { selectUser } from "../../features/users/userSlice.ts";
 import UserMenu from "./UserMenu.tsx";
 import AnonymousMenu from "./AnonymousMenu.tsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SideBarMenu from "./SideBarMenu.tsx";
 
