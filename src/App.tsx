@@ -28,6 +28,7 @@ import TrainerStatistics from "./features/trainers/statistic/TrainerStatistics.t
 import EditTrainer from "./features/trainers/components/EditTrainer.tsx";
 import EditClient from "./features/clients/components/EditClient.tsx";
 import ClientsSelectCourses from "./features/courses/ClientsSelectCourses.tsx";
+import LessonsPage from "./features/lessons/LessonsPage/LessonsPage.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -170,6 +171,22 @@ const App = () => {
           />
           <Route
             path="/add-new-lesson"
+            element={
+              <ProtectedRoute isAllowed={!!user}>
+                <AddNewLesson />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/lessons"
+            element={
+              <ProtectedRoute isAllowed={!!user}>
+                <LessonsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-lesson"
             element={
               <ProtectedRoute isAllowed={!!user}>
                 <AddNewLesson />

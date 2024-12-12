@@ -21,6 +21,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddchartIcon from "@mui/icons-material/Addchart";
 import GroupIcon from "@mui/icons-material/Group";
 import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
+import EditNoteIcon from "@mui/icons-material/EditNote";
 
 interface Props {
   user: UserProfile;
@@ -109,6 +110,12 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           <MenuItem onClick={() => navigate(`/${user.role}/statistics`)}>
             <AddchartIcon sx={{ mr: 2 }} />
             My statistic
+          </MenuItem>
+        )}
+        {user.role === "trainer" && (
+          <MenuItem onClick={() => navigate("/lessons")}>
+            <EditNoteIcon sx={{ mr: 2 }} />
+            Lessons
           </MenuItem>
         )}
         <MenuItem onClick={handleLogout}>
