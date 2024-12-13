@@ -33,8 +33,6 @@ const AnonymousMenu = () => {
   };
   return (
     <Stack direction="row" spacing={4}>
-      <CustomStyledLink href="/">Расписание</CustomStyledLink>
-      <CustomStyledLink href="/trainers">Тренеры</CustomStyledLink>
       <CustomStyledLink onClick={handleScrollToFooter}>
         Контакты
       </CustomStyledLink>
