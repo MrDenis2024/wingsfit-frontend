@@ -11,12 +11,12 @@ interface Props {
 }
 
 const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
-  const links = [
-    { label: "Расписание", to: "/" },
-    { label: "Тренеры", to: "/trainers" },
-    { label: "Контакты", to: "/contacts" },
-  ];
-
+  const handleScrollToFooter = () => {
+    const footer = document.getElementById("footer");
+    if (footer) {
+      footer.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <Drawer anchor="top" open={drawerOpen} onClose={closeDrawer}>
       <Box sx={{ width: "100%", backgroundColor: "black" }}>
@@ -41,11 +41,9 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
             <img src={logo} alt="Wings Fit Logo" style={{ height: 50 }} />
           </StyledLink>
           <Stack sx={{ padding: 0, alignItems: "center" }}>
-            {links.map((link) => (
-              <CustomStyledLink key={link.label} href={link.to}>
-                {link.label}
-              </CustomStyledLink>
-            ))}
+            <CustomStyledLink onClick={handleScrollToFooter}>
+              Контакты
+            </CustomStyledLink>
           </Stack>
         </Stack>
       </Box>

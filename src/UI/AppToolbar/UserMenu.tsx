@@ -17,7 +17,6 @@ import { useAppDispatch } from "../../app/hooks.ts";
 import { logout } from "../../features/users/userThunk.ts";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import ChatIcon from "@mui/icons-material/Chat";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddchartIcon from "@mui/icons-material/Addchart";
 import GroupIcon from "@mui/icons-material/Group";
 import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
@@ -93,12 +92,6 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         <MenuItem onClick={() => navigate(`/${user.role}s/chats/${user._id}`)}>
           <ChatIcon sx={{ mr: 2 }} />
           My Chats
-        </MenuItem>
-        <MenuItem
-          onClick={() => navigate(`/${user.role}/calendars/${user._id}`)}
-        >
-          <CalendarMonthIcon sx={{ mr: 2 }} />
-          Calendar
         </MenuItem>
         {user.role === "client" && (
           <MenuItem onClick={() => navigate(`/${user.role}/select-course`)}>
