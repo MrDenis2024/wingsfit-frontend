@@ -48,10 +48,5 @@ jobs:
      # 3. Выполнение команд на удалённом сервере
       - name: Deploy to Server
         run: |
-         ssh -o StrictHostKeyChecking=no wingsfit-admin@209.38.96.160 << 'EOF'
-           cd wingsfit-backend
-           git pull origin main
-           npm install
-           npm run dev
-         EOF
+         ssh wingsfit-admin@209.38.96.160
 
