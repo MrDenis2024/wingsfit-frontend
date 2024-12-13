@@ -25,11 +25,19 @@ export const CustomStyledLink = styled(Link)(() => ({
 }));
 
 const AnonymousMenu = () => {
+  const handleScrollToFooter = () => {
+    const footer = document.getElementById("footer");
+    if (footer) {
+      footer.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <Stack direction="row" spacing={4}>
       <CustomStyledLink href="/">Расписание</CustomStyledLink>
       <CustomStyledLink href="/trainers">Тренеры</CustomStyledLink>
-      <CustomStyledLink href="/">Контакты</CustomStyledLink>
+      <CustomStyledLink onClick={handleScrollToFooter}>
+        Контакты
+      </CustomStyledLink>
     </Stack>
   );
 };
