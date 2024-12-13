@@ -76,7 +76,7 @@ const App = () => {
           <Route
             path="/trainers"
             element={
-              <ProtectedRoute isAllowed={!!user}>
+              <ProtectedRoute isAllowed={!user}>
                 <TrainersPage />
               </ProtectedRoute>
             }
@@ -196,7 +196,6 @@ const App = () => {
           <Route
             path="/clients/:id"
             element={
-              /////
               <ProtectedRoute isAllowed={!!user}>
                 <OneClient />
               </ProtectedRoute>

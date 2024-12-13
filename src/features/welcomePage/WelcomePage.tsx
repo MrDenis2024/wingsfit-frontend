@@ -376,7 +376,7 @@ const WelcomePage = () => {
           textAlign: "center",
         }}
       >
-        <NavLink to="/login/client" style={{ textDecoration: "none" }}>
+        <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
           <TryFreeButton
             text="Попробовать бесплатно!"
             color="#000000"
