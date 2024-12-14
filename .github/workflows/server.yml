@@ -16,8 +16,8 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          ssh -o StrictHostKeyChecking=no wingsfit-admin@209.38.96.160
-            mkdir hello
+          ssh wingsfit-admin@209.38.96.160
+            ls
 #            git pull origin main
 #            npm install # или другая команда для установки зависимостей
 #            pm2 restart app # или команда для перезапуска сервера
