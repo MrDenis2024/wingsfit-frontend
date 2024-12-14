@@ -9,9 +9,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup SSH Agent
-        uses: webfactory/ssh-agent@v0.5.4
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.2.0
         with:
-          ssh-private-key: ${{ secrets.NEW_SECRET_KEY }}
-      - name: Deploy to Server
-        run: ssh toktobekov@209.38.96.160 && ls
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.NEW_SECRET_KEY }}
+          script: |
+            whoami
+            ls -lah     
