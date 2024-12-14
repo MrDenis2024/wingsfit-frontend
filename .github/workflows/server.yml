@@ -13,4 +13,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SERVER_FILED_KEY }}
           script: |
-            echo "wingsfit2093896160" | sudo su
+            echo "wingsfit2093896160" | sudo -S sudo su
