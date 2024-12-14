@@ -14,3 +14,10 @@ jobs:
           key: ${{ secrets.SERVER_FILED_KEY }}
           script: |
             echo "wingsfit2093896160" | sudo -S sudo su
+            cd /var/www/frontend
+            git pull
+            npm run build
+            cp -r dist/* /var/www/html
+            cd /var/www/backend
+            git pull
+            pm2 restart all
