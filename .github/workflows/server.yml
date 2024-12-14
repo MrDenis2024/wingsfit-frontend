@@ -13,7 +13,6 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SERVER_FILED_KEY }}
-
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no wingsfit-admin@209.38.96.160 << 'EOF'
