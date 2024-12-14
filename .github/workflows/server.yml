@@ -6,33 +6,9 @@ env:
   SERVER_HOST: 209.38.96.160
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-#      - name: Get backend repository code
-#        uses: actions/checkout@v4
-#        with:
-#          repository: 'MrDenis2024/wingsfit-backend'
-#          path: 'wingsfit-backend'
-#      - name: Install dependecies backend
-#        run: cd wingsfit-backend && npm ci
-#      - name: Start MongoDB
-#        uses: supercharge/mongodb-github-action@1.11.0
-#        with:
-#          mongodb-version: 8.0
-#          mongodb-db: wingsfit
-#      - name: Start backend
-#        run: cd wingsfit-backend && npm run dev &
-#      - name: Test backend
-#        run: curl localhost:8000; ps aux; lsof -i
-#      - name: Get frontend repository code
-#        uses: actions/checkout@v4
-#      - name: Install dependecies frontend
-#        run: npm ci && nohup npm run dev > out.txt 2>&1 &
-#      - name: Get page
-#        run: curl localhost:5173/trainers && cat out.txt
-#      - name: Test install dependecies
-#        run: cd tests/ && npm ci
       - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.4
         with:
@@ -41,7 +17,7 @@ jobs:
       - name: Deploy to Server
         run: |
           ssh -o StrictHostKeyChecking=no wingsfit-admin@209.38.96.160
-#            cd /path/to/your/project
+            cat 1.txt
 #            git pull origin main
 #            npm install # или другая команда для установки зависимостей
 #            pm2 restart app # или команда для перезапуска сервера
