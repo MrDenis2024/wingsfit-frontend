@@ -1,9 +1,9 @@
 name: Deploy
 
-on: push
-
-env:
-  SERVER_HOST: 209.38.96.160
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
   deploy:
@@ -14,7 +14,9 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.NEW_SECRET_KEY }}
+          key: ${{ secrets.SERVER_FILED_KEY }}
           script: |
-            whoami
-            ls -lah     
+            cd current/frontend
+            git pull origin develop
+            npm i
+            pm2 restart frontend
