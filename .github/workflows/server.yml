@@ -1,0 +1,24 @@
+name: Deploy
+
+on: push
+
+env:
+  SERVER_HOST: 209.38.96.160
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SERVER_FILED_KEY }}
+
+      - name: Deploy to Server
+        run: |
+          ssh -o StrictHostKeyChecking=no wingsfit-admin@209.38.96.160 << 'EOF'
+#            cd /path/to/your/project
+#            git pull origin main
+#            npm install # или другая команда для установки зависимостей
+#            pm2 restart app # или команда для перезапуска сервера
+          EOF
