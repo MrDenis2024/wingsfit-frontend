@@ -6,10 +6,10 @@ env:
   SERVER_HOST: 209.38.96.160
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up SSH
+      - name: Setup SSH Agent
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SERVER_FILED_KEY }}
