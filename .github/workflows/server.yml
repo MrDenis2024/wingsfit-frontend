@@ -13,7 +13,4 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SERVER_FILED_KEY }}
           script: |
-            cd current/frontend
-            git pull origin develop
-            npm i
-            pm2 restart frontend
+            sudo su
