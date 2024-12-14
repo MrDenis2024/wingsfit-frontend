@@ -13,6 +13,5 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.NEW_SECRET_KEY }}
-
       - name: Deploy to Server
         run: ssh toktobekov@209.38.96.160 && ls
