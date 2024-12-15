@@ -17,6 +17,7 @@ import {
 import { toast } from "react-toastify";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import { reloadUser } from "../../users/userThunk.ts";
+import { Container } from "@mui/material";
 
 const EditClient = () => {
   const { id } = useParams() as { id: string };
@@ -49,16 +50,18 @@ const EditClient = () => {
   };
 
   return (
-    <Grid>
-      {isLoading && <LoadingIndicator />}
-      {clientProfile && (
-        <EditClientForm
-          editLoading={editLoading}
-          updateClientProfile={updateClientProfile}
-          existingProfile={clientProfile}
-        />
-      )}
-    </Grid>
+    <Container maxWidth="lg">
+      <Grid>
+        {isLoading && <LoadingIndicator />}
+        {clientProfile && (
+          <EditClientForm
+            editLoading={editLoading}
+            updateClientProfile={updateClientProfile}
+            existingProfile={clientProfile}
+          />
+        )}
+      </Grid>
+    </Container>
   );
 };
 

@@ -23,36 +23,42 @@ const TrainerMainPage = () => {
   }, [dispatch, user?._id]);
 
   return (
-    <Grid container spacing={2} direction="column">
-      <Grid>
-        <Typography variant="h3">My courses</Typography>
-        <Grid container justifyContent="flex-end" my={2}>
-          <Button
-            component={Link}
-            to="/add-new-course"
-            sx={{ fontWeight: "bold", fontSize: "20px" }}
-            variant="outlined"
-          >
-            Add course +
-          </Button>
-        </Grid>
-        <CourseCards courses={courses} />
+    <>
+      <Grid
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ mb: 3 }}
+      >
+        <Typography variant="h4">Мои курсы</Typography>
+        <Button
+          component={Link}
+          to="/add-new-course"
+          sx={{ fontWeight: "bold", fontSize: "14px", px: 1, height: "40px" }}
+          variant="outlined"
+        >
+          Добавить курс +
+        </Button>
       </Grid>
-      <Grid>
-        <Typography variant="h3">My Groups</Typography>
-        <Grid container justifyContent="flex-end" my={2}>
-          <Button
-            component={Link}
-            to="/add-new-group"
-            sx={{ fontWeight: "bold", fontSize: "20px" }}
-            variant="outlined"
-          >
-            Add group +
-          </Button>
-        </Grid>
-        <GroupCards groups={groups} />
+      <CourseCards courses={courses} />
+      <Grid
+        container
+        justifyContent="space-between"
+        alignItems="center"
+        sx={{ my: 3 }}
+      >
+        <Typography variant="h4">Мои группы</Typography>
+        <Button
+          component={Link}
+          to="/add-new-group"
+          sx={{ fontWeight: "bold", fontSize: "14px", px: 1, height: "40px" }}
+          variant="outlined"
+        >
+          Добавить группу +
+        </Button>
       </Grid>
-    </Grid>
+      <GroupCards groups={groups} />
+    </>
   );
 };
 

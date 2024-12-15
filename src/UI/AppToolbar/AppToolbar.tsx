@@ -6,6 +6,7 @@ import {
   Toolbar,
   Typography,
   useMediaQuery,
+  Container,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
@@ -45,29 +46,37 @@ const AppToolbar = () => {
     <>
       <AppBar position="sticky" color="inherit">
         <Toolbar>
-          <Grid
-            sx={{ width: "100%" }}
-            container
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Grid>
-              <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
-                <StyledLink to="/">
-                  <img src={logo} alt="Wings Fit Logo" style={{ height: 50 }} />
-                </StyledLink>
-              </Typography>
-            </Grid>
-            {!isSmallScreen && (
-              <Grid>{user ? <UserMenu user={user} /> : <AnonymousMenu />}</Grid>
-            )}
+          <Container maxWidth="lg">
+            <Grid
+              sx={{ width: "100%" }}
+              container
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Grid>
+                <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
+                  <StyledLink to="/">
+                    <img
+                      src={logo}
+                      alt="Wings Fit Logo"
+                      style={{ height: 50 }}
+                    />
+                  </StyledLink>
+                </Typography>
+              </Grid>
+              {!isSmallScreen && (
+                <Grid>
+                  {user ? <UserMenu user={user} /> : <AnonymousMenu />}
+                </Grid>
+              )}
 
-            {isSmallScreen && (
-              <IconButton color="inherit" edge="end" onClick={toggleDrawer}>
-                <MenuIcon />
-              </IconButton>
-            )}
-          </Grid>
+              {isSmallScreen && (
+                <IconButton color="inherit" edge="end" onClick={toggleDrawer}>
+                  <MenuIcon />
+                </IconButton>
+              )}
+            </Grid>
+          </Container>
         </Toolbar>
       </AppBar>
       <SideBarMenu drawerOpen={drawerOpen} closeDrawer={closeDrawer} />

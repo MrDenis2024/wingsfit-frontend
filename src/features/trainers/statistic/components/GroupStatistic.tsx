@@ -16,7 +16,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import Grid from "@mui/material/Grid2";
 import LoadingIndicator from "../../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const GroupStatistic = () => {
@@ -33,7 +32,7 @@ const GroupStatistic = () => {
       {isLoading ? (
         <LoadingIndicator />
       ) : (
-        <Grid>
+        <>
           {statisticGroup.length > 0 ? (
             <>
               <Typography variant="h5" textAlign="center" marginBottom={2}>
@@ -90,7 +89,7 @@ const GroupStatistic = () => {
               У вас ещё нет групп
             </Alert>
           )}
-        </Grid>
+        </>
       )}
     </>
   );

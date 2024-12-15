@@ -5,7 +5,6 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Grid2,
   styled,
   Typography,
 } from "@mui/material";
@@ -16,6 +15,7 @@ import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import { selectUser } from "../../users/userSlice.ts";
+import Grid from "@mui/material/Grid2";
 
 const ImageCardMedia = styled(CardMedia)({
   width: "100%",
@@ -56,7 +56,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
         border: "1px solid silver",
       }}
     >
-      <Grid2 flexDirection="column">
+      <Grid flexDirection="column">
         <CardHeader
           component={NavLink}
           to={`/courses/${course._id}`}
@@ -67,7 +67,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
             textDecoration: "none",
           }}
         />
-        <Grid2>
+        <Grid>
           <CardContent
             sx={{
               "&:last-child": {
@@ -75,29 +75,29 @@ const CourseCard: React.FC<Props> = ({ course }) => {
               },
             }}
           >
-            <Grid2 container spacing={2}>
-              <Grid2 size={4}>
+            <Grid container spacing={2}>
+              <Grid size={5}>
                 <ImageCardMedia image={cardImage} title={course.title} />
-              </Grid2>
-              <Grid2 size={8} mb={3} flexDirection="column">
+              </Grid>
+              <Grid size={7} mb={3} flexDirection="column">
                 <Typography variant="body2" color="textSecondary">
                   {findCourseTypes(course.courseType.id)}
                 </Typography>
                 <Typography variant="body2" sx={{ padding: "5px 0" }}>
                   {course.schedule}
                 </Typography>
-                <Typography variant="body2">Price: {course.price}</Typography>
+                <Typography variant="body2">Цена: {course.price}</Typography>
                 <Typography
                   variant="body2"
                   sx={{ padding: "5px 0" }}
                   flexDirection="column"
                   display="flex"
                 >
-                  <span>Available: {course.maxClients}</span>
-                  <span>Format: {course.format}</span>
+                  <span>Ограничение: {course.maxClients} человек</span>
+                  <span>Формат: {course.format}</span>
                 </Typography>
-              </Grid2>
-            </Grid2>
+              </Grid>
+            </Grid>
             {user?.role === "client" && (
               <Button
                 sx={{
@@ -113,12 +113,12 @@ const CourseCard: React.FC<Props> = ({ course }) => {
                 component={NavLink}
                 to={`/courses/${course._id}`}
               >
-                <span>Try free</span>
+                <span>Попробовать</span>
               </Button>
             )}
           </CardContent>
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     </Card>
   );
 };

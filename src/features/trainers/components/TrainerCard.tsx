@@ -4,12 +4,12 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Grid2,
   styled,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { apiURL } from "../../../constants.ts";
+import Grid from "@mui/material/Grid2";
 
 const ImageCardMedia = styled(CardMedia)({
   width: "50%",
@@ -47,7 +47,7 @@ const TrainerCard: React.FC<Props> = ({
 
   return (
     <>
-      <Grid2
+      <Grid
         sx={{
           width: {
             xs: "150px",
@@ -63,17 +63,17 @@ const TrainerCard: React.FC<Props> = ({
               backgroundColor: "#f0f0f0",
             }}
           >
-            <Grid2 display="flex" justifyContent="center">
+            <Grid display="flex" justifyContent="center">
               <ImageCardMedia
                 image={cardImage}
                 title={`${firstName} ${lastName}`}
               />
-            </Grid2>
+            </Grid>
             <CardHeader title={`${firstName} ${lastName}`} />
             <CardContent sx={{ paddingBottom: "0" }}>{experience}</CardContent>
           </Card>
         </StyledLink>
-      </Grid2>
+      </Grid>
     </>
   );
 };

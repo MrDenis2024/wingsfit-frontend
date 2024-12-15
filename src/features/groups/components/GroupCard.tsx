@@ -1,13 +1,8 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  Grid2,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { IGroup } from "../../../types/groupTypes.ts";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   group: IGroup;
@@ -27,7 +22,7 @@ const GroupCard: React.FC<Props> = ({ group }) => {
         border: "1px solid silver",
       }}
     >
-      <Grid2 flexDirection="column">
+      <Grid flexDirection="column">
         <CardHeader
           component={NavLink}
           to={`/courses/${group.course._id}`}
@@ -38,7 +33,7 @@ const GroupCard: React.FC<Props> = ({ group }) => {
             textDecoration: "none",
           }}
         />
-        <Grid2>
+        <Grid>
           <CardContent
             sx={{
               "&:last-child": {
@@ -46,13 +41,13 @@ const GroupCard: React.FC<Props> = ({ group }) => {
               },
             }}
           >
-            <Grid2 container spacing={2}>
-              <Grid2 size={8} mb={3} flexDirection="column">
+            <Grid container spacing={2}>
+              <Grid size={8} mb={3} flexDirection="column">
                 <Typography variant="body2" color="textSecondary">
                   {group.course.title}
                 </Typography>
                 <Typography variant="body2" sx={{ padding: "5px 0" }}>
-                  {group.startTime}
+                  Начало:{group.startTime}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -61,15 +56,15 @@ const GroupCard: React.FC<Props> = ({ group }) => {
                   display="flex"
                 >
                   <span>
-                    Available: {group.clientsLimit - group.clients.length}
+                    Доступно: {group.clientsLimit - group.clients.length}
                   </span>
-                  <span>Training level: {group.trainingLevel}</span>
+                  <span>Уровень: {group.trainingLevel}</span>
                 </Typography>
-              </Grid2>
-            </Grid2>
+              </Grid>
+            </Grid>
           </CardContent>
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     </Card>
   );
 };

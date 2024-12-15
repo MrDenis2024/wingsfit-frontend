@@ -1,19 +1,11 @@
 import { ICourse } from "../../../types/courseTypes.ts";
 import React from "react";
 import { useAppSelector } from "../../../app/hooks.ts";
-import { Alert, Grid2 } from "@mui/material";
+import { Alert } from "@mui/material";
 import CourseCard from "./CourseCard.tsx";
 import { selectCoursesFetching } from "../coursesSlice.ts";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
-
-const cardBoxSx = {
-  width: {
-    xs: "100%",
-    sm: "50%",
-    md: "50%",
-    lg: "33%",
-  },
-};
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   courses: ICourse[];
@@ -22,13 +14,13 @@ interface Props {
 const CourseCards: React.FC<Props> = ({ courses }) => {
   const isLoading = useAppSelector(selectCoursesFetching);
   return (
-    <Grid2 container justifyContent="space-around" alignItems="center">
+    <Grid container spacing={2} sx={{ mb: 5 }}>
       {!isLoading ? (
         courses.length > 0 ? (
           courses.map((course) => (
-            <Grid2 key={course._id} sx={cardBoxSx}>
+            <Grid size={{ md: 4, lg: 3, sm: 6, xs: 12 }} key={course._id}>
               <CourseCard course={course} />
-            </Grid2>
+            </Grid>
           ))
         ) : (
           <Alert severity="info" sx={{ width: "100%" }}>
@@ -38,7 +30,7 @@ const CourseCards: React.FC<Props> = ({ courses }) => {
       ) : (
         <LoadingIndicator />
       )}
-    </Grid2>
+    </Grid>
   );
 };
 

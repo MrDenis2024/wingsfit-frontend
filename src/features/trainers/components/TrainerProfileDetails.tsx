@@ -4,7 +4,6 @@ import {
   CardMedia,
   Container,
   Dialog,
-  Grid2,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -125,25 +124,26 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   return (
     <>
       <Box sx={{ backgroundColor: "#dedfe3", paddingY: "25px" }}>
-        <Container maxWidth="xl">
-          <Grid container spacing={2} alignItems="center">
+        <Container
+          maxWidth="lg"
+          sx={{
+            my: 5,
+          }}
+        >
+          <Grid container>
             <Grid
-              sx={{
-                gridColumn: {
-                  xs: "span 12",
-                  sm: "span 4",
-                  md: "span 3",
-                  marginBottom: "auto",
-                },
-              }}
+              size={{ md: 4, sm: 6, xs: 12 }}
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
             >
               <CardMedia
                 component="img"
                 image={cardImage}
                 alt={`Фото тренера ${trainerProfile?.user.firstName}`}
                 sx={{
-                  width: 200,
-                  height: 200,
+                  width: 220,
+                  height: 220,
                   borderRadius: "50%",
                   objectFit: "cover",
                   margin: "0 auto",
@@ -160,7 +160,11 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               )}
             </Grid>
             <Grid
-              sx={{ gridColumn: { xs: "span 12", sm: "span 8", md: "span 9" } }}
+              size={{ md: 7, sm: 6, xs: 12 }}
+              justifyContent={{ xs: "center" }}
+              sx={{
+                px: "15px",
+              }}
             >
               <Box
                 sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
@@ -180,7 +184,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   }}
                 >
                   <LocalPhoneIcon />
-                  <strong>Phone number:</strong>{" "}
+                  <strong>Номер телефона:</strong>{" "}
                   <span>{trainerProfile?.user.phoneNumber || "N/A"}</span>
                 </Typography>
                 <Typography
@@ -194,7 +198,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   }}
                 >
                   <CelebrationIcon />
-                  <strong>Date of Birth: </strong>
+                  <strong>Дата рождения: </strong>
                   <span>
                     {trainerProfile?.user.dateOfBirth.slice(0, 10) || "N/A"}
                   </span>
@@ -214,7 +218,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   {trainerProfile?.user.gender === "other" && (
                     <TransgenderIcon />
                   )}
-                  <strong>Gender:</strong>{" "}
+                  <strong>Пол:</strong>{" "}
                   <span>{trainerProfile?.user.gender || "N/A"}</span>
                 </Typography>
                 <Typography
@@ -223,16 +227,15 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 >
                   <FitnessCenterIcon />
                   <strong>Specialization:</strong>{" "}
-                  {trainerProfile?.specialization ||
-                    "No specialization provided"}
+                  {trainerProfile?.specialization || "Специализация не указана"}
                 </Typography>
                 <Typography
                   variant="body1"
                   sx={{ display: "flex", gap: "10px", alignItems: "center" }}
                 >
                   <AutoAwesomeIcon />
-                  <strong>Experience:</strong>{" "}
-                  {trainerProfile?.experience || "Experience not provided"}
+                  <strong>Опыт:</strong>{" "}
+                  {trainerProfile?.experience || "Опыт не указан"}
                 </Typography>
 
                 <TrainerCertificates trainerProfile={trainerProfile} />
@@ -244,7 +247,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                     color="success"
                     sx={{ width: "fit-content" }}
                   >
-                    Chat with Trainer
+                    Связаться с тренером
                   </Button>
                 )}
                 {isOwner && (
@@ -265,7 +268,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                         },
                       }}
                     >
-                      Edit profile
+                      Редактировать
                     </Button>
                   </Link>
                 )}
@@ -281,38 +284,29 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
             variant="body1"
             sx={{ fontSize: "16px", lineHeight: "1.6" }}
           >
-            {trainerProfile?.description || "No description available."}
+            {trainerProfile?.description || "Описание не заполнено"}
           </Typography>
         </Container>
       </Box>
 
-      <Box sx={{ backgroundColor: "#ffffff", paddingY: "25px" }}>
-        <Container maxWidth="xl">
-          <Typography
-            variant="h5"
-            sx={{ fontWeight: "bold", marginBottom: "20px" }}
-          >
-            Available Courses
-          </Typography>
-          <CourseCards courses={courses} />
+      <Container maxWidth="lg" sx={{ py: 5 }}>
+        <Grid container direction="column">
+          <Grid size={12}>
+            <Typography variant="h5" sx={{ fontWeight: "bold", mb: 5 }}>
+              Доступные курсы
+            </Typography>
+            <CourseCards courses={courses} />
+          </Grid>
+          <Grid size={12}>
+            <Typography variant="h5" sx={{ fontWeight: "bold", my: 3 }}>
+              Отзывы
+            </Typography>
+          </Grid>
+          <Grid size={12}>
+            <RatingAndReviews id={id} />
+          </Grid>
 
           <Box sx={{ marginTop: "40px" }}>
-            <Typography
-              variant="h5"
-              sx={{ fontWeight: "bold", marginBottom: "20px" }}
-            >
-              Rating and Reviews
-            </Typography>
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-                gap: "15px",
-              }}
-            >
-              <RatingAndReviews id={id} />
-            </Box>
-
             {!isOwner && (
               <>
                 <Box sx={{ marginTop: "20px", textAlign: "center" }}>
@@ -325,7 +319,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                       borderRadius: "7px",
                     }}
                   >
-                    {showForm ? "Close Review Form" : "Leave a Review"}
+                    {showForm ? "Закрыть" : "Оставить отзыв"}
                   </Button>
                 </Box>
                 {showForm && (
@@ -337,23 +331,13 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                       alignItems: "center",
                     }}
                   >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontWeight: "600",
-                        marginBottom: "15px",
-                        textAlign: "center",
-                      }}
-                    >
-                      Leave a Review
-                    </Typography>
                     <ReviewFormBlock onSubmit={handleReviewSubmit} />
                   </Box>
                 )}
               </>
             )}
           </Box>
-        </Container>
+        </Grid>
         <Dialog
           open={open}
           onClose={handleClose}
@@ -387,14 +371,14 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               }}
             />
             <Box sx={{ width: "100%" }}>
-              <Grid2>
+              <Grid>
                 <FileInput
                   label="Выберите аватарку"
                   name="image"
                   onChange={handleAvatarChange}
                 />
-              </Grid2>
-              <Grid2
+              </Grid>
+              <Grid
                 container
                 justifyContent="space-between"
                 sx={{ width: "100%", marginY: 2 }}
@@ -415,7 +399,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 >
                   Удалить аватарку
                 </Button>
-              </Grid2>
+              </Grid>
             </Box>
             <Button
               onClick={handleClose}
@@ -435,7 +419,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
           onConfirm={handleDeleteAvatarConfirm}
           onCancel={() => setConfirmOpen(false)}
         />
-      </Box>
+      </Container>
     </>
   );
 };

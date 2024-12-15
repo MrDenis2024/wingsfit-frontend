@@ -5,7 +5,7 @@ import {
 } from "../trainerStatisticSlice.ts";
 import { useEffect } from "react";
 import { getStatisticClient } from "../trainerStatisticThunks.ts";
-import Grid from "@mui/material/Grid2";
+
 import {
   Alert,
   Paper,
@@ -33,7 +33,7 @@ const ClientStatistic = () => {
       {isLoading ? (
         <LoadingIndicator />
       ) : (
-        <Grid>
+        <>
           {statisticClient.length > 0 ? (
             <>
               <Typography variant="h5" textAlign="center" marginBottom={2}>
@@ -79,7 +79,7 @@ const ClientStatistic = () => {
               У вас ещё нет клиентов
             </Alert>
           )}
-        </Grid>
+        </>
       )}
     </>
   );

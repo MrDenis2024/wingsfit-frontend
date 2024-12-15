@@ -24,13 +24,13 @@ const EditUser: React.FC<Props> = ({
   return (
     <>
       <Grid>
-        <Typography variant="h6">Change Personal Info</Typography>
+        <Typography variant="h6">Измените ваши персональные данные</Typography>
       </Grid>
       <Grid>
         <TextField
           type="text"
           required
-          label="First Name"
+          label="Имя"
           name="firstName"
           onChange={inputChangeHandler}
           value={personalInfo.firstName}
@@ -40,7 +40,7 @@ const EditUser: React.FC<Props> = ({
         <TextField
           type="text"
           required
-          label="Last Name"
+          label="Фамилия"
           name="lastName"
           onChange={inputChangeHandler}
           value={personalInfo.lastName}
@@ -49,7 +49,7 @@ const EditUser: React.FC<Props> = ({
       <Grid>
         <TextField
           type="tel"
-          label="Phone number"
+          label="Номер телефона"
           name="phoneNumber"
           onChange={inputChangeHandler}
           value={personalInfo.phoneNumber}
@@ -63,7 +63,7 @@ const EditUser: React.FC<Props> = ({
             },
           }}
           type="date"
-          label="Date of Birth"
+          label="Дата рождения"
           name="dateOfBirth"
           onChange={inputChangeHandler}
           value={personalInfo.dateOfBirth}
@@ -72,16 +72,20 @@ const EditUser: React.FC<Props> = ({
       <Grid
         sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}
       >
-        <Typography variant="subtitle1">Select Gender:</Typography>
+        <Typography variant="subtitle1">Пол:</Typography>
         <RadioGroup
           value={personalInfo.gender}
           name="gender"
           onChange={inputChangeHandler}
           sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
         >
-          <FormControlLabel value="male" control={<Radio />} label="Male" />
-          <FormControlLabel value="female" control={<Radio />} label="Female" />
-          <FormControlLabel value="another" control={<Radio />} label="Other" />
+          <FormControlLabel value="male" control={<Radio />} label="Мужчина" />
+          <FormControlLabel
+            value="female"
+            control={<Radio />}
+            label="Женщина"
+          />
+          <FormControlLabel value="other" control={<Radio />} label="Другой" />
         </RadioGroup>
       </Grid>
       <Grid>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CircularProgress, Grid2, MenuItem, TextField } from "@mui/material";
+import { CircularProgress, MenuItem, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import { CourseMutation } from "../../../types/courseTypes.ts";
@@ -9,6 +9,7 @@ import {
   selectCourseTypesFetching,
 } from "../../CourseTypes/CourseTypesSlice.ts";
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   onSubmit: (course: CourseMutation) => void;
@@ -57,31 +58,31 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
     }));
   };
   return (
-    <Grid2
+    <Grid
       container
       direction="column"
       spacing={2}
       component="form"
       onSubmit={submitFormHandler}
     >
-      <Grid2>
+      <Grid>
         <TextField
           required
-          label="Title"
+          label="Название"
           id="title"
           name="title"
           value={state.title}
           onChange={inputChangeHandler}
         />
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         {courseTypesFetching ? (
           <CircularProgress />
         ) : (
           <TextField
             required
             select
-            label="Course Type"
+            label="Типы"
             id="courseType"
             name="courseType"
             value={state.courseType}
@@ -97,55 +98,55 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
             ))}
           </TextField>
         )}
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <TextField
           multiline
           minRows={3}
-          label="Description"
+          label="Описание"
           id="description"
           name="description"
           value={state.description}
           onChange={inputChangeHandler}
         />
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <TextField
           select
-          label="Format"
+          label="Формат"
           id="format"
           name="format"
           value={state.format}
           onChange={inputChangeHandler}
         >
-          <MenuItem value="group">Group</MenuItem>
-          <MenuItem value="single">Single</MenuItem>
+          <MenuItem value="group">Групповой</MenuItem>
+          <MenuItem value="single">Индивидуальный</MenuItem>
         </TextField>
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <TextField
           required
-          label="Schedule"
+          label="Расписание"
           id="schedule"
           name="schedule"
           value={state.schedule}
           onChange={inputChangeHandler}
         />
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <TextField
           required
-          label="Schedule Length"
+          label="Продолжительность"
           id="scheduleLength"
           name="scheduleLength"
           value={state.scheduleLength}
           onChange={inputChangeHandler}
         />
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <TextField
           required
-          label="Price"
+          label="Цена"
           id="price"
           name="price"
           type="number"
@@ -153,11 +154,11 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           value={state.price}
           onChange={inputChangeHandler}
         />
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <TextField
           required
-          label="Max Clients"
+          label="Максимум клиентов"
           id="maxClients"
           name="maxClients"
           type="number"
@@ -165,15 +166,15 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           value={state.maxClients}
           onChange={inputChangeHandler}
         />
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <FileInput
-          label="Image"
+          label="Изображение"
           name="image"
           onChange={fileInputChangeHandler}
         />
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <LoadingButton
           type="submit"
           loading={isLoading}
@@ -181,10 +182,10 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           startIcon={<SaveIcon />}
           variant="contained"
         >
-          <span>Save</span>
+          <span>Сохранить</span>
         </LoadingButton>
-      </Grid2>
-    </Grid2>
+      </Grid>
+    </Grid>
   );
 };
 

@@ -114,14 +114,14 @@ const EditTrainerForm: React.FC<Props> = ({
         inputChangeHandler={inputChangeHandlerPersonal}
       />
       <Grid>
-        <Typography variant="h6">Fill optional Info</Typography>
+        <Typography variant="h6">Измените профильную информацию</Typography>
       </Grid>
       <Grid>
         <TextField
           type="text"
           multiline
           minRows={2}
-          label="Description"
+          label="Описание"
           name="description"
           onChange={inputChangeHandlerOptional}
           value={optionalInfo.description}
@@ -130,7 +130,7 @@ const EditTrainerForm: React.FC<Props> = ({
       <Grid>
         <TextField
           type="text"
-          label="Specialization"
+          label="Специализация"
           name="specialization"
           onChange={inputChangeHandlerOptional}
           value={optionalInfo.specialization}
@@ -141,7 +141,7 @@ const EditTrainerForm: React.FC<Props> = ({
           type="text"
           multiline
           minRows={2}
-          label="Experience"
+          label="Опыт"
           name="experience"
           onChange={inputChangeHandlerOptional}
           value={optionalInfo.experience}
@@ -157,7 +157,7 @@ const EditTrainerForm: React.FC<Props> = ({
       <Grid>
         <TextField
           type="text"
-          label="Available Days"
+          label="Дни проведения занятий"
           name="availableDays"
           onChange={inputChangeHandlerOptional}
           value={optionalInfo.availableDays}
@@ -165,7 +165,7 @@ const EditTrainerForm: React.FC<Props> = ({
       </Grid>
       <Grid>
         <LoadingButton type={"submit"} variant="outlined" loading={editLoading}>
-          Save
+          Сохранить
         </LoadingButton>
       </Grid>
     </Grid>

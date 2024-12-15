@@ -5,12 +5,12 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  Grid2,
   styled,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { apiURL } from "../../../constants.ts";
+import Grid from "@mui/material/Grid2";
 
 const ImageCardMedia = styled(CardMedia)({
   width: "38%",
@@ -48,7 +48,7 @@ const ScheduleCard: React.FC<Props> = ({
   };
 
   return (
-    <Grid2
+    <Grid
       sx={{
         width: {
           xs: "320px",
@@ -66,12 +66,12 @@ const ScheduleCard: React.FC<Props> = ({
           borderRadius: "12px",
         }}
       >
-        <Grid2 container spacing={1} alignItems="center">
+        <Grid container spacing={1} alignItems="center">
           <ImageCardMedia
             image={cardImage}
             title={`${firstName} ${lastName}`}
           />
-          <Grid2 alignItems="start">
+          <Grid alignItems="start">
             <CardHeader
               title={`${firstName} ${lastName}`}
               sx={{ textAlign: "center", padding: 0 }}
@@ -85,9 +85,9 @@ const ScheduleCard: React.FC<Props> = ({
             >
               {courseType}
             </CardContent>
-          </Grid2>
-        </Grid2>
-        <Grid2
+          </Grid>
+        </Grid>
+        <Grid
           container
           spacing={1}
           justifyContent="space-between"
@@ -96,7 +96,7 @@ const ScheduleCard: React.FC<Props> = ({
           <CardContent sx={{ textAlign: "center", padding: "16px 0" }}>
             {workTime}
           </CardContent>
-          <Grid2 container spacing={1}>
+          <Grid container spacing={1}>
             <Button
               sx={{
                 display: "flex",
@@ -130,10 +130,10 @@ const ScheduleCard: React.FC<Props> = ({
             >
               <span style={{ lineHeight: 1 }}>Join</span>
             </Button>
-          </Grid2>
-        </Grid2>
+          </Grid>
+        </Grid>
       </Card>
-    </Grid2>
+    </Grid>
   );
 };
 

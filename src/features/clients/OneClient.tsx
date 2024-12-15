@@ -37,6 +37,7 @@ import FileInput from "../../UI/FileInput/FileInput.tsx";
 import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import CustomConfirmDialog from "../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { reloadUser } from "../users/userThunk.ts";
+import Grid from "@mui/material/Grid2";
 
 const OneClient = () => {
   const { id } = useParams() as { id: string };
@@ -154,245 +155,273 @@ const OneClient = () => {
             paddingY: "25px",
           }}
         >
-          <Container
-            maxWidth="xl"
-            sx={{
-              display: "flex",
-              gap: "20px",
-              justifyContent: "start",
-              flexWrap: { xs: "wrap", md: "nowrap" },
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <CardMedia
-                component="img"
-                image={cardImage}
-                alt={`Фото тренера ${oneClient.user.firstName}`}
-                sx={{
-                  width: 220,
-                  height: 220,
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  marginBottom: "15px",
-                }}
-              />
-              <Button
-                onClick={handleClickOpen}
-                sx={{ display: "flex", alignItems: "center" }}
+          <Container maxWidth="lg" sx={{ py: 5 }}>
+            <Grid container>
+              <Grid
+                size={{ md: 4, sm: 6, xs: 12 }}
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
               >
-                Изменить аватарку
-                <CameraAltIcon sx={{ marginLeft: 1 }} />
-              </Button>
-            </Box>
-            <Box
-              sx={{
-                padding: "15px",
-              }}
-            >
-              <Box>
-                <Typography
-                  variant="h4"
-                  sx={{ fontWeight: "bold", marginBottom: "10px" }}
-                >
-                  {oneClient?.user.firstName} {oneClient?.user.lastName}
-                </Typography>
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "600", marginBottom: "10px" }}
-                >
-                  User Information:
-                </Typography>
-                <Typography
-                  variant="body2"
+                <CardMedia
+                  component="img"
+                  image={cardImage}
+                  alt={`Фото профиля ${oneClient.user.firstName}`}
                   sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                    fontSize: "16px",
-                    marginBottom: "5px",
+                    width: 220,
+                    height: 220,
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                    marginBottom: "15px",
                   }}
+                />
+                <Button
+                  onClick={handleClickOpen}
+                  sx={{ display: "flex", alignItems: "center" }}
                 >
-                  <LocalPhoneIcon />
-                  <strong>Phone number:</strong>{" "}
-                  <span>{oneClient?.user.phoneNumber}</span>
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                    fontSize: "16px",
-                    marginBottom: "5px",
-                  }}
-                >
-                  <CelebrationIcon />
-                  <strong>Date of Birth: </strong>
-                  <span>
-                    {oneClient?.user.dateOfBirth?.slice(0, 10) || "N/A"}
-                  </span>
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                    fontSize: "16px",
-                    marginBottom: "5px",
-                  }}
-                >
-                  {oneClient?.user.gender === "male" && <MaleIcon />}
-                  {oneClient?.user.gender === "female" && <FemaleIcon />}
-                  {oneClient?.user.gender === "other" && <TransgenderIcon />}
-                  <strong>Gender:</strong>{" "}
-                  <span>{oneClient?.user.gender || "N/A"}</span>
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "5px",
-                    fontSize: "16px",
-                    marginBottom: "5px",
-                  }}
-                >
-                  <SportsGymnasticsIcon />
-                  <strong>Preferred Workout Type: </strong>
-                  {preferredWorkoutType.map((type) => (
-                    <span key={type._id}>{type.name}</span>
-                  ))}
-                </Typography>
-              </Box>
-
-              <Box
+                  Изменить аватарку
+                  <CameraAltIcon sx={{ marginLeft: 1 }} />
+                </Button>
+              </Grid>
+              <Grid
+                size={{ md: 7, sm: 6, xs: 12 }}
+                justifyContent={{ xs: "center" }}
                 sx={{
-                  marginBottom: "20px",
-                  backgroundColor: "#dff3fc",
-                  padding: "5px",
-                  borderRadius: "8px",
+                  px: "15px",
                 }}
               >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    cursor: "pointer",
-                  }}
-                  onClick={toggleStatus}
-                >
+                <Box>
+                  <Typography
+                    variant="h4"
+                    sx={{ fontWeight: "bold", marginBottom: "10px" }}
+                  >
+                    {oneClient?.user.firstName} {oneClient?.user.lastName}
+                  </Typography>
                   <Typography
                     variant="h6"
                     sx={{ fontWeight: "600", marginBottom: "10px" }}
                   >
-                    User Status
+                    Данные пользователя:
                   </Typography>
-                  <IconButton>
-                    {isStatusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                  </IconButton>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      fontSize: "16px",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    <LocalPhoneIcon />
+                    <strong>Номер телефона:</strong>{" "}
+                    <span>{oneClient?.user.phoneNumber}</span>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      fontSize: "16px",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    <CelebrationIcon />
+                    <strong>Дата рождения: </strong>
+                    <span>
+                      {oneClient?.user.dateOfBirth?.slice(0, 10) || "N/A"}
+                    </span>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      fontSize: "16px",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    {oneClient?.user.gender === "male" && <MaleIcon />}
+                    {oneClient?.user.gender === "female" && <FemaleIcon />}
+                    {oneClient?.user.gender === "other" && <TransgenderIcon />}
+                    <strong>Пол:</strong>{" "}
+                    <span>{oneClient?.user.gender || "N/A"}</span>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "5px",
+                      fontSize: "16px",
+                      marginBottom: "5px",
+                    }}
+                  >
+                    <SportsGymnasticsIcon />
+                    <strong>Предпочитения: </strong>
+                    {preferredWorkoutType.map((type, index) => {
+                      return (
+                        <span key={type._id}>
+                          {type.name}
+                          {preferredWorkoutType.length - 1 > index ? ", " : ""}
+                        </span>
+                      );
+                    })}
+                  </Typography>
                 </Box>
-                <Collapse in={isStatusOpen}>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                      fontSize: "16px",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    <SchoolIcon /> <strong>Training level:</strong>{" "}
-                    {oneClient?.trainingLevel}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "5px",
-                      fontSize: "16px",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    <HealingIcon /> <strong>Physical data:</strong>{" "}
-                    {oneClient?.physicalData}
-                  </Typography>
-                </Collapse>
-              </Box>
 
-              <Box sx={{ textAlign: "start", marginBottom: "20px" }}>
-                <Typography variant="h6" sx={{ fontWeight: "600" }}>
-                  Subscribed to
-                </Typography>
                 <Box
                   sx={{
+                    marginBottom: "20px",
                     backgroundColor: "#dff3fc",
-                    padding: "15px",
+                    padding: "5px",
                     borderRadius: "8px",
-                    marginTop: "10px",
                   }}
                 >
-                  {oneClient?.subscribes?.length === 0 ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      cursor: "pointer",
+                    }}
+                    onClick={toggleStatus}
+                  >
                     <Typography
                       variant="h6"
-                      sx={{ fontSize: "12px", color: "#01579B" }}
+                      sx={{ fontWeight: "600", marginBottom: "10px" }}
                     >
-                      Not subscribed to any workouts.
+                      User Status
                     </Typography>
-                  ) : (
-                    oneClient?.subscribes?.map((subscription, index) => (
-                      <Typography
-                        key={index}
-                        variant="body2"
-                        sx={{ fontSize: "12px", color: "#01579B" }}
-                      >
-                        {subscription}
-                      </Typography>
-                    ))
-                  )}
+                    <IconButton>
+                      {isStatusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                    </IconButton>
+                  </Box>
+                  <Collapse in={isStatusOpen}>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        fontSize: "16px",
+                        marginBottom: "5px",
+                      }}
+                    >
+                      <SchoolIcon /> <strong>Training level:</strong>{" "}
+                      {oneClient?.trainingLevel}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                        fontSize: "16px",
+                        marginBottom: "5px",
+                      }}
+                    >
+                      <HealingIcon /> <strong>Physical data:</strong>{" "}
+                      {oneClient?.physicalData}
+                    </Typography>
+                  </Collapse>
                 </Box>
-              </Box>
 
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "end",
-                  gap: "15px",
-                  marginTop: "20px",
-                }}
-              >
-                <Link
-                  to={`/edit-client/${id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <Button
-                    variant="outlined"
+                <Box sx={{ textAlign: "start", marginBottom: "20px" }}>
+                  <Typography variant="h6" sx={{ fontWeight: "600" }}>
+                    Subscribed to
+                  </Typography>
+                  <Box
                     sx={{
-                      width: "fit-content",
-                      color: "#0288D1",
-                      borderColor: "#0288D1",
-                      borderRadius: "7px",
-                      "&:hover": {
-                        backgroundColor: "#dff3fc",
-                        borderColor: "#0288D1",
-                      },
+                      backgroundColor: "#dff3fc",
+                      padding: "15px",
+                      borderRadius: "8px",
+                      marginTop: "10px",
                     }}
                   >
-                    Edit profile
-                  </Button>
-                </Link>
-              </Box>
-            </Box>
+                    {oneClient?.subscribes?.length === 0 ? (
+                      <Typography
+                        variant="h6"
+                        sx={{ fontSize: "12px", color: "#01579B" }}
+                      >
+                        Not subscribed to any workouts.
+                      </Typography>
+                    ) : (
+                      oneClient?.subscribes?.map((subscription, index) => (
+                        <Typography
+                          key={index}
+                          variant="body2"
+                          sx={{ fontSize: "12px", color: "#01579B" }}
+                        >
+                          {subscription}
+                        </Typography>
+                      ))
+                    )}
+                  </Box>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "end",
+                    gap: "15px",
+                    marginTop: "20px",
+                  }}
+                >
+                  <Link
+                    to={`/edit-client/${id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        width: "fit-content",
+                        color: "#0288D1",
+                        borderColor: "#0288D1",
+                        borderRadius: "7px",
+                        "&:hover": {
+                          backgroundColor: "#dff3fc",
+                          borderColor: "#0288D1",
+                        },
+                      }}
+                    >
+                      Edit profile
+                    </Button>
+                  </Link>
+                </Box>
+              </Grid>
+            </Grid>
+            {/*   <Box*/}
+            {/*        sx={{*/}
+            {/*        display: "flex",*/}
+            {/*        flexDirection: "column",*/}
+            {/*        alignItems: "center",*/}
+            {/*    }}*/}
+            {/*  >*/}
+
+            {/*      <CardMedia*/}
+            {/*          component="img"*/}
+            {/*          image={cardImage}*/}
+            {/*          alt={`Фото профиля ${oneClient.user.firstName}`}*/}
+            {/*          sx={{*/}
+            {/*              width: 220,*/}
+            {/*              height: 220,*/}
+            {/*              borderRadius: "50%",*/}
+            {/*              objectFit: "cover",*/}
+            {/*              marginBottom: "15px",*/}
+            {/*          }}*/}
+            {/*  />*/}
+            {/*  <Button*/}
+            {/*    onClick={handleClickOpen}*/}
+            {/*    sx={{ display: "flex", alignItems: "center" }}*/}
+            {/*  >*/}
+            {/*    Изменить аватарку*/}
+            {/*    <CameraAltIcon sx={{ marginLeft: 1 }} />*/}
+            {/*  </Button>*/}
+            {/*</Box>*/}
           </Container>
           <Dialog
             open={open}

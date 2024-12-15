@@ -64,18 +64,18 @@ const TrainerRegisterForm: React.FC<Props> = ({
       spacing={2}
       direction="column"
       component={"form"}
-      sx={{ my: 3 }}
+      sx={{ my: 3, mx: 1 }}
       onSubmit={submitHandler}
     >
       <Grid>
-        <Typography variant="h6">Fill optional Info</Typography>
+        <Typography variant="h6">Заполните профильную информацию</Typography>
       </Grid>
       <Grid>
         <TextField
           type="text"
           multiline
           minRows={2}
-          label="Description"
+          label="Описание"
           name="description"
           onChange={inputChangeHandler}
           value={profileData.description}
@@ -84,7 +84,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
       <Grid>
         <TextField
           type="text"
-          label="Specialization"
+          label="Специализация"
           name="specialization"
           onChange={inputChangeHandler}
           value={profileData.specialization}
@@ -95,7 +95,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
           type="text"
           multiline
           minRows={2}
-          label="Experience"
+          label="Опыт"
           name="experience"
           onChange={inputChangeHandler}
           value={profileData.experience}
@@ -106,12 +106,12 @@ const TrainerRegisterForm: React.FC<Props> = ({
         onChange={onChangeCourseTypes}
         value={initialState.courseTypes}
         onRemove={removeCourseType}
-        label="Course types"
+        label="Типы курсов"
       />
       <Grid>
         <TextField
           type="text"
-          label="Available Days"
+          label="Дни проведения занятий"
           name="availableDays"
           onChange={inputChangeHandler}
           value={profileData.availableDays}
@@ -120,7 +120,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
       <Grid container display="flex" justifyContent="space-between">
         <Grid>
           <Button onClick={prevStep} variant="outlined">
-            Back
+            Назад
           </Button>
         </Grid>
         <Grid>
@@ -128,12 +128,12 @@ const TrainerRegisterForm: React.FC<Props> = ({
             variant="contained"
             onClick={() => updatePersonalInfo(null, profileData, null)}
           >
-            Finish
+            Завершить
           </Button>
         </Grid>
         <Grid>
           <Button type={"submit"} variant="outlined">
-            Next
+            Далее
           </Button>
         </Grid>
       </Grid>

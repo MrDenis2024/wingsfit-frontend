@@ -1,7 +1,7 @@
 import React from "react";
 import TrainerStatisticMenu from "./components/TrainerStatisticMenu.tsx";
 import Grid from "@mui/material/Grid2";
-import { Alert } from "@mui/material";
+import { Alert, Container } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import ClientStatistic from "./components/ClientStatistic.tsx";
 import GroupStatistic from "./components/GroupStatistic.tsx";
@@ -26,12 +26,14 @@ const TrainerStatistics = () => {
   }
 
   return (
-    <Grid>
-      <Grid>
-        <TrainerStatisticMenu />
+    <Container maxWidth="lg">
+      <Grid container direction="column">
+        <Grid>
+          <TrainerStatisticMenu />
+        </Grid>
+        <Grid>{content}</Grid>
       </Grid>
-      <Grid>{content}</Grid>
-    </Grid>
+    </Container>
   );
 };
 

@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid2";
 import React, { useState } from "react";
 import { AdminMutation } from "../../../types/adminTypes.ts";
 import { createAdmin } from "./adminThunks.ts";
-import { Alert, TextField, Typography } from "@mui/material";
+import { Alert, Container, TextField, Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
 
@@ -40,7 +40,7 @@ const CreateAdmin = () => {
   };
 
   return (
-    <>
+    <Container maxWidth="lg" sx={{ my: 5 }}>
       <Typography variant="h4" sx={{ my: 2, textAlign: "center" }}>
         Create new admin
       </Typography>
@@ -87,7 +87,7 @@ const CreateAdmin = () => {
           </LoadingButton>
         </Grid>
       </Grid>
-    </>
+    </Container>
   );
 };
 

@@ -9,7 +9,6 @@ import { fetchCourses } from "../../courses/coursesThunks.ts";
 import {
   CircularProgress,
   FormControl,
-  Grid2,
   InputLabel,
   MenuItem,
   Select,
@@ -19,6 +18,7 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import { selectUser } from "../../users/userSlice.ts";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   onSubmit: (course: GroupMutation) => void;
@@ -64,39 +64,39 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
   };
 
   return (
-    <Grid2
+    <Grid
       container
       direction="column"
       spacing={2}
       component="form"
       onSubmit={submitFormHandler}
     >
-      <Grid2>
+      <Grid>
         <TextField
           required
-          label="Title"
+          label="Название"
           id="title"
           name="title"
           value={state.title}
           onChange={inputChangeHandler}
         />
-      </Grid2>
+      </Grid>
 
-      <Grid2>
+      <Grid>
         {coursesFetching ? (
           <CircularProgress />
         ) : (
           <TextField
             required
             select
-            label="Course"
+            label="Курс"
             id="course"
             name="course"
             value={state.course}
             onChange={inputChangeHandler}
           >
             <MenuItem value="" disabled>
-              Select course
+              Выберите курс
             </MenuItem>
             {courses.map((course) => (
               <MenuItem key={course._id} value={course._id}>
@@ -105,8 +105,8 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
             ))}
           </TextField>
         )}
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <TextField
           required
           type="Time"
@@ -115,26 +115,28 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           value={state.startTime}
           onChange={inputChangeHandler}
         />
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Training level</InputLabel>
+          <InputLabel id="demo-simple-select-label">
+            Уровень тренировок
+          </InputLabel>
           <Select
             required
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={state.trainingLevel}
-            label="Training level"
+            label="Уровень тренировок"
             variant="outlined"
             onChange={handleChange}
           >
-            <MenuItem value={"junior"}>Junior</MenuItem>
-            <MenuItem value={"middle"}>Middle</MenuItem>
-            <MenuItem value={"advanced"}>Advanced</MenuItem>
+            <MenuItem value={"junior"}>Начальный</MenuItem>
+            <MenuItem value={"middle"}>Средний</MenuItem>
+            <MenuItem value={"advanced"}>Продвинутый</MenuItem>
           </Select>
         </FormControl>
-      </Grid2>
-      <Grid2>
+      </Grid>
+      <Grid>
         <LoadingButton
           type="submit"
           loading={isLoading}
@@ -142,10 +144,10 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           startIcon={<SaveIcon />}
           variant="contained"
         >
-          <span>Create</span>
+          <span>Создать</span>
         </LoadingButton>
-      </Grid2>
-    </Grid2>
+      </Grid>
+    </Grid>
   );
 };
 

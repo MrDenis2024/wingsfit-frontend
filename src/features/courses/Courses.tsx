@@ -3,7 +3,7 @@ import { selectCourses } from "./coursesSlice.ts";
 import { useEffect } from "react";
 import { fetchCourses } from "./coursesThunks.ts";
 import { Link, useParams } from "react-router-dom";
-import { Button, Grid2, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import CourseCards from "./components/CourseCards.tsx";
 import Grid from "@mui/material/Grid2";
 import { selectUser } from "../users/userSlice.ts";
@@ -23,24 +23,29 @@ const Courses = () => {
   }, [dispatch, trainerId]);
 
   return (
-    <Grid2>
-      {user && user.role === "trainer" && (
-        <Grid container justifyContent="flex-end" mt={1}>
-          <Button
-            component={Link}
-            to="/add-new-course"
-            sx={{ fontWeight: "bold", fontSize: "20px" }}
-            variant="outlined"
-          >
-            Add course +
-          </Button>
+    <Container maxWidth="lg" sx={{ my: 5 }}>
+      <Grid container direction="column">
+        <Grid
+          container
+          justifyContent="space-between"
+          alignItems="center"
+          my={3}
+        >
+          <Typography variant="h4">Курсы</Typography>
+          {user && user.role === "trainer" && (
+            <Button
+              component={Link}
+              to="/add-new-course"
+              sx={{ fontWeight: "bold", fontSize: "14px" }}
+              variant="outlined"
+            >
+              Добавить +
+            </Button>
+          )}
         </Grid>
-      )}
-      <Typography variant="h3" mb={3}>
-        Courses
-      </Typography>
-      {courses.length > 0 && <CourseCards courses={courses} />}
-    </Grid2>
+        <CourseCards courses={courses} />
+      </Grid>
+    </Container>
   );
 };
 

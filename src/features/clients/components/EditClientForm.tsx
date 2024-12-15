@@ -116,7 +116,7 @@ const EditClientForm: React.FC<Props> = ({
         inputChangeHandler={inputChangeHandlerClientPersonal}
       />
       <Grid>
-        <Typography variant="h6">Fill optional Info</Typography>
+        <Typography variant="h6">Измените профильные данные</Typography>
       </Grid>
       <Grid>
         <CourseTypeSelector
@@ -124,25 +124,31 @@ const EditClientForm: React.FC<Props> = ({
           onChange={onChangeWorkoutType}
           value={optionalInfo.preferredWorkoutType}
           onRemove={removeWorkoutType}
-          label="Preffered workout Type"
+          label="Предпочтения"
         />
       </Grid>
       <Grid>
-        <Typography variant="subtitle1">
-          Select your training level:{" "}
-        </Typography>
+        <Typography variant="subtitle1">Уровень тренировок: </Typography>
         <RadioGroup
           name="trainingLevel"
           value={optionalInfo.trainingLevel}
           onChange={inputChangeHandlerClientOptional}
           sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
         >
-          <FormControlLabel value="junior" control={<Radio />} label="junior" />
-          <FormControlLabel value="middle" control={<Radio />} label="middle" />
+          <FormControlLabel
+            value="junior"
+            control={<Radio />}
+            label="Начальный"
+          />
+          <FormControlLabel
+            value="middle"
+            control={<Radio />}
+            label="Средний"
+          />
           <FormControlLabel
             value="advanced"
             control={<Radio />}
-            label="advanced"
+            label="Продвинутый"
           />
         </RadioGroup>
       </Grid>
@@ -151,7 +157,7 @@ const EditClientForm: React.FC<Props> = ({
           type="text"
           multiline
           minRows={2}
-          label="Physical Data"
+          label="Физические данные"
           name="physicalData"
           onChange={inputChangeHandlerClientOptional}
           value={optionalInfo.physicalData}
@@ -159,7 +165,7 @@ const EditClientForm: React.FC<Props> = ({
       </Grid>
       <Grid>
         <LoadingButton type={"submit"} variant="outlined" loading={editLoading}>
-          Save
+          Сохранить
         </LoadingButton>
       </Grid>
     </Grid>
