@@ -1,130 +1,150 @@
 import { NavLink } from "react-router-dom";
 import BeRoleButton from "./components/buttons/BeRoleButton.tsx";
-import { Box, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import welcomePic1 from "../../assets/images/welcome-pic1.jpeg";
-import TryFreeButton from "./components/buttons/TryFreeButton.tsx";
 import onlineWork from "../../assets/images/welcome-pic2.png";
-import yogaWork from "../../assets/images/welcome-pic3.jpeg";
 import { AccessTime, Chat, Group, Wifi } from "@mui/icons-material";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
-import LanguageIcon from "@mui/icons-material/Language";
-import ChairOutlinedIcon from "@mui/icons-material/ChairOutlined";
-import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import TrainingCard from "./components/cards/TrainingCard.tsx";
-import trainer1 from "../../assets/images/trainer-1.png";
-import trainer2 from "../../assets/images/trainer-2.png";
-import trainer3 from "../../assets/images/trainer-3.png";
 import Grid from "@mui/material/Grid2";
-
-const cards = [
-  {
-    id: 1,
-    firstName: "Юлей",
-    lastName: "Евсеевой",
-    image: trainer3,
-    date: "Вт. ЧЕТВ",
-    time: "19:00.",
-    description:
-      "Улучшаем гибкость и осанку, расслабляем мышцы и стремимся к шпагату!",
-  },
-  {
-    id: 2,
-    firstName: "Аней",
-    lastName: "Семянкиной",
-    image: trainer2,
-    date: "ПН. СР. ПЯТ",
-    time: "8:30",
-    description: "Просыпаемся и получаем заряд бодрости и энергии на весь день",
-  },
-  {
-    id: 3,
-    firstName: "Антоном",
-    lastName: "Ширко",
-    image: trainer1,
-    date: "24 ИЮНЯ",
-    time: "20:00",
-    description:
-      "Укрепляем основные мышечные группы. Для занятий понадобятся гантели или бутылки с водой",
-  },
-];
 
 const WelcomePage = () => {
   return (
     <Grid container>
-      <Grid
-        size={12}
+      <Container
+        maxWidth="lg"
         sx={{
-          backgroundImage: `url(${welcomePic1})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          color: "white",
-          padding: 2,
-          position: "relative",
+          mb: 4,
         }}
       >
-        <Box
+        <Grid
+          size={12}
           sx={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.4)",
+            backgroundImage: useMediaQuery("(min-width:768px)")
+              ? "none"
+              : `url(${welcomePic1})`,
+            backgroundSize: useMediaQuery("(min-width:768px)")
+              ? "none"
+              : "cover",
+            backgroundPosition: useMediaQuery("(min-width:768px)")
+              ? "none"
+              : "center",
+            display: "flex",
+            color: "white",
+            padding: 2,
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 4,
+            position: "relative",
+            "&::before": {
+              content: "''",
+              display: useMediaQuery("(min-width:768px)") ? "none" : "block",
+              position: "absolute",
+              top: "0",
+              right: "0",
+              bottom: "0",
+              left: "0",
+              background: "rgba(0, 0, 0, 0.5)",
+              mixBlendMode: "multiply",
+            },
           }}
-        />
-        <Stack
-          boxSizing={"border-box"}
-          maxWidth="500px"
-          position="absolute"
-          top={"220px"}
-          ml="20px"
         >
-          <Typography
-            sx={{
-              fontSize: "32px",
-              lineHeight: "1.23",
-              fontWeight: 600,
-              padding: "24px 0 38px 0",
-              color: "#fff",
-            }}
-          >
-            Фитнес тренировки по видео связи
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: "14px",
-              color: "#fff",
-              fontWeight: 600,
-              lineHeight: "1.23",
-              mb: 6,
-            }}
-          >
-            Будь свободен. Тренируй и тренируйся
-          </Typography>
           <Stack
-            direction="row"
-            gap={2}
-            flexWrap="wrap"
-            mt={3}
-            alignItems="center"
+            boxSizing={"border-box"}
+            maxWidth="360px"
             justifyContent="center"
+            position={"sticky"}
+            zIndex={1}
           >
-            <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
-              <BeRoleButton text="Быть тренером!" />
-            </NavLink>
-            <NavLink to="/login/client" style={{ textDecoration: "none" }}>
-              <BeRoleButton text="Хочу тренироваться!" />
-            </NavLink>
+            <Typography
+              sx={{
+                fontSize: useMediaQuery("(min-width:500px)") ? "42px" : "30px",
+                lineHeight: "1.23",
+                fontWeight: 600,
+                padding: "24px 0 10px 0",
+                color: useMediaQuery("(min-width:768px)") ? "#000" : "#fff",
+              }}
+            >
+              Тренировки по видео связи
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "14px",
+                color: useMediaQuery("(min-width:768px)") ? "#535353" : "#fff",
+                fontWeight: 400,
+                lineHeight: "1.23",
+                mb: 1,
+              }}
+            >
+              Найди своего тренера или клиента
+            </Typography>
+            <Stack
+              direction="row"
+              gap={2}
+              flexWrap="wrap"
+              mt={3}
+              alignItems="center"
+            >
+              <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
+                <BeRoleButton text="Быть тренером!" />
+              </NavLink>
+              <NavLink to="/login/client" style={{ textDecoration: "none" }}>
+                <BeRoleButton text="Хочу тренироваться!" />
+              </NavLink>
+            </Stack>
           </Stack>
-        </Stack>
-      </Grid>
+          <Grid
+            sx={{
+              display: useMediaQuery("(min-width:768px)") ? "block" : "none",
+              maxWidth: "530px",
+              width: "100%",
+              height: "100%",
+              position: "relative",
+            }}
+          >
+            <img
+              src={welcomePic1}
+              alt="Training Devices"
+              style={{
+                maxWidth: "500px",
+                width: "100%",
+                height: "auto",
+                borderRadius: "7px",
+                position: useMediaQuery("(min-width:950px)")
+                  ? "absolute"
+                  : "sticky",
+                top: useMediaQuery("(min-width:950px)") ? "20px" : "0",
+              }}
+            />
+            <Grid
+              sx={{
+                backgroundColor: "#0cc5d6",
+                height: "320px",
+                maxWidth: "480px",
+                width: "100%",
+                borderRadius: "7px",
+                ml: 6,
+                display: useMediaQuery("(min-width:950px)") ? "block" : "none",
+              }}
+            ></Grid>
+          </Grid>
+        </Grid>
+      </Container>
       <Grid size={12} sx={{ paddingY: "40px", paddingX: "20px", m: "20px" }}>
         <Box sx={{ textAlign: "center", mb: 10 }}>
-          <Typography variant="h5" sx={{ fontWeight: 600 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 600,
+              fontSize: useMediaQuery("(min-width:420px)") ? "40px" : "30px",
+            }}
+          >
             Тренировки по видео связи это:
           </Typography>
         </Box>
@@ -259,169 +279,7 @@ const WelcomePage = () => {
           </Stack>
         </Box>
       </Grid>
-      <Grid
-        size={12}
-        sx={{
-          backgroundColor: "#0cc5d6",
-          paddingY: "60px",
-          textAlign: "center",
-        }}
-      >
-        <NavLink to="/login/client" style={{ textDecoration: "none" }}>
-          <TryFreeButton
-            text="Попробовать бесплатно!"
-            color="#000000"
-            backgroundColor="transparent"
-            border="3px solid #000000"
-          />
-        </NavLink>
-      </Grid>
-      <Box
-        sx={{
-          backgroundColor: "#e0e0e0",
-          padding: 4,
-          textAlign: "center",
-        }}
-      >
-        <Box sx={{ marginX: "20px" }}>
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 600,
-              mb: 6,
-              lineHeight: "1.23",
-              fontSize: {
-                xs: "16px",
-                sm: "24px",
-                md: "32px",
-                lg: "38px",
-              },
-            }}
-          >
-            Ты фитнес тренер? Или может преподаешь йогу, танцы, пилатес?
-            Присоединяйся к команде WingsFit
-          </Typography>
 
-          <Stack
-            direction={{
-              xs: "column",
-              md: "row",
-            }}
-            spacing={4}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Stack spacing={4}>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                }}
-              >
-                <LanguageIcon sx={{ fontSize: 50 }} />
-                <Box sx={{ textAlign: "left" }}>
-                  <Typography variant="h6" fontWeight="bold" mb={1}>
-                    Получи свободу
-                  </Typography>
-                  <Typography variant="caption">
-                    Неограниченный заработок и удобный график работы
-                  </Typography>
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                }}
-              >
-                <ChairOutlinedIcon sx={{ fontSize: 50 }} />
-                <Box sx={{ textAlign: "left" }}>
-                  <Typography variant="h6" fontWeight="bold" mb={1}>
-                    Удобная система для работы
-                  </Typography>
-                  <Typography variant="caption">
-                    С помощью платформы WingsFit удобно управлять группами,
-                    следить за оплатами, находить новых клиентов
-                  </Typography>
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                }}
-              >
-                <FlightTakeoffIcon sx={{ fontSize: 50 }} />
-                <Box sx={{ textAlign: "left" }}>
-                  <Typography variant="h6" fontWeight="bold" mb={1}>
-                    Самостоятельность
-                  </Typography>
-                  <Typography variant="caption">
-                    Пользуясь сервисом тебе не нужен ни менеджер, ни маркетолог
-                    ни, тем более, начальник в клубе. Все заменяет система
-                  </Typography>
-                </Box>
-              </Box>
-            </Stack>
-            <Box
-              component="img"
-              src={yogaWork}
-              alt="Yoga Instructor"
-              sx={{
-                width: "100%",
-                maxWidth: 500,
-                borderRadius: 2,
-              }}
-            />
-          </Stack>
-        </Box>
-      </Box>
-      <Grid
-        size={12}
-        sx={{
-          backgroundColor: "#0cc5d6",
-          paddingY: "60px",
-          textAlign: "center",
-        }}
-      >
-        <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
-          <TryFreeButton
-            text="Попробовать бесплатно!"
-            color="#000000"
-            backgroundColor="transparent"
-            border="3px solid #000000"
-          />
-        </NavLink>
-      </Grid>
-      <Box sx={{ paddingY: "60px", marginX: "20px" }}>
-        <Box sx={{ paddingX: "30px" }}>
-          <Typography variant="h4" fontWeight="bold" mb={1}>
-            Уже в WingsFit
-          </Typography>
-        </Box>
-        <Stack
-          direction="row"
-          flexWrap="wrap"
-          justifyContent={{ xs: "center", lg: "space-between" }}
-          spacing={4}
-          sx={{ padding: 4 }}
-        >
-          {cards.map((card) => (
-            <TrainingCard
-              key={card.id}
-              firstName={card.firstName}
-              lastName={card.lastName}
-              image={card.image}
-              date={card.date}
-              time={card.time}
-              description={card.description}
-            />
-          ))}
-        </Stack>
-      </Box>
       <Grid
         size={12}
         display="flex"
@@ -430,24 +288,7 @@ const WelcomePage = () => {
         gap={2}
         flexWrap="wrap"
         sx={{ backgroundColor: "#0cc5d6", paddingY: "60px" }}
-      >
-        <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
-          <TryFreeButton
-            text="Стать тренером!"
-            color="#000000"
-            backgroundColor="#ffffff"
-            border="1px solid #000000"
-          />
-        </NavLink>
-        <NavLink to="/login/client" style={{ textDecoration: "none" }}>
-          <TryFreeButton
-            text="Попробовать тренировки!"
-            color="#000000"
-            backgroundColor="#ffffff"
-            border="1px solid #000000"
-          />
-        </NavLink>
-      </Grid>
+      ></Grid>
     </Grid>
   );
 };
