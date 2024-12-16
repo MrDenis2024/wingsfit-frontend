@@ -1,16 +1,8 @@
-import {
-  styled,
-  Typography,
-  Box,
-  Stack,
-  Link,
-  Container,
-  useMediaQuery,
-} from "@mui/material";
-import { NavLink } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks.ts";
+import {Box, Container, Link, Stack, styled, Typography,} from "@mui/material";
+import {NavLink} from "react-router-dom";
+import {useAppSelector} from "../../app/hooks.ts";
 import logo from "../../assets/images/logo.png";
-import { selectUser } from "../../features/users/userSlice.ts";
+import {selectUser} from "../../features/users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
@@ -70,14 +62,14 @@ const Footer = () => {
           maxWidth="lg"
           sx={{
             display: "flex",
-            justifyContent: useMediaQuery("(min-width:1162px)")
-              ? "space-between"
-              : "center",
+            // justifyContent: useMediaQuery("(min-width:1162px)")
+            //   ? "space-between"
+            //   : "center",
             flexWrap: "wrap",
           }}
         >
           <Grid
-            textAlign={useMediaQuery("(min-width:1162px)") ? "left" : "center"}
+            // textAlign={useMediaQuery("(min-width:1162px)") ? "left" : "center"}
           >
             <Typography variant="h4" fontWeight={"700"} mb={1} color={"#000"}>
               WingsFit
@@ -95,9 +87,9 @@ const Footer = () => {
               </Typography>
               <Grid
                 display={"flex"}
-                justifyContent={
-                  useMediaQuery("(min-width:1162px)") ? "left" : "center"
-                }
+                // justifyContent={
+                //   useMediaQuery("(min-width:1162px)") ? "left" : "center"
+                // }
                 gap={"7px"}
               >
                 <FitnessCenterIcon sx={{ color: "#000" }} />

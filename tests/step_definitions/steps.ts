@@ -64,7 +64,7 @@ When(
   },
 );
 
-When("нажимаю на кнопку {string}", (name: string) => {
+When("нажимаю на кнопку {string}", () => {
   I.click(`button[type='submit']`);
 });
 
