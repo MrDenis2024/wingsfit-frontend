@@ -6,17 +6,37 @@ on:
       - develop
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v1.2.0
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+      - name: Upload build to server
+        uses: appleboy/scp-action@v0.1.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SERVER_FILED_KEY }}
+          source: "dist/*"
+          target: "/var/www/frontend"
+
+      - name: Restart Nginx (опционально)
+        uses: appleboy/ssh-action@v0.1.0
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SERVER_FILED_KEY }}
           script: |
-            cd current/frontend
-            git pull origin develop
-            npm i
-            npm run build
+            sudo systemctl reload nginx
