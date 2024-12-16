@@ -1,19 +1,11 @@
 import React from "react";
 import { useAppSelector } from "../../../app/hooks.ts";
-import { Alert, Grid2 } from "@mui/material";
+import { Alert } from "@mui/material";
 import { IGroup } from "../../../types/groupTypes.ts";
 import GroupCard from "./GroupCard.tsx";
 import { selectFetchGroups } from "../groupsSlice.ts";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
-
-const cardBoxSx = {
-  width: {
-    xs: "100%",
-    sm: "50%",
-    md: "50%",
-    lg: "33%",
-  },
-};
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   groups: IGroup[];
@@ -22,13 +14,13 @@ interface Props {
 const CourseCards: React.FC<Props> = ({ groups }) => {
   const isLoading = useAppSelector(selectFetchGroups);
   return (
-    <Grid2 container justifyContent="space-around" alignItems="center">
+    <Grid container spacing={2} sx={{ mb: 5 }}>
       {!isLoading ? (
         groups.length > 0 ? (
           groups.map((group) => (
-            <Grid2 key={group._id} sx={cardBoxSx}>
+            <Grid key={group._id} size={{ md: 4, lg: 3, sm: 6, xs: 12 }}>
               <GroupCard group={group} />
-            </Grid2>
+            </Grid>
           ))
         ) : (
           <Alert severity="info" sx={{ width: "100%" }}>
@@ -38,7 +30,7 @@ const CourseCards: React.FC<Props> = ({ groups }) => {
       ) : (
         <LoadingIndicator />
       )}
-    </Grid2>
+    </Grid>
   );
 };
 

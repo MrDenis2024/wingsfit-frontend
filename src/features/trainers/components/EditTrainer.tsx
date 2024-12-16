@@ -7,7 +7,6 @@ import {
   selectTrainerProfile,
   selectTrainerProfileLoading,
 } from "../trainersSlice.ts";
-import Grid from "@mui/material/Grid2";
 import EditTrainerForm from "./EditTrainerForm.tsx";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import {
@@ -17,6 +16,7 @@ import {
 import { toast } from "react-toastify";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import { reloadUser } from "../../users/userThunk.ts";
+import { Container } from "@mui/material";
 
 const EditTrainer = () => {
   const { id } = useParams() as { id: string };
@@ -51,7 +51,12 @@ const EditTrainer = () => {
   };
 
   return (
-    <Grid>
+    <Container
+      maxWidth="lg"
+      sx={{
+        my: 5,
+      }}
+    >
       {isLoading && <LoadingIndicator />}
       {trainerProfile && (
         <EditTrainerForm
@@ -60,7 +65,7 @@ const EditTrainer = () => {
           existingProfile={trainerProfile}
         />
       )}
-    </Grid>
+    </Container>
   );
 };
 

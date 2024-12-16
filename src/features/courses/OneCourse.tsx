@@ -44,7 +44,7 @@ const OneCourse = () => {
     return (
       <Box sx={{ textAlign: "center", mt: 4 }}>
         <Typography variant="h6" color="#0cc5d6">
-          Course not found.
+          Курс не найден.
         </Typography>
       </Box>
     );
@@ -121,13 +121,13 @@ const OneCourse = () => {
             {course.schedule}
           </Typography>
           <Typography variant="subtitle2" sx={{ color: "#555555" }}>
-            Time: {course.scheduleLength}
+            Продолжительность: {course.scheduleLength}
           </Typography>
           <Typography variant="subtitle2" sx={{ color: "#555555" }}>
-            Price: ${course.price}
+            Цена: ${course.price}
           </Typography>
           <Typography variant="subtitle2" sx={{ color: "#555555" }}>
-            Available: {course.maxClients}
+            Ограничение: {course.maxClients} человек
           </Typography>
         </Box>
 
@@ -144,7 +144,7 @@ const OneCourse = () => {
             },
           }}
         >
-          Try free!
+          Попробовать!
         </Button>
       </Card>
     </Stack>

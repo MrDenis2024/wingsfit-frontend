@@ -3,19 +3,11 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectCourses, selectCoursesFetching } from "./coursesSlice.ts";
 import { fetchCourses } from "./coursesThunks.ts";
 import { useEffect, useState } from "react";
-import { Box, Grid2, Stack, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import CourseCard from "./components/CourseCard.tsx";
 import { ICourse } from "../../types/courseTypes.ts";
 import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
-
-const cardBoxSx = {
-  width: {
-    xs: "100%",
-    sm: "50%",
-    md: "50%",
-    lg: "33%",
-  },
-};
+import Grid from "@mui/material/Grid2";
 
 const ClientsSelectCourses = () => {
   const dispatch = useAppDispatch();
@@ -43,10 +35,10 @@ const ClientsSelectCourses = () => {
   };
 
   return (
-    <Stack direction="column" spacing={3} sx={{ my: 2, mx: 4 }}>
-      <Grid2>
+    <Container maxWidth="lg" sx={{ my: 5 }}>
+      <Grid container>
         <SelectCourseForm onSubmit={submitHandler} isLoading={coursesLoading} />
-      </Grid2>
+      </Grid>
       {submitted && (
         <>
           {coursesLoading && (
@@ -61,37 +53,45 @@ const ClientsSelectCourses = () => {
               <LoadingIndicator />
             </Box>
           )}
-          {!coursesLoading && filteredCourses.length > 0 && (
-            <>
-              <Grid2>
-                <Typography variant="h5">Выбранные курсы:</Typography>
-              </Grid2>
-              <Grid2 container>
-                {filteredCourses.map((course: ICourse) => (
-                  <Grid2 key={course._id} sx={cardBoxSx}>
-                    <CourseCard course={course} />
-                  </Grid2>
-                ))}
-              </Grid2>
-            </>
-          )}
-          {!coursesLoading && nonMatchingCourses.length > 0 && (
-            <>
-              <Grid2>
-                <Typography variant="h5">Остальные курсы:</Typography>
-              </Grid2>
-              <Grid2 container>
-                {nonMatchingCourses.map((course: ICourse) => (
-                  <Grid2 key={course._id} sx={cardBoxSx}>
-                    <CourseCard course={course} />
-                  </Grid2>
-                ))}
-              </Grid2>
-            </>
-          )}
+          <Grid container spacing={2}>
+            {!coursesLoading && filteredCourses.length > 0 && (
+              <>
+                <Grid size={12}>
+                  <Typography variant="h5">Выбранные курсы:</Typography>
+                </Grid>
+                <Grid size={12}>
+                  {filteredCourses.map((course: ICourse) => (
+                    <Grid
+                      key={course._id}
+                      size={{ md: 4, lg: 3, sm: 6, xs: 12 }}
+                    >
+                      <CourseCard course={course} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </>
+            )}
+            {!coursesLoading && nonMatchingCourses.length > 0 && (
+              <>
+                <Grid size={12}>
+                  <Typography variant="h5">Остальные курсы:</Typography>
+                </Grid>
+                <Grid size={12}>
+                  {nonMatchingCourses.map((course: ICourse) => (
+                    <Grid
+                      key={course._id}
+                      size={{ md: 4, lg: 3, sm: 6, xs: 12 }}
+                    >
+                      <CourseCard course={course} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </>
+            )}
+          </Grid>
         </>
       )}
-    </Stack>
+    </Container>
   );
 };
 

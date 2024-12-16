@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import {
   Checkbox,
+  Container,
   FormControl,
   FormControlLabel,
-  Grid2,
   InputLabel,
   MenuItem,
-  Select,
-  SelectChangeEvent,
+  TextField,
   Typography,
 } from "@mui/material";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectCourses } from "../coursesSlice.ts";
 import LoadingButton from "@mui/lab/LoadingButton";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   onSubmit: (selectedSchedules: string[]) => void;
@@ -32,7 +32,7 @@ const SelectCourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const courseInputChangeHandler = (event: SelectChangeEvent) => {
+  const courseInputChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const selectedCourseTypeName = event.target.value;
 
     setCourseData({ courseTypeName: selectedCourseTypeName });
@@ -67,89 +67,94 @@ const SelectCourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
   };
 
   return (
-    <Grid2
-      container
-      direction="column"
-      spacing={2}
-      component="form"
-      onSubmit={submitFormHandler}
-    >
-      <Grid2>
-        <FormControl fullWidth>
-          <InputLabel>Выберите курс</InputLabel>
-          <Select
-            id="courseTypeName"
-            value={courseData.courseTypeName}
-            label="choose course"
-            onChange={courseInputChangeHandler}
-          >
-            {Object.values(
-              courses.reduce(
-                (acc, course) => {
-                  acc[course.courseType.name] = course;
-                  return acc;
-                },
-                {} as Record<string, (typeof courses)[0]>,
-              ),
-            ).map((uniqueCourse) => (
-              <MenuItem
-                key={uniqueCourse.courseType.name}
-                value={uniqueCourse.courseType.name}
-              >
-                {uniqueCourse.courseType.name}
-              </MenuItem>
-            ))}
-          </Select>
-          {!!errorMessage && !courseData.courseTypeName && (
-            <Typography color="error" mt={2}>
-              {errorMessage}
-            </Typography>
+    <Container maxWidth="lg" sx={{ my: 5 }}>
+      <Grid
+        container
+        direction="column"
+        spacing={2}
+        component="form"
+        onSubmit={submitFormHandler}
+      >
+        <Grid>
+          <FormControl fullWidth>
+            <InputLabel>Выберите курс</InputLabel>
+            <TextField
+              required
+              select
+              name="course"
+              id="courseTypeName"
+              value={courseData.courseTypeName}
+              label="Выберите курс"
+              onChange={courseInputChangeHandler}
+            >
+              {Object.values(
+                courses.reduce(
+                  (acc, course) => {
+                    acc[course.courseType.name] = course;
+                    return acc;
+                  },
+                  {} as Record<string, (typeof courses)[0]>,
+                ),
+              ).map((uniqueCourse) => (
+                <MenuItem
+                  key={uniqueCourse.courseType.name}
+                  value={uniqueCourse.courseType.name}
+                >
+                  {uniqueCourse.courseType.name}
+                </MenuItem>
+              ))}
+            </TextField>
+            {!!errorMessage && !courseData.courseTypeName && (
+              <Typography color="error" mt={2}>
+                {errorMessage}
+              </Typography>
+            )}
+          </FormControl>
+        </Grid>
+        <Grid>
+          {courseSchedules.length > 0 ? (
+            <>
+              <Typography variant="body1" gutterBottom>
+                Выберите расписание:
+              </Typography>
+              {courseSchedules.map((schedule, index) => (
+                <FormControlLabel
+                  key={`${schedule}-${index}`}
+                  control={
+                    <Checkbox
+                      checked={selectedSchedules.includes(schedule)}
+                      onChange={() => scheduleCheckboxChangeHandler(schedule)}
+                    />
+                  }
+                  label={schedule}
+                />
+              ))}
+              {!!errorMessage &&
+                courseSchedules.length > 0 &&
+                selectedSchedules.length === 0 && (
+                  <Typography color="error">{errorMessage}</Typography>
+                )}
+            </>
+          ) : (
+            courseData.courseTypeName && (
+              <Typography>
+                No schedules available for this course type.
+              </Typography>
+            )
           )}
-        </FormControl>
-      </Grid2>
-      <Grid2>
-        {courseSchedules.length > 0 ? (
-          <>
-            <Typography variant="body1" gutterBottom>
-              Выберите расписание:
-            </Typography>
-            {courseSchedules.map((schedule, index) => (
-              <FormControlLabel
-                key={`${schedule}-${index}`}
-                control={
-                  <Checkbox
-                    checked={selectedSchedules.includes(schedule)}
-                    onChange={() => scheduleCheckboxChangeHandler(schedule)}
-                  />
-                }
-                label={schedule}
-              />
-            ))}
-            {!!errorMessage &&
-              courseSchedules.length > 0 &&
-              selectedSchedules.length === 0 && (
-                <Typography color="error">{errorMessage}</Typography>
-              )}
-          </>
-        ) : (
-          courseData.courseTypeName && (
-            <Typography>
-              No schedules available for this course type.
-            </Typography>
-          )
-        )}
-      </Grid2>
-      <Grid2>
-        <LoadingButton
-          type="submit"
-          disabled={isLoading}
-          loadingPosition="center"
-          variant="contained"
-        >
-          <span>Submit</span>
-        </LoadingButton>
-      </Grid2>
-    </Grid2>
+        </Grid>
+        <Grid>
+          <LoadingButton
+            type="submit"
+            disabled={isLoading}
+            loadingPosition="center"
+            variant="contained"
+          >
+            <span>Submit</span>
+          </LoadingButton>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

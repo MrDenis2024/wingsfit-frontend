@@ -56,17 +56,17 @@ const UserRegisterForm: React.FC<Props> = ({
       spacing={2}
       component={"form"}
       direction="column"
-      sx={{ my: 3 }}
+      sx={{ my: 3, mx: 1 }}
       onSubmit={submitHandler}
     >
       <Grid>
-        <Typography variant="h6">Fill Personal Info</Typography>
+        <Typography variant="h6">Заполните персональную информацию </Typography>
       </Grid>
       <Grid>
         <TextField
           type="text"
           required
-          label="First Name"
+          label="Имя"
           name="firstName"
           onChange={inputChangeHandler}
           value={personalData.firstName}
@@ -76,7 +76,7 @@ const UserRegisterForm: React.FC<Props> = ({
         <TextField
           type="text"
           required
-          label="Last Name"
+          label="Фамилия"
           name="lastName"
           onChange={inputChangeHandler}
           value={personalData.lastName}
@@ -85,7 +85,7 @@ const UserRegisterForm: React.FC<Props> = ({
       <Grid>
         <TextField
           type="tel"
-          label="Phone number"
+          label="Номер телефона"
           name="phoneNumber"
           onChange={inputChangeHandler}
           value={personalData.phoneNumber}
@@ -104,7 +104,7 @@ const UserRegisterForm: React.FC<Props> = ({
             },
           }}
           type="date"
-          label="Date of Birth"
+          label="Дата рождения"
           name="dateOfBirth"
           onChange={inputChangeHandler}
           value={personalData.dateOfBirth}
@@ -113,16 +113,20 @@ const UserRegisterForm: React.FC<Props> = ({
       <Grid
         sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}
       >
-        <Typography variant="subtitle1">Select Gender:</Typography>
+        <Typography variant="subtitle1">Пол:</Typography>
         <RadioGroup
           value={personalData.gender}
           name="gender"
           onChange={inputChangeHandler}
           sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
         >
-          <FormControlLabel value="male" control={<Radio />} label="Male" />
-          <FormControlLabel value="female" control={<Radio />} label="Female" />
-          <FormControlLabel value="another" control={<Radio />} label="Other" />
+          <FormControlLabel value="male" control={<Radio />} label="Мужчина" />
+          <FormControlLabel
+            value="female"
+            control={<Radio />}
+            label="Женщина"
+          />
+          <FormControlLabel value="other" control={<Radio />} label="Другое" />
         </RadioGroup>
       </Grid>
       <Grid>
@@ -135,7 +139,7 @@ const UserRegisterForm: React.FC<Props> = ({
       <Grid container display="flex" justifyContent="space-between">
         <Grid>
           <Button disabled variant={"outlined"}>
-            Back
+            Назад
           </Button>
         </Grid>
         <Grid>
@@ -148,12 +152,12 @@ const UserRegisterForm: React.FC<Props> = ({
             variant="contained"
             onClick={() => updatePersonalInfo(personalData, null, null)}
           >
-            Finish
+            Завершить
           </Button>
         </Grid>
         <Grid>
           <Button type={"submit"} variant="outlined">
-            Next
+            Далее
           </Button>
         </Grid>
       </Grid>

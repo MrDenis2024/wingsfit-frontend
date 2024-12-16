@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Button, Step, StepLabel, Stepper } from "@mui/material";
+import { useState } from "react";
+import { Button, Container, Step, StepLabel, Stepper } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import UserRegisterForm from "./components/UserRegisterForm.tsx";
 import TrainerRegisterForm from "./components/TrainerRegisterForm.tsx";
@@ -28,8 +28,13 @@ const OnBoardingProfile = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const user = useAppSelector(selectUser);
-  const stepLabels = ["Fill personal info", "Fill optional info", "Preview"];
+  const stepLabels = [
+    "Персональные данные",
+    "Профильные данные",
+    "Предпросмотр",
+  ];
   const [activeStep, setActiveStep] = useState<number>(0);
+
   const [requiredInfo, setRequiredInfo] = useState<UserInfoMutation>({
     firstName: "",
     lastName: "",
@@ -52,10 +57,6 @@ const OnBoardingProfile = () => {
   });
 
   const role = user?.role;
-  useEffect(() => {
-    dispatch(resetTrainerError());
-    dispatch(resetClientError());
-  }, [dispatch]);
 
   if (role !== "client" && role !== "trainer") {
     throw new Error("Invalid role: expected 'client' or 'trainer'");
@@ -119,6 +120,8 @@ const OnBoardingProfile = () => {
         await dispatch(createTrainerProfile(trainerProfile)).unwrap();
       }
       await dispatch(reloadUser());
+      dispatch(resetTrainerError());
+      dispatch(resetClientError());
       navigate("/");
     } catch (e) {
       const error = e as Error;
@@ -127,68 +130,88 @@ const OnBoardingProfile = () => {
   };
 
   return (
-    <Grid>
-      {activeStep === 0 && (
-        <UserRegisterForm
-          initialState={requiredInfo}
-          onSubmit={onUserSubmit}
-          updatePersonalInfo={updatePersonalInfo}
-        />
-      )}
-      {activeStep === 1 &&
-        (user?.role === "client" ? (
-          <ClientRegisterForm
-            initialState={clientInfo}
-            onSubmit={clientProfileSubmit}
-            prevStep={onHandlePrev}
-            updatePersonalInfo={updatePersonalInfo}
-          />
-        ) : (
-          <TrainerRegisterForm
-            initialState={optionalInfo}
-            onSubmit={trainerProfileSubmit}
-            prevStep={onHandlePrev}
-            updatePersonalInfo={updatePersonalInfo}
-          />
-        ))}
-      {activeStep === 2 && (
-        <>
-          <RegisterPreview
-            requiredData={requiredInfo}
-            optionalData={optionalInfo}
-            clientData={clientInfo}
-            role={role}
-          />
-          <Grid container display="flex" justifyContent="space-between">
-            <Grid>
-              <Button onClick={onHandlePrev} variant="outlined">
-                Back
-              </Button>
-            </Grid>
-            <Grid>
-              <Button
-                variant={"contained"}
-                sx={{ my: 3 }}
-                onClick={() => {
-                  void createProfile(requiredInfo, optionalInfo, clientInfo);
-                }}
+    <Container
+      maxWidth="lg"
+      sx={{
+        my: 3,
+      }}
+    >
+      <Grid container>
+        <Grid size={12}>
+          {activeStep === 0 && (
+            <UserRegisterForm
+              initialState={requiredInfo}
+              onSubmit={onUserSubmit}
+              updatePersonalInfo={updatePersonalInfo}
+            />
+          )}
+          {activeStep === 1 &&
+            (user?.role === "client" ? (
+              <ClientRegisterForm
+                initialState={clientInfo}
+                onSubmit={clientProfileSubmit}
+                prevStep={onHandlePrev}
+                updatePersonalInfo={updatePersonalInfo}
+              />
+            ) : (
+              <TrainerRegisterForm
+                initialState={optionalInfo}
+                onSubmit={trainerProfileSubmit}
+                prevStep={onHandlePrev}
+                updatePersonalInfo={updatePersonalInfo}
+              />
+            ))}
+          {activeStep === 2 && (
+            <>
+              <RegisterPreview
+                requiredData={requiredInfo}
+                optionalData={optionalInfo}
+                clientData={clientInfo}
+                role={role}
+              />
+              <Grid
+                container
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
               >
-                Confirm
-              </Button>
-            </Grid>
-          </Grid>
-        </>
-      )}
-      <Stepper activeStep={activeStep}>
-        {stepLabels.map((label, index) => {
-          return (
-            <Step key={label} completed={activeStep > index}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-    </Grid>
+                <Grid>
+                  <Button onClick={onHandlePrev} variant="outlined">
+                    Назад
+                  </Button>
+                </Grid>
+                <Grid>
+                  <Button
+                    variant={"contained"}
+                    sx={{ my: 3 }}
+                    onClick={() => {
+                      void createProfile(
+                        requiredInfo,
+                        optionalInfo,
+                        clientInfo,
+                      );
+                    }}
+                  >
+                    Отправить
+                  </Button>
+                </Grid>
+              </Grid>
+            </>
+          )}
+        </Grid>
+        <Grid size={12}>
+          <Stepper activeStep={activeStep}>
+            {stepLabels.map((label, index) => {
+              return (
+                <Step key={label} completed={activeStep > index}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              );
+            })}
+          </Stepper>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
 

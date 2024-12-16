@@ -5,10 +5,10 @@ import {
   MenuItem,
   SelectChangeEvent,
   InputLabel,
-  Grid2,
 } from "@mui/material";
 import { CourseTypeFields } from "../../types/courseTypes.ts";
 import TagCard from "../TagCard/TagCard.tsx";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   courseTypes: CourseTypeFields[];
@@ -54,7 +54,7 @@ const CourseTypeSelector: React.FC<Props> = ({
   );
 
   return (
-    <Grid2>
+    <Grid size={12}>
       <InputLabel id="select-course-types-label">{label}</InputLabel>
       <Select
         labelId="select-course-types-label"
@@ -81,7 +81,7 @@ const CourseTypeSelector: React.FC<Props> = ({
           />
         ))}
       </Box>
-    </Grid2>
+    </Grid>
   );
 };
 

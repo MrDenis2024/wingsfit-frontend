@@ -75,45 +75,45 @@ const UserMenu: React.FC<Props> = ({ user }) => {
       <Menu open={isOpen} anchorEl={anchorEl} onClose={handleClose} keepMounted>
         <MenuItem onClick={handleProfileClick}>
           <AccountBoxIcon sx={{ mr: 2 }} />
-          My profile
+          Профиль
         </MenuItem>
         <MenuItem
           onClick={() => navigate(`/${user.role}s/courses/${user._id}`)}
         >
           <FitnessCenterIcon sx={{ mr: 2 }} />
-          My Courses
+          Мои курсы
         </MenuItem>
         {user.role === "trainer" && (
           <MenuItem onClick={() => navigate(`/add-new-group`)}>
             <GroupIcon sx={{ mr: 2 }} />
-            Create group
+            Создать группу
           </MenuItem>
         )}
         <MenuItem onClick={() => navigate(`/${user.role}s/chats/${user._id}`)}>
           <ChatIcon sx={{ mr: 2 }} />
-          My Chats
+          Чат
         </MenuItem>
         {user.role === "client" && (
           <MenuItem onClick={() => navigate(`/${user.role}/select-course`)}>
             <AssignmentTurnedInOutlinedIcon sx={{ mr: 2 }} />
-            Select course
+            Поиск курса
           </MenuItem>
         )}
         {user.role === "trainer" && (
           <MenuItem onClick={() => navigate(`/${user.role}/statistics`)}>
             <AddchartIcon sx={{ mr: 2 }} />
-            My statistic
+            Статистика
           </MenuItem>
         )}
         {user.role === "trainer" && (
           <MenuItem onClick={() => navigate("/lessons")}>
             <EditNoteIcon sx={{ mr: 2 }} />
-            Lessons
+            Занятия
           </MenuItem>
         )}
         <MenuItem onClick={handleLogout}>
           <LogoutIcon sx={{ mr: 2 }} />
-          Logout
+          Выход
         </MenuItem>
       </Menu>
     </Grid>

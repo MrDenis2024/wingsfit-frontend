@@ -1,4 +1,11 @@
-import { Box, Divider, Paper, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Divider,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { useEffect } from "react";
 import UserStatistics from "../components/UserStatistics.tsx";
@@ -23,7 +30,7 @@ const ClientStatistics = () => {
   }, [dispatch]);
 
   return (
-    <Box p={3}>
+    <Container maxWidth="lg" sx={{ my: 5 }}>
       <Typography
         variant="h5"
         textAlign="center"
@@ -108,7 +115,7 @@ const ClientStatistics = () => {
           </Paper>
         </>
       )}
-    </Box>
+    </Container>
   );
 };
 

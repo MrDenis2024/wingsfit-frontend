@@ -51,32 +51,34 @@ const RatingAndReviews: React.FC<Props> = ({ id }) => {
   };
 
   return (
-    <Grid>
+    <Grid container>
       {reviewsLoading && <LoadingIndicator />}
       {!reviewsLoading && reviews.length > 0 ? (
-        <Grid>
-          <Grid
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Grid display="flex" alignItems="center">
-              <Typography sx={{ mr: 2 }}>Total rating:</Typography>
+        <Grid size={12}>
+          <Grid container>
+            <Grid
+              size={{ xs: 12, sm: 8 }}
+              display="flex"
+              alignItems="center"
+              justifyContent={{ xs: "center", sm: "start" }}
+            >
+              <Typography sx={{ mr: 2 }}>Рейтинг: </Typography>
               {renderStars(total)}
             </Grid>
-            <Grid>
+            <Grid
+              size={{ xs: 12, sm: 4 }}
+              textAlign={{ sm: "end", xs: "center" }}
+            >
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{ fontSize: "12px", color: "black", display: "flex" }}
+                sx={{ fontSize: "12px" }}
               >
-                Based on {reviews.length} reviews
+                Основано на {reviews.length} отзывах
               </Typography>
             </Grid>
           </Grid>
+
           <Grid>
             {displayedReviews.map((review) => (
               <Grid

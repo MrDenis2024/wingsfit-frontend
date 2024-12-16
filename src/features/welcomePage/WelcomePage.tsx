@@ -15,6 +15,7 @@ import TrainingCard from "./components/cards/TrainingCard.tsx";
 import trainer1 from "../../assets/images/trainer-1.png";
 import trainer2 from "../../assets/images/trainer-2.png";
 import trainer3 from "../../assets/images/trainer-3.png";
+import Grid from "@mui/material/Grid2";
 
 const cards = [
   {
@@ -23,9 +24,9 @@ const cards = [
     lastName: "Евсеевой",
     image: trainer3,
     date: "Вт. ЧЕТВ",
-    time: "19:00",
+    time: "19:00.",
     description:
-      "Улучшаем гибкость и осанку, расслабляем мышцы и стремимся к шпагату",
+      "Улучшаем гибкость и осанку, расслабляем мышцы и стремимся к шпагату!",
   },
   {
     id: 2,
@@ -50,8 +51,9 @@ const cards = [
 
 const WelcomePage = () => {
   return (
-    <Box>
-      <Box
+    <Grid container>
+      <Grid
+        size={12}
         sx={{
           backgroundImage: `url(${welcomePic1})`,
           backgroundSize: "cover",
@@ -103,7 +105,14 @@ const WelcomePage = () => {
           >
             Будь свободен. Тренируй и тренируйся
           </Typography>
-          <Stack direction="row" gap={2} flexWrap="wrap" mt={3}>
+          <Stack
+            direction="row"
+            gap={2}
+            flexWrap="wrap"
+            mt={3}
+            alignItems="center"
+            justifyContent="center"
+          >
             <NavLink to="/login/trainer" style={{ textDecoration: "none" }}>
               <BeRoleButton text="Быть тренером!" />
             </NavLink>
@@ -112,8 +121,8 @@ const WelcomePage = () => {
             </NavLink>
           </Stack>
         </Stack>
-      </Box>
-      <Box sx={{ paddingY: "40px", paddingX: "20px", m: "20px" }}>
+      </Grid>
+      <Grid size={12} sx={{ paddingY: "40px", paddingX: "20px", m: "20px" }}>
         <Box sx={{ textAlign: "center", mb: 10 }}>
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             Тренировки по видео связи это:
@@ -249,8 +258,9 @@ const WelcomePage = () => {
             </Box>
           </Stack>
         </Box>
-      </Box>
-      <Box
+      </Grid>
+      <Grid
+        size={12}
         sx={{
           backgroundColor: "#0cc5d6",
           paddingY: "60px",
@@ -265,7 +275,7 @@ const WelcomePage = () => {
             border="3px solid #000000"
           />
         </NavLink>
-      </Box>
+      </Grid>
       <Box
         sx={{
           backgroundColor: "#e0e0e0",
@@ -369,7 +379,8 @@ const WelcomePage = () => {
           </Stack>
         </Box>
       </Box>
-      <Box
+      <Grid
+        size={12}
         sx={{
           backgroundColor: "#0cc5d6",
           paddingY: "60px",
@@ -384,7 +395,7 @@ const WelcomePage = () => {
             border="3px solid #000000"
           />
         </NavLink>
-      </Box>
+      </Grid>
       <Box sx={{ paddingY: "60px", marginX: "20px" }}>
         <Box sx={{ paddingX: "30px" }}>
           <Typography variant="h4" fontWeight="bold" mb={1}>
@@ -411,9 +422,11 @@ const WelcomePage = () => {
           ))}
         </Stack>
       </Box>
-      <Stack
-        direction={"row"}
+      <Grid
+        size={12}
+        display="flex"
         justifyContent="center"
+        alignItems="center"
         gap={2}
         flexWrap="wrap"
         sx={{ backgroundColor: "#0cc5d6", paddingY: "60px" }}
@@ -434,8 +447,8 @@ const WelcomePage = () => {
             border="1px solid #000000"
           />
         </NavLink>
-      </Stack>
-    </Box>
+      </Grid>
+    </Grid>
   );
 };
 

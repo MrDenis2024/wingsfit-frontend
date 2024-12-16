@@ -30,7 +30,7 @@ const ReviewFormBlock: React.FC<ReviewFormProps> = ({ onSubmit }) => {
       }}
     >
       <TextField
-        label="Your Review"
+        label="Отзыв"
         multiline
         rows={4}
         variant="outlined"

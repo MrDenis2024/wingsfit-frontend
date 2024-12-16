@@ -25,23 +25,16 @@ const ClientMainPage = () => {
 
   return (
     <>
-      <Grid container direction="column" spacing={2} mb={5}>
-        <Grid alignItems="start">
-          <Typography variant="h4" component="h1">
-            Courses
-          </Typography>
-        </Grid>
-        <Grid container spacing={2} justifyContent="center" direction="column">
-          <CourseCards courses={courses} />
-        </Grid>
+      <Grid container direction="column" spacing={2} mb={3}>
+        <Typography variant="h4" component="h1" mb={3}>
+          Курсы
+        </Typography>
+        <CourseCards courses={courses} />
       </Grid>
-
-      <Grid container direction="column" spacing={2}>
-        <Grid alignItems="start">
-          <Typography variant="h4" component="h2">
-            Trainers
-          </Typography>
-        </Grid>
+      <Grid container direction="column" sx={{ my: 3 }}>
+        <Typography variant="h4" component="h2">
+          Тренеры
+        </Typography>
         <TrainersCards trainers={trainers} />
       </Grid>
     </>

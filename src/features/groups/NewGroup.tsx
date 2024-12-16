@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectGroupCreate, selectGroupError } from "./groupsSlice.ts";
 import { GroupMutation } from "../../types/groupTypes.ts";
 import { createGroup } from "./groupsThunk.ts";
-import { Typography } from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import GroupForm from "./components/GroupForm.tsx";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
@@ -35,12 +35,12 @@ const NewGroup = () => {
   }, [error]);
 
   return (
-    <>
+    <Container maxWidth="lg" sx={{ my: 5 }}>
       <Typography variant="h4" sx={{ mb: 2 }}>
-        New Group
+        Создать группу
       </Typography>
       <GroupForm onSubmit={onFormSubmit} isLoading={isCreating} />
-    </>
+    </Container>
   );
 };
 

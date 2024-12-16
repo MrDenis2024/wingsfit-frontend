@@ -71,11 +71,11 @@ const ClientRegisterForm: React.FC<Props> = ({
       spacing={2}
       direction="column"
       component={"form"}
-      sx={{ my: 3 }}
+      sx={{ my: 3, mx: 1 }}
       onSubmit={submitHandler}
     >
       <Grid>
-        <Typography variant="h6">Fill optional Info</Typography>
+        <Typography variant="h6">Заполните профильную информацию</Typography>
       </Grid>
       <Grid>
         <CourseTypeSelector
@@ -83,25 +83,31 @@ const ClientRegisterForm: React.FC<Props> = ({
           onChange={onChangeWorkoutType}
           value={initialState.preferredWorkoutType}
           onRemove={removeWorkoutType}
-          label="Preffered workout Type"
+          label="Предпочитаемые типы тренировок"
         />
       </Grid>
       <Grid>
-        <Typography variant="subtitle1">
-          Select your training level:{" "}
-        </Typography>
+        <Typography variant="subtitle1">Уровень тренировок: </Typography>
         <RadioGroup
           name="trainingLevel"
           value={profileData.trainingLevel}
           onChange={inputChangeHandler}
           sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
         >
-          <FormControlLabel value="junior" control={<Radio />} label="junior" />
-          <FormControlLabel value="middle" control={<Radio />} label="middle" />
+          <FormControlLabel
+            value="junior"
+            control={<Radio />}
+            label="Начальный"
+          />
+          <FormControlLabel
+            value="middle"
+            control={<Radio />}
+            label="Средний"
+          />
           <FormControlLabel
             value="advanced"
             control={<Radio />}
-            label="advanced"
+            label="Продвинутый"
           />
         </RadioGroup>
       </Grid>
@@ -110,7 +116,7 @@ const ClientRegisterForm: React.FC<Props> = ({
           type="text"
           multiline
           minRows={2}
-          label="Physical Data"
+          label="Физические данные"
           name="physicalData"
           onChange={inputChangeHandler}
           value={profileData.physicalData}
@@ -119,7 +125,7 @@ const ClientRegisterForm: React.FC<Props> = ({
       <Grid container display="flex" justifyContent="space-between">
         <Grid>
           <Button onClick={prevStep} variant="outlined">
-            Back
+            Назад
           </Button>
         </Grid>
         <Grid>
@@ -127,12 +133,12 @@ const ClientRegisterForm: React.FC<Props> = ({
             variant="contained"
             onClick={() => updatePersonalInfo(null, null, profileData)}
           >
-            Finish
+            Завершить
           </Button>
         </Grid>
         <Grid>
           <Button type={"submit"} variant="outlined">
-            Next
+            Далее
           </Button>
         </Grid>
       </Grid>

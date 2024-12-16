@@ -1,10 +1,9 @@
 import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { Link } from "react-router-dom";
-import Grid from "@mui/material/Grid2";
 
 const TrainerStatisticMenu = () => {
   return (
-    <Grid>
+    <>
       <List
         sx={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
@@ -36,7 +35,7 @@ const TrainerStatisticMenu = () => {
           </ListItemButton>
         </ListItem>
       </List>
-    </Grid>
+    </>
   );
 };
 
