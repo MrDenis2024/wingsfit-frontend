@@ -19,4 +19,5 @@ jobs:
             cd current/frontend
             git pull origin develop
             npm i
-            pm2 restart frontend
+            npm run build
+
