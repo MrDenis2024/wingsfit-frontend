@@ -62,9 +62,9 @@ const Footer = () => {
           maxWidth="lg"
           sx={{
             display: "flex",
-            // justifyContent: useMediaQuery("(min-width:1162px)")
-            //   ? "space-between"
-            //   : "center",
+            justifyContent: useMediaQuery("(min-width:1162px)")
+              ? "space-between"
+              : "center",
             flexWrap: "wrap",
           }}
         >
