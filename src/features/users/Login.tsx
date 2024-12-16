@@ -77,8 +77,8 @@ const Login = () => {
             alt="logo"
             sx={{ width: 150, height: 100, mb: 2 }}
           />
-          <Typography component="h1" variant="h4" gutterBottom>
-            Join us for fitness fun!
+          <Typography component="h1" variant="h5" gutterBottom>
+            Присоединяйтесь к нам <br /> и наслаждайтесь фитнесом!
           </Typography>
           <Box
             component="form"
@@ -115,7 +115,7 @@ const Login = () => {
                 <TextField
                   required
                   type="password"
-                  label="Password"
+                  label="Пароль"
                   name="password"
                   autoComplete="new-password"
                   value={state.password}
@@ -130,12 +130,12 @@ const Login = () => {
               loading={loading}
               sx={{ mt: 3, mb: 2 }}
             >
-              Get Started
+              Войти
             </LoadingButton>
             <Typography variant="body1">
-              New to FitConnect?{" "}
+              Впервые в FitConnect?{" "}
               <Link component={RouterLink} to={`/register/${role}`}>
-                Sign up
+                Зарегистрироваться
               </Link>
             </Typography>
           </Box>
