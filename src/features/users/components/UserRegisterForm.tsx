@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Button,
   FormControlLabel,
   Radio,
   RadioGroup,
@@ -12,6 +11,12 @@ import TimeZone from "../../../UI/TimeZone/TimeZone.tsx";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
+import { isValidPhoneNumber } from "react-phone-number-input";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+import CustomButton from "./CustomBottom/CustomBottom.tsx";
+import CustomInput from "./CustomInput/CustomInput.tsx";
+import { toast } from "react-toastify";
 
 interface Props {
   onSubmit: (personalData: UserInfoMutation) => void;
@@ -21,21 +26,22 @@ interface Props {
     optional: TrainerProfileMutation | null,
     client: ClientProfileMutation | null,
   ) => void;
+  role: "trainer" | "client";
 }
 
 const UserRegisterForm: React.FC<Props> = ({
   onSubmit,
   initialState,
   updatePersonalInfo,
+  role,
 }) => {
   const [personalData, setPersonalData] =
     useState<UserInfoMutation>(initialState);
+  const [phoneError, setPhoneError] = useState(false);
+
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setPersonalData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setPersonalData((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const changeTimezone = (timezoneValue: string, timezoneLabel: string) => {
@@ -45,8 +51,22 @@ const UserRegisterForm: React.FC<Props> = ({
     }));
   };
 
+  const phoneChangeHandler = (value: string | undefined) => {
+    setPersonalData((prevState) => ({ ...prevState, phoneNumber: value }));
+    if (value && !isValidPhoneNumber(value)) {
+      setPhoneError(true);
+    } else {
+      setPhoneError(false);
+    }
+  };
+
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (personalData.phoneNumber && phoneError) {
+      toast.error("Введите корректный номер телефона");
+      return;
+    }
     onSubmit(personalData);
   };
 
@@ -56,40 +76,68 @@ const UserRegisterForm: React.FC<Props> = ({
       spacing={2}
       component={"form"}
       direction="column"
-      sx={{ my: 3, mx: 1 }}
+      sx={{
+        mt: "150px",
+        mb: 1,
+        mx: 1,
+        maxWidth: "400px",
+        width: "100%",
+        marginLeft: role === "trainer" ? "0" : "auto",
+        marginRight: role === "client" ? "0" : "auto",
+      }}
       onSubmit={submitHandler}
     >
       <Grid>
-        <Typography variant="h6">Заполните персональную информацию </Typography>
+        <Typography variant="h6" sx={{ color: "white" }}>
+          Заполните персональную информацию{" "}
+        </Typography>
       </Grid>
       <Grid>
-        <TextField
-          type="text"
-          required
+        <CustomInput
           label="Имя"
-          name="firstName"
-          onChange={inputChangeHandler}
           value={personalData.firstName}
-        />
-      </Grid>
-      <Grid>
-        <TextField
-          type="text"
+          onChange={inputChangeHandler}
+          name="firstName"
           required
-          label="Фамилия"
-          name="lastName"
-          onChange={inputChangeHandler}
-          value={personalData.lastName}
+          type="text"
         />
       </Grid>
       <Grid>
-        <TextField
-          type="tel"
-          label="Номер телефона"
-          name="phoneNumber"
+        <CustomInput
+          label="Фамилия"
+          value={personalData.lastName}
           onChange={inputChangeHandler}
-          value={personalData.phoneNumber}
+          name="lastName"
+          required
+          type="text"
         />
+      </Grid>
+      <Grid>
+        <Typography
+          variant="h6"
+          sx={{ color: "white", mb: 1, fontSize: "16px" }}
+        >
+          Номер телефона
+        </Typography>
+        <PhoneInput
+          value={personalData.phoneNumber}
+          onChange={phoneChangeHandler}
+          defaultCountry="KG"
+          international
+          style={{
+            width: "100%",
+            padding: "15px",
+            border: phoneError ? "1px solid red" : "1px solid #ccc",
+            borderRadius: "8px",
+            backgroundColor: "#f9f9f9",
+            marginBottom: "20px",
+          }}
+        />
+        {phoneError && (
+          <Typography color="error" variant="body2" sx={{ mt: 1 }}>
+            Некорректный номер телефона.
+          </Typography>
+        )}
       </Grid>
       <Grid>
         <TextField
@@ -101,6 +149,28 @@ const UserRegisterForm: React.FC<Props> = ({
             },
             inputLabel: {
               shrink: true,
+              sx: {
+                position: "absolute",
+                top: "7px",
+                left: "0px",
+                "&.Mui-focused": {
+                  color: "#333",
+                },
+              },
+            },
+          }}
+          sx={{
+            mb: 2,
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "8px",
+              backgroundColor: "#f9f9f9",
+              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              "&.Mui-focused": {
+                boxShadow: "0 0 8px rgba(0, 123, 255, 0.3)",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              fontWeight: "bold",
             },
           }}
           type="date"
@@ -113,20 +183,62 @@ const UserRegisterForm: React.FC<Props> = ({
       <Grid
         sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}
       >
-        <Typography variant="subtitle1">Пол:</Typography>
+        <Typography
+          variant="subtitle1"
+          sx={{
+            fontSize: "14px",
+            fontWeight: "bold",
+            marginRight: 2,
+            color: "#f9f9f9",
+          }}
+        >
+          Пол:
+        </Typography>
         <RadioGroup
           value={personalData.gender}
           name="gender"
           onChange={inputChangeHandler}
-          sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
+          sx={{
+            mx: 1,
+            flexDirection: "row",
+            justifyContent: "start",
+            alignItems: "center",
+            color: "#f9f9f9",
+          }}
         >
-          <FormControlLabel value="male" control={<Radio />} label="Мужчина" />
+          <FormControlLabel
+            value="male"
+            control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
+            label="Мужчина"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: "14px",
+                fontWeight: "bold",
+              },
+            }}
+          />
           <FormControlLabel
             value="female"
-            control={<Radio />}
+            control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
             label="Женщина"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: "14px",
+                fontWeight: "bold",
+              },
+            }}
           />
-          <FormControlLabel value="other" control={<Radio />} label="Другое" />
+          <FormControlLabel
+            value="other"
+            control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
+            label="Другое"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: "14px",
+                fontWeight: "bold",
+              },
+            }}
+          />
         </RadioGroup>
       </Grid>
       <Grid>
@@ -136,14 +248,12 @@ const UserRegisterForm: React.FC<Props> = ({
           value={personalData.timeZone}
         />
       </Grid>
-      <Grid container display="flex" justifyContent="space-between">
+      <Grid container display="flex" justifyContent="center">
         <Grid>
-          <Button disabled variant={"outlined"}>
-            Назад
-          </Button>
+          <CustomButton variant="outlined" disabled label="Назад" />
         </Grid>
         <Grid>
-          <Button
+          <CustomButton
             disabled={
               personalData.firstName === "" ||
               personalData.lastName === "" ||
@@ -151,14 +261,11 @@ const UserRegisterForm: React.FC<Props> = ({
             }
             variant="contained"
             onClick={() => updatePersonalInfo(personalData, null, null)}
-          >
-            Завершить
-          </Button>
+            label="Завершить"
+          />
         </Grid>
         <Grid>
-          <Button type={"submit"} variant="outlined">
-            Далее
-          </Button>
+          <CustomButton type="submit" variant="outlined" label="Далее" />
         </Grid>
       </Grid>
     </Grid>
