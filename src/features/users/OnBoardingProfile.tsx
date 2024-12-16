@@ -26,6 +26,7 @@ import { reloadUser } from "./userThunk.ts";
 import backgroundImageClient from "../../assets/images/onboard-client.png";
 import backgroundImageTrainer from "../../assets/images/onboard-trainer.png";
 import CustomButton from "./components/CustomBottom/CustomBottom.tsx";
+import { styled } from "@mui/system";
 
 const OnBoardingProfile = () => {
   const dispatch = useAppDispatch();
@@ -101,6 +102,33 @@ const OnBoardingProfile = () => {
       clientProfileSubmit(clientData);
     }
   };
+
+  const StyledStepLabel = styled(StepLabel)({
+    color: "white",
+    "& .MuiStepLabel-iconContainer": {
+      backgroundColor: "#44a9ca",
+      color: "white",
+      borderRadius: "50%",
+      width: "20px",
+      height: "20px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    "& .MuiStepLabel-label": {
+      color: "white !important",
+      fontSize: "12px",
+    },
+    "& .MuiStepLabel-label-active": {
+      color: "white !important",
+    },
+    "& .MuiStepLabel-label-completed": {
+      color: "white !important",
+    },
+    "& .MuiStepLabel-label-disabled": {
+      color: "white !important",
+    },
+  });
 
   const createProfile = async (
     personalData: UserInfoMutation,
@@ -234,52 +262,13 @@ const OnBoardingProfile = () => {
               alternativeLabel
               sx={{ width: "100%" }}
             >
-              {stepLabels.map((label, index) => {
-                return (
-                  <Step key={label} completed={activeStep > index}>
-                    <StepLabel
-                      sx={{
-                        fontWeight: "500",
-                        color: "white",
-                        "&.MuiStepLabel-active": {
-                          color: "white",
-                        },
-                        "&.MuiStepLabel-completed": {
-                          color: "white",
-                        },
-                        "& .MuiStepLabel-iconContainer": {
-                          backgroundColor: "#44a9ca",
-                          color: "white",
-                          borderRadius: "50%",
-                          width: "20px",
-                          height: "20px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        },
-                        "& .MuiStepLabel-label": {
-                          marginLeft: 0,
-                          marginRight: 0,
-                          color: "white",
-                          fontSize: "12px",
-                        },
-                        "& .MuiStepLabel-label-completed": {
-                          color: "white",
-                        },
-                        "& .MuiStepLabel-label-active": {
-                          color: "white",
-                        },
-                        "& .MuiStepLabel-label-disabled": {
-                          color: "white",
-                        },
-                      }}
-                    >
-                      {label}
-                    </StepLabel>
-                  </Step>
-                );
-              })}
+              {stepLabels.map((label, index) => (
+                <Step key={label} completed={activeStep > index}>
+                  <StyledStepLabel>{label}</StyledStepLabel>
+                </Step>
+              ))}
             </Stepper>
+            ;
           </Grid>
         </Grid>
       </Container>
