@@ -199,6 +199,7 @@ const UserRegisterForm: React.FC<Props> = ({
               fontWeight: "bold",
             },
             "& .MuiOutlinedInput-input": {
+              padding: "8px",
               "@media (max-width: 350px)": {
                 padding: "10px",
               },
