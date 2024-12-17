@@ -82,7 +82,14 @@ const TrainerRegisterForm: React.FC<Props> = ({
       onSubmit={submitHandler}
     >
       <Grid>
-        <Typography variant="h6" sx={{ color: "white" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            color: "white",
+            fontSize: { xs: "16px", sm: "24px", md: "28px" },
+            fontWeight: "bold",
+          }}
+        >
           Заполните профильную информацию
         </Typography>
       </Grid>

@@ -84,7 +84,14 @@ const ClientRegisterForm: React.FC<Props> = ({
       onSubmit={submitHandler}
     >
       <Grid>
-        <Typography variant="h6" sx={{ color: "white" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            color: "white",
+            fontSize: { xs: "16px", sm: "24px", md: "28px" },
+            fontWeight: "bold",
+          }}
+        >
           Заполните профильную информацию
         </Typography>
       </Grid>
@@ -98,7 +105,16 @@ const ClientRegisterForm: React.FC<Props> = ({
         />
       </Grid>
       <Grid>
-        <Typography sx={{ fontWeight: "bold" }} variant="subtitle1">
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            fontSize: {
+              xs: "0.9rem",
+              sm: "18px",
+            },
+          }}
+          variant="subtitle1"
+        >
           Уровень тренировок:{" "}
         </Typography>
         <RadioGroup
@@ -113,7 +129,17 @@ const ClientRegisterForm: React.FC<Props> = ({
         >
           <FormControlLabel
             value="junior"
-            control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
+            control={
+              <Radio
+                sx={{
+                  fontSize: {
+                    xs: "0.9rem",
+                    sm: "14px",
+                  },
+                  color: "white",
+                }}
+              />
+            }
             label="Начальный"
             sx={{
               "& .MuiFormControlLabel-label": {
@@ -124,7 +150,17 @@ const ClientRegisterForm: React.FC<Props> = ({
           />
           <FormControlLabel
             value="middle"
-            control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
+            control={
+              <Radio
+                sx={{
+                  fontSize: {
+                    xs: "0.9rem",
+                    sm: "14px",
+                  },
+                  color: "white",
+                }}
+              />
+            }
             label="Средний"
             sx={{
               "& .MuiFormControlLabel-label": {
@@ -135,11 +171,24 @@ const ClientRegisterForm: React.FC<Props> = ({
           />
           <FormControlLabel
             value="advanced"
-            control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
+            control={
+              <Radio
+                sx={{
+                  fontSize: {
+                    xs: "0.9rem",
+                    sm: "14px",
+                  },
+                  color: "white",
+                }}
+              />
+            }
             label="Продвинутый"
             sx={{
               "& .MuiFormControlLabel-label": {
-                fontSize: "14px",
+                fontSize: {
+                  xs: "0.9rem",
+                  sm: "14px",
+                },
                 fontWeight: "bold",
               },
             }}

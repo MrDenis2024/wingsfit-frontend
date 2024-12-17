@@ -98,8 +98,15 @@ const UserRegisterForm: React.FC<Props> = ({
       onSubmit={submitHandler}
     >
       <Grid>
-        <Typography variant="h6" sx={{ color: "white" }}>
-          Заполните персональную информацию{" "}
+        <Typography
+          variant="h6"
+          sx={{
+            color: "white",
+            fontSize: { xs: "16px", sm: "24px", md: "28px" },
+            fontWeight: "bold",
+          }}
+        >
+          Заполните персональную информацию
         </Typography>
       </Grid>
       <Grid>
@@ -174,6 +181,14 @@ const UserRegisterForm: React.FC<Props> = ({
               boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
               "&.Mui-focused": {
                 boxShadow: "0 0 8px rgba(0, 123, 255, 0.3)",
+              },
+              fontSize: {
+                xs: "0.9rem",
+                sm: "1rem",
+              },
+              padding: {
+                xs: "6px",
+                sm: "12px",
               },
             },
             "& .MuiInputLabel-root": {

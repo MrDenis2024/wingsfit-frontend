@@ -28,9 +28,21 @@ const CustomInput: React.FC<TextFieldProps> = (props) => {
           "&.Mui-focused": {
             boxShadow: "0 0 8px rgba(0, 123, 255, 0.3)",
           },
+          fontSize: {
+            xs: "0.9rem",
+            sm: "1rem",
+          },
+          padding: {
+            xs: "6px",
+            sm: "12px",
+          },
         },
         "& .MuiInputLabel-root": {
           fontWeight: "bold",
+          fontSize: {
+            xs: "0.75rem",
+            sm: "0.875rem",
+          },
         },
       }}
     />

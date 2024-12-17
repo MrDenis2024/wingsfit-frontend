@@ -12,8 +12,14 @@ const CustomButton: React.FC<CustomButtonProps> = ({ label, ...props }) => {
       sx={{
         fontWeight: "bold",
         borderRadius: "8px",
-        padding: "10px 20px",
-        fontSize: "16px",
+        fontSize: {
+          xs: "0.9rem",
+          sm: "16px",
+        },
+        padding: {
+          xs: "5px 10px",
+          sm: "10px 20px",
+        },
         textTransform: "none",
         ...(props.variant === "outlined"
           ? {
