@@ -75,7 +75,10 @@ const ClientRegisterForm: React.FC<Props> = ({
         mx: 1,
         maxWidth: "400px",
         width: "100%",
-        marginLeft: "auto",
+        marginLeft: {
+          xs: "unset",
+          md: "auto",
+        },
         color: "white",
       }}
       onSubmit={submitHandler}
@@ -91,7 +94,7 @@ const ClientRegisterForm: React.FC<Props> = ({
           onChange={onChangeWorkoutType}
           value={initialState.preferredWorkoutType}
           onRemove={removeWorkoutType}
-          label="Предпочитаемые типы тренировок"
+          label="Предпочитаемые тренировки"
         />
       </Grid>
       <Grid>

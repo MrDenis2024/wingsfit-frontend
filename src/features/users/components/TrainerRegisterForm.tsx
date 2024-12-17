@@ -73,7 +73,10 @@ const TrainerRegisterForm: React.FC<Props> = ({
         },
         maxWidth: "400px",
         width: "100%",
-        marginLeft: "0 auto",
+        marginLeft: {
+          xs: "unset",
+          md: "0 auto",
+        },
         color: "white",
       }}
       onSubmit={submitHandler}

@@ -45,8 +45,14 @@ const RegisterPreview: React.FC<Props> = ({
         },
         maxWidth: "600px",
         width: "100%",
-        marginLeft: role === "trainer" ? "0" : "auto",
-        marginRight: role === "client" ? "0" : "auto",
+        marginLeft: {
+          xs: "unset",
+          md: role === "trainer" ? "0" : "auto",
+        },
+        marginRight: {
+          xs: "unset",
+          md: role === "client" ? "0" : "auto",
+        },
         color: "black",
       }}
     >

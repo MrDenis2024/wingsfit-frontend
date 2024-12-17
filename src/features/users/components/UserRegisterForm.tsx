@@ -86,8 +86,14 @@ const UserRegisterForm: React.FC<Props> = ({
         mx: 1,
         maxWidth: "400px",
         width: "100%",
-        marginLeft: role === "trainer" ? "0" : "auto",
-        marginRight: role === "client" ? "0" : "auto",
+        marginLeft: {
+          xs: "unset",
+          md: role === "trainer" ? "0" : "auto",
+        },
+        marginRight: {
+          xs: "unset",
+          md: role === "client" ? "0" : "auto",
+        },
       }}
       onSubmit={submitHandler}
     >
