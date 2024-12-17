@@ -39,7 +39,10 @@ const RegisterPreview: React.FC<Props> = ({
       sx={{
         my: 5,
         mx: 1,
-        mt: "150px",
+        mt: {
+          xs: "30px",
+          sm: "150px",
+        },
         maxWidth: "600px",
         width: "100%",
         marginLeft: role === "trainer" ? "0" : "auto",

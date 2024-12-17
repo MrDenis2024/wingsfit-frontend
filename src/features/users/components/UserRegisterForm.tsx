@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./../../../App.css";
 import {
   FormControlLabel,
   Radio,
@@ -77,7 +78,10 @@ const UserRegisterForm: React.FC<Props> = ({
       component={"form"}
       direction="column"
       sx={{
-        mt: "150px",
+        mt: {
+          xs: "30px",
+          sm: "150px",
+        },
         mb: 1,
         mx: 1,
         maxWidth: "400px",
@@ -113,10 +117,7 @@ const UserRegisterForm: React.FC<Props> = ({
         />
       </Grid>
       <Grid>
-        <Typography
-          variant="h6"
-          sx={{ color: "white", mb: 1, fontSize: "16px" }}
-        >
+        <Typography variant="h6" sx={{ color: "white", fontSize: "16px" }}>
           Номер телефона
         </Typography>
         <PhoneInput
@@ -126,7 +127,7 @@ const UserRegisterForm: React.FC<Props> = ({
           international
           style={{
             width: "100%",
-            padding: "15px",
+            padding: "2px",
             border: phoneError ? "1px solid red" : "1px solid #ccc",
             borderRadius: "8px",
             backgroundColor: "#f9f9f9",

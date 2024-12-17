@@ -117,7 +117,10 @@ const OnBoardingProfile = () => {
     },
     "& .MuiStepLabel-label": {
       color: "white !important",
-      fontSize: "12px",
+      fontSize: "16px",
+      "@media (max-width: 450px)": {
+        display: "none",
+      },
     },
     "& .MuiStepLabel-label-active": {
       color: "white !important",

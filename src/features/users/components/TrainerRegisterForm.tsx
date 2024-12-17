@@ -67,7 +67,10 @@ const TrainerRegisterForm: React.FC<Props> = ({
       sx={{
         my: 3,
         mx: 1,
-        mt: "150px",
+        mt: {
+          xs: "30px",
+          sm: "150px",
+        },
         maxWidth: "400px",
         width: "100%",
         marginLeft: "0 auto",

@@ -67,7 +67,10 @@ const ClientRegisterForm: React.FC<Props> = ({
       direction="column"
       component={"form"}
       sx={{
-        mt: "250px",
+        mt: {
+          xs: "30px",
+          sm: "250px",
+        },
         mb: 1,
         mx: 1,
         maxWidth: "400px",
