@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { Button, TextField, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
+import CustomButton from "./CustomBottom/CustomBottom.tsx";
+import CustomInput from "./CustomInput/CustomInput.tsx";
 
 interface Props {
   initialState: TrainerProfileMutation;
@@ -38,7 +40,6 @@ const TrainerRegisterForm: React.FC<Props> = ({
   };
 
   const onChangeCourseTypes = (courseTypes: string[]) => {
-    console.log(courseTypes);
     setProfileData((prevState) => ({
       ...prevState,
       courseTypes,
@@ -46,7 +47,6 @@ const TrainerRegisterForm: React.FC<Props> = ({
   };
 
   const removeCourseType = (courseType: string) => {
-    console.log(courseType);
     setProfileData((prevState) => ({
       ...prevState,
       courseTypes: prevState.courseTypes.filter((type) => type !== courseType),
@@ -64,25 +64,48 @@ const TrainerRegisterForm: React.FC<Props> = ({
       spacing={2}
       direction="column"
       component={"form"}
-      sx={{ my: 3, mx: 1 }}
+      sx={{
+        my: 3,
+        mx: 1,
+        mt: {
+          xs: "30px",
+          sm: "150px",
+        },
+        maxWidth: "400px",
+        width: "100%",
+        marginLeft: {
+          xs: "unset",
+          md: "0 auto",
+        },
+        color: "white",
+      }}
       onSubmit={submitHandler}
     >
       <Grid>
-        <Typography variant="h6">Заполните профильную информацию</Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            color: "white",
+            fontSize: { xs: "16px", sm: "24px", md: "28px" },
+            fontWeight: "bold",
+          }}
+        >
+          Заполните профильную информацию
+        </Typography>
       </Grid>
       <Grid>
-        <TextField
-          type="text"
+        <CustomInput
+          label="Описание"
           multiline
           minRows={2}
-          label="Описание"
-          name="description"
           onChange={inputChangeHandler}
           value={profileData.description}
+          name="description"
+          type="text"
         />
       </Grid>
       <Grid>
-        <TextField
+        <CustomInput
           type="text"
           label="Специализация"
           name="specialization"
@@ -91,7 +114,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
         />
       </Grid>
       <Grid>
-        <TextField
+        <CustomInput
           type="text"
           multiline
           minRows={2}
@@ -109,7 +132,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
         label="Типы курсов"
       />
       <Grid>
-        <TextField
+        <CustomInput
           type="text"
           label="Дни проведения занятий"
           name="availableDays"
@@ -117,24 +140,19 @@ const TrainerRegisterForm: React.FC<Props> = ({
           value={profileData.availableDays}
         />
       </Grid>
-      <Grid container display="flex" justifyContent="space-between">
+      <Grid container display="flex" justifyContent="center">
         <Grid>
-          <Button onClick={prevStep} variant="outlined">
-            Назад
-          </Button>
+          <CustomButton variant="outlined" onClick={prevStep} label="Назад" />
         </Grid>
         <Grid>
-          <Button
+          <CustomButton
             variant="contained"
             onClick={() => updatePersonalInfo(null, profileData, null)}
-          >
-            Завершить
-          </Button>
+            label="Завершить"
+          />
         </Grid>
         <Grid>
-          <Button type={"submit"} variant="outlined">
-            Далее
-          </Button>
+          <CustomButton type="submit" variant="outlined" label="Далее" />
         </Grid>
       </Grid>
     </Grid>

@@ -55,13 +55,43 @@ const CourseTypeSelector: React.FC<Props> = ({
 
   return (
     <Grid size={12}>
-      <InputLabel id="select-course-types-label">{label}</InputLabel>
+      <InputLabel
+        id="select-course-types-label"
+        sx={{
+          fontSize: {
+            xs: "0.9rem",
+            sm: "16px",
+          },
+          color: "white",
+          fontWeight: "bold",
+        }}
+      >
+        {label}
+      </InputLabel>
       <Select
         labelId="select-course-types-label"
         value=""
         onChange={handleAddType}
         fullWidth
         variant="outlined"
+        sx={{
+          fontSize: {
+            xs: "0.9rem",
+            sm: "16px",
+          },
+          backgroundColor: "#f9f9f9",
+          borderRadius: "8px",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "8px",
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#44a9ca",
+          },
+          "& .MuiInputBase-input": {
+            padding: "10px",
+          },
+        }}
       >
         <MenuItem value="" disabled>
           Select course types

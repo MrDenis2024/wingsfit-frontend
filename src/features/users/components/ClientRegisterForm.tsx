@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
-import {
-  Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
+import CustomButton from "./CustomBottom/CustomBottom.tsx";
+import CustomInput from "./CustomInput/CustomInput.tsx";
 
 interface Props {
   initialState: ClientProfileMutation;
@@ -71,11 +66,34 @@ const ClientRegisterForm: React.FC<Props> = ({
       spacing={2}
       direction="column"
       component={"form"}
-      sx={{ my: 3, mx: 1 }}
+      sx={{
+        mt: {
+          xs: "30px",
+          sm: "250px",
+        },
+        mb: 1,
+        mx: 1,
+        maxWidth: "400px",
+        width: "100%",
+        marginLeft: {
+          xs: "unset",
+          md: "auto",
+        },
+        color: "white",
+      }}
       onSubmit={submitHandler}
     >
       <Grid>
-        <Typography variant="h6">Заполните профильную информацию</Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            color: "white",
+            fontSize: { xs: "16px", sm: "24px", md: "28px" },
+            fontWeight: "bold",
+          }}
+        >
+          Заполните профильную информацию
+        </Typography>
       </Grid>
       <Grid>
         <CourseTypeSelector
@@ -83,36 +101,102 @@ const ClientRegisterForm: React.FC<Props> = ({
           onChange={onChangeWorkoutType}
           value={initialState.preferredWorkoutType}
           onRemove={removeWorkoutType}
-          label="Предпочитаемые типы тренировок"
+          label="Предпочитаемые тренировки"
         />
       </Grid>
       <Grid>
-        <Typography variant="subtitle1">Уровень тренировок: </Typography>
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            fontSize: {
+              xs: "0.9rem",
+              sm: "18px",
+            },
+          }}
+          variant="subtitle1"
+        >
+          Уровень тренировок:{" "}
+        </Typography>
         <RadioGroup
           name="trainingLevel"
           value={profileData.trainingLevel}
           onChange={inputChangeHandler}
-          sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
+          sx={{
+            mx: 4,
+            flexDirection: "column",
+            justifyContent: "start",
+          }}
         >
           <FormControlLabel
             value="junior"
-            control={<Radio />}
+            control={
+              <Radio
+                sx={{
+                  fontSize: {
+                    xs: "0.9rem",
+                    sm: "14px",
+                  },
+                  color: "white",
+                }}
+              />
+            }
             label="Начальный"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: "14px",
+                fontWeight: "bold",
+              },
+            }}
           />
           <FormControlLabel
             value="middle"
-            control={<Radio />}
+            control={
+              <Radio
+                sx={{
+                  fontSize: {
+                    xs: "0.9rem",
+                    sm: "14px",
+                  },
+                  color: "white",
+                }}
+              />
+            }
             label="Средний"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: "14px",
+                fontWeight: "bold",
+              },
+            }}
           />
           <FormControlLabel
             value="advanced"
-            control={<Radio />}
+            control={
+              <Radio
+                sx={{
+                  fontSize: {
+                    xs: "0.9rem",
+                    sm: "14px",
+                  },
+                  color: "white",
+                }}
+              />
+            }
             label="Продвинутый"
+            sx={{
+              "& .MuiFormControlLabel-label": {
+                fontSize: {
+                  xs: "0.9rem",
+                  sm: "14px",
+                },
+                fontWeight: "bold",
+              },
+            }}
           />
         </RadioGroup>
       </Grid>
       <Grid>
-        <TextField
+        <CustomInput
           type="text"
           multiline
           minRows={2}
@@ -122,24 +206,19 @@ const ClientRegisterForm: React.FC<Props> = ({
           value={profileData.physicalData}
         />
       </Grid>
-      <Grid container display="flex" justifyContent="space-between">
+      <Grid container display="flex" justifyContent="center">
         <Grid>
-          <Button onClick={prevStep} variant="outlined">
-            Назад
-          </Button>
+          <CustomButton variant="outlined" onClick={prevStep} label="Назад" />
         </Grid>
         <Grid>
-          <Button
+          <CustomButton
             variant="contained"
             onClick={() => updatePersonalInfo(null, null, profileData)}
-          >
-            Завершить
-          </Button>
+            label="Завершить"
+          />
         </Grid>
         <Grid>
-          <Button type={"submit"} variant="outlined">
-            Далее
-          </Button>
+          <CustomButton type="submit" variant="outlined" label="Далее" />
         </Grid>
       </Grid>
     </Grid>

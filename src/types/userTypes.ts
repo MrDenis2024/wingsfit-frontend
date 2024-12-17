@@ -50,5 +50,5 @@ export interface UserInfoMutation {
   timeZone: ITimezone;
   dateOfBirth: string;
   gender: string;
-  phoneNumber: string;
+  phoneNumber?: string;
 }
