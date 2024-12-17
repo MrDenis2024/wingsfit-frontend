@@ -33,7 +33,6 @@ const CustomInput: React.FC<TextFieldProps> = (props) => {
             boxShadow: "0 0 8px rgba(0, 123, 255, 0.3)",
           },
           fontSize: "0.9rem",
-          padding: "0",
         },
         "& .MuiOutlinedInput-input": {
           "@media (max-width: 350px)": {
@@ -42,7 +41,9 @@ const CustomInput: React.FC<TextFieldProps> = (props) => {
         },
         "& .MuiInputLabel-root": {
           fontWeight: "bold",
-          fontSize: "0.75rem",
+          "@media (max-width: 350px)": {
+            fontSize: "0.75rem",
+          },
         },
       }}
     />
