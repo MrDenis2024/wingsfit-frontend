@@ -13,38 +13,48 @@ import { AccessTime, Chat, Group, Wifi } from "@mui/icons-material";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import Grid from "@mui/material/Grid2";
+import logo from "../../assets/images/logo.png";
+import { StyledLink } from "../../UI/AppToolbar/AppToolbar.tsx";
 
 const WelcomePage = () => {
+  const mediaQuery768 = useMediaQuery("(min-width:768px)");
+  const mediaQuery500 = useMediaQuery("(min-width:500px)");
+  const mediaQuery950 = useMediaQuery("(min-width:950px)");
+
   return (
     <Grid container>
       <Container
         maxWidth="lg"
         sx={{
-          mb: 4,
+          mb: mediaQuery768 ? 9 : 3,
+          px: mediaQuery768 ? "15px" : "0 !important",
         }}
       >
         <Grid
+          display={"flex"}
+          justifyContent={mediaQuery500 ? "start" : "center"}
+          p={2}
+        >
+          <StyledLink to="/">
+            <img src={logo} alt="Wings Fit Logo" style={{ height: 100 }} />
+          </StyledLink>
+        </Grid>
+        <Grid
           size={12}
           sx={{
-            backgroundImage: useMediaQuery("(min-width:768px)")
-              ? "none"
-              : `url(${welcomePic1})`,
-            backgroundSize: useMediaQuery("(min-width:768px)")
-              ? "none"
-              : "cover",
-            backgroundPosition: useMediaQuery("(min-width:768px)")
-              ? "none"
-              : "center",
+            backgroundImage: mediaQuery768 ? "none" : `url(${welcomePic1})`,
+            backgroundSize: mediaQuery768 ? "none" : "cover",
+            backgroundPosition: mediaQuery768 ? "none" : "center",
             display: "flex",
             color: "white",
-            padding: 2,
+            paddingX: 2,
             justifyContent: "space-between",
             alignItems: "center",
             gap: 4,
             position: "relative",
             "&::before": {
               content: "''",
-              display: useMediaQuery("(min-width:768px)") ? "none" : "block",
+              display: mediaQuery768 ? "none" : "block",
               position: "absolute",
               top: "0",
               right: "0",
@@ -60,15 +70,16 @@ const WelcomePage = () => {
             maxWidth="360px"
             justifyContent="center"
             position={"sticky"}
+            paddingY="15px"
             zIndex={1}
           >
             <Typography
               sx={{
-                fontSize: useMediaQuery("(min-width:500px)") ? "42px" : "30px",
+                fontSize: mediaQuery500 ? "42px" : "30px",
                 lineHeight: "1.23",
                 fontWeight: 600,
                 padding: "24px 0 10px 0",
-                color: useMediaQuery("(min-width:768px)") ? "#000" : "#fff",
+                color: mediaQuery768 ? "#000" : "#fff",
               }}
             >
               Тренировки по видео связи
@@ -76,7 +87,7 @@ const WelcomePage = () => {
             <Typography
               sx={{
                 fontSize: "14px",
-                color: useMediaQuery("(min-width:768px)") ? "#535353" : "#fff",
+                color: mediaQuery768 ? "#535353" : "#fff",
                 fontWeight: 400,
                 lineHeight: "1.23",
                 mb: 1,
@@ -101,7 +112,7 @@ const WelcomePage = () => {
           </Stack>
           <Grid
             sx={{
-              display: useMediaQuery("(min-width:768px)") ? "block" : "none",
+              display: mediaQuery768 ? "block" : "none",
               maxWidth: "530px",
               width: "100%",
               height: "100%",
@@ -116,10 +127,8 @@ const WelcomePage = () => {
                 width: "100%",
                 height: "auto",
                 borderRadius: "7px",
-                position: useMediaQuery("(min-width:950px)")
-                  ? "absolute"
-                  : "sticky",
-                top: useMediaQuery("(min-width:950px)") ? "20px" : "0",
+                position: mediaQuery950 ? "absolute" : "sticky",
+                top: mediaQuery950 ? "20px" : "0",
               }}
             />
             <Grid
@@ -130,19 +139,19 @@ const WelcomePage = () => {
                 width: "100%",
                 borderRadius: "7px",
                 ml: 6,
-                display: useMediaQuery("(min-width:950px)") ? "block" : "none",
+                display: mediaQuery950 ? "block" : "none",
               }}
             ></Grid>
           </Grid>
         </Grid>
       </Container>
-      <Grid size={12} sx={{ paddingY: "40px", paddingX: "20px", m: "20px" }}>
-        <Box sx={{ textAlign: "center", mb: 10 }}>
+      <Container maxWidth="lg">
+        <Box sx={{ textAlign: "center", my: 6 }}>
           <Typography
             variant="h5"
             sx={{
               fontWeight: 600,
-              fontSize: useMediaQuery("(min-width:420px)") ? "40px" : "30px",
+              fontSize: mediaQuery500 ? "40px" : "30px",
             }}
           >
             Тренировки по видео связи это:
@@ -153,7 +162,7 @@ const WelcomePage = () => {
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
             gap: 4,
-            alignItems: { xs: "center", md: "flex-start" },
+            alignItems: { xs: "center", md: "center" },
             justifyContent: { md: "space-between" },
             textAlign: { xs: "center", md: "left" },
           }}
@@ -278,17 +287,7 @@ const WelcomePage = () => {
             </Box>
           </Stack>
         </Box>
-      </Grid>
-
-      <Grid
-        size={12}
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        gap={2}
-        flexWrap="wrap"
-        sx={{ backgroundColor: "#0cc5d6", paddingY: "60px" }}
-      ></Grid>
+      </Container>
     </Grid>
   );
 };

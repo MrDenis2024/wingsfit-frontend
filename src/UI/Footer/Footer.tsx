@@ -1,8 +1,16 @@
-import {Box, Container, Link, Stack, styled, Typography,} from "@mui/material";
-import {NavLink} from "react-router-dom";
-import {useAppSelector} from "../../app/hooks.ts";
+import {
+  Box,
+  Container,
+  Link,
+  Stack,
+  styled,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import { NavLink } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks.ts";
 import logo from "../../assets/images/logo.png";
-import {selectUser} from "../../features/users/userSlice.ts";
+import { selectUser } from "../../features/users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
@@ -45,6 +53,7 @@ const Footer = () => {
     : [];
 
   const links = user?.role === "trainer" ? trainerLinks : clientLinks;
+  const mediaQuery = useMediaQuery("(min-width:1098px)");
 
   if (location.pathname === "/") {
     return (
@@ -53,24 +62,29 @@ const Footer = () => {
         id="footer"
         sx={{
           color: "#fff",
-          py: 4,
-          px: { xs: 2, sm: 4 },
+          mt: 6,
           textAlign: { xs: "center", sm: "left" },
         }}
       >
+        <Grid
+          size={12}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          gap={2}
+          flexWrap="wrap"
+          sx={{ backgroundColor: "#0cc5d6", paddingY: "60px" }}
+        ></Grid>
         <Container
           maxWidth="lg"
           sx={{
             display: "flex",
-            // justifyContent: useMediaQuery("(min-width:1162px)")
-            //   ? "space-between"
-            //   : "center",
+            justifyContent: mediaQuery ? "space-between" : "center",
             flexWrap: "wrap",
+            pt: 4,
           }}
         >
-          <Grid
-            // textAlign={useMediaQuery("(min-width:1162px)") ? "left" : "center"}
-          >
+          <Grid textAlign={mediaQuery ? "left" : "center"}>
             <Typography variant="h4" fontWeight={"700"} mb={1} color={"#000"}>
               WingsFit
             </Typography>
@@ -87,9 +101,7 @@ const Footer = () => {
               </Typography>
               <Grid
                 display={"flex"}
-                // justifyContent={
-                //   useMediaQuery("(min-width:1162px)") ? "left" : "center"
-                // }
+                justifyContent={mediaQuery ? "left" : "center"}
                 gap={"7px"}
               >
                 <FitnessCenterIcon sx={{ color: "#000" }} />
