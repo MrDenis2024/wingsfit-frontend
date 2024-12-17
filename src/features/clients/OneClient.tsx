@@ -90,6 +90,14 @@ const OneClient = () => {
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     if (file) {
+        if (!file.type.startsWith("image/")) {
+            toast.error("Можно загружать только изображения!");
+            return;
+        }
+        if (file.size > 4 * 1024 * 1024) {
+            toast.error("Размер файла не должен превышать 4 МБ!");
+            return;
+        }
       setSelectedAvatar(file);
       const objectUrl = URL.createObjectURL(file);
       setAvatarImage(objectUrl);
