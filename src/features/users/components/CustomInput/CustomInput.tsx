@@ -13,6 +13,10 @@ const CustomInput: React.FC<TextFieldProps> = (props) => {
             position: "absolute",
             top: "7px",
             left: "0px",
+            "@media (max-width: 350px)": {
+              top: "5px",
+              left: "0px",
+            },
             "&.Mui-focused": {
               color: "#333",
             },
@@ -28,21 +32,17 @@ const CustomInput: React.FC<TextFieldProps> = (props) => {
           "&.Mui-focused": {
             boxShadow: "0 0 8px rgba(0, 123, 255, 0.3)",
           },
-          fontSize: {
-            xs: "0.9rem",
-            sm: "1rem",
-          },
-          padding: {
-            xs: "6px",
-            sm: "12px",
+          fontSize: "0.9rem",
+          padding: "0",
+        },
+        "& .MuiOutlinedInput-input": {
+          "@media (max-width: 350px)": {
+            padding: "20px 10px 10px 10px",
           },
         },
         "& .MuiInputLabel-root": {
           fontWeight: "bold",
-          fontSize: {
-            xs: "0.75rem",
-            sm: "0.875rem",
-          },
+          fontSize: "0.75rem",
         },
       }}
     />
