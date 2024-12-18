@@ -48,7 +48,7 @@ const TrainerCard: React.FC<Props> = ({
         sx={{
           width: {
             xs: "250px",
-            sm: "370px",
+            sm: "360px",
           },
         }}
       >
