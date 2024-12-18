@@ -23,9 +23,11 @@ const MessagesList: React.FC<Props> = ({ messages }) => {
         {messages.map((msg, index) => (
           <ListItem
             key={index}
-            sx={{
-              // justifyContent: msg.author === "Я" ? "flex-end" : "flex-start",
-            }}
+            sx={
+              {
+                // justifyContent: msg.author === "Я" ? "flex-end" : "flex-start",
+              }
+            }
           >
             <Grid
               sx={{

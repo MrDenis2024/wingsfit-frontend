@@ -9,10 +9,12 @@ import { GlobalError } from "../../types/userTypes.ts";
 import { isAxiosError } from "axios";
 import { RootState } from "../../app/store.ts";
 
-export const getTrainers = createAsyncThunk<ITrainer[]>(
+export const getTrainers = createAsyncThunk<ITrainer[], string | undefined>(
   "trainers/fetchAll",
-  async () => {
-    const { data: trainers } = await axiosApi.get<ITrainer[]>(`/trainers/`);
+  async (clientId = "") => {
+    const { data: trainers } = await axiosApi.get<ITrainer[]>(
+      `/trainers?clientId=${clientId}`,
+    );
     if (!trainers) {
       return [];
     }
