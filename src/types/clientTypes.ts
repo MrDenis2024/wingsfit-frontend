@@ -10,7 +10,7 @@ export interface FullClientProfileMutation extends ClientProfileMutation {
   firstName: string;
   lastName: string;
   gender: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   dateOfBirth: string;
   timeZone: ITimezone;
 }

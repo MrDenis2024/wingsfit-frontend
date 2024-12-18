@@ -1,34 +1,54 @@
 import React from "react";
-import { List, ListItem, ListItemButton, ListItemText } from "@mui/material";
+import {
+  Divider,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { OneChat } from "../../../types/chatTypes.ts";
 
 interface Props {
   chats: OneChat[];
   setSelectedChatId: (chatId: string) => void;
   selectedChatId: string | null;
+  title: string;
+  renderChatTitle: (chat: OneChat) => string;
 }
 
 const ChatsList: React.FC<Props> = ({
   chats,
   setSelectedChatId,
   selectedChatId,
+  title,
+  renderChatTitle,
 }) => {
   return (
-    <List sx={{ overflow: "auto" }}>
-      {chats.map((chat) => (
-        <ListItem
-          key={chat._id}
-          sx={{
-            bgcolor:
-              chat._id === selectedChatId ? "rgba(0, 0, 255, 0.1)" : "inherit",
-          }}
-        >
-          <ListItemButton onClick={() => setSelectedChatId(chat._id)}>
-            <ListItemText primary={chat.title} />
-          </ListItemButton>
-        </ListItem>
-      ))}
-    </List>
+    <>
+      <Typography
+        variant="body1"
+        fontWeight="bold"
+        sx={{ padding: "8px 16px", color: "#333" }}
+      >
+        ● {title}
+      </Typography>
+      <Divider />
+      <List disablePadding>
+        {chats.map((chat) => (
+          <ListItem
+            key={chat._id}
+            onClick={() => setSelectedChatId(chat._id)}
+            sx={{
+              backgroundColor:
+                selectedChatId === chat._id ? "#73c6d9" : "transparent",
+              "&:hover": { backgroundColor: "#73c6d9" },
+            }}
+          >
+            <ListItemText primary={renderChatTitle(chat)} />
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 };
 

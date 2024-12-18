@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@mui/material";
-import MessagesList from "./MessagesList.tsx";
+// import MessagesList from "./MessagesList.tsx";
 import Grid from "@mui/material/Grid2";
 import ChatForm from "./ChatForm.tsx";
 
@@ -9,35 +9,35 @@ interface Props {
 }
 
 const Messages: React.FC<Props> = ({ chatId }) => {
-  let messages;
+  // let messages;
 
-  if (chatId === "123") {
-    messages = [
-      {
-        author: "Иван Иванов",
-        message: "Привет!",
-        createdAt: "2024-11-21T10:00:00",
-      },
-      {
-        author: "Я",
-        message: "Привет, как дела?",
-        createdAt: "2024-11-21T10:05:00",
-      },
-    ];
-  } else {
-    messages = [
-      {
-        author: "Иван Иванов",
-        message: "Приsadвет!",
-        createdAt: "2024-11-21T10:00:00",
-      },
-      {
-        author: "Я",
-        message: "Привет, как дasdела?",
-        createdAt: "2024-11-21T10:05:00",
-      },
-    ];
-  }
+  // if (chatId === "123") {
+  //   messages = [
+  //     {
+  //       author: "Иван Иванов",
+  //       message: "Привет!",
+  //       createdAt: "2024-11-21T10:00:00",
+  //     },
+  //     {
+  //       author: "Я",
+  //       message: "Привет, как дела?",
+  //       createdAt: "2024-11-21T10:05:00",
+  //     },
+  //   ];
+  // } else {
+  //   messages = [
+  //     {
+  //       author: "Иван Иванов",
+  //       message: "Приsadвет!",
+  //       createdAt: "2024-11-21T10:00:00",
+  //     },
+  //     {
+  //       author: "Я",
+  //       message: "Привет, как дasdела?",
+  //       createdAt: "2024-11-21T10:05:00",
+  //     },
+  //   ];
+  // }
 
   // const [messages1, setMessages1] = useState<Message[]>(messages);
 
@@ -52,7 +52,7 @@ const Messages: React.FC<Props> = ({ chatId }) => {
   return (
     <Grid>
       <Grid sx={{ height: "67vh" }}>
-        <MessagesList messages={messages} />
+        {/*<MessagesList messages={messages} />*/}
       </Grid>
       <ChatForm chatId={chatId} />
     </Grid>
