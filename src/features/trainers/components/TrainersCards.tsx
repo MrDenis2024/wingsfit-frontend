@@ -18,7 +18,6 @@ const TrainersCards: React.FC<Props> = ({ trainers }) => {
             firstName={trainer.user.firstName}
             lastName={trainer.user.lastName}
             avatar={trainer.user.avatar}
-            experience={trainer.experience}
           />
         );
       })}

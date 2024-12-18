@@ -8,20 +8,26 @@ import { selectTrainers } from "../../trainers/trainersSlice.ts";
 import { selectCourses } from "../../courses/coursesSlice.ts";
 import { getTrainers } from "../../trainers/trainersThunks.ts";
 import { fetchCourses } from "../../courses/coursesThunks.ts";
+import {selectUser} from "../../users/userSlice.ts";
 
 const ClientMainPage = () => {
+  const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const trainers = useAppSelector(selectTrainers);
   const courses = useAppSelector(selectCourses);
 
   useEffect(() => {
     try {
-      dispatch(getTrainers());
+      if (!user) {
+        return;
+      }
+
+      dispatch(getTrainers(user._id));
       dispatch(fetchCourses());
     } catch (e) {
       console.error(e);
     }
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   return (
     <>

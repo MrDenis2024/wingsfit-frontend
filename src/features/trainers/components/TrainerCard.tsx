@@ -1,23 +1,22 @@
 import React from "react";
 import {
+  Avatar,
   Card,
-  CardContent,
   CardHeader,
-  CardMedia,
   styled,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
-import { apiURL } from "../../../constants.ts";
+import {apiURL} from "../../../constants.ts";
 import Grid from "@mui/material/Grid2";
 
-const ImageCardMedia = styled(CardMedia)({
-  width: "50%",
-  height: 0,
-  paddingTop: "56.25%",
-  borderRadius: "10px",
-  backgroundColor: "silver",
-});
+// const ImageCardMedia = styled(CardMedia)({
+//   width: "50%",
+//   height: 0,
+//   paddingTop: "56.25%",
+//   borderRadius: "10px",
+//   backgroundColor: "silver",
+// });
 
 const StyledLink = styled(Link)({
   color: "inherit",
@@ -29,7 +28,6 @@ interface Props {
   firstName: string;
   lastName: string;
   avatar: string | null;
-  experience?: string;
 }
 
 const TrainerCard: React.FC<Props> = ({
@@ -37,7 +35,6 @@ const TrainerCard: React.FC<Props> = ({
   firstName,
   lastName,
   avatar,
-  experience,
 }) => {
   let cardImage = imageNotFound;
 
@@ -50,8 +47,8 @@ const TrainerCard: React.FC<Props> = ({
       <Grid
         sx={{
           width: {
-            xs: "150px",
-            sm: "270px",
+            xs: "250px",
+            sm: "370px",
           },
         }}
       >
@@ -59,18 +56,16 @@ const TrainerCard: React.FC<Props> = ({
           <Card
             sx={{
               height: "100%",
-              paddingTop: "24px",
-              backgroundColor: "#f0f0f0",
+              padding: "20px",
+              display: "flex",
             }}
           >
-            <Grid display="flex" justifyContent="center">
-              <ImageCardMedia
-                image={cardImage}
-                title={`${firstName} ${lastName}`}
-              />
-            </Grid>
-            <CardHeader title={`${firstName} ${lastName}`} />
-            <CardContent sx={{ paddingBottom: "0" }}>{experience}</CardContent>
+            <Avatar
+              sx={{width: 100, height: 100}}
+              src={cardImage}
+              alt={`${firstName} ${lastName}`}
+            />
+            <CardHeader title={`${firstName} ${lastName}`}/>
           </Card>
         </StyledLink>
       </Grid>
