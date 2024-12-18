@@ -1,13 +1,8 @@
 import React from "react";
-import {
-  Avatar,
-  Card,
-  CardHeader,
-  styled,
-} from "@mui/material";
-import {Link} from "react-router-dom";
+import { Avatar, Card, CardHeader, styled } from "@mui/material";
+import { Link } from "react-router-dom";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
-import {apiURL} from "../../../constants.ts";
+import { apiURL } from "../../../constants.ts";
 import Grid from "@mui/material/Grid2";
 
 // const ImageCardMedia = styled(CardMedia)({
@@ -30,12 +25,7 @@ interface Props {
   avatar: string | null;
 }
 
-const TrainerCard: React.FC<Props> = ({
-  _id,
-  firstName,
-  lastName,
-  avatar,
-}) => {
+const TrainerCard: React.FC<Props> = ({ _id, firstName, lastName, avatar }) => {
   let cardImage = imageNotFound;
 
   if (avatar) {
@@ -61,11 +51,11 @@ const TrainerCard: React.FC<Props> = ({
             }}
           >
             <Avatar
-              sx={{width: 70, height: 70, mt: 2}}
+              sx={{ width: 70, height: 70, mt: 2 }}
               src={cardImage}
               alt={`${firstName} ${lastName}`}
             />
-            <CardHeader variant="h6" title={`${firstName} ${lastName}`}/>
+            <CardHeader variant="h6" title={`${firstName} ${lastName}`} />
           </Card>
         </StyledLink>
       </Grid>

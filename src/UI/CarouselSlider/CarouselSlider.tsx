@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 import Grid from "@mui/material/Grid2";
-import {IconButton} from "@mui/material";
-import {ArrowBackIos, ArrowForwardIos} from "@mui/icons-material";
+import { IconButton } from "@mui/material";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 
 interface Props extends React.PropsWithChildren {
   onHandleNext: VoidFunction;
@@ -9,24 +9,29 @@ interface Props extends React.PropsWithChildren {
   currentSlide: number;
 }
 
-const CarouselSlider: React.FC<Props> = ({ children, currentSlide, onHandleNext, onHandlePrev }) => {
+const CarouselSlider: React.FC<Props> = ({
+  children,
+  currentSlide,
+  onHandleNext,
+  onHandlePrev,
+}) => {
   return (
     <Grid
       container
       sx={{
-        width: '100%',
-        position: 'relative',
-        margin: '0 auto',
-        overflow: 'hidden',
-        borderRadius: '8px',
+        width: "100%",
+        position: "relative",
+        margin: "0 auto",
+        overflow: "hidden",
+        borderRadius: "8px",
         boxShadow: 3,
       }}
     >
       <Grid
         sx={{
-          display: 'flex',
+          display: "flex",
           transform: `translateX(-${currentSlide * 100}%)`,
-          transition: 'transform 0.5s ease-in-out',
+          transition: "transform 0.5s ease-in-out",
         }}
       >
         {children}
@@ -34,15 +39,15 @@ const CarouselSlider: React.FC<Props> = ({ children, currentSlide, onHandleNext,
       <IconButton
         onClick={onHandlePrev}
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '10px',
-          transform: 'translateY(-50%)',
+          position: "absolute",
+          top: "50%",
+          left: "10px",
+          transform: "translateY(-50%)",
           zIndex: 2,
-          backgroundColor: 'white',
+          backgroundColor: "white",
           boxShadow: 2,
-          '&:hover': {
-            backgroundColor: '#e0e0e0',
+          "&:hover": {
+            backgroundColor: "#e0e0e0",
           },
         }}
       >
@@ -51,15 +56,15 @@ const CarouselSlider: React.FC<Props> = ({ children, currentSlide, onHandleNext,
       <IconButton
         onClick={onHandleNext}
         sx={{
-          position: 'absolute',
-          top: '50%',
-          right: '10px',
-          transform: 'translateY(-50%)',
+          position: "absolute",
+          top: "50%",
+          right: "10px",
+          transform: "translateY(-50%)",
           zIndex: 2,
-          backgroundColor: 'white',
+          backgroundColor: "white",
           boxShadow: 2,
-          '&:hover': {
-            backgroundColor: '#e0e0e0',
+          "&:hover": {
+            backgroundColor: "#e0e0e0",
           },
         }}
       >

@@ -1,21 +1,21 @@
 import { useEffect } from "react";
 import Grid from "@mui/material/Grid2";
-import {Typography, useMediaQuery} from "@mui/material";
+import { Typography, useMediaQuery } from "@mui/material";
 import CourseCards from "../../courses/components/CourseCards.tsx";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectTrainers } from "../../trainers/trainersSlice.ts";
 import { selectCourses } from "../../courses/coursesSlice.ts";
 import { getTrainers } from "../../trainers/trainersThunks.ts";
 import { fetchCourses } from "../../courses/coursesThunks.ts";
-import {selectUser} from "../../users/userSlice.ts";
+import { selectUser } from "../../users/userSlice.ts";
 import TrainersMatchingCards from "../../trainers/components/TrainersMatchingCards.tsx";
 
 const ClientMainPage = () => {
   const user = useAppSelector(selectUser);
   const trainers = useAppSelector(selectTrainers);
   const courses = useAppSelector(selectCourses);
-  const isSmall = useMediaQuery('(max-width: 840px)');
-  const isMedium = useMediaQuery('(max-width: 1200px)');
+  const isSmall = useMediaQuery("(max-width: 840px)");
+  const isMedium = useMediaQuery("(max-width: 1200px)");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -45,10 +45,7 @@ const ClientMainPage = () => {
         </Typography>
         <TrainersMatchingCards
           trainers={trainers}
-          itemsPerSlide={
-          isSmall ? 1 :
-          isMedium ? 2 : 3
-        }
+          itemsPerSlide={isSmall ? 1 : isMedium ? 2 : 3}
         />
       </Grid>
     </>

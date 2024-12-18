@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
-import Grid from '@mui/material/Grid2';
-import TrainerCard from './TrainerCard';
-import {ITrainer} from "../../../types/trainerTypes.ts";
+import React, { useState } from "react";
+import Grid from "@mui/material/Grid2";
+import TrainerCard from "./TrainerCard";
+import { ITrainer } from "../../../types/trainerTypes.ts";
 import CarouselSlider from "../../../UI/CarouselSlider/CarouselSlider.tsx";
-import {useAppSelector} from "../../../app/hooks.ts";
-import {selectFetchingTrainers} from "../trainersSlice.ts";
-import {Alert} from "@mui/material";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectFetchingTrainers } from "../trainersSlice.ts";
+import { Alert } from "@mui/material";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
-const groupTrainersIntoSlides = (trainers: ITrainer[], itemsPerSlide: number) => {
+const groupTrainersIntoSlides = (
+  trainers: ITrainer[],
+  itemsPerSlide: number,
+) => {
   const slides: ITrainer[][] = [];
   for (let i = 0; i < trainers.length; i += itemsPerSlide) {
     slides.push(trainers.slice(i, i + itemsPerSlide));
@@ -21,7 +24,10 @@ interface Props {
   itemsPerSlide: number;
 }
 
-const TrainersMatchingCards: React.FC<Props> = ({ trainers, itemsPerSlide }) => {
+const TrainersMatchingCards: React.FC<Props> = ({
+  trainers,
+  itemsPerSlide,
+}) => {
   const slides = groupTrainersIntoSlides(trainers, itemsPerSlide);
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLoading = useAppSelector(selectFetchingTrainers);
@@ -38,12 +44,16 @@ const TrainersMatchingCards: React.FC<Props> = ({ trainers, itemsPerSlide }) => 
     <>
       {!isLoading ? (
         trainers.length > 0 ? (
-          <CarouselSlider currentSlide={currentSlide} onHandleNext={handleNext} onHandlePrev={handlePrev} >
+          <CarouselSlider
+            currentSlide={currentSlide}
+            onHandleNext={handleNext}
+            onHandlePrev={handlePrev}
+          >
             {slides.map((slide, index) => (
               <Grid
                 key={index}
                 sx={{
-                  minWidth: '100%',
+                  minWidth: "100%",
                   padding: 2,
                 }}
               >

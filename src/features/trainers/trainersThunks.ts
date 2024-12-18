@@ -12,7 +12,9 @@ import { RootState } from "../../app/store.ts";
 export const getTrainers = createAsyncThunk<ITrainer[], string | undefined>(
   "trainers/fetchAll",
   async (clientId = "") => {
-    const { data: trainers } = await axiosApi.get<ITrainer[]>(`/trainers?clientId=${clientId}`);
+    const { data: trainers } = await axiosApi.get<ITrainer[]>(
+      `/trainers?clientId=${clientId}`,
+    );
     if (!trainers) {
       return [];
     }
