@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Container, Step, StepLabel, Stepper } from "@mui/material";
+import { Box, Container, Step, StepLabel, Stepper } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import UserRegisterForm from "./components/UserRegisterForm.tsx";
 import TrainerRegisterForm from "./components/TrainerRegisterForm.tsx";
@@ -23,6 +23,10 @@ import { resetTrainerError } from "../trainers/trainersSlice.ts";
 import { toast } from "react-toastify";
 import { resetClientError } from "../clients/clientSlice.ts";
 import { reloadUser } from "./userThunk.ts";
+import backgroundImageClient from "../../assets/images/onboard-client.png";
+import backgroundImageTrainer from "../../assets/images/onboard-trainer.png";
+import CustomButton from "./components/CustomBottom/CustomBottom.tsx";
+import { styled } from "@mui/system";
 
 const OnBoardingProfile = () => {
   const dispatch = useAppDispatch();
@@ -99,6 +103,36 @@ const OnBoardingProfile = () => {
     }
   };
 
+  const StyledStepLabel = styled(StepLabel)({
+    color: "white",
+    "& .MuiStepLabel-iconContainer": {
+      backgroundColor: "#44a9ca",
+      color: "white",
+      borderRadius: "50%",
+      width: "20px",
+      height: "20px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    "& .MuiStepLabel-label": {
+      color: "white !important",
+      fontSize: "16px",
+      "@media (max-width: 450px)": {
+        display: "none",
+      },
+    },
+    "& .MuiStepLabel-label-active": {
+      color: "white !important",
+    },
+    "& .MuiStepLabel-label-completed": {
+      color: "white !important",
+    },
+    "& .MuiStepLabel-label-disabled": {
+      color: "white !important",
+    },
+  });
+
   const createProfile = async (
     personalData: UserInfoMutation,
     trainerData: TrainerProfileMutation,
@@ -130,88 +164,130 @@ const OnBoardingProfile = () => {
   };
 
   return (
-    <Container
-      maxWidth="lg"
+    <Box
       sx={{
-        my: 3,
+        backgroundImage: `url(${role === "client" ? backgroundImageClient : backgroundImageTrainer})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        height: "100%",
+        padding: "30px",
       }}
     >
-      <Grid container>
-        <Grid size={12}>
-          {activeStep === 0 && (
-            <UserRegisterForm
-              initialState={requiredInfo}
-              onSubmit={onUserSubmit}
-              updatePersonalInfo={updatePersonalInfo}
-            />
-          )}
-          {activeStep === 1 &&
-            (user?.role === "client" ? (
-              <ClientRegisterForm
-                initialState={clientInfo}
-                onSubmit={clientProfileSubmit}
-                prevStep={onHandlePrev}
-                updatePersonalInfo={updatePersonalInfo}
-              />
-            ) : (
-              <TrainerRegisterForm
-                initialState={optionalInfo}
-                onSubmit={trainerProfileSubmit}
-                prevStep={onHandlePrev}
-                updatePersonalInfo={updatePersonalInfo}
-              />
-            ))}
-          {activeStep === 2 && (
-            <>
-              <RegisterPreview
-                requiredData={requiredInfo}
-                optionalData={optionalInfo}
-                clientData={clientInfo}
+      <Container
+        maxWidth="lg"
+        sx={{
+          my: 3,
+        }}
+      >
+        <Grid container>
+          <Grid size={12}>
+            {activeStep === 0 && (
+              <UserRegisterForm
                 role={role}
+                initialState={requiredInfo}
+                onSubmit={onUserSubmit}
+                updatePersonalInfo={updatePersonalInfo}
               />
-              <Grid
-                container
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
-                <Grid>
-                  <Button onClick={onHandlePrev} variant="outlined">
-                    Назад
-                  </Button>
+            )}
+            {activeStep === 1 &&
+              (user?.role === "client" ? (
+                <ClientRegisterForm
+                  initialState={clientInfo}
+                  onSubmit={clientProfileSubmit}
+                  prevStep={onHandlePrev}
+                  updatePersonalInfo={updatePersonalInfo}
+                />
+              ) : (
+                <TrainerRegisterForm
+                  initialState={optionalInfo}
+                  onSubmit={trainerProfileSubmit}
+                  prevStep={onHandlePrev}
+                  updatePersonalInfo={updatePersonalInfo}
+                />
+              ))}
+            {activeStep === 2 && (
+              <>
+                <RegisterPreview
+                  requiredData={requiredInfo}
+                  optionalData={optionalInfo}
+                  clientData={clientInfo}
+                  role={role}
+                />
+                <Grid
+                  container
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{
+                    mb: 1,
+                    mx: 1,
+                    maxWidth: "400px",
+                    marginLeft: {
+                      xs: "unset",
+                      md: role === "trainer" ? "0" : "auto",
+                    },
+                    marginRight: {
+                      xs: "unset",
+                      md: role === "client" ? "0" : "auto",
+                    },
+                  }}
+                >
+                  <Grid>
+                    <CustomButton
+                      variant="outlined"
+                      onClick={onHandlePrev}
+                      label="Назад"
+                    />
+                  </Grid>
+                  <Grid>
+                    <CustomButton
+                      variant="contained"
+                      onClick={() => {
+                        void createProfile(
+                          requiredInfo,
+                          optionalInfo,
+                          clientInfo,
+                        );
+                      }}
+                      label="Отправить"
+                    />
+                  </Grid>
                 </Grid>
-                <Grid>
-                  <Button
-                    variant={"contained"}
-                    sx={{ my: 3 }}
-                    onClick={() => {
-                      void createProfile(
-                        requiredInfo,
-                        optionalInfo,
-                        clientInfo,
-                      );
-                    }}
-                  >
-                    Отправить
-                  </Button>
-                </Grid>
-              </Grid>
-            </>
-          )}
-        </Grid>
-        <Grid size={12}>
-          <Stepper activeStep={activeStep}>
-            {stepLabels.map((label, index) => {
-              return (
+              </>
+            )}
+          </Grid>
+          <Grid
+            sx={{
+              my: 1,
+              mx: 1,
+              maxWidth: "400px",
+              width: "100%",
+              marginLeft: {
+                xs: "unset",
+                md: role === "trainer" ? "0" : "auto",
+              },
+              marginRight: {
+                xs: "unset",
+                md: role === "client" ? "0" : "auto",
+              },
+            }}
+          >
+            <Stepper
+              activeStep={activeStep}
+              alternativeLabel
+              sx={{ width: "100%" }}
+            >
+              {stepLabels.map((label, index) => (
                 <Step key={label} completed={activeStep > index}>
-                  <StepLabel>{label}</StepLabel>
+                  <StyledStepLabel>{label}</StyledStepLabel>
                 </Step>
-              );
-            })}
-          </Stepper>
+              ))}
+            </Stepper>
+            ;
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </Box>
   );
 };
 

@@ -3,8 +3,8 @@ import {
   Button,
   CardMedia,
   Container,
-  Dialog,
-  Typography,
+  Dialog, IconButton, Theme,
+  Typography, useMediaQuery,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
@@ -32,6 +32,7 @@ import { Link } from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { reloadUser } from "../../users/userThunk.ts";
+import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 interface TrainerProfileDetailsProps {
   trainerProfile: ITrainer | null;
@@ -82,6 +83,14 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     if (file) {
+      if (!file.type.startsWith("image/")) {
+        toast.error("Можно загружать только изображения!");
+        return;
+      }
+      if (file.size > 4 * 1024 * 1024) {
+        toast.error("Размер файла не должен превышать 4 МБ!");
+        return;
+      }
       setSelectedAvatar(file);
       const objectUrl = URL.createObjectURL(file);
       setAvatarImage(objectUrl);
@@ -121,6 +130,11 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   const handleDeleteAvatar = () => {
     setConfirmOpen(true);
   };
+
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+      theme.breakpoints.down("md"),
+  );
+
   return (
     <>
       <Box sx={{ backgroundColor: "#dedfe3", paddingY: "25px" }}>
@@ -150,13 +164,19 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 }}
               />
               {isOwner && (
-                <Button
+                <IconButton
                   onClick={handleClickOpen}
-                  sx={{ display: "flex", alignItems: "center" }}
+                  sx={{
+                    color: "#0288D1",
+                    borderColor: "#0288D1",
+                    "&:hover": {
+                      backgroundColor: "#dff3fc",
+                      borderColor: "#0288D1",
+                    },
+                  }}
                 >
-                  Изменить аватарку
-                  <CameraAltIcon sx={{ marginLeft: 1 }} />
-                </Button>
+                  <CameraAltIcon />
+                </IconButton>
               )}
             </Grid>
             <Grid
@@ -169,9 +189,36 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               <Box
                 sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
               >
-                <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-                  {trainerProfile?.user.firstName}{" "}
-                  {trainerProfile?.user.lastName}
+                <Box display="flex" justifyContent="space-between" alignItems="center">
+                  <Typography variant={isSmallScreen?"h5":"h4"} sx={{ fontWeight: "bold" }}>
+                    {trainerProfile?.user.firstName}{" "}
+                    {trainerProfile?.user.lastName}
+                  </Typography>
+                  {isOwner && (
+                      <Link
+                          to={`/edit-trainer/${id}`}
+                          style={{ textDecoration: "none" }}
+                      >
+                        <IconButton
+                            sx={{
+                              color: "#0288D1",
+                              borderColor: "#0288D1",
+                              "&:hover": {
+                                backgroundColor: "#dff3fc",
+                                borderColor: "#0288D1",
+                              },
+                            }}
+                        >
+                          <BorderColorIcon/>
+                        </IconButton>
+                      </Link>
+                  )}
+                </Box>
+                <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "600", marginBottom: "10px" }}
+                >
+                  Данные пользователя:
                 </Typography>
                 <Typography
                   variant="body2"
@@ -184,7 +231,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   }}
                 >
                   <LocalPhoneIcon />
-                  <strong>Номер телефона:</strong>{" "}
+                  {isSmallScreen ? <></> : <strong>Номер телефона:</strong>}
                   <span>{trainerProfile?.user.phoneNumber || "N/A"}</span>
                 </Typography>
                 <Typography
@@ -198,7 +245,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   }}
                 >
                   <CelebrationIcon />
-                  <strong>Дата рождения: </strong>
+                  {isSmallScreen?<></>:<strong>Дата рождения: </strong>}
                   <span>
                     {trainerProfile?.user.dateOfBirth.slice(0, 10) || "N/A"}
                   </span>
@@ -218,23 +265,23 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   {trainerProfile?.user.gender === "other" && (
                     <TransgenderIcon />
                   )}
-                  <strong>Пол:</strong>{" "}
-                  <span>{trainerProfile?.user.gender || "N/A"}</span>
+                  {isSmallScreen ? <></> : <strong>Пол:</strong> }{" "}
+                  <span style={{textTransform:"capitalize"}}>{trainerProfile?.user.gender || "N/A"}</span>
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ display: "flex", gap: "10px", alignItems: "center" }}
+                  sx={{ display: "flex", gap: "10px" }}
                 >
                   <FitnessCenterIcon />
-                  <strong>Specialization:</strong>{" "}
+                  {isSmallScreen ? <></> : <strong>Специализация:</strong> }{" "}
                   {trainerProfile?.specialization || "Специализация не указана"}
                 </Typography>
                 <Typography
                   variant="body1"
-                  sx={{ display: "flex", gap: "10px", alignItems: "center" }}
+                  sx={{ display: "flex", gap: "10px"}}
                 >
                   <AutoAwesomeIcon />
-                  <strong>Опыт:</strong>{" "}
+                  {isSmallScreen?<> </>:<strong>Опыт: </strong>}
                   {trainerProfile?.experience || "Опыт не указан"}
                 </Typography>
 
@@ -250,28 +297,6 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                     Связаться с тренером
                   </Button>
                 )}
-                {isOwner && (
-                  <Link
-                    to={`/edit-trainer/${id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        width: "fit-content",
-                        color: "#0288D1",
-                        borderColor: "#0288D1",
-                        borderRadius: "7px",
-                        "&:hover": {
-                          backgroundColor: "#dff3fc",
-                          borderColor: "#0288D1",
-                        },
-                      }}
-                    >
-                      Редактировать
-                    </Button>
-                  </Link>
-                )}
               </Box>
             </Grid>
           </Grid>
@@ -279,7 +304,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
       </Box>
 
       <Box sx={{ backgroundColor: "#e3f3fc", paddingY: "20px" }}>
-        <Container maxWidth="xl">
+        <Container maxWidth="lg">
           <Typography
             variant="body1"
             sx={{ fontSize: "16px", lineHeight: "1.6" }}

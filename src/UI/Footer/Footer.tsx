@@ -1,10 +1,20 @@
-import { styled, Typography, Box, Stack, Link } from "@mui/material";
+import {
+  Box,
+  Container,
+  Link,
+  Stack,
+  styled,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks.ts";
 import logo from "../../assets/images/logo.png";
 import { selectUser } from "../../features/users/userSlice.ts";
-import { Telegram } from "@mui/icons-material";
-import XIcon from "@mui/icons-material/X";
+import Grid from "@mui/material/Grid2";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const StyledLink = styled(NavLink)(({ theme }) => ({
   color: "inherit",
@@ -43,6 +53,7 @@ const Footer = () => {
     : [];
 
   const links = user?.role === "trainer" ? trainerLinks : clientLinks;
+  const mediaQuery = useMediaQuery("(min-width:1098px)");
 
   if (location.pathname === "/") {
     return (
@@ -50,56 +61,186 @@ const Footer = () => {
         component="footer"
         id="footer"
         sx={{
-          backgroundColor: "#000",
           color: "#fff",
-          py: 10,
-          px: { xs: 2, sm: 4 },
+          mt: 6,
           textAlign: { xs: "center", sm: "left" },
         }}
       >
-        <Typography variant="h5" gutterBottom mb={5}>
-          Контакты
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{ mb: 5, color: "#cccccc", maxWidth: 400 }}
+        <Grid
+          size={12}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          gap={2}
+          flexWrap="wrap"
+          sx={{ backgroundColor: "#0cc5d6", paddingY: "60px" }}
+        ></Grid>
+        <Container
+          maxWidth="lg"
+          sx={{
+            display: "flex",
+            justifyContent: mediaQuery ? "space-between" : "center",
+            flexWrap: "wrap",
+            pt: 4,
+          }}
         >
-          Следите за нами в социальных сетях, мы будем рады обратной связи и
-          вашим вопросам
-        </Typography>
-        <Stack direction="column" spacing={1} sx={{ mb: 3 }}>
-          <Typography variant="body2" sx={{ color: "#757575" }}>
-            E-mail:{" "}
-            <Link
-              href="mailto:hello@madeontilda.com"
-              color="inherit"
-              sx={{ textDecoration: "none", color: "#757575" }}
+          <Grid textAlign={mediaQuery ? "left" : "center"}>
+            <Typography variant="h4" fontWeight={"700"} mb={1} color={"#000"}>
+              WingsFit
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{ mb: 5, color: "#838383", maxWidth: 400 }}
             >
-              hello@madeontilda.com
-            </Link>
-          </Typography>
-          <Typography variant="body2" sx={{ color: "#757575" }}>
-            Телефон:{" "}
-            <Link
-              href="tel:+11234567890"
-              sx={{ textDecoration: "none", color: "#757575" }}
-            >
-              +1 123 456 78 90
-            </Link>
-          </Typography>
-        </Stack>
-        <Stack
-          direction="row"
-          justifyContent={{ xs: "center", sm: "flex-start" }}
-          spacing={2}
-        >
-          <Link href="#" color="inherit">
-            <XIcon fontSize="small" sx={{ color: "#e53935" }} />
-          </Link>
-          <Link href="#" color="inherit">
-            <Telegram fontSize="small" sx={{ color: "#e53935" }} />
-          </Link>
-        </Stack>
+              Следите за нами в социальных сетях, мы будем рады обратной связи и
+              вашим вопросам
+            </Typography>
+            <Stack direction="column" spacing={1} sx={{ mb: 3 }}>
+              <Typography variant="body2" sx={{ color: "#353535" }}>
+                Lorem ipsum
+              </Typography>
+              <Grid
+                display={"flex"}
+                justifyContent={mediaQuery ? "left" : "center"}
+                gap={"7px"}
+              >
+                <FitnessCenterIcon sx={{ color: "#000" }} />
+                <DirectionsRunIcon sx={{ color: "#000" }} />
+                <FavoriteIcon sx={{ color: "#000" }} />
+              </Grid>
+            </Stack>
+          </Grid>
+          <Grid
+            display={"flex"}
+            justifyContent={"center"}
+            flexWrap={"wrap"}
+            gap={"50px"}
+          >
+            <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
+              <Typography variant="h6" color={"#000"}>
+                Profiles
+              </Typography>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Conversation
+              </Link>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Fitness Apps
+              </Link>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Premium
+              </Link>
+            </Grid>
+            <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
+              <Typography variant="h6" color={"#000"}>
+                Locations
+              </Typography>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Interests
+              </Link>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Profile
+              </Link>
+            </Grid>
+            <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
+              <Typography variant="h6" color={"#000"}>
+                Chat
+              </Typography>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Explore
+              </Link>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Fitness
+              </Link>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Fitness
+              </Link>
+            </Grid>
+            <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
+              <Typography variant="h6" color={"#000"}>
+                Stay connected
+              </Typography>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Lorem ipsum
+              </Link>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Exerose
+              </Link>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Customer
+              </Link>
+            </Grid>
+            <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
+              <Typography variant="h6" color={"#000"}>
+                Lorem
+              </Typography>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Lorem
+              </Link>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Feedback
+              </Link>
+              <Link
+                href="#"
+                color="inherit"
+                sx={{ textDecoration: "none", color: "#757575" }}
+              >
+                Contact
+              </Link>
+            </Grid>
+          </Grid>
+        </Container>
       </Box>
     );
   }

@@ -67,8 +67,8 @@ const Register = () => {
             alt="logo"
             sx={{ width: 150, height: 100, mb: 2 }}
           />
-          <Typography component="h1" variant="h4" gutterBottom>
-            Join us for fitness fun!
+          <Typography component="h1" variant="h5" gutterBottom>
+            Присоединяйтесь к нам <br /> и наслаждайтесь фитнесом!
           </Typography>
           <Box
             component="form"
@@ -94,7 +94,7 @@ const Register = () => {
                 <TextField
                   required
                   type="password"
-                  label="Password"
+                  label="Пароль"
                   name="password"
                   autoComplete="new-password"
                   value={state.password}
@@ -107,7 +107,7 @@ const Register = () => {
                 <TextField
                   required
                   type="password"
-                  label="Confirm Password"
+                  label="Подтвердите пароль"
                   name="confirmPassword"
                   autoComplete="new-password"
                   value={state.confirmPassword}
@@ -124,12 +124,12 @@ const Register = () => {
               sx={{ mt: 3, mb: 2 }}
               loading={loading}
             >
-              Get Started
+              Регистрация
             </LoadingButton>
             <Typography variant="body1">
-              New to FitConnect?{" "}
+              Вы уже в FitConnect?{" "}
               <Link component={RouterLink} to={`/login/${role}`}>
-                Sign
+                Войти
               </Link>
             </Typography>
           </Box>

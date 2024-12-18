@@ -13,7 +13,7 @@ export interface FullTrainerProfileMutation extends TrainerProfileMutation {
   firstName: string;
   lastName: string;
   gender: string;
-  phoneNumber: string;
+  phoneNumber?: string;
   dateOfBirth: string;
   timeZone: ITimezone;
 }
