@@ -1,13 +1,13 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import AllChats from "./components/AllChats.tsx";
 import Messages from "./components/Messages.tsx";
-import {Container} from "@mui/material";
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {selectGroupChats, selectPrivateChats} from "./chatsSlice.ts";
-import {getGroupChats, getPrivateChats} from "./chatsThunks.ts";
-import {selectUser} from "../users/userSlice.ts";
-import {OneChat} from "../../types/chatTypes.ts";
+import { Container } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
+import { selectGroupChats, selectPrivateChats } from "./chatsSlice.ts";
+import { getGroupChats, getPrivateChats } from "./chatsThunks.ts";
+import { selectUser } from "../users/userSlice.ts";
+import { OneChat } from "../../types/chatTypes.ts";
 
 const Chat = () => {
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);

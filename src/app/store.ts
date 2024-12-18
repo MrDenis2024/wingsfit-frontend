@@ -21,7 +21,7 @@ import { adminsReducer } from "../features/admin/admins/adminSlice.ts";
 import { groupsReducer } from "../features/groups/groupsSlice.ts";
 import { reviewReducer } from "../features/reviewForm/reviewSlice.ts";
 import { trainerStatisticReducer } from "../features/trainers/statistic/trainerStatisticSlice.ts";
-import {chatsReducer} from "../features/chat/chatsSlice.ts";
+import { chatsReducer } from "../features/chat/chatsSlice.ts";
 
 const usersPersistConfig = {
   key: "wingsfit:users",
@@ -41,7 +41,7 @@ const rootReducer = combineReducers({
   admins: adminsReducer,
   review: reviewReducer,
   trainerStatistic: trainerStatisticReducer,
-  chats:chatsReducer,
+  chats: chatsReducer,
 });
 
 export const store = configureStore({

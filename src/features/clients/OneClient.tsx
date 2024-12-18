@@ -7,15 +7,17 @@ import {
 } from "./clientSlice.ts";
 import { fetchUpdateAvatarClient, getClientProfile } from "./clientThunk.ts";
 import {
-    Box,
-    Button,
-    CardMedia,
-    Collapse,
-    Container,
-    Dialog,
-    Grid2,
-    IconButton, Theme,
-    Typography, useMediaQuery,
+  Box,
+  Button,
+  CardMedia,
+  Collapse,
+  Container,
+  Dialog,
+  Grid2,
+  IconButton,
+  Theme,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import CelebrationIcon from "@mui/icons-material/Celebration";
@@ -92,14 +94,14 @@ const OneClient = () => {
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;
     if (file) {
-        if (!file.type.startsWith("image/")) {
-            toast.error("Можно загружать только изображения!");
-            return;
-        }
-        if (file.size > 4 * 1024 * 1024) {
-            toast.error("Размер файла не должен превышать 4 МБ!");
-            return;
-        }
+      if (!file.type.startsWith("image/")) {
+        toast.error("Можно загружать только изображения!");
+        return;
+      }
+      if (file.size > 4 * 1024 * 1024) {
+        toast.error("Размер файла не должен превышать 4 МБ!");
+        return;
+      }
       setSelectedAvatar(file);
       const objectUrl = URL.createObjectURL(file);
       setAvatarImage(objectUrl);
@@ -140,9 +142,9 @@ const OneClient = () => {
     setConfirmOpen(true);
   };
 
-    const isSmallScreen = useMediaQuery((theme: Theme) =>
-        theme.breakpoints.down("md"),
-    );
+  const isSmallScreen = useMediaQuery((theme: Theme) =>
+    theme.breakpoints.down("md"),
+  );
 
   if (isLoading) {
     return (
@@ -188,19 +190,19 @@ const OneClient = () => {
                     margin: "0 auto",
                   }}
                 />
-                  <IconButton
-                      onClick={handleClickOpen}
-                      sx={{
-                          color: "#0288D1",
-                          borderColor: "#0288D1",
-                          "&:hover": {
-                              backgroundColor: "#dff3fc",
-                              borderColor: "#0288D1",
-                          },
-                      }}
-                  >
-                      <CameraAltIcon />
-                  </IconButton>
+                <IconButton
+                  onClick={handleClickOpen}
+                  sx={{
+                    color: "#0288D1",
+                    borderColor: "#0288D1",
+                    "&:hover": {
+                      backgroundColor: "#dff3fc",
+                      borderColor: "#0288D1",
+                    },
+                  }}
+                >
+                  <CameraAltIcon />
+                </IconButton>
               </Grid>
               <Grid
                 size={{ md: 7, sm: 6, xs: 12 }}
@@ -209,32 +211,38 @@ const OneClient = () => {
                   px: "15px",
                 }}
               >
-                <Box  sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                    <Box display="flex" justifyContent="space-between" alignItems="center">
-                  <Typography
-                    variant={isSmallScreen?"h5":"h4"}
-                    sx={{ fontWeight: "bold", marginBottom: "10px" }}
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
+                >
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
                   >
-                    {oneClient?.user.firstName} {oneClient?.user.lastName}
-                  </Typography>
-                    <Link
-                        to={`/edit-client/${id}`}
-                        style={{ textDecoration: "none" }}
+                    <Typography
+                      variant={isSmallScreen ? "h5" : "h4"}
+                      sx={{ fontWeight: "bold", marginBottom: "10px" }}
                     >
-                        <IconButton
-                            sx={{
-                                color: "#0288D1",
-                                borderColor: "#0288D1",
-                                "&:hover": {
-                                    backgroundColor: "#dff3fc",
-                                    borderColor: "#0288D1",
-                                },
-                            }}
-                        >
-                            <BorderColorIcon/>
-                        </IconButton>
+                      {oneClient?.user.firstName} {oneClient?.user.lastName}
+                    </Typography>
+                    <Link
+                      to={`/edit-client/${id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <IconButton
+                        sx={{
+                          color: "#0288D1",
+                          borderColor: "#0288D1",
+                          "&:hover": {
+                            backgroundColor: "#dff3fc",
+                            borderColor: "#0288D1",
+                          },
+                        }}
+                      >
+                        <BorderColorIcon />
+                      </IconButton>
                     </Link>
-                    </Box>
+                  </Box>
                   <Typography
                     variant="h6"
                     sx={{ fontWeight: "600", marginBottom: "10px" }}
@@ -252,7 +260,7 @@ const OneClient = () => {
                     }}
                   >
                     <LocalPhoneIcon />
-                      {isSmallScreen ? <></> : <strong>Номер телефона:</strong>}
+                    {isSmallScreen ? <></> : <strong>Номер телефона:</strong>}
                     <span>{oneClient?.user.phoneNumber}</span>
                   </Typography>
                   <Typography
@@ -266,7 +274,7 @@ const OneClient = () => {
                     }}
                   >
                     <CelebrationIcon />
-                      {isSmallScreen ? <></> : <strong>Дата рождения:</strong>}
+                    {isSmallScreen ? <></> : <strong>Дата рождения:</strong>}
                     <span>
                       {oneClient?.user.dateOfBirth?.slice(0, 10) || "N/A"}
                     </span>
@@ -284,8 +292,8 @@ const OneClient = () => {
                     {oneClient?.user.gender === "male" && <MaleIcon />}
                     {oneClient?.user.gender === "female" && <FemaleIcon />}
                     {oneClient?.user.gender === "other" && <TransgenderIcon />}
-                      {isSmallScreen ? <></> : <strong>Пол:</strong>}
-                      <span>{oneClient?.user.gender || "N/A"}</span>
+                    {isSmallScreen ? <></> : <strong>Пол:</strong>}
+                    <span>{oneClient?.user.gender || "N/A"}</span>
                   </Typography>
                   <Typography
                     variant="body2"
@@ -298,7 +306,7 @@ const OneClient = () => {
                     }}
                   >
                     <SportsGymnasticsIcon />
-                      {isSmallScreen ? <></> : <strong>Предпочитения:</strong>}
+                    {isSmallScreen ? <></> : <strong>Предпочитения:</strong>}
                     {preferredWorkoutType.map((type, index) => {
                       return (
                         <span key={type._id}>
@@ -349,7 +357,11 @@ const OneClient = () => {
                       }}
                     >
                       <SchoolIcon />
-                        {isSmallScreen ? <></> : <strong>Уровень тренировоу:</strong>}
+                      {isSmallScreen ? (
+                        <></>
+                      ) : (
+                        <strong>Уровень тренировоу:</strong>
+                      )}
                       {oneClient?.trainingLevel}
                     </Typography>
                     <Typography
@@ -362,7 +374,12 @@ const OneClient = () => {
                         marginBottom: "5px",
                       }}
                     >
-                      <HealingIcon /> {isSmallScreen ? <></> : <strong>Физичкские данные:</strong>}
+                      <HealingIcon />{" "}
+                      {isSmallScreen ? (
+                        <></>
+                      ) : (
+                        <strong>Физичкские данные:</strong>
+                      )}
                       {oneClient?.physicalData}
                     </Typography>
                   </Collapse>
@@ -385,7 +402,7 @@ const OneClient = () => {
                         variant="h6"
                         sx={{ fontSize: "12px", color: "#01579B" }}
                       >
-                       Нет активных подписок на тренировки
+                        Нет активных подписок на тренировки
                       </Typography>
                     ) : (
                       oneClient?.subscribes?.map((subscription, index) => (

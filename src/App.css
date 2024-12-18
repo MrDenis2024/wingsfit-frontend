@@ -1,13 +1,13 @@
 .PhoneInputInput {
-    border: none;
-    background: none;
-    padding: 13px;
-    font-size: 16px;
+  border: none;
+  background: none;
+  padding: 13px;
+  font-size: 16px;
 }
 
 @media (max-width: 600px) {
-    .PhoneInputInput {
-        padding: 8px;
-        font-size: 14px;
-    }
+  .PhoneInputInput {
+    padding: 8px;
+    font-size: 14px;
+  }
 }

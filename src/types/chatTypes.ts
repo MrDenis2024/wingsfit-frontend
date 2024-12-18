@@ -38,12 +38,12 @@ export interface Message {
     _id: string;
     user: string;
     read: boolean;
-  }
+  };
 }
 
 export interface SuccessLoginIncomingMessage {
-  type: "LOGIN_SUCCESS",
-  payload: { userName: string, userId: string },
+  type: "LOGIN_SUCCESS";
+  payload: { userName: string; userId: string };
 }
 
 export interface LatestMessagesIncomingMessage {
@@ -71,7 +71,7 @@ export interface ErrorIncomingMessage {
 }
 
 export type IncomingMessage =
-  SuccessLoginIncomingMessage
+  | SuccessLoginIncomingMessage
   | LatestMessagesIncomingMessage
   | SendingMessageMessage
   | NewMessageIncomingMessage
