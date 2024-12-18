@@ -7,15 +7,15 @@ import {
 } from "./clientSlice.ts";
 import { fetchUpdateAvatarClient, getClientProfile } from "./clientThunk.ts";
 import {
-  Box,
-  Button,
-  CardMedia,
-  Collapse,
-  Container,
-  Dialog,
-  Grid2,
-  IconButton,
-  Typography,
+    Box,
+    Button,
+    CardMedia,
+    Collapse,
+    Container,
+    Dialog,
+    Grid2,
+    IconButton, Theme,
+    Typography, useMediaQuery,
 } from "@mui/material";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import CelebrationIcon from "@mui/icons-material/Celebration";
@@ -38,6 +38,7 @@ import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import CustomConfirmDialog from "../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { reloadUser } from "../users/userThunk.ts";
 import Grid from "@mui/material/Grid2";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 const OneClient = () => {
   const { id } = useParams() as { id: string };
@@ -139,6 +140,10 @@ const OneClient = () => {
     setConfirmOpen(true);
   };
 
+    const isSmallScreen = useMediaQuery((theme: Theme) =>
+        theme.breakpoints.down("md"),
+    );
+
   if (isLoading) {
     return (
       <Box
@@ -180,16 +185,22 @@ const OneClient = () => {
                     height: 220,
                     borderRadius: "50%",
                     objectFit: "cover",
-                    marginBottom: "15px",
+                    margin: "0 auto",
                   }}
                 />
-                <Button
-                  onClick={handleClickOpen}
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  Изменить аватарку
-                  <CameraAltIcon sx={{ marginLeft: 1 }} />
-                </Button>
+                  <IconButton
+                      onClick={handleClickOpen}
+                      sx={{
+                          color: "#0288D1",
+                          borderColor: "#0288D1",
+                          "&:hover": {
+                              backgroundColor: "#dff3fc",
+                              borderColor: "#0288D1",
+                          },
+                      }}
+                  >
+                      <CameraAltIcon />
+                  </IconButton>
               </Grid>
               <Grid
                 size={{ md: 7, sm: 6, xs: 12 }}
@@ -198,13 +209,32 @@ const OneClient = () => {
                   px: "15px",
                 }}
               >
-                <Box>
+                <Box  sx={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <Box display="flex" justifyContent="space-between" alignItems="center">
                   <Typography
-                    variant="h4"
+                    variant={isSmallScreen?"h5":"h4"}
                     sx={{ fontWeight: "bold", marginBottom: "10px" }}
                   >
                     {oneClient?.user.firstName} {oneClient?.user.lastName}
                   </Typography>
+                    <Link
+                        to={`/edit-client/${id}`}
+                        style={{ textDecoration: "none" }}
+                    >
+                        <IconButton
+                            sx={{
+                                color: "#0288D1",
+                                borderColor: "#0288D1",
+                                "&:hover": {
+                                    backgroundColor: "#dff3fc",
+                                    borderColor: "#0288D1",
+                                },
+                            }}
+                        >
+                            <BorderColorIcon/>
+                        </IconButton>
+                    </Link>
+                    </Box>
                   <Typography
                     variant="h6"
                     sx={{ fontWeight: "600", marginBottom: "10px" }}
@@ -222,7 +252,7 @@ const OneClient = () => {
                     }}
                   >
                     <LocalPhoneIcon />
-                    <strong>Номер телефона:</strong>{" "}
+                      {isSmallScreen ? <></> : <strong>Номер телефона:</strong>}
                     <span>{oneClient?.user.phoneNumber}</span>
                   </Typography>
                   <Typography
@@ -236,7 +266,7 @@ const OneClient = () => {
                     }}
                   >
                     <CelebrationIcon />
-                    <strong>Дата рождения: </strong>
+                      {isSmallScreen ? <></> : <strong>Дата рождения:</strong>}
                     <span>
                       {oneClient?.user.dateOfBirth?.slice(0, 10) || "N/A"}
                     </span>
@@ -254,8 +284,8 @@ const OneClient = () => {
                     {oneClient?.user.gender === "male" && <MaleIcon />}
                     {oneClient?.user.gender === "female" && <FemaleIcon />}
                     {oneClient?.user.gender === "other" && <TransgenderIcon />}
-                    <strong>Пол:</strong>{" "}
-                    <span>{oneClient?.user.gender || "N/A"}</span>
+                      {isSmallScreen ? <></> : <strong>Пол:</strong>}
+                      <span>{oneClient?.user.gender || "N/A"}</span>
                   </Typography>
                   <Typography
                     variant="body2"
@@ -268,7 +298,7 @@ const OneClient = () => {
                     }}
                   >
                     <SportsGymnasticsIcon />
-                    <strong>Предпочитения: </strong>
+                      {isSmallScreen ? <></> : <strong>Предпочитения:</strong>}
                     {preferredWorkoutType.map((type, index) => {
                       return (
                         <span key={type._id}>
@@ -318,7 +348,8 @@ const OneClient = () => {
                         marginBottom: "5px",
                       }}
                     >
-                      <SchoolIcon /> <strong>Training level:</strong>{" "}
+                      <SchoolIcon />
+                        {isSmallScreen ? <></> : <strong>Уровень тренировоу:</strong>}
                       {oneClient?.trainingLevel}
                     </Typography>
                     <Typography
@@ -331,7 +362,7 @@ const OneClient = () => {
                         marginBottom: "5px",
                       }}
                     >
-                      <HealingIcon /> <strong>Physical data:</strong>{" "}
+                      <HealingIcon /> {isSmallScreen ? <></> : <strong>Физичкские данные:</strong>}
                       {oneClient?.physicalData}
                     </Typography>
                   </Collapse>
@@ -339,7 +370,7 @@ const OneClient = () => {
 
                 <Box sx={{ textAlign: "start", marginBottom: "20px" }}>
                   <Typography variant="h6" sx={{ fontWeight: "600" }}>
-                    Subscribed to
+                    Подписки
                   </Typography>
                   <Box
                     sx={{
@@ -354,7 +385,7 @@ const OneClient = () => {
                         variant="h6"
                         sx={{ fontSize: "12px", color: "#01579B" }}
                       >
-                        Not subscribed to any workouts.
+                       Нет активных подписок на тренировки
                       </Typography>
                     ) : (
                       oneClient?.subscribes?.map((subscription, index) => (
@@ -369,67 +400,8 @@ const OneClient = () => {
                     )}
                   </Box>
                 </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "end",
-                    gap: "15px",
-                    marginTop: "20px",
-                  }}
-                >
-                  <Link
-                    to={`/edit-client/${id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <Button
-                      variant="outlined"
-                      sx={{
-                        width: "fit-content",
-                        color: "#0288D1",
-                        borderColor: "#0288D1",
-                        borderRadius: "7px",
-                        "&:hover": {
-                          backgroundColor: "#dff3fc",
-                          borderColor: "#0288D1",
-                        },
-                      }}
-                    >
-                      Edit profile
-                    </Button>
-                  </Link>
-                </Box>
               </Grid>
             </Grid>
-            {/*   <Box*/}
-            {/*        sx={{*/}
-            {/*        display: "flex",*/}
-            {/*        flexDirection: "column",*/}
-            {/*        alignItems: "center",*/}
-            {/*    }}*/}
-            {/*  >*/}
-
-            {/*      <CardMedia*/}
-            {/*          component="img"*/}
-            {/*          image={cardImage}*/}
-            {/*          alt={`Фото профиля ${oneClient.user.firstName}`}*/}
-            {/*          sx={{*/}
-            {/*              width: 220,*/}
-            {/*              height: 220,*/}
-            {/*              borderRadius: "50%",*/}
-            {/*              objectFit: "cover",*/}
-            {/*              marginBottom: "15px",*/}
-            {/*          }}*/}
-            {/*  />*/}
-            {/*  <Button*/}
-            {/*    onClick={handleClickOpen}*/}
-            {/*    sx={{ display: "flex", alignItems: "center" }}*/}
-            {/*  >*/}
-            {/*    Изменить аватарку*/}
-            {/*    <CameraAltIcon sx={{ marginLeft: 1 }} />*/}
-            {/*  </Button>*/}
-            {/*</Box>*/}
           </Container>
           <Dialog
             open={open}
