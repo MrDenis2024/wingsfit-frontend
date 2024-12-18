@@ -24,14 +24,14 @@ const MessagesList: React.FC<Props> = ({ messages }) => {
           <ListItem
             key={index}
             sx={{
-              justifyContent: msg.author === "Я" ? "flex-end" : "flex-start",
+              // justifyContent: msg.author === "Я" ? "flex-end" : "flex-start",
             }}
           >
             <Grid
               sx={{
                 display: "flex",
-                flexDirection: msg.author === "Я" ? "row" : "row-reverse",
-                bgcolor: msg.author === "Я" ? "lightblue" : "lightgray",
+                // flexDirection: msg.author === "Я" ? "row" : "row-reverse",
+                // bgcolor: msg.author === "Я" ? "lightblue" : "lightgray",
                 p: "8px",
                 borderRadius: "8px",
                 alignItems: "center",
@@ -42,12 +42,12 @@ const MessagesList: React.FC<Props> = ({ messages }) => {
               <Typography
                 variant="caption"
                 sx={{
-                  ml: msg.author === "Я" ? 1 : 0,
-                  mr: msg.author === "Я" ? 0 : 1,
+                  // ml: msg.author === "Я" ? 1 : 0,
+                  // mr: msg.author === "Я" ? 0 : 1,
                   lineHeight: 1.5,
                 }}
               >
-                {msg.author}, {new Date(msg.createdAt).toLocaleTimeString()}
+                {/*{msg.author}, {new Date(msg.createdAt).toLocaleTimeString()}*/}
               </Typography>
             </Grid>
           </ListItem>
