@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Grid from "@mui/material/Grid2";
-import { Typography } from "@mui/material";
+import {Typography, useMediaQuery} from "@mui/material";
 import CourseCards from "../../courses/components/CourseCards.tsx";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectTrainers } from "../../trainers/trainersSlice.ts";
@@ -14,6 +14,8 @@ const ClientMainPage = () => {
   const user = useAppSelector(selectUser);
   const trainers = useAppSelector(selectTrainers);
   const courses = useAppSelector(selectCourses);
+  const isSmall = useMediaQuery('(max-width: 840px)');
+  const isMedium = useMediaQuery('(max-width: 1200px)');
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -38,10 +40,16 @@ const ClientMainPage = () => {
         <CourseCards courses={courses} />
       </Grid>
       <Grid container direction="column" sx={{ my: 3 }}>
-        <Typography variant="h4" component="h2">
-          Тренеры
+        <Typography variant="h4" component="h2" mb={3}>
+          Наши тренера
         </Typography>
-        <TrainersMatchingCards trainers={trainers} />
+        <TrainersMatchingCards
+          trainers={trainers}
+          itemsPerSlide={
+          isSmall ? 1 :
+          isMedium ? 2 : 3
+        }
+        />
       </Grid>
     </>
   );

@@ -47,8 +47,8 @@ const TrainerCard: React.FC<Props> = ({
       <Grid
         sx={{
           width: {
-            xs: "250px",
             sm: "360px",
+            xs: "100%",
           },
         }}
       >
@@ -56,16 +56,16 @@ const TrainerCard: React.FC<Props> = ({
           <Card
             sx={{
               height: "100%",
-              padding: "20px",
+              padding: "15px",
               display: "flex",
             }}
           >
             <Avatar
-              sx={{width: 100, height: 100}}
+              sx={{width: 70, height: 70, mt: 2}}
               src={cardImage}
               alt={`${firstName} ${lastName}`}
             />
-            <CardHeader title={`${firstName} ${lastName}`}/>
+            <CardHeader variant="h6" title={`${firstName} ${lastName}`}/>
           </Card>
         </StyledLink>
       </Grid>
