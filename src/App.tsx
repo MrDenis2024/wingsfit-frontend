@@ -231,7 +231,7 @@ const App = () => {
             }
           />
           <Route
-            path="/chat"
+            path="/:role/chats/:id"
             element={
               <ProtectedRoute isAllowed={!!user}>
                 <Chat />
