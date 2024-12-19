@@ -405,14 +405,19 @@ const OneClient = () => {
                         Нет активных подписок на тренировки
                       </Typography>
                     ) : (
-                      oneClient?.subscribes?.map((subscription, index) => (
-                        <Typography
-                          key={index}
-                          variant="body2"
-                          sx={{ fontSize: "12px", color: "#01579B" }}
+                      oneClient?.subscribes?.map((subscription) => (
+                        <Link
+                          key={subscription._id}
+                          to={`/courses/${subscription._id}`}
+                          style={{ textDecoration: "none" }}
                         >
-                          {subscription}
-                        </Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{ fontSize: "12px", color: "#01579B" }}
+                          >
+                            {subscription.title}
+                          </Typography>
+                        </Link>
                       ))
                     )}
                   </Box>

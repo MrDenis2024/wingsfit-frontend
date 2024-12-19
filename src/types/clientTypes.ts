@@ -18,7 +18,7 @@ export interface FullClientProfileMutation extends ClientProfileMutation {
 export interface IClient {
   _id: string;
   user: IUser;
-  subscribes: string[];
+  subscribes: { _id: string; title: string }[];
   preferredWorkoutType: string[];
   trainingLevel: string;
   physicalData: string;
