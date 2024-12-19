@@ -41,7 +41,7 @@ const AvatarUploader: React.FC<Props> = ({ trainerProfile, clientProfile, open, 
         } else if (isClient && clientProfile?.user.avatar) {
             setAvatarImage(`${apiURL}/${clientProfile.user.avatar}`);
         }
-    }, [trainerProfile, clientProfile]);
+    }, [trainerProfile, clientProfile, isTrainer, isClient]);
 
     const handleClose = () => {
         onClose();
