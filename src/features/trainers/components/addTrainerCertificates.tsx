@@ -1,7 +1,6 @@
 import {
   Box,
   Collapse,
-  Grid2,
   IconButton,
   TextField,
   Typography,
@@ -12,6 +11,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   onSubmit: (certificates: { title: string; image: File }[]) => void;
@@ -61,8 +61,8 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
   };
 
   return (
-    <Grid2 container spacing={2}>
-      <Grid2 onClick={toggleStatus}>
+    <Grid container spacing={2}>
+      <Grid onClick={toggleStatus}>
         <Box
           sx={{
             display: "flex",
@@ -84,9 +84,9 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
             onSubmit={submitFormHandler}
             onClick={(e) => e.stopPropagation()}
           >
-            <Grid2 container spacing={2} flexDirection="column">
+            <Grid container spacing={2} flexDirection="column">
               <Box>
-                <Grid2>
+                <Grid>
                   <TextField
                     label="Название сертификата"
                     value={state.title}
@@ -95,16 +95,16 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
                     required
                     sx={{ width: "100%", maxWidth: "300px", mb: 2 }}
                   />
-                </Grid2>
-                <Grid2 sx={{ width: "450px" }}>
+                </Grid>
+                <Grid sx={{ width: "450px" }}>
                   <FileInput
                     label="Загрузить сертификат"
                     name="image"
                     onChange={fileInputChangeHandler}
                   />
-                </Grid2>
+                </Grid>
               </Box>
-              <Grid2>
+              <Grid>
                 <LoadingButton
                   type="submit"
                   loading={isLoading}
@@ -114,12 +114,12 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
                 >
                   <span>Сохранить</span>
                 </LoadingButton>
-              </Grid2>
-            </Grid2>
+              </Grid>
+            </Grid>
           </Box>
         </Collapse>
-      </Grid2>
-    </Grid2>
+      </Grid>
+    </Grid>
   );
 };
 
