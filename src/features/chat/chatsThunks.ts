@@ -1,9 +1,9 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GroupChat, PrivateChat } from "../../types/chatTypes.ts";
-import { RootState } from "../../app/store.ts";
-import { GlobalError } from "../../types/userTypes.ts";
+import {createAsyncThunk} from "@reduxjs/toolkit";
+import {FetchMessagesParams, GroupChat, PrivateChat} from "../../types/chatTypes.ts";
+import {RootState} from "../../app/store.ts";
+import {GlobalError} from "../../types/userTypes.ts";
 import axiosApi from "../../axiosApi.ts";
-import { isAxiosError } from "axios";
+import {isAxiosError} from "axios";
 
 export const getGroupChats = createAsyncThunk<
   (GroupChat & { type: "group" })[],
@@ -12,9 +12,9 @@ export const getGroupChats = createAsyncThunk<
     state: RootState;
     rejectValue: GlobalError;
   }
->("chats/getGroupChats", async (_, { rejectWithValue }) => {
+>("chats/getGroupChats", async (_, {rejectWithValue}) => {
   try {
-    const { data: groupChats } =
+    const {data: groupChats} =
       await axiosApi.get<GroupChat[]>("/chats/groupChats");
     return groupChats.map((chat) => ({
       ...chat,
@@ -38,9 +38,9 @@ export const getPrivateChats = createAsyncThunk<
   {
     rejectValue: GlobalError;
   }
->("chats/getPrivateChats", async (_, { rejectWithValue }) => {
+>("chats/getPrivateChats", async (_, {rejectWithValue}) => {
   try {
-    const { data: privateChats } = await axiosApi.get<PrivateChat[]>(
+    const {data: privateChats} = await axiosApi.get<PrivateChat[]>(
       "/chats/privateChats",
     );
     return privateChats.map((chat) => ({
@@ -53,8 +53,23 @@ export const getPrivateChats = createAsyncThunk<
       error.response &&
       error.response.status === 400
     ) {
-      return rejectWithValue(error.response.data); // Return the error response
+      return rejectWithValue(error.response.data);
     }
     throw error;
   }
 });
+
+export const fetchMessages = createAsyncThunk(
+  "chats/fetchMessages",
+  async ({ chatId, page, limit }: FetchMessagesParams, thunkAPI) => {
+    try {
+      const {data: messages} = await axiosApi(`/chats/${chatId}/messages`, {
+        params: { page, limit },
+      });
+
+      return { chatId, messages: messages};
+    } catch (error) {
+      return thunkAPI.rejectWithValue({error: error});
+    }
+  }
+);
