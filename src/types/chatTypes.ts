@@ -24,7 +24,13 @@ export interface PrivateChat {
   };
 }
 
-export interface Message {
+export interface FetchMessagesParams {
+  chatId: string;
+  page: number;
+  limit: number;
+}
+
+export interface PrivateChatMessage {
   _id: string;
   privateChat: string;
   author: {
@@ -41,6 +47,31 @@ export interface Message {
   };
 }
 
+export interface GroupChatMessage {
+  _id: string;
+  groupChat: string;
+  author: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+  };
+  message: string;
+  createdAt: string;
+  isRead: {
+    _id: string;
+    user: string;
+    read: boolean;
+  };
+}
+
+export interface ChatMessages {
+  [chatId: string]: {
+    messages: (GroupChatMessage | PrivateChatMessage)[];
+    hasMore: boolean;
+    error: string | null;
+  };
+}
+
 export interface SuccessLoginIncomingMessage {
   type: "LOGIN_SUCCESS";
   payload: { userName: string; userId: string };
@@ -49,11 +80,11 @@ export interface SuccessLoginIncomingMessage {
 export interface LatestMessagesIncomingMessage {
   type: "GET_LAST";
   payload: {
-    latestMessages: Message[];
+    latestMessages: (GroupChatMessage | PrivateChatMessage)[];
   };
 }
 
-export interface SendingMessageMessage {
+export interface SendingMessageIncomingMessage {
   type: "SEND_MESSAGE";
   payload: {
     message: string;
@@ -62,7 +93,7 @@ export interface SendingMessageMessage {
 
 export interface NewMessageIncomingMessage {
   type: "NEW_MESSAGE";
-  payload: Message;
+  payload: GroupChatMessage | PrivateChatMessage;
 }
 
 export interface ErrorIncomingMessage {
@@ -73,6 +104,6 @@ export interface ErrorIncomingMessage {
 export type IncomingMessage =
   | SuccessLoginIncomingMessage
   | LatestMessagesIncomingMessage
-  | SendingMessageMessage
+  | SendingMessageIncomingMessage
   | NewMessageIncomingMessage
   | ErrorIncomingMessage;
