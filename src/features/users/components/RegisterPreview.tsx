@@ -68,6 +68,9 @@ const RegisterPreview: React.FC<Props> = ({
             sx={{
               fontWeight: "bold",
               mb: 2,
+              "@media (max-width: 350px)": {
+                fontSize: "16px",
+              },
             }}
           >
             Обязательная информация:
@@ -119,6 +122,9 @@ const RegisterPreview: React.FC<Props> = ({
                 sx={{
                   fontWeight: "bold",
                   mb: 2,
+                  "@media (max-width: 350px)": {
+                    fontSize: "16px",
+                  },
                 }}
               >
                 Дополнительная информация о тренере
@@ -182,6 +188,9 @@ const RegisterPreview: React.FC<Props> = ({
                 sx={{
                   fontWeight: "bold",
                   mb: 2,
+                  "@media (max-width: 350px)": {
+                    fontSize: "16px",
+                  },
                 }}
               >
                 Информация о клиенте:
