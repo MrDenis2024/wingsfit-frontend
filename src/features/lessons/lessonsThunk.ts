@@ -57,7 +57,7 @@ export const patchLesson = createAsyncThunk<
   try {
     const updatedData = {
       ...data,
-      presentUser: data.presentUser || [], // Убедитесь, что это массив
+      presentUser: data.presentUser || [],
       timeZone: data.timeZone ? data.timeZone.value : undefined,
     };
 
