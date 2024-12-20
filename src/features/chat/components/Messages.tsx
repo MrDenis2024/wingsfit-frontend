@@ -1,45 +1,28 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Typography } from "@mui/material";
-// import MessagesList from "./MessagesList.tsx";
 import Grid from "@mui/material/Grid2";
 import ChatForm from "./ChatForm.tsx";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
+import {selectChatMessages} from "../chatsSlice.ts";
+import {fetchMessages} from "../chatsThunks.ts";
+import MessagesList from "./MessagesList.tsx";
 
 interface Props {
   chatId: string | null;
 }
 
 const Messages: React.FC<Props> = ({ chatId }) => {
-  // let messages;
+  const dispatch = useAppDispatch();
+  const chatMessages = useAppSelector(selectChatMessages);
 
-  // if (chatId === "123") {
-  //   messages = [
-  //     {
-  //       author: "Иван Иванов",
-  //       message: "Привет!",
-  //       createdAt: "2024-11-21T10:00:00",
-  //     },
-  //     {
-  //       author: "Я",
-  //       message: "Привет, как дела?",
-  //       createdAt: "2024-11-21T10:05:00",
-  //     },
-  //   ];
-  // } else {
-  //   messages = [
-  //     {
-  //       author: "Иван Иванов",
-  //       message: "Приsadвет!",
-  //       createdAt: "2024-11-21T10:00:00",
-  //     },
-  //     {
-  //       author: "Я",
-  //       message: "Привет, как дasdела?",
-  //       createdAt: "2024-11-21T10:05:00",
-  //     },
-  //   ];
-  // }
-
-  // const [messages1, setMessages1] = useState<Message[]>(messages);
+  useEffect(() => {
+    if (chatId) {
+      const currentChatMessages = chatMessages[chatId];
+      if (!currentChatMessages || currentChatMessages.messages.length === 0) {
+        dispatch(fetchMessages({ chatId, page: 0, limit: 20 }));
+      }
+    }
+  }, [chatId, dispatch, chatMessages]);
 
   if (!chatId) {
     return (
@@ -49,10 +32,12 @@ const Messages: React.FC<Props> = ({ chatId }) => {
     );
   }
 
+  const messages = chatMessages[chatId]?.messages || [];
+
   return (
     <Grid>
       <Grid sx={{ height: "67vh" }}>
-        {/*<MessagesList messages={messages} />*/}
+        <MessagesList messages={messages} />
       </Grid>
       <ChatForm chatId={chatId} />
     </Grid>
