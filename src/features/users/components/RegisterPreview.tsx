@@ -3,7 +3,7 @@ import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import React from "react";
 import Grid from "@mui/material/Grid2";
-import { Typography, Paper } from "@mui/material";
+import { Typography, Paper, Divider } from "@mui/material";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import { findCourseTypes } from "../../../constants.ts";
@@ -39,10 +39,7 @@ const RegisterPreview: React.FC<Props> = ({
       sx={{
         my: 5,
         mx: 1,
-        mt: {
-          xs: "30px",
-          sm: "150px",
-        },
+        pb: 8,
         maxWidth: "600px",
         width: "100%",
         marginLeft: {
@@ -59,21 +56,24 @@ const RegisterPreview: React.FC<Props> = ({
       <Paper
         sx={{
           padding: 3,
-          backgroundColor: "#f5f5f5",
-          borderRadius: "8px",
-          opacity: 0.8,
+          backgroundColor: "rgba(51, 51, 51, 0.8)",
+          borderRadius: "15px",
+          color: "white",
         }}
       >
         <Grid>
           <Typography
-            variant="h6"
+            align="center"
+            variant="h5"
             sx={{
               fontWeight: "bold",
-              textTransform: "uppercase",
-              color: "#444",
+              mb: 2,
+              "@media (max-width: 350px)": {
+                fontSize: "16px",
+              },
             }}
           >
-            Обязательная информация
+            Обязательная информация:
           </Typography>
         </Grid>
 
@@ -87,7 +87,7 @@ const RegisterPreview: React.FC<Props> = ({
                     <span
                       style={{
                         fontWeight: "bold",
-                        textTransform: "uppercase",
+                        textTransform: "capitalize",
                       }}
                     >
                       {key}:
@@ -100,7 +100,7 @@ const RegisterPreview: React.FC<Props> = ({
                     <span
                       style={{
                         fontWeight: "bold",
-                        textTransform: "uppercase",
+                        textTransform: "capitalize",
                       }}
                     >
                       {key}:
@@ -112,16 +112,19 @@ const RegisterPreview: React.FC<Props> = ({
             );
           })}
         </Grid>
-
+        <Divider sx={{ backgroundColor: "white" }} />
         {role === "trainer" && (
           <>
             <Grid>
               <Typography
-                variant="h6"
+                align="center"
+                variant="h5"
                 sx={{
                   fontWeight: "bold",
-                  textTransform: "uppercase",
-                  color: "#444",
+                  mb: 2,
+                  "@media (max-width: 350px)": {
+                    fontSize: "16px",
+                  },
                 }}
               >
                 Дополнительная информация о тренере
@@ -137,7 +140,7 @@ const RegisterPreview: React.FC<Props> = ({
                         <span
                           style={{
                             fontWeight: "bold",
-                            textTransform: "uppercase",
+                            textTransform: "capitalize",
                           }}
                         >
                           {key} :{" "}
@@ -152,7 +155,7 @@ const RegisterPreview: React.FC<Props> = ({
                             <span
                               style={{
                                 fontWeight: "bold",
-                                textTransform: "uppercase",
+                                textTransform: "capitalize",
                               }}
                             >
                               {key} :{" "}
@@ -180,14 +183,17 @@ const RegisterPreview: React.FC<Props> = ({
           <>
             <Grid>
               <Typography
-                variant="h6"
+                variant="h5"
+                align="center"
                 sx={{
                   fontWeight: "bold",
-                  textTransform: "uppercase",
-                  color: "#444",
+                  mb: 2,
+                  "@media (max-width: 350px)": {
+                    fontSize: "16px",
+                  },
                 }}
               >
-                Информация о клиенте
+                Информация о клиенте:
               </Typography>
             </Grid>
             <Grid>
@@ -200,7 +206,7 @@ const RegisterPreview: React.FC<Props> = ({
                         <span
                           style={{
                             fontWeight: "bold",
-                            textTransform: "uppercase",
+                            textTransform: "capitalize",
                           }}
                         >
                           {key}:
@@ -215,7 +221,7 @@ const RegisterPreview: React.FC<Props> = ({
                             <span
                               style={{
                                 fontWeight: "bold",
-                                textTransform: "uppercase",
+                                textTransform: "capitalize",
                               }}
                             >
                               {key} :{" "}
