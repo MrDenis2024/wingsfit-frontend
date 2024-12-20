@@ -1,60 +1,135 @@
-import React from "react";
-import { Typography } from "@mui/material";
-// import MessagesList from "./MessagesList.tsx";
+import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import MessagesList from "./MessagesList.tsx";
 import ChatForm from "./ChatForm.tsx";
 
-interface Props {
+interface MessagesProps {
   chatId: string | null;
+  chatTitle: string;
 }
 
-const Messages: React.FC<Props> = ({ chatId }) => {
-  // let messages;
+const Messages = ({ chatId, chatTitle }: MessagesProps) => {
+  const messages = [
+    {
+      id: "1",
+      author: "Я",
+      message: "Привет!",
+      createdAt: new Date().toISOString(),
+      avatar: null,
+    },
+    {
+      id: "2",
+      author: "Другой пользователь",
+      message: "Привет, как дела?",
+      createdAt: new Date().toISOString(),
+      avatar: null,
+    },
+    {
+      id: "1",
+      author: "Я",
+      message: "Привет!",
+      createdAt: new Date().toISOString(),
+      avatar: null,
+    },
+    {
+      id: "2",
+      author: "Другой пользователь",
+      message: "Привет, как дела?",
+      createdAt: new Date().toISOString(),
+      avatar: null,
+    },
+    {
+      id: "1",
+      author: "Я",
+      message: "Привет!",
+      createdAt: new Date().toISOString(),
+      avatar: null,
+    },
+    {
+      id: "2",
+      author: "Другой пользователь",
+      message: "Привет, как дела?",
+      createdAt: new Date().toISOString(),
+      avatar: null,
+    },
+    {
+      id: "1",
+      author: "Я",
+      message: "Привет!",
+      createdAt: new Date().toISOString(),
+      avatar: null,
+    },
+    {
+      id: "2",
+      author: "Другой пользователь",
+      message: "Привет, как дела?",
+      createdAt: new Date().toISOString(),
+      avatar: null,
+    },
+  ];
 
-  // if (chatId === "123") {
-  //   messages = [
-  //     {
-  //       author: "Иван Иванов",
-  //       message: "Привет!",
-  //       createdAt: "2024-11-21T10:00:00",
-  //     },
-  //     {
-  //       author: "Я",
-  //       message: "Привет, как дела?",
-  //       createdAt: "2024-11-21T10:05:00",
-  //     },
-  //   ];
-  // } else {
-  //   messages = [
-  //     {
-  //       author: "Иван Иванов",
-  //       message: "Приsadвет!",
-  //       createdAt: "2024-11-21T10:00:00",
-  //     },
-  //     {
-  //       author: "Я",
-  //       message: "Привет, как дasdела?",
-  //       createdAt: "2024-11-21T10:05:00",
-  //     },
-  //   ];
-  // }
+  const getAvatarText = (author: string) => {
+    const names = author.split(" ");
+    return (names[0][0] + (names[1]?.[0] || "")).toUpperCase();
+  };
 
-  // const [messages1, setMessages1] = useState<Message[]>(messages);
-
-  if (!chatId) {
-    return (
-      <Grid sx={{ textAlign: "center" }}>
-        <Typography variant="h6">Выберите чат, чтобы начать общение</Typography>
-      </Grid>
-    );
-  }
+  const messagesWithAvatars = messages.map((msg) => ({
+    ...msg,
+    avatar: msg.avatar || getAvatarText(msg.author),
+  }));
 
   return (
-    <Grid>
-      <Grid sx={{ height: "67vh" }}>
-        {/*<MessagesList messages={messages} />*/}
-      </Grid>
-      <ChatForm chatId={chatId} />
+    <Grid
+      maxWidth="lg"
+      sx={{
+        px: 0,
+        py: 4,
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        border: "1px solid #ddd",
+        overflow: "hidden",
+      }}
+    >
+      <Box
+        sx={{
+          padding: "16px",
+          borderBottom: "1px solid #ddd",
+          position: "sticky",
+          top: 0,
+          zIndex: 1,
+        }}
+      >
+        <Typography
+          variant="h6"
+          component="h2"
+          sx={{
+            fontSize: { xs: "0.9rem", sm: "1.25rem" },
+            textAlign: {
+              xs: "center",
+              sm: "center",
+              md: "left",
+            },
+          }}
+        >
+          {chatId ? `Чат с ${chatTitle}` : "Чат"}
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          overflowY: "auto",
+          padding: "16px",
+          backgroundColor: "#fff",
+        }}
+      >
+        {chatId ? (
+          <MessagesList messages={messagesWithAvatars} />
+        ) : (
+          <Typography>Выберите чат, чтобы просмотреть сообщения</Typography>
+        )}
+      </Box>
+      {chatId && <ChatForm chatId={chatId} />}
     </Grid>
   );
 };

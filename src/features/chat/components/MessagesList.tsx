@@ -1,55 +1,87 @@
 import React from "react";
-import { List, ListItem, Typography } from "@mui/material";
+import { List, ListItem, Typography, Avatar } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { Message } from "../../../types/chatTypes.ts";
 
-interface Props {
+interface Message {
+  id: string;
+  author: string;
+  message: string;
+  createdAt: string;
+  avatar: string;
+}
+
+interface MessagesListProps {
   messages: Message[];
 }
 
-const MessagesList: React.FC<Props> = ({ messages }) => {
+const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
   return (
     <Grid sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <Typography variant="h4" textAlign="center" sx={{ flexGrow: 1 }}>
-        Messages
-      </Typography>
       <List
         sx={{
           overflowY: "auto",
           display: "flex",
           flexDirection: "column-reverse",
+          flexGrow: 1,
         }}
       >
-        {messages.map((msg, index) => (
-          <ListItem
-            key={index}
-            sx={
-              {
-                // justifyContent: msg.author === "Я" ? "flex-end" : "flex-start",
-              }
-            }
-          >
+        {messages.map((msg) => (
+          <ListItem key={msg.id} sx={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              src={msg.avatar}
+              alt={msg.author}
+              sx={{
+                width: { xs: 27, sm: 32 },
+                height: { xs: 27, sm: 32 },
+                marginRight: { xs: 1, sm: 2 },
+              }}
+            />
             <Grid
               sx={{
                 display: "flex",
-                // flexDirection: msg.author === "Я" ? "row" : "row-reverse",
-                // bgcolor: msg.author === "Я" ? "lightblue" : "lightgray",
-                p: "8px",
+                flexDirection: "column",
+                maxWidth: "70%",
+                padding: "8px 16px",
                 borderRadius: "8px",
-                alignItems: "center",
-                justifyContent: "center",
+                backgroundColor: "transparent",
               }}
             >
-              <Typography variant="body1">{msg.message}</Typography>
-              <Typography
-                variant="caption"
+              <Grid
                 sx={{
-                  // ml: msg.author === "Я" ? 1 : 0,
-                  // mr: msg.author === "Я" ? 0 : 1,
-                  lineHeight: 1.5,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: { xs: 3, sm: 2 },
                 }}
               >
-                {/*{msg.author}, {new Date(msg.createdAt).toLocaleTimeString()}*/}
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontWeight: "bold",
+                    fontSize: { xs: "0.8rem", sm: "1rem" },
+                  }}
+                >
+                  {msg.author}
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    fontSize: { xs: "0.7rem", sm: "0.875rem" },
+                    color: "gray",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {new Date(msg.createdAt).toLocaleTimeString()}
+                </Typography>
+              </Grid>
+              <Typography
+                variant="body1"
+                sx={{
+                  whiteSpace: "pre-wrap",
+                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                }}
+              >
+                {msg.message}
               </Typography>
             </Grid>
           </ListItem>
