@@ -1,4 +1,3 @@
-
 export interface CourseMutation {
   title: string;
   courseType: string;
@@ -24,6 +23,7 @@ export interface ICourse {
     firstName: string;
     lastName: string;
     avatar: string | null;
+    description: string | null;
   };
   title: string;
   courseType: {
