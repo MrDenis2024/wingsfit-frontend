@@ -5,17 +5,19 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  IconButton,
   styled,
   Typography,
 } from "@mui/material";
 import { ICourse } from "../../../types/courseTypes.ts";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { apiURL } from "../../../constants.ts";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 const ImageCardMedia = styled(CardMedia)({
   width: "100%",
@@ -43,6 +45,16 @@ const CourseCard: React.FC<Props> = ({ course }) => {
     cardImage = `${apiURL}/${course.image}`;
   }
 
+  const dayAbbreviations: { [key: string]: string } = {
+    Понедельник: "Пн",
+    Вторник: "Вт",
+    Среда: "Ср",
+    Четверг: "Четв",
+    Пятница: "Пят",
+    Суббота: "Суб",
+    Воскресенье: "Вс",
+  };
+
   return (
     <Card
       sx={{
@@ -58,9 +70,38 @@ const CourseCard: React.FC<Props> = ({ course }) => {
     >
       <Grid flexDirection="column">
         <CardHeader
-          component={NavLink}
-          to={`/courses/${course._id}`}
-          title={`${course.title}`}
+          title={
+            <Grid container alignItems="center" justifyContent="space-between">
+              <Typography
+                component={NavLink}
+                to={`/courses/${course._id}`}
+                variant="h6"
+                sx={{ color: "#1a3b7e", textDecoration: "none" }}
+              >
+                {course.title}
+              </Typography>
+              {course.user._id === user?._id && (
+                <Link
+                  to={`/edit-course/${course._id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <IconButton
+                    sx={{
+                      color: "#0288D1",
+                      borderColor: "#0288D1",
+                      "&:hover": {
+                        backgroundColor: "#dff3fc",
+                        borderColor: "#0288D1",
+                      },
+                      ml: 1,
+                    }}
+                  >
+                    <BorderColorIcon />
+                  </IconButton>
+                </Link>
+              )}
+            </Grid>
+          }
           sx={{
             padding: "0 0 20px 0",
             color: "#1a3b7e",
@@ -81,11 +122,23 @@ const CourseCard: React.FC<Props> = ({ course }) => {
               </Grid>
               <Grid size={7} mb={3} flexDirection="column">
                 <Typography variant="body2" color="textSecondary">
-                  {findCourseTypes(course.courseType.id)}
+                  {findCourseTypes(course.courseType._id)}
                 </Typography>
-                <Typography variant="body2" sx={{ padding: "5px 0" }}>
-                  {course.schedule}
-                </Typography>
+                <Grid
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    flexWrap: "wrap",
+                    gap: "4px",
+                    paddingBottom: "5px",
+                  }}
+                >
+                  {course.schedule.map((day, index) => (
+                    <Typography key={index} variant="body2">
+                      {dayAbbreviations[day] || day}
+                    </Typography>
+                  ))}
+                </Grid>
                 <Typography variant="body2">Цена: {course.price}</Typography>
                 <Typography
                   variant="body2"
@@ -93,8 +146,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
                   flexDirection="column"
                   display="flex"
                 >
-                  <span>Ограничение: {course.maxClients} человек</span>
-                  <span>Формат: {course.format}</span>
+                  Формат: {course.format}
                 </Typography>
               </Grid>
             </Grid>
@@ -109,6 +161,7 @@ const CourseCard: React.FC<Props> = ({ course }) => {
                   color: "#f0f0f0",
                   "&:hover": { backgroundColor: "#0a2375" },
                   borderRadius: "10px",
+                  marginTop: "5px",
                 }}
                 component={NavLink}
                 to={`/courses/${course._id}`}

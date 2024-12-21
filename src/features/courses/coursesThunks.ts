@@ -1,9 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GlobalError } from "../../types/userTypes.ts";
+import { ValidationError } from "../../types/userTypes.ts";
 import { RootState } from "../../app/store.ts";
 import axiosApi from "../../axiosApi.ts";
 import { isAxiosError } from "axios";
-import { CourseMutation, ICourse } from "../../types/courseTypes.ts";
+import {
+  CourseMutation,
+  ICourse,
+  UpdateCourseArg,
+} from "../../types/courseTypes.ts";
 
 export const fetchCourses = createAsyncThunk<ICourse[], string | undefined>(
   "courses/fetchAll",
@@ -23,21 +27,25 @@ export const fetchCourses = createAsyncThunk<ICourse[], string | undefined>(
 export const createCourse = createAsyncThunk<
   void,
   CourseMutation,
-  { rejectValue: GlobalError; state: RootState }
+  { rejectValue: ValidationError; state: RootState }
 >("courses/create", async (courseMutation, { rejectWithValue }) => {
   const formData = new FormData();
-  const keys = Object.keys(courseMutation) as (keyof CourseMutation)[];
-  keys.forEach((key) => {
-    const value = courseMutation[key];
-    if (value !== null) {
-      formData.append(key, value);
-    }
+  if (courseMutation.image) {
+    formData.append("image", courseMutation.image);
+  }
+  formData.append("title", courseMutation.title);
+  formData.append("description", courseMutation.description);
+  formData.append("courseType", courseMutation.courseType);
+  formData.append("format", courseMutation.format);
+  courseMutation.schedule.forEach((day) => {
+    formData.append("schedule[]", day);
   });
+  formData.append("price", courseMutation.price);
 
   try {
     await axiosApi.post("/courses", formData);
   } catch (e) {
-    if (isAxiosError(e) && e.response) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data);
     }
     throw e;
@@ -51,3 +59,18 @@ export const getOneCourse = createAsyncThunk<ICourse, string>(
     return course;
   },
 );
+
+export const editCourse = createAsyncThunk<
+  void,
+  UpdateCourseArg,
+  { rejectValue: ValidationError }
+>("courses/editCourse", async ({ id, course }, { rejectWithValue }) => {
+  try {
+    await axiosApi.put(`/courses/${id}`, course);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data);
+    }
+    throw e;
+  }
+});

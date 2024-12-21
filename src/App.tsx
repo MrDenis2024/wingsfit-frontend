@@ -29,6 +29,7 @@ import EditTrainer from "./features/trainers/components/EditTrainer.tsx";
 import EditClient from "./features/clients/components/EditClient.tsx";
 import ClientsSelectCourses from "./features/courses/ClientsSelectCourses.tsx";
 import LessonsPage from "./features/lessons/LessonsPage/LessonsPage.tsx";
+import EditCourse from "./features/courses/EditCourse.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -118,6 +119,14 @@ const App = () => {
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                 <NewCourse />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-course/:id"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <EditCourse />
               </ProtectedRoute>
             }
           />
