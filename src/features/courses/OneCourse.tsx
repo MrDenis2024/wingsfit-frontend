@@ -155,7 +155,11 @@ const OneCourse = () => {
                 width: "140px",
                 height: "168px",
                 mb: 2,
-                display: mediaQuery768 ? "none" : "block",
+                display: mediaQuery768 ? "none" : "flex",
+                backgroundColor: "#ccc",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "8px",
               }}
             >
               {course.user.avatar ? (
@@ -170,7 +174,7 @@ const OneCourse = () => {
                   }}
                 />
               ) : (
-                <NoPhotographyIcon sx={{ fontSize: "190px" }} />
+                <NoPhotographyIcon sx={{ fontSize: "100px" }} />
               )}
             </Grid>
             <Grid
