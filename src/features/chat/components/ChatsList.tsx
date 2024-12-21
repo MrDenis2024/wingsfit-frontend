@@ -5,6 +5,7 @@ import {
   ListItem,
   ListItemText,
   Typography,
+  Box,
 } from "@mui/material";
 import { OneChat } from "../../../types/chatTypes.ts";
 
@@ -28,26 +29,47 @@ const ChatsList: React.FC<Props> = ({
       <Typography
         variant="body1"
         fontWeight="bold"
-        sx={{ padding: "8px 16px", color: "#333" }}
+        sx={{
+          fontSize: { xs: "0.8rem", sm: "1rem" },
+          padding: "8px 16px",
+          color: "#333",
+        }}
       >
         ● {title}
       </Typography>
       <Divider />
-      <List disablePadding>
-        {chats.map((chat) => (
-          <ListItem
-            key={chat._id}
-            onClick={() => setSelectedChatId(chat._id)}
-            sx={{
-              backgroundColor:
-                selectedChatId === chat._id ? "#73c6d9" : "transparent",
-              "&:hover": { backgroundColor: "#73c6d9" },
-            }}
-          >
-            <ListItemText primary={renderChatTitle(chat)} />
-          </ListItem>
-        ))}
-      </List>
+      <Box
+        sx={{
+          maxHeight: "200px",
+          overflowY: "auto",
+        }}
+      >
+        <List disablePadding>
+          {chats.map((chat) => (
+            <ListItem
+              key={chat._id}
+              onClick={() => setSelectedChatId(chat._id)}
+              sx={{
+                backgroundColor:
+                  selectedChatId === chat._id ? "#56cad5" : "transparent",
+                "&:hover": { backgroundColor: "#56cad5" },
+              }}
+            >
+              <ListItemText
+                primary={
+                  <Typography
+                    sx={{
+                      fontSize: { xs: "0.8rem", sm: "1rem" },
+                    }}
+                  >
+                    {renderChatTitle(chat)}
+                  </Typography>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Box>
     </>
   );
 };

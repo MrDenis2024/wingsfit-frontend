@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import "./../../../App.css";
 import {
   FormControlLabel,
+  Paper,
   Radio,
   RadioGroup,
-  TextField,
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -72,20 +72,17 @@ const UserRegisterForm: React.FC<Props> = ({
   };
 
   return (
-    <Grid
-      container
-      spacing={2}
-      component={"form"}
-      direction="column"
+    <Paper
+      elevation={3}
       sx={{
-        mt: {
-          xs: "30px",
-          sm: "150px",
-        },
-        mb: 1,
-        mx: 1,
+        backgroundColor: "rgba(51, 51, 51, 0.6)",
+        borderRadius: "15px",
         maxWidth: "400px",
         width: "100%",
+        padding: {
+          xs: "3px",
+          sm: "20px",
+        },
         marginLeft: {
           xs: "unset",
           md: role === "trainer" ? "0" : "auto",
@@ -95,212 +92,216 @@ const UserRegisterForm: React.FC<Props> = ({
           md: role === "client" ? "0" : "auto",
         },
       }}
-      onSubmit={submitHandler}
     >
-      <Grid>
-        <Typography
-          variant="h6"
-          sx={{
-            color: "white",
-            fontSize: { xs: "16px", sm: "24px", md: "28px" },
-            fontWeight: "bold",
-          }}
-        >
-          Заполните персональную информацию
-        </Typography>
-      </Grid>
-      <Grid>
-        <CustomInput
-          label="Имя"
-          value={personalData.firstName}
-          onChange={inputChangeHandler}
-          name="firstName"
-          required
-          type="text"
-        />
-      </Grid>
-      <Grid>
-        <CustomInput
-          label="Фамилия"
-          value={personalData.lastName}
-          onChange={inputChangeHandler}
-          name="lastName"
-          required
-          type="text"
-        />
-      </Grid>
-      <Grid>
-        <Typography variant="h6" sx={{ color: "white", fontSize: "16px" }}>
-          Номер телефона
-        </Typography>
-        <PhoneInput
-          value={personalData.phoneNumber}
-          onChange={phoneChangeHandler}
-          defaultCountry="KG"
-          international
-          style={{
-            width: "100%",
-            padding: "2px",
-            border: phoneError ? "1px solid red" : "1px solid #ccc",
-            borderRadius: "8px",
-            backgroundColor: "#f9f9f9",
-            marginBottom: "20px",
-          }}
-        />
-        {phoneError && (
-          <Typography color="error" variant="body2" sx={{ mt: 1 }}>
-            Некорректный номер телефона.
+      <Grid
+        container
+        spacing={2}
+        component={"form"}
+        direction="column"
+        sx={{
+          mt: {
+            xs: "30px",
+            sm: "50px",
+          },
+          mb: 1,
+          mx: 1,
+        }}
+        onSubmit={submitHandler}
+      >
+        <Grid>
+          <Typography
+            variant="h6"
+            sx={{
+              color: "white",
+              fontSize: { xs: "16px", sm: "24px", md: "28px" },
+              fontWeight: "bold",
+            }}
+          >
+            Заполните персональную информацию
           </Typography>
-        )}
-      </Grid>
-      <Grid>
-        <TextField
-          slotProps={{
-            input: {
-              inputProps: {
-                max: new Date().toISOString().split("T")[0] as string,
-              },
-            },
-            inputLabel: {
-              shrink: true,
-              sx: {
-                position: "absolute",
-                top: "7px",
-                left: "0px",
-                "@media (max-width: 350px)": {
-                  top: "5px",
-                  left: "0px",
-                },
-                "&.Mui-focused": {
-                  color: "#333",
-                },
-              },
-            },
-          }}
-          sx={{
-            mb: 2,
-            "& .MuiOutlinedInput-root": {
+        </Grid>
+        <Grid>
+          <CustomInput
+            label="Как Вас зовут?"
+            value={personalData.firstName}
+            onChange={inputChangeHandler}
+            name="firstName"
+            placeholder="Введите имя"
+            required
+            type="text"
+          />
+        </Grid>
+        <Grid>
+          <CustomInput
+            label="Фамилия"
+            value={personalData.lastName}
+            onChange={inputChangeHandler}
+            name="lastName"
+            placeholder="Введите Фамилию"
+            required
+            type="text"
+          />
+        </Grid>
+        <Grid sx={{ position: "relative" }}>
+          <Typography
+            variant="h6"
+            sx={{
+              color: "white",
+              fontSize: "12px",
+              fontWeight: "bold",
+            }}
+          >
+            Номер телефона
+          </Typography>
+          <PhoneInput
+            value={personalData.phoneNumber}
+            onChange={phoneChangeHandler}
+            defaultCountry="KG"
+            international
+            style={{
+              width: "100%",
+              padding: "2px",
+              border: phoneError ? "1px solid red" : "1px solid #ccc",
               borderRadius: "8px",
               backgroundColor: "#f9f9f9",
-              boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-              "&.Mui-focused": {
-                boxShadow: "0 0 8px rgba(0, 123, 255, 0.3)",
-              },
-              fontSize: {
-                xs: "0.9rem",
-                sm: "1rem",
-              },
-              padding: {
-                xs: "6px",
-                sm: "12px",
-              },
-            },
-            "& .MuiInputLabel-root": {
-              fontWeight: "bold",
-            },
-            "& .MuiOutlinedInput-input": {
-              padding: "8px",
+              marginBottom: "20px",
               "@media (max-width: 350px)": {
-                padding: "10px",
+                fontSize: "12px",
               },
-            },
-          }}
-          type="date"
-          label="Дата рождения"
-          name="dateOfBirth"
-          onChange={inputChangeHandler}
-          value={personalData.dateOfBirth}
-        />
-      </Grid>
-      <Grid
-        sx={{ display: "flex", justifyContent: "start", alignItems: "center" }}
-      >
-        <Typography
-          variant="subtitle1"
+            }}
+          />
+          {phoneError && (
+            <Typography
+              color="error"
+              variant="body2"
+              sx={{
+                width: "100%",
+                position: "absolute",
+                top: 72,
+                left: 0,
+                backgroundColor: "white",
+                borderRadius: "5px",
+                p: "5px",
+                fontSize: "1rem",
+                "@media (max-width: 600px)": {
+                  fontSize: "12px",
+                  top: 60,
+                  left: 0,
+                },
+                "@media (max-width: 350px)": {
+                  fontSize: "12px",
+                  top: 60,
+                  left: 0,
+                },
+              }}
+            >
+              Некорректный номер телефона.
+            </Typography>
+          )}
+        </Grid>
+        <Grid>
+          <CustomInput
+            type="date"
+            label="Дата рождения"
+            name="dateOfBirth"
+            onChange={inputChangeHandler}
+            value={personalData.dateOfBirth}
+          />
+        </Grid>
+        <Grid
           sx={{
-            fontSize: "14px",
-            fontWeight: "bold",
-            marginRight: 2,
-            color: "#f9f9f9",
-          }}
-        >
-          Пол:
-        </Typography>
-        <RadioGroup
-          value={personalData.gender}
-          name="gender"
-          onChange={inputChangeHandler}
-          sx={{
-            mx: 1,
-            flexDirection: "row",
+            display: "flex",
             justifyContent: "start",
             alignItems: "center",
-            color: "#f9f9f9",
           }}
         >
-          <FormControlLabel
-            value="male"
-            control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
-            label="Мужчина"
+          <Typography
+            variant="subtitle1"
             sx={{
-              "& .MuiFormControlLabel-label": {
-                fontSize: "14px",
-                fontWeight: "bold",
-              },
+              fontSize: "14px",
+              fontWeight: "bold",
+              marginRight: 2,
+              color: "#f9f9f9",
             }}
-          />
-          <FormControlLabel
-            value="female"
-            control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
-            label="Женщина"
+          >
+            Пол:
+          </Typography>
+          <RadioGroup
+            value={personalData.gender}
+            name="gender"
+            onChange={inputChangeHandler}
             sx={{
-              "& .MuiFormControlLabel-label": {
-                fontSize: "14px",
-                fontWeight: "bold",
-              },
+              mx: 1,
+              flexDirection: "row",
+              justifyContent: "start",
+              alignItems: "center",
+              color: "#f9f9f9",
             }}
-          />
-          <FormControlLabel
-            value="other"
-            control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
-            label="Другое"
-            sx={{
-              "& .MuiFormControlLabel-label": {
-                fontSize: "14px",
-                fontWeight: "bold",
-              },
-            }}
-          />
-        </RadioGroup>
-      </Grid>
-      <Grid>
-        <TimeZone
-          name={"timeZone"}
-          changeTimezone={changeTimezone}
-          value={personalData.timeZone}
-        />
-      </Grid>
-      <Grid container display="flex" justifyContent="center">
-        <Grid>
-          <CustomButton variant="outlined" disabled label="Назад" />
+          >
+            <FormControlLabel
+              value="male"
+              control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
+              label="Мужчина"
+              sx={{
+                "& .MuiFormControlLabel-label": {
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                },
+              }}
+            />
+            <FormControlLabel
+              value="female"
+              control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
+              label="Женщина"
+              sx={{
+                "& .MuiFormControlLabel-label": {
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                },
+              }}
+            />
+            <FormControlLabel
+              value="other"
+              control={<Radio sx={{ fontSize: "18px", color: "white" }} />}
+              label="Другое"
+              sx={{
+                "& .MuiFormControlLabel-label": {
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                },
+              }}
+            />
+          </RadioGroup>
         </Grid>
         <Grid>
-          <CustomButton
-            disabled={
-              personalData.firstName === "" ||
-              personalData.lastName === "" ||
-              personalData.timeZone.label === ""
-            }
-            variant="contained"
-            onClick={() => updatePersonalInfo(personalData, null, null)}
-            label="Завершить"
+          <TimeZone
+            name={"timeZone"}
+            changeTimezone={changeTimezone}
+            value={personalData.timeZone}
           />
         </Grid>
-        <Grid>
-          <CustomButton type="submit" variant="outlined" label="Далее" />
+        <Grid container display="flex" justifyContent="center">
+          <Grid>
+            <CustomButton variant="outlined" disabled label="Назад" />
+          </Grid>
+          <Grid>
+            <CustomButton
+              disabled={
+                personalData.firstName === "" ||
+                personalData.lastName === "" ||
+                personalData.timeZone.label === ""
+              }
+              variant="contained"
+              onClick={() => updatePersonalInfo(personalData, null, null)}
+              label="Завершить"
+            />
+          </Grid>
+          <Grid>
+            <CustomButton type="submit" variant="outlined" label="Далее" />
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </Paper>
   );
 };
 

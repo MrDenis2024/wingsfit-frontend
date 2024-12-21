@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectCourseCreate } from "./coursesSlice.ts";
 import { CourseMutation } from "../../types/courseTypes.ts";
 import { createCourse } from "./coursesThunks.ts";
-import { Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import CourseForm from "./components/CourseForm.tsx";
 import { selectUser } from "../users/userSlice.ts";
 
@@ -24,9 +24,6 @@ const NewCourse = () => {
 
   return (
     <Container maxWidth="lg" sx={{ my: 5 }}>
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        Новый курс
-      </Typography>
       <CourseForm onSubmit={onFormSubmit} isLoading={isCreating} />
     </Container>
   );

@@ -53,7 +53,7 @@ export const getPrivateChats = createAsyncThunk<
       error.response &&
       error.response.status === 400
     ) {
-      return rejectWithValue(error.response.data); // Return the error response
+      return rejectWithValue(error.response.data);
     }
     throw error;
   }

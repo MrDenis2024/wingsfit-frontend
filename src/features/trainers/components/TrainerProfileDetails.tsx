@@ -3,7 +3,6 @@ import {
   Button,
   CardMedia,
   Container,
-  Dialog,
   IconButton,
   Theme,
   Typography,
@@ -17,25 +16,20 @@ import FemaleIcon from "@mui/icons-material/Female";
 import TransgenderIcon from "@mui/icons-material/Transgender";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ICourse } from "../../../types/courseTypes.ts";
 import CourseCards from "../../courses/components/CourseCards.tsx";
 import RatingAndReviews from "./RatingAndReviews.tsx";
 import ReviewFormBlock from "../../reviewForm/components/ReviewFormBlock.tsx";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
-import { toast } from "react-toastify";
-import { useAppDispatch } from "../../../app/hooks.ts";
-import { fetchUpdateAvatarTrainer } from "../trainersThunks.ts";
 import { apiURL } from "../../../constants.ts";
 import NewAddTrainerCertificates from "../NewAddTrainerCertificates.tsx";
 import { ITrainer } from "../../../types/trainerTypes.ts";
 import { Link } from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
-import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
-import { reloadUser } from "../../users/userThunk.ts";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import AvatarUploader from "../../../UI/Avatar/AvatarUploader.tsx";
 
 interface TrainerProfileDetailsProps {
   trainerProfile: ITrainer | null;
@@ -56,22 +50,13 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   setShowForm,
   handleReviewSubmit,
 }) => {
-  const dispatch = useAppDispatch();
   const [open, setOpen] = useState(false);
-  const [avatarImage, setAvatarImage] = useState(imageNotFound);
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] = useState<File | null>(null);
+
   let cardImage = imageNotFound;
 
   if (trainerProfile && trainerProfile.user.avatar) {
     cardImage = `${apiURL}/${trainerProfile.user.avatar}`;
   }
-
-  useEffect(() => {
-    if (trainerProfile?.user.avatar) {
-      setAvatarImage(`${apiURL}/${trainerProfile.user.avatar}`);
-    }
-  }, [trainerProfile]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -79,59 +64,6 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
 
   const handleClose = () => {
     setOpen(false);
-    setAvatarImage(cardImage);
-    setSelectedAvatar(null);
-  };
-
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0] || null;
-    if (file) {
-      if (!file.type.startsWith("image/")) {
-        toast.error("Можно загружать только изображения!");
-        return;
-      }
-      if (file.size > 4 * 1024 * 1024) {
-        toast.error("Размер файла не должен превышать 4 МБ!");
-        return;
-      }
-      setSelectedAvatar(file);
-      const objectUrl = URL.createObjectURL(file);
-      setAvatarImage(objectUrl);
-    }
-  };
-
-  const handleAvatarSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    if (!selectedAvatar) return;
-
-    try {
-      await dispatch(fetchUpdateAvatarTrainer(selectedAvatar)).unwrap();
-      await dispatch(reloadUser());
-      toast("Avatar updated successfully");
-      setSelectedAvatar(null);
-      handleClose();
-    } catch (err) {
-      console.error("Failed to update avatar:", err);
-      toast("Failed to update avatar");
-    }
-  };
-
-  const handleDeleteAvatarConfirm = async () => {
-    try {
-      await dispatch(fetchUpdateAvatarTrainer(null)).unwrap();
-      toast("Avatar deleted successfully");
-      await dispatch(reloadUser());
-      setAvatarImage(imageNotFound);
-    } catch (err) {
-      console.error("Failed to delete avatar:", err);
-      toast("Failed to delete avatar");
-    } finally {
-      setConfirmOpen(false);
-    }
-  };
-
-  const handleDeleteAvatar = () => {
-    setConfirmOpen(true);
   };
 
   const isSmallScreen = useMediaQuery((theme: Theme) =>
@@ -375,86 +307,11 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
             )}
           </Box>
         </Grid>
-        <Dialog
+        <AvatarUploader
+          trainerProfile={trainerProfile}
+          clientProfile={null}
           open={open}
           onClose={handleClose}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            sx={{
-              maxWidth: "90vw",
-              maxHeight: "90vh",
-              display: "flex",
-              flexDirection: "column",
-              padding: "20px",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <CardMedia
-              component="img"
-              image={avatarImage}
-              alt="Фото замены"
-              sx={{
-                width: 350,
-                height: 350,
-                borderRadius: "50%",
-                objectFit: "cover",
-                marginBottom: "25px",
-              }}
-            />
-            <Box sx={{ width: "100%" }}>
-              <Grid>
-                <FileInput
-                  label="Выберите аватарку"
-                  name="image"
-                  onChange={handleAvatarChange}
-                />
-              </Grid>
-              <Grid
-                container
-                justifyContent="space-between"
-                sx={{ width: "100%", marginY: 2 }}
-              >
-                <Button
-                  variant="outlined"
-                  sx={{ width: "200px", marginRight: 2, marginBottom: 2 }}
-                  onClick={handleAvatarSubmit}
-                  disabled={!selectedAvatar}
-                >
-                  Сохранить аватарку
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{ width: "200px", marginBottom: 2 }}
-                  color="error"
-                  onClick={handleDeleteAvatar}
-                >
-                  Удалить аватарку
-                </Button>
-              </Grid>
-            </Box>
-            <Button
-              onClick={handleClose}
-              variant="contained"
-              sx={{ width: "90px", alignSelf: "flex-end" }}
-            >
-              Close
-            </Button>
-          </Box>
-        </Dialog>
-        <CustomConfirmDialog
-          open={confirmOpen}
-          title="Удалить аватар"
-          description="Вы уверены, что хотите удалить аватар?"
-          confirmText="Удалить"
-          cancelText="Отмена"
-          onConfirm={handleDeleteAvatarConfirm}
-          onCancel={() => setConfirmOpen(false)}
         />
       </Container>
     </>

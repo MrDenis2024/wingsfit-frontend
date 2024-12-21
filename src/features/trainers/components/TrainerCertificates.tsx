@@ -78,7 +78,7 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
   };
 
   const handleOpenConfirmDialog = () => {
-    setIsConfirmDialogOpen(true); // Открыть кастомный диалог
+    setIsConfirmDialogOpen(true);
   };
 
   return (

@@ -3,10 +3,8 @@ export interface CourseMutation {
   courseType: string;
   description: string;
   format: string;
-  schedule: string;
-  scheduleLength: string;
+  schedule: string[];
   price: string;
-  maxClients: string;
   image: string | null;
 }
 
@@ -27,14 +25,17 @@ export interface ICourse {
   };
   title: string;
   courseType: {
-    id: string;
+    _id: string;
     name: string;
   };
   description: string;
   format: string;
-  schedule: string;
-  scheduleLength: string;
+  schedule: string[];
   price: number;
-  maxClients: number;
   image: string | null;
+}
+
+export interface UpdateCourseArg {
+  id: string;
+  course: CourseMutation;
 }
