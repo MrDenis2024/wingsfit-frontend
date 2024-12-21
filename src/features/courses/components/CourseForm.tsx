@@ -1,8 +1,16 @@
 import React, { useState } from "react";
-import { CircularProgress, MenuItem, TextField } from "@mui/material";
+import {
+  Checkbox,
+  CircularProgress,
+  FormControlLabel,
+  FormGroup,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
-import { CourseMutation } from "../../../types/courseTypes.ts";
+import { CourseMutation, ICourse } from "../../../types/courseTypes.ts";
 import { useAppSelector } from "../../../app/hooks.ts";
 import {
   selectCourseTypes,
@@ -10,24 +18,39 @@ import {
 } from "../../CourseTypes/CourseTypesSlice.ts";
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import Grid from "@mui/material/Grid2";
+import { selectCourseError } from "../coursesSlice.ts";
 
 interface Props {
   onSubmit: (course: CourseMutation) => void;
   isLoading: boolean;
+  existingCourse?: ICourse;
 }
 
-const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
+const DAYS_OF_WEEK = [
+  "Понедельник",
+  "Вторник",
+  "Среда",
+  "Четверг",
+  "Пятница",
+  "Суббота",
+  "Воскресенье",
+];
+
+const CourseForm: React.FC<Props> = ({
+  onSubmit,
+  isLoading,
+  existingCourse,
+}) => {
   const courseTypes = useAppSelector(selectCourseTypes);
   const courseTypesFetching = useAppSelector(selectCourseTypesFetching);
+  const error = useAppSelector(selectCourseError);
   const [state, setState] = useState<CourseMutation>({
-    title: "",
-    courseType: "",
-    description: "",
-    format: "group",
-    schedule: "",
-    scheduleLength: "",
-    price: "",
-    maxClients: "",
+    title: existingCourse ? existingCourse.title : "",
+    courseType: existingCourse ? existingCourse.courseType._id : "",
+    description: existingCourse ? existingCourse.description : "",
+    format: existingCourse ? existingCourse.format : "group",
+    schedule: existingCourse ? existingCourse.schedule : [],
+    price: existingCourse ? existingCourse.price.toString() : "",
     image: null,
   });
 
@@ -50,13 +73,27 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { name, files } = event.target;
-    const value = files && files[0] ? files[0] : null;
+    const value = files && files[0] ? files[0] : state.image;
 
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
+
+  const handleScheduleChange = (day: string) => {
+    setState((prevState) => ({
+      ...prevState,
+      schedule: prevState.schedule.includes(day)
+        ? prevState.schedule.filter((d) => d !== day)
+        : [...prevState.schedule, day],
+    }));
+  };
+
+  const getFieldError = (fieldName: string) => {
+    return error?.errors[fieldName]?.message || null;
+  };
+
   return (
     <Grid
       container
@@ -65,6 +102,9 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       component="form"
       onSubmit={submitFormHandler}
     >
+      <Typography variant="h4" sx={{ mb: 2 }}>
+        {existingCourse ? "Редактировать курс" : "Новый курс"}
+      </Typography>
       <Grid>
         <TextField
           required
@@ -73,6 +113,8 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           name="title"
           value={state.title}
           onChange={inputChangeHandler}
+          error={Boolean(getFieldError("title"))}
+          helperText={getFieldError("title")}
         />
       </Grid>
       <Grid>
@@ -87,6 +129,8 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
             name="courseType"
             value={state.courseType}
             onChange={inputChangeHandler}
+            error={Boolean(getFieldError("courseType"))}
+            helperText={getFieldError("courseType")}
           >
             <MenuItem value="" disabled>
               Select course
@@ -102,46 +146,49 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       <Grid>
         <TextField
           multiline
+          required
           minRows={3}
           label="Описание"
           id="description"
           name="description"
           value={state.description}
           onChange={inputChangeHandler}
+          error={Boolean(getFieldError("description"))}
+          helperText={getFieldError("description")}
         />
       </Grid>
       <Grid>
         <TextField
           select
           label="Формат"
+          required
           id="format"
           name="format"
           value={state.format}
           onChange={inputChangeHandler}
+          error={Boolean(getFieldError("format"))}
+          helperText={getFieldError("format")}
         >
           <MenuItem value="group">Групповой</MenuItem>
           <MenuItem value="single">Индивидуальный</MenuItem>
         </TextField>
       </Grid>
       <Grid>
-        <TextField
-          required
-          label="Расписание"
-          id="schedule"
-          name="schedule"
-          value={state.schedule}
-          onChange={inputChangeHandler}
-        />
-      </Grid>
-      <Grid>
-        <TextField
-          required
-          label="Продолжительность"
-          id="scheduleLength"
-          name="scheduleLength"
-          value={state.scheduleLength}
-          onChange={inputChangeHandler}
-        />
+        <Typography variant="h6">Расписание:</Typography>
+        <FormGroup row>
+          {DAYS_OF_WEEK.map((day) => (
+            <FormControlLabel
+              key={day}
+              control={
+                <Checkbox
+                  checked={state.schedule.includes(day)}
+                  onChange={() => handleScheduleChange(day)}
+                />
+              }
+              label={day}
+            />
+          ))}
+        </FormGroup>
       </Grid>
       <Grid>
         <TextField
@@ -150,34 +197,26 @@ const CourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
           id="price"
           name="price"
           type="number"
-          inputProps={{ min: 0 }}
           value={state.price}
           onChange={inputChangeHandler}
+          error={Boolean(getFieldError("price"))}
+          helperText={getFieldError("price")}
         />
       </Grid>
-      <Grid>
-        <TextField
-          required
-          label="Максимум клиентов"
-          id="maxClients"
-          name="maxClients"
-          type="number"
-          inputProps={{ min: 0 }}
-          value={state.maxClients}
-          onChange={inputChangeHandler}
-        />
-      </Grid>
-      <Grid>
-        <FileInput
-          label="Изображение"
-          name="image"
-          onChange={fileInputChangeHandler}
-        />
-      </Grid>
+      {!existingCourse && (
+        <Grid>
+          <FileInput
+            label="Изображение"
+            name="image"
+            onChange={fileInputChangeHandler}
+          />
+        </Grid>
+      )}
       <Grid>
         <LoadingButton
           type="submit"
           loading={isLoading}
+          disabled={state.schedule.length === 0 || isLoading}
           loadingPosition="start"
           startIcon={<SaveIcon />}
           variant="contained"

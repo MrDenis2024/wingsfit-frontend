@@ -121,13 +121,15 @@ const OneCourse = () => {
             {course.schedule}
           </Typography>
           <Typography variant="subtitle2" sx={{ color: "#555555" }}>
-            Продолжительность: {course.scheduleLength}
+            Продолжительность:
+            {course.schedule.map((day, index) => (
+              <Typography key={index} variant="body2">
+                {day}
+              </Typography>
+            ))}
           </Typography>
           <Typography variant="subtitle2" sx={{ color: "#555555" }}>
             Цена: ${course.price}
-          </Typography>
-          <Typography variant="subtitle2" sx={{ color: "#555555" }}>
-            Ограничение: {course.maxClients} человек
           </Typography>
         </Box>
 
