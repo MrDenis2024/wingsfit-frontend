@@ -7,6 +7,7 @@ import {
 import { GroupMutation } from "../../../types/groupTypes.ts";
 import { fetchCourses } from "../../courses/coursesThunks.ts";
 import {
+  Box,
   CircularProgress,
   FormControl,
   InputLabel,
@@ -35,6 +36,8 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
     course: "",
     startTime: "",
     trainingLevel: "junior",
+    maxClients: "",
+    scheduleLength: "",
   });
 
   useEffect(() => {
@@ -74,7 +77,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       <Grid>
         <TextField
           required
-          label="Название"
+          label="Название группы"
           id="title"
           name="title"
           value={state.title}
@@ -84,7 +87,9 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
 
       <Grid>
         {coursesFetching ? (
-          <CircularProgress />
+          <Box display="flex" justifyContent="center" width="100%">
+            <CircularProgress />
+          </Box>
         ) : (
           <TextField
             required
@@ -109,10 +114,43 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       <Grid>
         <TextField
           required
-          type="Time"
+          type="time"
           id="startTime"
           name="startTime"
           value={state.startTime}
+          onChange={inputChangeHandler}
+        />
+      </Grid>
+      <Grid>
+        <TextField
+          required
+          type="number"
+          id="maxClients"
+          label="Максимум клиентов в группе"
+          name="maxClients"
+          slotProps={{
+            htmlInput: {
+              min: 1,
+            },
+          }}
+          value={state.maxClients}
+          onChange={inputChangeHandler}
+        />
+      </Grid>
+      <Grid>
+        <TextField
+          required
+          type="number"
+          id="scheduleLength"
+          label="Продолжительность занятия(в часах)"
+          name="scheduleLength"
+          slotProps={{
+            htmlInput: {
+              max: 5,
+              min: 1,
+            },
+          }}
+          value={state.scheduleLength}
           onChange={inputChangeHandler}
         />
       </Grid>

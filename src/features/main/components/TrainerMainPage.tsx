@@ -57,7 +57,7 @@ const TrainerMainPage = () => {
           Добавить группу +
         </Button>
       </Grid>
-      <GroupCards groups={groups} />
+      <GroupCards groups={groups} courses={courses} />
     </>
   );
 };

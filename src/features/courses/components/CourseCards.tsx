@@ -9,9 +9,10 @@ import Grid from "@mui/material/Grid2";
 
 interface Props {
   courses: ICourse[];
+  isShort?: boolean;
 }
 
-const CourseCards: React.FC<Props> = ({ courses }) => {
+const CourseCards: React.FC<Props> = ({ courses, isShort }) => {
   const isLoading = useAppSelector(selectCoursesFetching);
   return (
     <Grid container spacing={2} sx={{ mb: 5 }}>
@@ -19,7 +20,7 @@ const CourseCards: React.FC<Props> = ({ courses }) => {
         courses.length > 0 ? (
           courses.map((course) => (
             <Grid size={{ md: 4, lg: 3, sm: 6, xs: 12 }} key={course._id}>
-              <CourseCard course={course} />
+              <CourseCard course={course} isShort={isShort} />
             </Grid>
           ))
         ) : (
