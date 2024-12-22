@@ -4,10 +4,10 @@ import { selectCourses, selectCoursesFetching } from "./coursesSlice.ts";
 import { fetchCourses } from "./coursesThunks.ts";
 import { useEffect, useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
-import CourseCard from "./components/CourseCard.tsx";
 import { ICourse } from "../../types/courseTypes.ts";
 import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import Grid from "@mui/material/Grid2";
+import CourseCards from "./components/CourseCards.tsx";
 
 const ClientsSelectCourses = () => {
   const dispatch = useAppDispatch();
@@ -22,13 +22,23 @@ const ClientsSelectCourses = () => {
     dispatch(fetchCourses());
   }, [dispatch]);
 
-  const submitHandler = (selectedSchedules: string[]) => {
-    const matchingCourses = allCourses.filter((course) =>
-      selectedSchedules.includes(course.schedule),
-    );
-    const nonMatchingCourses = allCourses.filter(
-      (course) => !selectedSchedules.includes(course.schedule),
-    );
+  const submitHandler = (selectedSchedules: string[], type: string) => {
+    const matchingCourses = allCourses.reduce((acc: ICourse[], rec) => {
+      const check = rec.schedule.map((day) => {
+        return selectedSchedules.includes(day);
+      });
+      if (check.includes(true) && rec.courseType.name === type) {
+        return [...acc, rec];
+      } else return acc;
+    }, []);
+    const nonMatchingCourses = allCourses.reduce((acc: ICourse[], rec) => {
+      const check = rec.schedule.map((day) => {
+        return selectedSchedules.includes(day);
+      });
+      if (!check.includes(true) || rec.courseType.name !== type) {
+        return [...acc, rec];
+      } else return acc;
+    }, []);
     setFilteredCourses(matchingCourses);
     setNonMatchingCourses(nonMatchingCourses);
     setSubmitted(true);
@@ -60,14 +70,7 @@ const ClientsSelectCourses = () => {
                   <Typography variant="h5">Выбранные курсы:</Typography>
                 </Grid>
                 <Grid size={12}>
-                  {filteredCourses.map((course: ICourse) => (
-                    <Grid
-                      key={course._id}
-                      size={{ md: 4, lg: 3, sm: 6, xs: 12 }}
-                    >
-                      <CourseCard course={course} />
-                    </Grid>
-                  ))}
+                  <CourseCards courses={filteredCourses} isShort={true} />
                 </Grid>
               </>
             )}
@@ -77,14 +80,7 @@ const ClientsSelectCourses = () => {
                   <Typography variant="h5">Остальные курсы:</Typography>
                 </Grid>
                 <Grid size={12}>
-                  {nonMatchingCourses.map((course: ICourse) => (
-                    <Grid
-                      key={course._id}
-                      size={{ md: 4, lg: 3, sm: 6, xs: 12 }}
-                    >
-                      <CourseCard course={course} />
-                    </Grid>
-                  ))}
+                  <CourseCards courses={nonMatchingCourses} isShort={true} />
                 </Grid>
               </>
             )}
