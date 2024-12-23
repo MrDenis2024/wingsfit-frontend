@@ -323,14 +323,14 @@ const OneCourse = () => {
           }}
         >
           {course.image ? (
-            <Grid sx={{ maxWidth: "654px", height: "416px" }}>
+            <Grid sx={{ maxWidth: "654px"}}>
               <CardMedia
                 component="img"
                 image={courseImage}
                 alt={course.image}
                 sx={{
-                  width: "auto",
-                  height: "100%",
+                  width: "100%",
+                  height: "auto",
                   borderRadius: "30px",
                 }}
               />
@@ -363,14 +363,14 @@ const OneCourse = () => {
             </Typography>
           </Grid>
           {course.user.avatar ? (
-            <Grid sx={{ maxWidth: "654px", height: "416px" }}>
+            <Grid sx={{ maxWidth: "654px"}}>
               <CardMedia
                 component="img"
                 image={avatar}
                 alt={course.user.firstName}
                 sx={{
-                  width: "auto",
-                  height: "100%",
+                  width: "100%",
+                  height: "auto",
                   borderRadius: "30px",
                 }}
               />
