@@ -4,7 +4,6 @@ import {
   Container,
   FormControl,
   FormControlLabel,
-  InputLabel,
   MenuItem,
   TextField,
   Typography,
@@ -15,7 +14,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Grid from "@mui/material/Grid2";
 
 interface Props {
-  onSubmit: (selectedSchedules: string[]) => void;
+  onSubmit: (selectedSchedules: string[], type: string) => void;
   isLoading: boolean;
 }
 
@@ -63,7 +62,7 @@ const SelectCourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       return;
     }
     setErrorMessage("");
-    onSubmit(selectedSchedules);
+    onSubmit(selectedSchedules, courseData.courseTypeName);
   };
 
   return (
@@ -77,14 +76,13 @@ const SelectCourseForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       >
         <Grid>
           <FormControl fullWidth>
-            <InputLabel>Выберите курс</InputLabel>
+            <Typography sx={{ mb: 2 }}>Выберите курс</Typography>
             <TextField
               required
               select
               name="course"
               id="courseTypeName"
               value={courseData.courseTypeName}
-              label="Выберите курс"
               onChange={courseInputChangeHandler}
             >
               {Object.values(

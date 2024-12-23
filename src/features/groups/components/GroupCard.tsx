@@ -1,8 +1,15 @@
 import React from "react";
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Card,
+  CardContent,
+  Typography,
+} from "@mui/material";
 import { IGroup } from "../../../types/groupTypes.ts";
 import Grid from "@mui/material/Grid2";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 interface Props {
   group: IGroup;
@@ -10,62 +17,49 @@ interface Props {
 
 const GroupCard: React.FC<Props> = ({ group }) => {
   return (
-    <Card
-      sx={{
-        m: 1,
-        padding: "10px",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        backgroundColor: "#ffffff",
-        borderRadius: "7px",
-        border: "1px solid silver",
-      }}
-    >
-      <Grid flexDirection="column">
-        <CardHeader
-          component={NavLink}
-          to={`/courses/${group.course._id}`}
-          title={`${group.title}`}
-          sx={{
-            padding: "0 0 20px 0",
-            color: "#1a3b7e",
-            textDecoration: "none",
-          }}
-        />
-        <Grid>
-          <CardContent
-            sx={{
-              "&:last-child": {
-                padding: 0,
-              },
-            }}
-          >
+    <Accordion>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography>{group.title}</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Card>
+          <CardContent>
             <Grid container spacing={2}>
-              <Grid size={8} mb={3} flexDirection="column">
-                <Typography variant="body2" color="textSecondary">
-                  {group.course.title}
-                </Typography>
-                <Typography variant="body2" sx={{ padding: "5px 0" }}>
-                  Начало:{group.startTime}
-                </Typography>
+              <Grid size={{ sm: 4, xs: 12 }}>
                 <Typography
                   variant="body2"
-                  sx={{ padding: "5px 0" }}
-                  flexDirection="column"
-                  display="flex"
+                  textAlign={{ sm: "start", xs: "center" }}
                 >
-                  <span>
-                    Доступно: {group.clientsLimit - group.clients.length}
-                  </span>
-                  <span>Уровень: {group.trainingLevel}</span>
+                  Уровень: {group.trainingLevel}
+                </Typography>
+              </Grid>
+              <Grid size={{ sm: 4, xs: 12 }}>
+                <Typography
+                  variant="body2"
+                  textAlign={{ sm: "center", xs: "center" }}
+                >
+                  Начало:{group.startTime}, длительность: {group.scheduleLength}{" "}
+                  {group.scheduleLength === 5
+                    ? "часов"
+                    : group.scheduleLength > 1
+                      ? "часа"
+                      : "час"}
+                </Typography>
+              </Grid>
+              <Grid
+                size={{ sm: 4, xs: 12 }}
+                textAlign={{ sm: "end", xs: "center" }}
+              >
+                <Typography variant="body2">
+                  Доступно: {group.maxClients - group.clients.length}/
+                  {group.maxClients}
                 </Typography>
               </Grid>
             </Grid>
           </CardContent>
-        </Grid>
-      </Grid>
-    </Card>
+        </Card>
+      </AccordionDetails>
+    </Accordion>
   );
 };
 
