@@ -39,17 +39,43 @@ const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
         onChange={onFileChange}
       />
       <Grid container spacing={2} alignItems="center">
-        <Grid size={6}>
+        <Grid
+          size={{
+            xs: 8,
+            sm: 9,
+            md: 9,
+          }}
+        >
           <OutlinedInput
             fullWidth
             placeholder={label}
             value={filename}
             onClick={activateInput}
+            sx={{
+              "@media (max-width: 600px)": {
+                fontSize: "14px",
+              },
+              "@media (max-width: 350px)": {
+                fontSize: "10px",
+              },
+            }}
           />
         </Grid>
-        <Grid size={3}>
+        <Grid
+          size={{
+            xs: 2,
+            sm: 2,
+            md: 3,
+          }}
+        >
           <Button variant="outlined" color="inherit" onClick={activateInput}>
-            <PermMediaIcon />
+            <PermMediaIcon
+              sx={{
+                "@media (max-width: 500px)": {
+                  fontSize: "15px",
+                },
+              }}
+            />
           </Button>
         </Grid>
       </Grid>
