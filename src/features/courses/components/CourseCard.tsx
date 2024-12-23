@@ -55,6 +55,8 @@ const CourseCard: React.FC<Props> = ({ course }) => {
     Воскресенье: "Вс",
   };
 
+  console.log(course.schedule);
+
   return (
     <Card
       sx={{

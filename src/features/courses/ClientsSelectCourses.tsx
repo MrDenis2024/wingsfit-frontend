@@ -24,10 +24,14 @@ const ClientsSelectCourses = () => {
 
   const submitHandler = (selectedSchedules: string[]) => {
     const matchingCourses = allCourses.filter((course) =>
-      selectedSchedules.includes(course.schedule),
+      course.schedule.some((schedule) => selectedSchedules.includes(schedule)),
     );
+
     const nonMatchingCourses = allCourses.filter(
-      (course) => !selectedSchedules.includes(course.schedule),
+      (course) =>
+        !course.schedule.some((schedule) =>
+          selectedSchedules.includes(schedule),
+        ),
     );
     setFilteredCourses(matchingCourses);
     setNonMatchingCourses(nonMatchingCourses);

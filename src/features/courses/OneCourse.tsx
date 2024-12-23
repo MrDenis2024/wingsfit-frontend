@@ -43,7 +43,7 @@ const OneCourse = () => {
   };
 
   const handleClickEditCourse = () => {
-    navigate(`/editCourses/${id}`);
+    navigate(`/edit-course/${id}`);
   };
 
   if (isLoading) {
@@ -205,14 +205,6 @@ const OneCourse = () => {
                     >
                       Формат: {course.format}
                     </Typography>
-                    <Typography
-                      sx={{
-                        color: "#000",
-                        fontSize: "22px",
-                      }}
-                    >
-                      Количество клиентов - {course.maxClients}
-                    </Typography>
                   </Grid>
                 </Grid>
                 <Grid
@@ -229,7 +221,7 @@ const OneCourse = () => {
                         fontSize: "22px",
                       }}
                     >
-                      {course.price}KGZ - {course.scheduleLength} занятий
+                      {course.price}KGZ
                     </Typography>
                   </Grid>
                 </Grid>
@@ -269,13 +261,12 @@ const OneCourse = () => {
                   >
                     График
                   </Typography>
-                  <Typography
-                    sx={{
-                      color: "#000",
-                      fontSize: "22px",
-                    }}
-                  >
-                    {course.schedule}
+                  <Typography variant="subtitle2" sx={{ color: "#555555" }}>
+                    {course.schedule.map((day, index) => (
+                      <Typography key={index} variant="body2">
+                        {day}
+                      </Typography>
+                    ))}
                   </Typography>
                 </Grid>
               </Grid>
