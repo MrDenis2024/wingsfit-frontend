@@ -1,7 +1,12 @@
-import {GlobalError} from "../../types/userTypes.ts";
-import {createSlice} from "@reduxjs/toolkit";
-import {createGroup, deleteGroup, fetchAllGroups, fetchCourseGroups,} from "./groupsThunk.ts";
-import {IGroup} from "../../types/groupTypes.ts";
+import { GlobalError } from "../../types/userTypes.ts";
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  createGroup,
+  deleteGroup,
+  fetchAllGroups,
+  fetchCourseGroups,
+} from "./groupsThunk.ts";
+import { IGroup } from "../../types/groupTypes.ts";
 
 export interface GroupsState {
   groupsData: IGroup[];

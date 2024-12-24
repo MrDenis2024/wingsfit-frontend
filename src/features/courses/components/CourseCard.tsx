@@ -60,16 +60,6 @@ const CourseCard: React.FC<Props> = ({ course, isShort }) => {
     }
   };
 
-  const dayAbbreviations: { [key: string]: string } = {
-    Понедельник: "Пн",
-    Вторник: "Вт",
-    Среда: "Ср",
-    Четверг: "Четв",
-    Пятница: "Пят",
-    Суббота: "Суб",
-    Воскресенье: "Вс",
-  };
-
   return (
     <>
       <Card sx={{ maxWidth: 345, height: "100%", border: "1px solid silver" }}>
@@ -86,42 +76,51 @@ const CourseCard: React.FC<Props> = ({ course, isShort }) => {
               </Typography>
               <Grid container>
                 {course.user._id === user?._id && (
-                    <Link to={`/edit-course/${course._id}`} style={{ textDecoration: "none" }}>
-                      <IconButton
-                          sx={{
-                            color: "#0288D1",
-                            borderColor: "#0288D1",
-                            "&:hover": {
-                              backgroundColor: "#dff3fc",
-                              borderColor: "#0288D1",
-                            },
-                            ml: 1,
-                          }}
-                      >
-                        <BorderColorIcon />
-                      </IconButton>
-                    </Link>
-                )}
-                {(course.user._id === user?._id || user?.role === "admin" || user?.role === "superAdmin") && (
+                  <Link
+                    to={`/edit-course/${course._id}`}
+                    style={{ textDecoration: "none" }}
+                  >
                     <IconButton
-                        sx={{
-                          color: "red",
+                      sx={{
+                        color: "#0288D1",
+                        borderColor: "#0288D1",
+                        "&:hover": {
+                          backgroundColor: "#dff3fc",
                           borderColor: "#0288D1",
-                          "&:hover": {
-                            backgroundColor: "#dff3fc",
-                            borderColor: "#0288D1",
-                          },
-                          ml: 1,
-                        }}
-                        onClick={() => setConfirmOpen(true)}
-                        disabled={courseDeleteLoading ? courseDeleteLoading === course._id : false}
+                        },
+                        ml: 1,
+                      }}
                     >
-                      {courseDeleteLoading === course._id ? (
-                          <CircularProgress size={24} />
-                      ) : (
-                          <ClearIcon />
-                      )}
+                      <BorderColorIcon />
                     </IconButton>
+                  </Link>
+                )}
+                {(course.user._id === user?._id ||
+                  user?.role === "admin" ||
+                  user?.role === "superAdmin") && (
+                  <IconButton
+                    sx={{
+                      color: "red",
+                      borderColor: "#0288D1",
+                      "&:hover": {
+                        backgroundColor: "#dff3fc",
+                        borderColor: "#0288D1",
+                      },
+                      ml: 1,
+                    }}
+                    onClick={() => setConfirmOpen(true)}
+                    disabled={
+                      courseDeleteLoading
+                        ? courseDeleteLoading === course._id
+                        : false
+                    }
+                  >
+                    {courseDeleteLoading === course._id ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      <ClearIcon />
+                    )}
+                  </IconButton>
                 )}
               </Grid>
             </Grid>
@@ -149,11 +148,7 @@ const CourseCard: React.FC<Props> = ({ course, isShort }) => {
               color="textSecondary"
               textAlign="center"
             >
-              {course.schedule
-                .map((day) => {
-                  return dayAbbreviations[day] || day;
-                })
-                .join(", ")}
+              {course.schedule.join(", ")}
             </Typography>
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
               Тренер: {course.user.firstName} {course.user.lastName}

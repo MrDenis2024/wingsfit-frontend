@@ -26,15 +26,7 @@ interface Props {
   existingCourse?: ICourse;
 }
 
-const DAYS_OF_WEEK = [
-  "Понедельник",
-  "Вторник",
-  "Среда",
-  "Четверг",
-  "Пятница",
-  "Суббота",
-  "Воскресенье",
-];
+const DAYS_OF_WEEK = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
 
 const CourseForm: React.FC<Props> = ({
   onSubmit,
