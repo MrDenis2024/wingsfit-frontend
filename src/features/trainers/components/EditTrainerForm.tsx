@@ -12,6 +12,7 @@ import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 import EditUser from "../../users/components/EditUser.tsx";
+import { isValidPhoneNumber } from "react-phone-number-input/min";
 
 interface Props {
   existingProfile: ITrainer;
@@ -48,6 +49,7 @@ const EditTrainerForm: React.FC<Props> = ({
       ? existingProfile.availableDays
       : "",
   });
+  const [phoneError, setPhoneError] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCourseTypes());
@@ -94,6 +96,19 @@ const EditTrainerForm: React.FC<Props> = ({
     }));
   };
 
+  const phoneChangeHandler = (value: string | undefined) => {
+    setPersonalInfo((prevState) => ({
+      ...prevState,
+      phoneNumber: value || "",
+    }));
+
+    if (value && !isValidPhoneNumber(value)) {
+      setPhoneError(true);
+    } else {
+      setPhoneError(false);
+    }
+  };
+
   const onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(personalInfo, optionalInfo);
@@ -112,6 +127,8 @@ const EditTrainerForm: React.FC<Props> = ({
         personalInfo={personalInfo}
         onTimezoneChange={changeTimezone}
         inputChangeHandler={inputChangeHandlerPersonal}
+        phoneChangeHandler={phoneChangeHandler}
+        phoneError={phoneError}
       />
       <Grid>
         <Typography variant="h6">Измените профильную информацию</Typography>

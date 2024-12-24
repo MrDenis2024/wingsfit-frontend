@@ -15,6 +15,7 @@ import {
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
+import { isValidPhoneNumber } from "react-phone-number-input";
 
 interface Props {
   existingProfile: IClient;
@@ -48,6 +49,7 @@ const EditClientForm: React.FC<Props> = ({
     trainingLevel: existingProfile.trainingLevel,
     physicalData: existingProfile.physicalData,
   });
+  const [phoneError, setPhoneError] = useState(false);
 
   useEffect(() => {
     dispatch(fetchCourseTypes());
@@ -96,6 +98,19 @@ const EditClientForm: React.FC<Props> = ({
     }));
   };
 
+  const phoneChangeHandler = (value: string | undefined) => {
+    setClientPersonalInfo((prevState) => ({
+      ...prevState,
+      phoneNumber: value || "",
+    }));
+
+    if (value && !isValidPhoneNumber(value)) {
+      setPhoneError(true);
+    } else {
+      setPhoneError(false);
+    }
+  };
+
   const onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     updateClientProfile(clientPersonalInfo, optionalInfo);
@@ -114,6 +129,8 @@ const EditClientForm: React.FC<Props> = ({
         personalInfo={clientPersonalInfo}
         onTimezoneChange={changeTimezone}
         inputChangeHandler={inputChangeHandlerClientPersonal}
+        phoneChangeHandler={phoneChangeHandler}
+        phoneError={phoneError}
       />
       <Grid>
         <Typography variant="h6">Измените профильные данные</Typography>

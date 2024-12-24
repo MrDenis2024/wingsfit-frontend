@@ -323,7 +323,7 @@ const OneCourse = () => {
           }}
         >
           {course.image ? (
-            <Grid sx={{ maxWidth: "654px"}}>
+            <Grid sx={{ maxWidth: "654px" }}>
               <CardMedia
                 component="img"
                 image={courseImage}
@@ -363,7 +363,7 @@ const OneCourse = () => {
             </Typography>
           </Grid>
           {course.user.avatar ? (
-            <Grid sx={{ maxWidth: "654px"}}>
+            <Grid sx={{ maxWidth: "654px" }}>
               <CardMedia
                 component="img"
                 image={avatar}
