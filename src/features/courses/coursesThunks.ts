@@ -24,6 +24,33 @@ export const fetchCourses = createAsyncThunk<ICourse[], string | undefined>(
   },
 );
 
+interface FetchSearchCourseArgs {
+  courseTypes: string[];
+  trainers: string[];
+  format: string[];
+  schedule: string[];
+}
+
+export const fetchSearchCourses = createAsyncThunk<ICourse[], FetchSearchCourseArgs>(
+  "courses/fetchSearchCourses",
+  async (searchData) => {
+    const params = {
+      courseTypes: searchData.courseTypes.join(",").trim(),
+      trainers: searchData.trainers.join(",").trim(),
+      format: searchData.format.join(",").trim(),
+      schedule: searchData.schedule.join(",").trim(),
+    };
+
+    const { data: courses } = await axiosApi.get<ICourse[]>("/courses/search", { params });
+
+    if (!courses) {
+      return [];
+    }
+
+    return courses;
+  },
+);
+
 export const createCourse = createAsyncThunk<
   void,
   CourseMutation,
