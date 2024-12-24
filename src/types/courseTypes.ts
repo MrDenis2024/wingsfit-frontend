@@ -20,6 +20,8 @@ export interface ICourse {
     _id: string;
     firstName: string;
     lastName: string;
+    avatar: string | null;
+    description: string | null;
   };
   title: string;
   courseType: {

@@ -39,6 +39,7 @@ const ClientsSelectCourses = () => {
         return [...acc, rec];
       } else return acc;
     }, []);
+
     setFilteredCourses(matchingCourses);
     setNonMatchingCourses(nonMatchingCourses);
     setSubmitted(true);

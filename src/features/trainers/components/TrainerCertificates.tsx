@@ -20,6 +20,7 @@ import { selectUser } from "../../users/userSlice.ts";
 import { ITrainer } from "../../../types/trainerTypes.ts";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
   trainerProfile: ITrainer | null;
@@ -39,7 +40,10 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
   const toggleStatus = () => setIsStatusOpen((prev) => !prev);
 
   const [open, setOpen] = useState(false);
-  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false); // Состояние для диалога подтверждения
+  const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
+  const [scale, setScale] = useState(1); // Масштабирование
+  const [isFullScreen, setIsFullScreen] = useState(false); // Полноэкранный режим
+  const [isImageClicked, setIsImageClicked] = useState(false); // Состояние клика по изображению
 
   useEffect(() => {
     if (trainerProfile?.certificates?.length) {
@@ -54,6 +58,7 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
   }) => {
     setSelectedCertificate(certificate);
     setOpen(true);
+    setScale(1);
   };
 
   const handleClose = () => {
@@ -79,6 +84,27 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
 
   const handleOpenConfirmDialog = () => {
     setIsConfirmDialogOpen(true);
+  };
+
+  const handleZoom = (delta: number) => {
+    if (isImageClicked) {
+      setScale((prev) => Math.min(Math.max(prev + delta, 0.5), 3));
+    }
+  };
+
+  const toggleFullScreen = () => {
+    setIsFullScreen((prev) => !prev);
+    if (!isFullScreen) setScale(1);
+  };
+
+  const handleImageClick = () => {
+    setIsImageClicked(true);
+  };
+
+  const handleImageClose = () => {
+    setIsFullScreen(false);
+    setScale(1);
+    handleClose();
   };
 
   return (
@@ -161,51 +187,76 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
       </Collapse>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={handleImageClose}
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          maxWidth: "100%",
-          maxHeight: "100%",
-          padding: 0,
-          margin: 0,
-          overflow: "hidden",
+          "& .MuiDialog-paper": {
+            overflow: "hidden",
+            borderRadius: "12px",
+            maxWidth: isFullScreen ? "100%" : "980px",
+            maxHeight: isFullScreen ? "100%" : "80vh",
+            width: "100%",
+            height: isFullScreen ? "100%" : "auto",
+            position: "relative",
+            "@media (max-width: 350px)": {
+              maxHeight: "50vh",
+              position: "none",
+            },
+          },
         }}
       >
+        <IconButton
+          onClick={handleImageClose}
+          sx={{
+            position: "absolute",
+            top: -6,
+            right: 0,
+            color: "black",
+            zIndex: 10,
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
         <Box
           sx={{
-            width: "100%",
-            maxWidth: "980px",
-            height: "auto",
             display: "flex",
             flexDirection: "column",
-            padding: "20px",
-            justifyContent: "center",
             alignItems: "center",
-            overflow: "hidden",
+            padding: "20px",
+            width: "100%",
+            height: "100%",
           }}
         >
           {selectedCertificate && (
             <>
               <Box
                 sx={{
+                  width: "100%",
+                  height: "100%",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  overflow: "hidden",
-                  width: "100%",
-                  height: "auto",
-                  maxHeight: "80vh",
+                  position: "relative",
+                  cursor: isFullScreen ? "zoom-out" : "zoom-in",
+                  maxHeight: isFullScreen ? "100%" : "calc(80vh - 120px)",
                 }}
+                onClick={toggleFullScreen}
+                onWheel={(e) => handleZoom(e.deltaY > 0 ? -0.1 : 0.1)}
               >
                 <CardMedia
                   component="img"
                   image={`${apiURL}/${selectedCertificate.image}`}
                   alt={selectedCertificate.title}
+                  onClick={handleImageClick}
                   sx={{
-                    width: "100%",
-                    height: "auto",
+                    transform: `scale(${scale})`,
+                    transition: "transform 0.2s",
+                    width: isFullScreen ? "100%" : "auto",
+                    height: isFullScreen ? "100%" : "auto",
+                    maxWidth: "100%",
+                    maxHeight: isFullScreen ? "100%" : "calc(80vh - 120px)",
                     objectFit: "contain",
                     borderRadius: "10px",
                   }}
@@ -213,7 +264,15 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
               </Box>
               <Typography
                 variant="h6"
-                sx={{ marginBottom: "15px", textAlign: "center" }}
+                sx={{
+                  marginTop: "15px",
+                  marginBottom: "10px",
+                  textAlign: "center",
+                  wordWrap: "break-word",
+                  "@media (max-width: 350px)": {
+                    fontSize: "16px",
+                  },
+                }}
               >
                 {selectedCertificate.title}
               </Typography>
@@ -224,20 +283,21 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
             iUser?._id === trainerProfile?.user?._id) && (
             <Button
               variant="outlined"
-              sx={{ width: "200px", marginBottom: 2 }}
               color="error"
+              sx={{
+                width: "200px",
+                marginBottom: 2,
+                textTransform: "none",
+                display: isFullScreen ? "none" : "block",
+                "@media (max-width: 350px)": {
+                  fontSize: "12px",
+                },
+              }}
               onClick={handleOpenConfirmDialog}
             >
               Удалить сертификат
             </Button>
           )}
-          <Button
-            onClick={handleClose}
-            variant="contained"
-            sx={{ width: "90px", alignSelf: "flex-end" }}
-          >
-            Close
-          </Button>
         </Box>
       </Dialog>
       <CustomConfirmDialog
