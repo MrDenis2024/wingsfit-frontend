@@ -2,6 +2,7 @@ import { GlobalError } from "../../types/userTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createGroup,
+  deleteGroup,
   fetchAllGroups,
   fetchCourseGroups,
 } from "./groupsThunk.ts";
@@ -13,6 +14,7 @@ export interface GroupsState {
   fetchCourseGroups: boolean;
   isCreating: boolean;
   isCreatingError: GlobalError | null;
+  deleteGroupLoading: false | string;
 }
 
 const initialState: GroupsState = {
@@ -21,6 +23,7 @@ const initialState: GroupsState = {
   fetchCourseGroups: false,
   isCreating: false,
   isCreatingError: null,
+  deleteGroupLoading: false,
 };
 
 export const groupsSlice = createSlice({
@@ -67,6 +70,17 @@ export const groupsSlice = createSlice({
       .addCase(fetchCourseGroups.rejected, (state) => {
         state.fetchCourseGroups = false;
       });
+
+    builder
+      .addCase(deleteGroup.pending, (state, { meta: { arg: group } }) => {
+        state.deleteGroupLoading = group;
+      })
+      .addCase(deleteGroup.fulfilled, (state) => {
+        state.deleteGroupLoading = false;
+      })
+      .addCase(deleteGroup.rejected, (state) => {
+        state.deleteGroupLoading = false;
+      });
   },
   selectors: {
     selectGroups: (state) => state.groupsData,
@@ -74,6 +88,7 @@ export const groupsSlice = createSlice({
     selectFetchCourseGroups: (state) => state.fetchCourseGroups,
     selectGroupCreate: (state) => state.isCreating,
     selectGroupError: (state) => state.isCreatingError,
+    selectDeleteGroupLoading: (state) => state.deleteGroupLoading,
   },
 });
 
@@ -85,4 +100,5 @@ export const {
   selectFetchGroups,
   selectFetchCourseGroups,
   selectGroups,
+  selectDeleteGroupLoading,
 } = groupsSlice.selectors;
