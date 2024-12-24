@@ -262,11 +262,7 @@ const OneCourse = () => {
                     График
                   </Typography>
                   <Typography variant="subtitle2" sx={{ color: "#555555" }}>
-                    {course.schedule.map((day, index) => (
-                      <Typography key={index} variant="body2">
-                        {day}
-                      </Typography>
-                    ))}
+                    {course.schedule.join(", ")}
                   </Typography>
                 </Grid>
               </Grid>

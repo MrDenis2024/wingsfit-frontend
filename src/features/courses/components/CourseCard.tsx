@@ -38,16 +38,6 @@ const CourseCard: React.FC<Props> = ({ course, isShort }) => {
     cardImage = `${apiURL}/${course.image}`;
   }
 
-  const dayAbbreviations: { [key: string]: string } = {
-    Понедельник: "Пн",
-    Вторник: "Вт",
-    Среда: "Ср",
-    Четверг: "Четв",
-    Пятница: "Пят",
-    Суббота: "Суб",
-    Воскресенье: "Вс",
-  };
-
   return (
     <Card sx={{ maxWidth: 345, height: "100%", border: "1px solid silver" }}>
       <CardHeader
@@ -102,11 +92,7 @@ const CourseCard: React.FC<Props> = ({ course, isShort }) => {
         />
         <CardContent>
           <Typography variant="body1" color="textSecondary" textAlign="center">
-            {course.schedule
-              .map((day) => {
-                return dayAbbreviations[day] || day;
-              })
-              .join(", ")}
+            {course.schedule.join(", ")}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }}>
             Тренер: {course.user.firstName} {course.user.lastName}
