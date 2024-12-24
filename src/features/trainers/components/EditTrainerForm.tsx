@@ -12,7 +12,7 @@ import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 import EditUser from "../../users/components/EditUser.tsx";
-import {isValidPhoneNumber} from "react-phone-number-input/min";
+import { isValidPhoneNumber } from "react-phone-number-input/min";
 
 interface Props {
   existingProfile: ITrainer;

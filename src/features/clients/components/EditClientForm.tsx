@@ -51,7 +51,6 @@ const EditClientForm: React.FC<Props> = ({
   });
   const [phoneError, setPhoneError] = useState(false);
 
-
   useEffect(() => {
     dispatch(fetchCourseTypes());
   }, [dispatch]);
