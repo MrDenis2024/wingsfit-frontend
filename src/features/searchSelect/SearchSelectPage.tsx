@@ -7,19 +7,20 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  useMediaQuery, Container, Button, Box,
+  useMediaQuery, Container, Button, Box, Alert,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import {selectCourseTypes} from "../CourseTypes/CourseTypesSlice.ts";
-import {selectSearchCourses} from "../courses/coursesSlice.ts";
-import CourseCards from "../courses/components/CourseCards.tsx";
+import {selectSearchCourses, selectSearchCoursesFetching} from "../courses/coursesSlice.ts";
 import {selectTrainers} from "../trainers/trainersSlice.ts";
 import {getTrainers} from "../trainers/trainersThunks.ts";
 import {selectUser} from "../users/userSlice.ts";
 import {fetchSearchCourses} from "../courses/coursesThunks.ts";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import CourseCard from "../courses/components/CourseCard.tsx";
+import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 interface FetchSearchCourseArgs {
   courseTypes: string[];
@@ -32,6 +33,7 @@ const SearchSelectPage = () => {
   const user = useAppSelector(selectUser);
   const courseTypes = useAppSelector(selectCourseTypes);
   const courses = useAppSelector(selectSearchCourses);
+  const isLoading = useAppSelector(selectSearchCoursesFetching);
   const trainers = useAppSelector(selectTrainers);
   const [filters, setFilters] = useState<FetchSearchCourseArgs>({
     format: [],
@@ -50,7 +52,7 @@ const SearchSelectPage = () => {
     dispatch(getTrainers(user._id));
   }, [dispatch, user]);
 
-  const matches = useMediaQuery('(max-width:950px)');
+  const matches = useMediaQuery('(max-width:500px)');
 
   const handleCheckboxChange = (category: keyof FetchSearchCourseArgs, value: string) => {
     setFilters((prevFilters) => {
@@ -82,13 +84,12 @@ const SearchSelectPage = () => {
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2} py={matches ? 2 : 4}>
-        <Grid size={{ md: 12, lg: 3, xs: 12 }}>
+        <Grid size={{ md: 3, lg: 3, xs: 12 }}>
           <FormGroup>
             <Grid display="flex" justifyContent="space-between" gap={1} flexWrap="wrap">
               <Typography variant="h6" display="flex" justifyContent="space-between" gutterBottom>
                 Сортировка
               </Typography>
-              <Button variant="outlined" size="small" onClick={sendForm}>Сортировать</Button>
             </Grid>
             <FormControlLabel
               control={
@@ -179,11 +180,21 @@ const SearchSelectPage = () => {
             </AccordionDetails>
           </Accordion>
           <Box gap={1} mt={2} display="flex" justifyContent="end">
-            <Button variant="outlined" color="error" size="small" onClick={resetForm}>очистить <DeleteForeverIcon/></Button>
+            <Button
+              variant="outlined"
+              sx={{
+                color: 'gray',
+                borderColor: 'gray',
+              }}
+              onClick={resetForm}
+            >
+              Сбросить<DeleteForeverIcon/>
+            </Button>
+            <Button variant="outlined" onClick={sendForm}>Сортировать</Button>
           </Box>
         </Grid>
 
-        <Grid size={{ md: 12, lg: 9 }}>
+        <Grid size={{sm: 12, md: 9, lg: 9, xs: 12 }}>
           <Grid mb={3}>
             <Typography variant="h4" gutterBottom textAlign="center">
               Тренировки
@@ -192,7 +203,29 @@ const SearchSelectPage = () => {
               Выберете удобные дни для своих занятий
             </Typography>
           </Grid>
-          <CourseCards courses={courses} isShort={true} />
+          <Grid container spacing={3} sx={{ mb: 5 }} display="flex">
+            {!isLoading ? (
+              courses.length > 0 ? (
+                courses.map((course) => (
+                    <Grid
+                      key={course._id}
+                      size={{ md: 4, lg: 4, sm: 6, xs: 12 }}
+                      display="flex"
+                      justifyContent="center" >
+                      <CourseCard course={course} isShort={true} />
+                    </Grid>
+                ))
+              ) : (
+                <Alert severity="info" sx={{ width: "100%" }}>
+                  Здесь пока нет никаких курсов!
+                </Alert>
+              )
+            ) : (
+              <Grid display="flex" justifyContent="center" size={12}>
+                <LoadingIndicator />
+              </Grid>
+            )}
+          </Grid>
         </Grid>
       </Grid>
     </Container>
