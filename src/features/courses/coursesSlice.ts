@@ -2,6 +2,7 @@ import { ValidationError } from "../../types/userTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createCourse,
+  deleteCourse,
   editCourse,
   fetchCourses, fetchSearchCourses,
   getOneCourse,
@@ -18,6 +19,7 @@ export interface CoursesState {
   oneCourseLoading: boolean;
   updateLoading: boolean;
   isCourseError: ValidationError | null;
+  deleteCourseLoading: false | string;
 }
 
 const initialState: CoursesState = {
@@ -30,6 +32,7 @@ const initialState: CoursesState = {
   oneCourseLoading: false,
   updateLoading: false,
   isCourseError: null,
+  deleteCourseLoading: false,
 };
 
 export const coursesSlice = createSlice({
@@ -99,6 +102,17 @@ export const coursesSlice = createSlice({
         state.updateLoading = false;
         state.isCourseError = error || null;
       });
+
+    builder
+      .addCase(deleteCourse.pending, (state, { meta: { arg: course } }) => {
+        state.deleteCourseLoading = course;
+      })
+      .addCase(deleteCourse.fulfilled, (state) => {
+        state.deleteCourseLoading = false;
+      })
+      .addCase(deleteCourse.rejected, (state) => {
+        state.deleteCourseLoading = false;
+      });
   },
   selectors: {
     selectCoursesFetching: (state) => state.coursesLoading,
@@ -110,6 +124,7 @@ export const coursesSlice = createSlice({
     selectOneCourseLoading: (state) => state.oneCourseLoading,
     selectCourseUpdateLoading: (state) => state.updateLoading,
     selectCourseError: (state) => state.isCourseError,
+    selectDeleteCourseLoading: (state) => state.deleteCourseLoading,
   },
 });
 
@@ -124,5 +139,6 @@ export const {
   selectCourseUpdateLoading,
   selectCourseError,
   selectSearchCourses,
-  selectSearchCoursesFetching
+  selectSearchCoursesFetching,
+  selectDeleteCourseLoading,
 } = coursesSlice.selectors;
