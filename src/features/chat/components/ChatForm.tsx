@@ -10,9 +10,10 @@ import TelegramIcon from "@mui/icons-material/Telegram";
 
 interface Props {
   chatId: string;
+  onSendMessage: (message: string) => void;
 }
 
-const ChatForm: React.FC<Props> = () => {
+const ChatForm: React.FC<Props> = ({ onSendMessage}) => {
   const [message, setMessage] = useState("");
   const [wordLimitExceeded, setWordLimitExceeded] = useState(false);
 
@@ -28,11 +29,20 @@ const ChatForm: React.FC<Props> = () => {
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (message.trim()) {
+      onSendMessage(message);
+      setMessage("");
+    }
+  };
+
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   return (
     <Grid
       component="form"
+      onSubmit={handleSubmit}
       sx={{
         display: "flex",
         padding: 2,
