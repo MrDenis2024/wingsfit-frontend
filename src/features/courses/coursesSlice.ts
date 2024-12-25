@@ -4,14 +4,16 @@ import {
   createCourse,
   deleteCourse,
   editCourse,
-  fetchCourses,
+  fetchCourses, fetchSearchCourses,
   getOneCourse,
 } from "./coursesThunks.ts";
 import { ICourse } from "../../types/courseTypes.ts";
 
 export interface CoursesState {
   courses: ICourse[];
+  searchCourses: ICourse[];
   coursesLoading: boolean;
+  searchCoursesLoading: boolean;
   isCreating: boolean;
   oneCourse: ICourse | null;
   oneCourseLoading: boolean;
@@ -22,7 +24,9 @@ export interface CoursesState {
 
 const initialState: CoursesState = {
   courses: [],
+  searchCourses: [],
   coursesLoading: false,
+  searchCoursesLoading: false,
   isCreating: false,
   oneCourse: null,
   oneCourseLoading: false,
@@ -59,6 +63,18 @@ export const coursesSlice = createSlice({
       })
       .addCase(fetchCourses.rejected, (state) => {
         state.coursesLoading = false;
+      });
+
+    builder
+      .addCase(fetchSearchCourses.pending, (state) => {
+      state.searchCoursesLoading = true;
+    })
+      .addCase(fetchSearchCourses.fulfilled, (state, { payload: courses }) => {
+      state.searchCourses = courses;
+      state.searchCoursesLoading = false;
+    })
+      .addCase(fetchSearchCourses.rejected, (state) => {
+        state.searchCoursesLoading = false;
       });
 
     builder
@@ -102,6 +118,8 @@ export const coursesSlice = createSlice({
     selectCoursesFetching: (state) => state.coursesLoading,
     selectCourseCreate: (state) => state.isCreating,
     selectCourses: (state) => state.courses,
+    selectSearchCourses: (state) => state.searchCourses,
+    selectSearchCoursesFetching: (state) => state.searchCoursesLoading,
     selectOneCourse: (state) => state.oneCourse,
     selectOneCourseLoading: (state) => state.oneCourseLoading,
     selectCourseUpdateLoading: (state) => state.updateLoading,
@@ -120,5 +138,7 @@ export const {
   selectOneCourseLoading,
   selectCourseUpdateLoading,
   selectCourseError,
+  selectSearchCourses,
+  selectSearchCoursesFetching,
   selectDeleteCourseLoading,
 } = coursesSlice.selectors;

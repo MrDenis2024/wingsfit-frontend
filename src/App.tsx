@@ -27,9 +27,9 @@ import TrainersPage from "./features/trainers/TrainersPage.tsx";
 import TrainerStatistics from "./features/trainers/statistic/TrainerStatistics.tsx";
 import EditTrainer from "./features/trainers/components/EditTrainer.tsx";
 import EditClient from "./features/clients/components/EditClient.tsx";
-import ClientsSelectCourses from "./features/courses/ClientsSelectCourses.tsx";
 import LessonsPage from "./features/lessons/LessonsPage/LessonsPage.tsx";
 import EditCourse from "./features/courses/EditCourse.tsx";
+import SearchSelectPage from "./features/searchSelect/SearchSelectPage.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -211,10 +211,10 @@ const App = () => {
             }
           />
           <Route
-            path="/client/select-course"
+            path="clients/search-select-page"
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "client"}>
-                <ClientsSelectCourses />
+                <SearchSelectPage />
               </ProtectedRoute>
             }
           />
