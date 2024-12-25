@@ -9,12 +9,16 @@ import {
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks.ts";
-import logo from "../../assets/images/logo.png";
 import { selectUser } from "../../features/users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ChatIcon from "@mui/icons-material/Chat";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
+import HomeIcon from "@mui/icons-material/Home";
 
 const StyledLink = styled(NavLink)(({ theme }) => ({
   color: "inherit",
@@ -30,32 +34,32 @@ const StyledLink = styled(NavLink)(({ theme }) => ({
 }));
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
   const user = useAppSelector(selectUser);
   const userId = user?._id;
+  const [showMenu, setShowMenu] = useState(false);
 
   const clientLinks = userId
     ? [
-        { to: `/clients/${userId}`, label: "My Profile" },
+        { to: `/`, label: "Home" },
         { to: `/clients/courses/${userId}`, label: "My Courses" },
         { to: `/clients/chats/${userId}`, label: "My Chats" },
-        { to: `/clients/calendar/${userId}`, label: "Calendar" },
+        { to: `/clients/search-select-page`, label: "Search" },
       ]
     : [];
 
   const trainerLinks = userId
     ? [
-        { to: `/trainers/${userId}`, label: "My Profile" },
+        { to: `/`, label: "Home" },
         { to: `/trainers/courses/${userId}`, label: "My Courses" },
         { to: `/trainers/chats/${userId}`, label: "My Chats" },
-        { to: `/trainers/calendar/${userId}`, label: "Calendar" },
       ]
     : [];
 
   const links = user?.role === "trainer" ? trainerLinks : clientLinks;
   const mediaQuery = useMediaQuery("(min-width:1098px)");
+  const isMobile = useMediaQuery("(max-width:600px)");
 
-  if (location.pathname === "/") {
+  if (mediaQuery && user) {
     return (
       <Box
         component="footer"
@@ -245,59 +249,87 @@ const Footer = () => {
     );
   }
 
-  return (
-    <Box
-      sx={{
-        display: { xs: "none", md: "block" },
-        bgcolor: "background.default",
-        py: 3,
-        px: 2,
-        mt: "auto",
-        textAlign: "center",
-        borderTop: "1px solid #ddd",
-        boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.2)",
-      }}
-    >
-      <Stack
-        direction="row"
-        spacing={4}
-        justifyContent="space-between"
-        alignItems="center"
+  if (isMobile && user) {
+    return (
+      <Box
         sx={{
-          fontSize: "1rem",
-          fontWeight: "500",
+          position: "fixed",
+          bottom: 0,
+          width: "100%",
+          backgroundColor: "background.default",
+          boxShadow: "0px -6px 12px rgba(0, 0, 0, 0.2)",
+          zIndex: 1000,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingX: 3,
+          paddingY: 2,
+          borderRadius: "20px 20px 0 0",
+          borderTop: "2px solid",
+          borderColor: "background.paper",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <StyledLink to="/" style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
-            <img
-              src={logo}
-              alt="Wings Fit Logo"
-              style={{ height: 40, marginRight: 10 }}
-            />
+        {links.map((link) => (
+          <StyledLink key={link.to} to={link.to}>
+            {link.label === "Home" ? (
+              <HomeIcon />
+            ) : link.label === "My Courses" ? (
+              <FitnessCenterIcon />
+            ) : link.label === "My Chats" ? (
+              <ChatIcon />
+            ) : link.label === "Search" ? (
+              <SearchIcon />
+            ) : null}
           </StyledLink>
-        </Box>
-        <Stack
-          direction="row"
-          spacing={3}
-          justifyContent="center"
-          sx={{ alignItems: "center" }}
-        >
-          <StyledLink to="/" end>
-            Home
-          </StyledLink>
-          {links.map((link) => (
-            <StyledLink key={link.to} to={link.to}>
-              {link.label}
-            </StyledLink>
-          ))}
-        </Stack>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 3 }}>
-          &copy; {currentYear} Wings Fit.
-        </Typography>
-      </Stack>
-    </Box>
-  );
+        ))}
+        {user.role === "trainer" && (
+          <Box sx={{ position: "relative" }}>
+            <Box
+              sx={{
+                width: 56,
+                height: 56,
+                backgroundColor: "primary.main",
+                borderRadius: "50%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                cursor: "pointer",
+                color: "#fff",
+                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+              }}
+              onClick={() => setShowMenu((prev) => !prev)}
+            >
+              <AddCircleOutlineIcon />
+            </Box>
+            {showMenu && (
+              <Box
+                sx={{
+                  width: 150,
+                  position: "absolute",
+                  bottom: 70,
+                  right: 5,
+                  backgroundColor: "background.paper",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                  borderRadius: 1,
+                  padding: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 1,
+                }}
+              >
+                <StyledLink to="/add-new-course">
+                  <Typography variant="body1">Создать курс</Typography>
+                </StyledLink>
+                <StyledLink to="/add-new-group">
+                  <Typography variant="body1">Создать группу</Typography>
+                </StyledLink>
+              </Box>
+            )}
+          </Box>
+        )}
+      </Box>
+    );
+  }
 };
 
 export default Footer;

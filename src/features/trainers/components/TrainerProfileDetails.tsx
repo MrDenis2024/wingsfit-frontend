@@ -275,7 +275,14 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
             <RatingAndReviews id={id} />
           </Grid>
 
-          <Box sx={{ marginTop: "40px" }}>
+          <Box
+            sx={{
+              marginTop: "40px",
+              "@media (max-width: 600px)": {
+                pb: 7,
+              },
+            }}
+          >
             {!isOwner && (
               <>
                 <Box sx={{ marginTop: "20px", textAlign: "center" }}>

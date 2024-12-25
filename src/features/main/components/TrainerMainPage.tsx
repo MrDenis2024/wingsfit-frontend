@@ -28,7 +28,9 @@ const TrainerMainPage = () => {
         container
         justifyContent="space-between"
         alignItems="center"
-        sx={{ mb: 3 }}
+        sx={{
+          mb: 3,
+        }}
       >
         <Typography variant="h4">Мои курсы</Typography>
         <Button

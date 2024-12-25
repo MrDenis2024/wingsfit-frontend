@@ -78,35 +78,63 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           Профиль
         </MenuItem>
         <MenuItem
-          onClick={() => navigate(`/${user.role}s/courses/${user._id}`)}
+          onClick={() => {
+            navigate(`/${user.role}s/courses/${user._id}`);
+            handleClose();
+          }}
         >
           <FitnessCenterIcon sx={{ mr: 2 }} />
           Мои курсы
         </MenuItem>
         {user.role === "trainer" && (
-          <MenuItem onClick={() => navigate(`/add-new-group`)}>
+          <MenuItem
+            onClick={() => {
+              navigate(`/add-new-group`);
+              handleClose();
+            }}
+          >
             <GroupIcon sx={{ mr: 2 }} />
             Создать группу
           </MenuItem>
         )}
-        <MenuItem onClick={() => navigate(`/${user.role}s/chats/${user._id}`)}>
+        <MenuItem
+          onClick={() => {
+            navigate(`/${user.role}s/chats/${user._id}`);
+            handleClose();
+          }}
+        >
           <ChatIcon sx={{ mr: 2 }} />
           Чат
         </MenuItem>
         {user.role === "client" && (
-          <MenuItem onClick={() => navigate(`/${user.role}s/search-select-page`)}>
+          <MenuItem
+            onClick={() => {
+              navigate(`/${user.role}s/search-select-page`);
+              handleClose();
+            }}
+          >
             <AssignmentTurnedInOutlinedIcon sx={{ mr: 2 }} />
             Поиск занятий
           </MenuItem>
         )}
         {user.role === "trainer" && (
-          <MenuItem onClick={() => navigate(`/${user.role}/statistics`)}>
+          <MenuItem
+            onClick={() => {
+              navigate(`/${user.role}/statistics`);
+              handleClose();
+            }}
+          >
             <AddchartIcon sx={{ mr: 2 }} />
             Статистика
           </MenuItem>
         )}
         {user.role === "trainer" && (
-          <MenuItem onClick={() => navigate("/lessons")}>
+          <MenuItem
+            onClick={() => {
+              navigate("/lessons");
+              handleClose();
+            }}
+          >
             <EditNoteIcon sx={{ mr: 2 }} />
             Занятия
           </MenuItem>

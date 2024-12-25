@@ -122,7 +122,12 @@ const EditClientForm: React.FC<Props> = ({
       spacing={2}
       component={"form"}
       direction="column"
-      sx={{ my: 3 }}
+      sx={{
+        my: 3,
+        "@media (max-width: 600px)": {
+          pb: 7,
+        },
+      }}
       onSubmit={onFormSubmit}
     >
       <EditUser
