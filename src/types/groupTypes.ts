@@ -14,6 +14,7 @@ export interface IGroup {
     _id: string;
     title: string;
     schedule: string[];
+    user: string;
   };
   clients: {
     _id: string;

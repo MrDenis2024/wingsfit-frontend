@@ -74,3 +74,10 @@ export const editCourse = createAsyncThunk<
     throw e;
   }
 });
+
+export const deleteCourse = createAsyncThunk<void, string>(
+  "courses/deleteCourse",
+  async (id) => {
+    await axiosApi.delete(`/courses/${id}`);
+  },
+);
