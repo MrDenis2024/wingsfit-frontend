@@ -6,7 +6,7 @@ export interface TrainerProfileMutation {
   specialization: string;
   experience: string;
   courseTypes: string[];
-  availableDays: string;
+  availableDays: string[];
 }
 
 export interface FullTrainerProfileMutation extends TrainerProfileMutation {
@@ -30,7 +30,7 @@ export interface ITrainer {
     image: string;
   }[];
   description?: string;
-  availableDays?: string;
+  availableDays?: string[];
   rating: number;
 }
 

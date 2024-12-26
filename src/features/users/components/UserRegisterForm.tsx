@@ -165,9 +165,6 @@ const UserRegisterForm: React.FC<Props> = ({
               borderRadius: "8px",
               backgroundColor: "#f9f9f9",
               marginBottom: "20px",
-              "@media (max-width: 350px)": {
-                fontSize: "12px",
-              },
             }}
           />
           {phoneError && (
@@ -285,6 +282,9 @@ const UserRegisterForm: React.FC<Props> = ({
             <CustomButton variant="outlined" disabled label="Назад" />
           </Grid>
           <Grid>
+            <CustomButton type="submit" variant="outlined" label="Далее" />
+          </Grid>
+          <Grid>
             <CustomButton
               disabled={
                 personalData.firstName === "" ||
@@ -295,9 +295,6 @@ const UserRegisterForm: React.FC<Props> = ({
               onClick={() => updatePersonalInfo(personalData, null, null)}
               label="Завершить"
             />
-          </Grid>
-          <Grid>
-            <CustomButton type="submit" variant="outlined" label="Далее" />
           </Grid>
         </Grid>
       </Grid>

@@ -41,9 +41,9 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
 
   const [open, setOpen] = useState(false);
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false);
-  const [scale, setScale] = useState(1); // Масштабирование
-  const [isFullScreen, setIsFullScreen] = useState(false); // Полноэкранный режим
-  const [isImageClicked, setIsImageClicked] = useState(false); // Состояние клика по изображению
+  const [scale, setScale] = useState(1);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isImageClicked, setIsImageClicked] = useState(false);
 
   useEffect(() => {
     if (trainerProfile?.certificates?.length) {

@@ -7,7 +7,7 @@ import { Container } from "@mui/material";
 const MainPage = () => {
   const user = useAppSelector(selectUser);
   return (
-    <Container maxWidth="lg" sx={{ my: 5 }}>
+    <Container maxWidth="lg" sx={{ py: 2 }}>
       {user?.role === "trainer" ? <TrainerMainPage /> : <ClientMainPage />}
     </Container>
   );

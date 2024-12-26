@@ -5,7 +5,13 @@ import {
 } from "../../../types/trainerTypes.ts";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import Grid from "@mui/material/Grid2";
-import { TextField, Typography } from "@mui/material";
+import {
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+  Typography,
+} from "@mui/material";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
@@ -13,6 +19,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 import EditUser from "../../users/components/EditUser.tsx";
 import { isValidPhoneNumber } from "react-phone-number-input/min";
+import { DAYS_OF_WEEK } from "../../../constants.ts";
 
 interface Props {
   existingProfile: ITrainer;
@@ -47,7 +54,7 @@ const EditTrainerForm: React.FC<Props> = ({
     courseTypes: existingProfile.courseTypes,
     availableDays: existingProfile.availableDays
       ? existingProfile.availableDays
-      : "",
+      : [],
   });
   const [phoneError, setPhoneError] = useState(false);
 
@@ -109,6 +116,15 @@ const EditTrainerForm: React.FC<Props> = ({
     }
   };
 
+  const handleDayChange = (day: string) => {
+    setOptionalInfo((prevState) => ({
+      ...prevState,
+      availableDays: prevState.availableDays.includes(day)
+        ? prevState.availableDays.filter((d) => d !== day)
+        : [...prevState.availableDays, day],
+    }));
+  };
+
   const onFormSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(personalInfo, optionalInfo);
@@ -120,7 +136,9 @@ const EditTrainerForm: React.FC<Props> = ({
       spacing={2}
       component={"form"}
       direction="column"
-      sx={{ my: 3 }}
+      sx={{
+        my: 3,
+      }}
       onSubmit={onFormSubmit}
     >
       <EditUser
@@ -172,13 +190,21 @@ const EditTrainerForm: React.FC<Props> = ({
         label="Course types"
       />
       <Grid>
-        <TextField
-          type="text"
-          label="Дни проведения занятий"
-          name="availableDays"
-          onChange={inputChangeHandlerOptional}
-          value={optionalInfo.availableDays}
-        />
+        <Typography variant="h6">Дни проведения занятий:</Typography>
+        <FormGroup row>
+          {DAYS_OF_WEEK.map((day) => (
+            <FormControlLabel
+              key={day}
+              control={
+                <Checkbox
+                  checked={optionalInfo.availableDays.includes(day)}
+                  onChange={() => handleDayChange(day)}
+                />
+              }
+              label={day}
+            />
+          ))}
+        </FormGroup>
       </Grid>
       <Grid>
         <LoadingButton type={"submit"} variant="outlined" loading={editLoading}>

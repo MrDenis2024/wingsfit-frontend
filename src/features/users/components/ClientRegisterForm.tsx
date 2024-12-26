@@ -92,8 +92,6 @@ const ClientRegisterForm: React.FC<Props> = ({
         sx={{
           mb: 1,
           mx: 1,
-          maxWidth: "400px",
-          width: "100%",
           marginLeft: {
             xs: "unset",
             md: "auto",
@@ -226,9 +224,12 @@ const ClientRegisterForm: React.FC<Props> = ({
             value={profileData.physicalData}
           />
         </Grid>
-        <Grid container display="flex" justifyContent="center">
+        <Grid container spacing={3} display="flex" justifyContent="center">
           <Grid>
             <CustomButton variant="outlined" onClick={prevStep} label="Назад" />
+          </Grid>
+          <Grid>
+            <CustomButton type="submit" variant="outlined" label="Далее" />
           </Grid>
           <Grid>
             <CustomButton
@@ -236,9 +237,6 @@ const ClientRegisterForm: React.FC<Props> = ({
               onClick={() => updatePersonalInfo(null, null, profileData)}
               label="Завершить"
             />
-          </Grid>
-          <Grid>
-            <CustomButton type="submit" variant="outlined" label="Далее" />
           </Grid>
         </Grid>
       </Grid>
