@@ -165,9 +165,6 @@ const UserRegisterForm: React.FC<Props> = ({
               borderRadius: "8px",
               backgroundColor: "#f9f9f9",
               marginBottom: "20px",
-              "@media (max-width: 350px)": {
-                fontSize: "12px",
-              },
             }}
           />
           {phoneError && (

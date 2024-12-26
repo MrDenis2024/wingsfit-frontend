@@ -52,7 +52,7 @@ const OnBoardingProfile = () => {
     specialization: "",
     experience: "",
     courseTypes: [],
-    availableDays: "",
+    availableDays: [],
   });
   const [clientInfo, setClientInfo] = useState<ClientProfileMutation>({
     preferredWorkoutType: [],
@@ -169,7 +169,7 @@ const OnBoardingProfile = () => {
         backgroundImage: `url(${role === "client" ? backgroundImageClient : backgroundImageTrainer})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        height: "100%",
+        minHeight: "100vh",
         padding: "30px",
       }}
     >
@@ -221,7 +221,7 @@ const OnBoardingProfile = () => {
                   sx={{
                     mb: 1,
                     mx: 1,
-                    maxWidth: "400px",
+                    maxWidth: "600px",
                     marginLeft: {
                       xs: "unset",
                       md: role === "trainer" ? "0" : "auto",
@@ -260,7 +260,7 @@ const OnBoardingProfile = () => {
             sx={{
               my: 1,
               mx: 1,
-              maxWidth: "400px",
+              maxWidth: activeStep === 2 ? "630px" : "400px",
               width: "100%",
               marginLeft: {
                 xs: "unset",
