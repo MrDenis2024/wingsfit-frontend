@@ -56,11 +56,10 @@ const Footer = () => {
     : [];
 
   const links = user?.role === "trainer" ? trainerLinks : clientLinks;
-  const mediaQuery = useMediaQuery("(min-width:1098px)");
   const isMobile = useMediaQuery("(max-width:600px)");
 
-  if (mediaQuery && user) {
-    return (
+  return (
+    <>
       <Box
         component="footer"
         id="footer"
@@ -83,12 +82,15 @@ const Footer = () => {
           maxWidth="lg"
           sx={{
             display: "flex",
-            justifyContent: mediaQuery ? "space-between" : "center",
+            justifyContent: "space-between",
             flexWrap: "wrap",
             pt: 4,
+            "@media (max-width: 600px)": {
+              pb: 10,
+            },
           }}
         >
-          <Grid textAlign={mediaQuery ? "left" : "center"}>
+          <Grid textAlign="left">
             <Typography variant="h4" fontWeight={"700"} mb={1} color={"#000"}>
               WingsFit
             </Typography>
@@ -103,11 +105,7 @@ const Footer = () => {
               <Typography variant="body2" sx={{ color: "#353535" }}>
                 Lorem ipsum
               </Typography>
-              <Grid
-                display={"flex"}
-                justifyContent={mediaQuery ? "left" : "center"}
-                gap={"7px"}
-              >
+              <Grid display={"flex"} justifyContent="left" gap={"7px"}>
                 <FitnessCenterIcon sx={{ color: "#000" }} />
                 <DirectionsRunIcon sx={{ color: "#000" }} />
                 <FavoriteIcon sx={{ color: "#000" }} />
@@ -246,90 +244,87 @@ const Footer = () => {
           </Grid>
         </Container>
       </Box>
-    );
-  }
-
-  if (isMobile && user) {
-    return (
-      <Box
-        sx={{
-          position: "fixed",
-          bottom: 0,
-          width: "100%",
-          backgroundColor: "background.default",
-          boxShadow: "0px -6px 12px rgba(0, 0, 0, 0.2)",
-          zIndex: 1000,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingX: 3,
-          paddingY: 2,
-          borderRadius: "20px 20px 0 0",
-          borderTop: "2px solid",
-          borderColor: "background.paper",
-        }}
-      >
-        {links.map((link) => (
-          <StyledLink key={link.to} to={link.to}>
-            {link.label === "Home" ? (
-              <HomeIcon />
-            ) : link.label === "My Courses" ? (
-              <FitnessCenterIcon />
-            ) : link.label === "My Chats" ? (
-              <ChatIcon />
-            ) : link.label === "Search" ? (
-              <SearchIcon />
-            ) : null}
-          </StyledLink>
-        ))}
-        {user.role === "trainer" && (
-          <Box sx={{ position: "relative" }}>
-            <Box
-              sx={{
-                width: 56,
-                height: 56,
-                backgroundColor: "primary.main",
-                borderRadius: "50%",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                cursor: "pointer",
-                color: "#fff",
-                boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-              }}
-              onClick={() => setShowMenu((prev) => !prev)}
-            >
-              <AddCircleOutlineIcon />
-            </Box>
-            {showMenu && (
+      {isMobile && user && (
+        <Box
+          sx={{
+            position: "fixed",
+            bottom: 0,
+            width: "100%",
+            backgroundColor: "background.default",
+            boxShadow: "0px -6px 12px rgba(0, 0, 0, 0.2)",
+            zIndex: 1000,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingX: 3,
+            paddingY: 2,
+            borderRadius: "20px 20px 0 0",
+            borderTop: "2px solid",
+            borderColor: "background.paper",
+          }}
+        >
+          {links.map((link) => (
+            <StyledLink key={link.to} to={link.to}>
+              {link.label === "Home" ? (
+                <HomeIcon />
+              ) : link.label === "My Courses" ? (
+                <FitnessCenterIcon />
+              ) : link.label === "My Chats" ? (
+                <ChatIcon />
+              ) : link.label === "Search" ? (
+                <SearchIcon />
+              ) : null}
+            </StyledLink>
+          ))}
+          {user?.role === "trainer" && (
+            <Box sx={{ position: "relative" }}>
               <Box
                 sx={{
-                  width: 150,
-                  position: "absolute",
-                  bottom: 70,
-                  right: 5,
-                  backgroundColor: "background.paper",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                  borderRadius: 1,
-                  padding: 1,
+                  width: 56,
+                  height: 56,
+                  backgroundColor: "primary.main",
+                  borderRadius: "50%",
                   display: "flex",
-                  flexDirection: "column",
-                  gap: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  cursor: "pointer",
+                  color: "#fff",
+                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                 }}
+                onClick={() => setShowMenu((prev) => !prev)}
               >
-                <StyledLink to="/add-new-course">
-                  <Typography variant="body1">Создать курс</Typography>
-                </StyledLink>
-                <StyledLink to="/add-new-group">
-                  <Typography variant="body1">Создать группу</Typography>
-                </StyledLink>
+                <AddCircleOutlineIcon />
               </Box>
-            )}
-          </Box>
-        )}
-      </Box>
-    );
-  }
+              {showMenu && (
+                <Box
+                  sx={{
+                    width: 150,
+                    position: "absolute",
+                    bottom: 70,
+                    right: 5,
+                    backgroundColor: "background.paper",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                    borderRadius: 1,
+                    padding: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 1,
+                  }}
+                >
+                  <StyledLink to="/add-new-course">
+                    <Typography variant="body1">Создать курс</Typography>
+                  </StyledLink>
+                  <StyledLink to="/add-new-group">
+                    <Typography variant="body1">Создать группу</Typography>
+                  </StyledLink>
+                </Box>
+              )}
+            </Box>
+          )}
+        </Box>
+      )}
+    </>
+  );
 };
 
 export default Footer;

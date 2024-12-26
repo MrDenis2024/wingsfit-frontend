@@ -278,9 +278,6 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
           <Box
             sx={{
               marginTop: "40px",
-              "@media (max-width: 600px)": {
-                pb: 7,
-              },
             }}
           >
             {!isOwner && (

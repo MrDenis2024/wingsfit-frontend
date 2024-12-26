@@ -93,11 +93,6 @@ const CourseForm: React.FC<Props> = ({
       spacing={2}
       component="form"
       onSubmit={submitFormHandler}
-      sx={{
-        "@media (max-width: 600px)": {
-          pb: 7,
-        },
-      }}
     >
       <Typography variant="h4" sx={{ mb: 2 }}>
         {existingCourse ? "Редактировать курс" : "Новый курс"}

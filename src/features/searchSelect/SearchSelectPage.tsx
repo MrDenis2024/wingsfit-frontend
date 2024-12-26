@@ -92,14 +92,7 @@ const SearchSelectPage = () => {
   };
 
   return (
-    <Container
-      maxWidth="lg"
-      sx={{
-        "@media (max-width: 600px)": {
-          pb: 4,
-        },
-      }}
-    >
+    <Container maxWidth="lg">
       <Grid container spacing={2} py={matches ? 2 : 4}>
         <Grid size={{ md: 3, lg: 3, xs: 12 }}>
           <FormGroup>

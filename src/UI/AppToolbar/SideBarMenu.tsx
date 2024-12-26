@@ -1,6 +1,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Drawer, IconButton, Stack } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Drawer,
+  IconButton,
+  Stack,
+  Typography,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import logo from "../../assets/images/logo.png";
 import { CustomStyledLink } from "./AnonymousMenu.tsx";
@@ -15,6 +22,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import { logout } from "../../features/users/userThunk.ts";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectUser } from "../../features/users/userSlice.ts";
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import { apiURL } from "../../constants.ts";
 
 interface Props {
   drawerOpen: boolean;
@@ -34,6 +43,14 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
       console.error("Ошибка при выходе:", error);
     }
     closeDrawer();
+  };
+
+  const navigateToProfile = () => {
+    navigate(
+      user?.role === "client"
+        ? `/clients/${user?._id}`
+        : `/trainers/${user?._id}`,
+    );
   };
 
   const navigateToCourses = () => {
@@ -66,6 +83,8 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
     closeDrawer();
   };
 
+  const imageUrl = user?.avatar ? `${apiURL}/${user.avatar}` : undefined;
+
   return (
     <Drawer anchor="top" open={drawerOpen} onClose={closeDrawer}>
       <Box sx={{ width: "100%", backgroundColor: "black" }}>
@@ -89,7 +108,34 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
           <StyledLink to="/">
             <img src={logo} alt="Wings Fit Logo" style={{ height: 50 }} />
           </StyledLink>
-          <Stack sx={{ padding: 0, alignItems: "center" }}>
+          <Stack sx={{ paddingLeft: 2 }}>
+            <CustomStyledLink onClick={navigateToProfile}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                {imageUrl ? (
+                  <Avatar
+                    src={imageUrl}
+                    alt="User Avatar"
+                    sx={{
+                      width: 30,
+                      height: 30,
+                      borderRadius: "50%",
+                      objectFit: "cover",
+                    }}
+                  />
+                ) : (
+                  <AccountBoxIcon sx={{ fontSize: 30 }} />
+                )}
+                <Typography sx={{ fontSize: "14px", fontWeight: 600 }}>
+                  {user?.firstName}
+                </Typography>
+              </Box>
+            </CustomStyledLink>
             <CustomStyledLink onClick={navigateToCourses}>
               <FitnessCenterIcon sx={{ mr: 1, fontSize: "14px" }} />
               Мои курсы

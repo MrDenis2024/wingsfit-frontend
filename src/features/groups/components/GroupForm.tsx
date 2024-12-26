@@ -73,11 +73,6 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       spacing={2}
       component="form"
       onSubmit={submitFormHandler}
-      sx={{
-        "@media (max-width: 600px)": {
-          pb: 7,
-        },
-      }}
     >
       <Grid>
         <TextField

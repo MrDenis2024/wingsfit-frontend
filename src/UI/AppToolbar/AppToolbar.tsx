@@ -8,7 +8,6 @@ import {
   useMediaQuery,
   Container,
   Box,
-  Avatar,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
@@ -20,8 +19,6 @@ import AnonymousMenu from "./AnonymousMenu.tsx";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SideBarMenu from "./SideBarMenu.tsx";
-import { apiURL } from "../../constants.ts";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 
 export const StyledLink = styled(NavLink)({
   color: "inherit",
@@ -45,7 +42,6 @@ const AppToolbar = () => {
   const closeDrawer = () => {
     setDrawerOpen(false);
   };
-  const imageUrl = user?.avatar ? `${apiURL}/${user.avatar}` : undefined;
 
   return (
     <>
@@ -79,36 +75,6 @@ const AppToolbar = () => {
                   <IconButton color="inherit" edge="end" onClick={toggleDrawer}>
                     <MenuIcon />
                   </IconButton>
-
-                  {user && (
-                    <StyledLink
-                      to={
-                        user.role === "client"
-                          ? `/clients/${user._id}`
-                          : `/trainers/${user._id}`
-                      }
-                      style={{
-                        marginLeft: 16,
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      {imageUrl ? (
-                        <Avatar
-                          src={imageUrl}
-                          alt="User Avatar"
-                          sx={{
-                            width: 30,
-                            height: 30,
-                            borderRadius: "50%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      ) : (
-                        <AccountBoxIcon sx={{ fontSize: 30 }} />
-                      )}
-                    </StyledLink>
-                  )}
                 </Box>
               )}
             </Grid>

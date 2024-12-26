@@ -122,9 +122,6 @@ const EditTrainerForm: React.FC<Props> = ({
       direction="column"
       sx={{
         my: 3,
-        "@media (max-width: 600px)": {
-          pb: 7,
-        },
       }}
       onSubmit={onFormSubmit}
     >

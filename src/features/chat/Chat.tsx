@@ -58,9 +58,6 @@ const Chat = () => {
       sx={{
         height: "100vh",
         padding: 0,
-        "@media (max-width: 600px)": {
-          pb: 5,
-        },
       }}
     >
       <Box
