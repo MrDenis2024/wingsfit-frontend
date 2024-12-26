@@ -282,6 +282,9 @@ const UserRegisterForm: React.FC<Props> = ({
             <CustomButton variant="outlined" disabled label="Назад" />
           </Grid>
           <Grid>
+            <CustomButton type="submit" variant="outlined" label="Далее" />
+          </Grid>
+          <Grid>
             <CustomButton
               disabled={
                 personalData.firstName === "" ||
@@ -292,9 +295,6 @@ const UserRegisterForm: React.FC<Props> = ({
               onClick={() => updatePersonalInfo(personalData, null, null)}
               label="Завершить"
             />
-          </Grid>
-          <Grid>
-            <CustomButton type="submit" variant="outlined" label="Далее" />
           </Grid>
         </Grid>
       </Grid>

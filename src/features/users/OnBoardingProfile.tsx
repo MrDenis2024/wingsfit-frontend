@@ -234,7 +234,7 @@ const OnBoardingProfile = () => {
                 >
                   <Grid>
                     <CustomButton
-                      variant="outlined"
+                      variant="contained"
                       onClick={onHandlePrev}
                       label="Назад"
                     />

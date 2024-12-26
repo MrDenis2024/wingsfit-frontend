@@ -176,14 +176,14 @@ const TrainerRegisterForm: React.FC<Props> = ({
             <CustomButton variant="outlined" onClick={prevStep} label="Назад" />
           </Grid>
           <Grid>
+            <CustomButton type="submit" variant="outlined" label="Далее" />
+          </Grid>
+          <Grid>
             <CustomButton
               variant="contained"
               onClick={() => updatePersonalInfo(null, profileData, null)}
               label="Завершить"
             />
-          </Grid>
-          <Grid>
-            <CustomButton type="submit" variant="outlined" label="Далее" />
           </Grid>
         </Grid>
       </Grid>
