@@ -4,7 +4,8 @@ import {
   createCourse,
   deleteCourse,
   editCourse,
-  fetchCourses, fetchSearchCourses,
+  fetchCourses,
+  fetchSearchCourses,
   getOneCourse,
 } from "./coursesThunks.ts";
 import { ICourse } from "../../types/courseTypes.ts";
@@ -67,12 +68,12 @@ export const coursesSlice = createSlice({
 
     builder
       .addCase(fetchSearchCourses.pending, (state) => {
-      state.searchCoursesLoading = true;
-    })
+        state.searchCoursesLoading = true;
+      })
       .addCase(fetchSearchCourses.fulfilled, (state, { payload: courses }) => {
-      state.searchCourses = courses;
-      state.searchCoursesLoading = false;
-    })
+        state.searchCourses = courses;
+        state.searchCoursesLoading = false;
+      })
       .addCase(fetchSearchCourses.rejected, (state) => {
         state.searchCoursesLoading = false;
       });
