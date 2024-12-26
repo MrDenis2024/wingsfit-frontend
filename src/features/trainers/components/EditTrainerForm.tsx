@@ -136,7 +136,9 @@ const EditTrainerForm: React.FC<Props> = ({
       spacing={2}
       component={"form"}
       direction="column"
-      sx={{ my: 3 }}
+      sx={{
+        my: 3,
+      }}
       onSubmit={onFormSubmit}
     >
       <EditUser
