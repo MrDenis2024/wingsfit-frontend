@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 import {
   Checkbox,
   FormGroup,
@@ -7,18 +7,25 @@ import {
   AccordionSummary,
   AccordionDetails,
   Typography,
-  useMediaQuery, Container, Button, Box, Alert,
-} from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {selectCourseTypes} from "../CourseTypes/CourseTypesSlice.ts";
-import {selectSearchCourses, selectSearchCoursesFetching} from "../courses/coursesSlice.ts";
-import {selectTrainers} from "../trainers/trainersSlice.ts";
-import {getTrainers} from "../trainers/trainersThunks.ts";
-import {selectUser} from "../users/userSlice.ts";
-import {fetchSearchCourses} from "../courses/coursesThunks.ts";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+  useMediaQuery,
+  Container,
+  Button,
+  Box,
+  Alert,
+} from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
+import { selectCourseTypes } from "../CourseTypes/CourseTypesSlice.ts";
+import {
+  selectSearchCourses,
+  selectSearchCoursesFetching,
+} from "../courses/coursesSlice.ts";
+import { selectTrainers } from "../trainers/trainersSlice.ts";
+import { getTrainers } from "../trainers/trainersThunks.ts";
+import { selectUser } from "../users/userSlice.ts";
+import { fetchSearchCourses } from "../courses/coursesThunks.ts";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import CourseCard from "../courses/components/CourseCard.tsx";
 import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
@@ -52,9 +59,12 @@ const SearchSelectPage = () => {
     dispatch(getTrainers(user._id));
   }, [dispatch, user]);
 
-  const matches = useMediaQuery('(max-width:500px)');
+  const matches = useMediaQuery("(max-width:500px)");
 
-  const handleCheckboxChange = (category: keyof FetchSearchCourseArgs, value: string) => {
+  const handleCheckboxChange = (
+    category: keyof FetchSearchCourseArgs,
+    value: string,
+  ) => {
     setFilters((prevFilters) => {
       const currentValues = prevFilters[category];
       const updatedValues = currentValues.includes(value)
@@ -86,8 +96,18 @@ const SearchSelectPage = () => {
       <Grid container spacing={2} py={matches ? 2 : 4}>
         <Grid size={{ md: 3, lg: 3, xs: 12 }}>
           <FormGroup>
-            <Grid display="flex" justifyContent="space-between" gap={1} flexWrap="wrap">
-              <Typography variant="h6" display="flex" justifyContent="space-between" gutterBottom>
+            <Grid
+              display="flex"
+              justifyContent="space-between"
+              gap={1}
+              flexWrap="wrap"
+            >
+              <Typography
+                variant="h6"
+                display="flex"
+                justifyContent="space-between"
+                gutterBottom
+              >
                 Сортировка
               </Typography>
             </Grid>
@@ -95,7 +115,7 @@ const SearchSelectPage = () => {
               control={
                 <Checkbox
                   checked={filters.format.includes("group")}
-                  onChange={() => handleCheckboxChange('format', 'group')}
+                  onChange={() => handleCheckboxChange("format", "group")}
                 />
               }
               label="Групповые"
@@ -104,7 +124,7 @@ const SearchSelectPage = () => {
               control={
                 <Checkbox
                   checked={filters.format.includes("single")}
-                  onChange={() => handleCheckboxChange('format', 'single')}
+                  onChange={() => handleCheckboxChange("format", "single")}
                 />
               }
               label="Индивидуально"
@@ -123,7 +143,9 @@ const SearchSelectPage = () => {
                     control={
                       <Checkbox
                         checked={filters.courseTypes.includes(type._id)}
-                        onChange={() => handleCheckboxChange('courseTypes', type._id)}
+                        onChange={() =>
+                          handleCheckboxChange("courseTypes", type._id)
+                        }
                       />
                     }
                     label={type.name}
@@ -145,7 +167,9 @@ const SearchSelectPage = () => {
                     control={
                       <Checkbox
                         checked={filters.trainers.includes(trainer.user._id)}
-                        onChange={() => handleCheckboxChange('trainers', trainer.user._id)}
+                        onChange={() =>
+                          handleCheckboxChange("trainers", trainer.user._id)
+                        }
                       />
                     }
                     label={`${trainer.user.firstName} ${trainer.user.lastName}`}
@@ -170,7 +194,7 @@ const SearchSelectPage = () => {
                     control={
                       <Checkbox
                         checked={filters.schedule.includes(day)}
-                        onChange={() => handleCheckboxChange('schedule', day)}
+                        onChange={() => handleCheckboxChange("schedule", day)}
                       />
                     }
                     label={day}
@@ -183,18 +207,21 @@ const SearchSelectPage = () => {
             <Button
               variant="outlined"
               sx={{
-                color: 'gray',
-                borderColor: 'gray',
+                color: "gray",
+                borderColor: "gray",
               }}
               onClick={resetForm}
             >
-              Сбросить<DeleteForeverIcon/>
+              Сбросить
+              <DeleteForeverIcon />
             </Button>
-            <Button variant="outlined" onClick={sendForm}>Сортировать</Button>
+            <Button variant="outlined" onClick={sendForm}>
+              Сортировать
+            </Button>
           </Box>
         </Grid>
 
-        <Grid size={{sm: 12, md: 9, lg: 9, xs: 12 }}>
+        <Grid size={{ sm: 12, md: 9, lg: 9, xs: 12 }}>
           <Grid mb={3}>
             <Typography variant="h4" gutterBottom textAlign="center">
               Тренировки
@@ -207,13 +234,14 @@ const SearchSelectPage = () => {
             {!isLoading ? (
               courses.length > 0 ? (
                 courses.map((course) => (
-                    <Grid
-                      key={course._id}
-                      size={{ md: 4, lg: 4, sm: 6, xs: 12 }}
-                      display="flex"
-                      justifyContent="center" >
-                      <CourseCard course={course} isShort={true} />
-                    </Grid>
+                  <Grid
+                    key={course._id}
+                    size={{ md: 4, lg: 4, sm: 6, xs: 12 }}
+                    display="flex"
+                    justifyContent="center"
+                  >
+                    <CourseCard course={course} isShort={true} />
+                  </Grid>
                 ))
               ) : (
                 <Alert severity="info" sx={{ width: "100%" }}>

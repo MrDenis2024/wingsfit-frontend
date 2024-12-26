@@ -19,14 +19,13 @@ import {
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import Grid from "@mui/material/Grid2";
 import { selectCourseError } from "../coursesSlice.ts";
+import { DAYS_OF_WEEK } from "../../../constants.ts";
 
 interface Props {
   onSubmit: (course: CourseMutation) => void;
   isLoading: boolean;
   existingCourse?: ICourse;
 }
-
-const DAYS_OF_WEEK = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
 
 const CourseForm: React.FC<Props> = ({
   onSubmit,

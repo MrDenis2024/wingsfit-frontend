@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Grid from "@mui/material/Grid2";
-import { Paper, Typography } from "@mui/material";
+import { Checkbox, FormControlLabel, Paper, Typography } from "@mui/material";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
@@ -9,6 +9,7 @@ import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
 import CustomButton from "./CustomBottom/CustomBottom.tsx";
 import CustomInput from "./CustomInput/CustomInput.tsx";
+import { DAYS_OF_WEEK } from "../../../constants.ts";
 
 interface Props {
   initialState: TrainerProfileMutation;
@@ -56,6 +57,15 @@ const TrainerRegisterForm: React.FC<Props> = ({
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit(profileData);
+  };
+
+  const handleDayChange = (day: string) => {
+    setProfileData((prevState) => ({
+      ...prevState,
+      availableDays: prevState.availableDays.includes(day)
+        ? prevState.availableDays.filter((d) => d !== day)
+        : [...prevState.availableDays, day],
+    }));
   };
 
   return (
@@ -142,18 +152,31 @@ const TrainerRegisterForm: React.FC<Props> = ({
           label="Типы курсов"
         />
         <Grid>
-          <CustomInput
-            type="text"
-            label="Дни проведения занятий"
-            placeholder="В какие дни будут занятия?"
-            name="availableDays"
-            onChange={inputChangeHandler}
-            value={profileData.availableDays}
-          />
+          <Typography variant="h6" sx={{ marginBottom: "8px" }}>
+            Дни занятий:
+          </Typography>
+          <Grid container spacing={1} direction="row" wrap="wrap">
+            {DAYS_OF_WEEK.map((day) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    value={day}
+                    checked={profileData.availableDays.includes(day)}
+                    onChange={() => handleDayChange(day)}
+                  />
+                }
+                key={day}
+                label={day}
+              />
+            ))}
+          </Grid>
         </Grid>
         <Grid container display="flex" justifyContent="center">
           <Grid>
             <CustomButton variant="outlined" onClick={prevStep} label="Назад" />
+          </Grid>
+          <Grid>
+            <CustomButton type="submit" variant="outlined" label="Далее" />
           </Grid>
           <Grid>
             <CustomButton
@@ -161,9 +184,6 @@ const TrainerRegisterForm: React.FC<Props> = ({
               onClick={() => updatePersonalInfo(null, profileData, null)}
               label="Завершить"
             />
-          </Grid>
-          <Grid>
-            <CustomButton type="submit" variant="outlined" label="Далее" />
           </Grid>
         </Grid>
       </Grid>

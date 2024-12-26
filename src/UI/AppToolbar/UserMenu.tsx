@@ -94,7 +94,9 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           Чат
         </MenuItem>
         {user.role === "client" && (
-          <MenuItem onClick={() => navigate(`/${user.role}s/search-select-page`)}>
+          <MenuItem
+            onClick={() => navigate(`/${user.role}s/search-select-page`)}
+          >
             <AssignmentTurnedInOutlinedIcon sx={{ mr: 2 }} />
             Поиск занятий
           </MenuItem>
