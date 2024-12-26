@@ -50,10 +50,13 @@ const OneCourse = () => {
   useEffect(() => {
     if (id) {
       dispatch(getOneCourse(id));
-      dispatch(fetchCourses(user?._id));
       dispatch(fetchCourseGroups(id));
+      if (user?._id){
+        dispatch(fetchCourses(user._id));
+      }
     }
-  }, [dispatch, id]);
+
+  }, [dispatch, id, user?._id]);
 
   const handleClick = () => {
     navigate(`/trainers/${trainerId}`);
