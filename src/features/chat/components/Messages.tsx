@@ -1,12 +1,12 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Box, Typography} from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MessagesList from "./MessagesList.tsx";
 import ChatForm from "./ChatForm.tsx";
-import {useAppSelector} from "../../../app/hooks.ts";
-import {selectUser} from "../../users/userSlice.ts";
-import {Message} from "../../../types/chatTypes.ts";
-import {wsApiURL} from "../../../constants.ts";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectUser } from "../../users/userSlice.ts";
+import { Message } from "../../../types/chatTypes.ts";
+import { wsApiURL } from "../../../constants.ts";
 
 interface MessagesProps {
   chatId: string | null;
@@ -14,7 +14,7 @@ interface MessagesProps {
   chatTitle: string;
 }
 
-const Messages: React.FC<MessagesProps> = ({chatId, chatType, chatTitle}) => {
+const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
   const user = useAppSelector(selectUser);
   const [messages, setMessages] = useState<Message[]>([]);
   const ws = useRef<WebSocket | null>(null);
@@ -27,7 +27,6 @@ const Messages: React.FC<MessagesProps> = ({chatId, chatType, chatTitle}) => {
     }
 
     if (chatId && chatType) {
-
       ws.current = new WebSocket(`${wsApiURL}/chat/${chatId}/${chatType}`);
 
       ws.current.onmessage = (event) => {
@@ -44,15 +43,24 @@ const Messages: React.FC<MessagesProps> = ({chatId, chatType, chatTitle}) => {
         if (!user) {
           return;
         }
-        ws.current!.send(JSON.stringify({type: "LOGIN", payload: user.token}));
-        ws.current!.send(JSON.stringify({type: "JOIN_CHAT", payload: {chatId: chatId, chatType: chatType}}));
+        ws.current!.send(
+          JSON.stringify({ type: "LOGIN", payload: user.token }),
+        );
+        ws.current!.send(
+          JSON.stringify({
+            type: "JOIN_CHAT",
+            payload: { chatId: chatId, chatType: chatType },
+          }),
+        );
 
         ws.current!.onerror = () => {
           if (ws.current) {
-            ws.current.send(JSON.stringify({
-              type: "ERROR",
-              payload: "Что-то пошло не так!",
-            }));
+            ws.current.send(
+              JSON.stringify({
+                type: "ERROR",
+                payload: "Что-то пошло не так!",
+              }),
+            );
           }
         };
 
@@ -73,8 +81,8 @@ const Messages: React.FC<MessagesProps> = ({chatId, chatType, chatTitle}) => {
       ws.current.send(
         JSON.stringify({
           type: "SEND_MESSAGE",
-          payload: {message},
-        })
+          payload: { message },
+        }),
       );
     }
 
@@ -139,7 +147,7 @@ const Messages: React.FC<MessagesProps> = ({chatId, chatType, chatTitle}) => {
           variant="h6"
           component="h2"
           sx={{
-            fontSize: {xs: "0.9rem", sm: "1.25rem"},
+            fontSize: { xs: "0.9rem", sm: "1.25rem" },
             textAlign: {
               xs: "center",
               sm: "center",
@@ -159,12 +167,12 @@ const Messages: React.FC<MessagesProps> = ({chatId, chatType, chatTitle}) => {
         }}
       >
         {chatId ? (
-          <MessagesList messages={messagesWithAvatars}/>
+          <MessagesList messages={messagesWithAvatars} />
         ) : (
           <Typography>Выберите чат, чтобы просмотреть сообщения</Typography>
         )}
       </Box>
-      {chatId && <ChatForm chatId={chatId} onSendMessage={sendMessage}/>}
+      {chatId && <ChatForm chatId={chatId} onSendMessage={sendMessage} />}
     </Grid>
   );
 };

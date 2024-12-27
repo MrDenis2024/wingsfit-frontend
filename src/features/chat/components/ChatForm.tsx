@@ -13,7 +13,7 @@ interface Props {
   onSendMessage: (message: string) => void;
 }
 
-const ChatForm: React.FC<Props> = ({ onSendMessage}) => {
+const ChatForm: React.FC<Props> = ({ onSendMessage }) => {
   const [message, setMessage] = useState("");
   const [wordLimitExceeded, setWordLimitExceeded] = useState(false);
 

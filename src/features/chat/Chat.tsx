@@ -50,7 +50,6 @@ const Chat = () => {
 
   const chatType = selectedChat?.type || "group";
 
-
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -127,7 +126,10 @@ const Chat = () => {
             overflowY: "auto",
           }}
         >
-          <Messages chatId={selectedChatId} chatTitle={chatTitle || "Чат"} chatType={chatType}
+          <Messages
+            chatId={selectedChatId}
+            chatTitle={chatTitle || "Чат"}
+            chatType={chatType}
           />
         </Box>
       </Box>

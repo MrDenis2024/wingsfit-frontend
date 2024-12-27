@@ -1,6 +1,6 @@
-import {GroupChat, PrivateChat} from "../../types/chatTypes.ts";
-import {createSlice} from "@reduxjs/toolkit";
-import {getGroupChats, getPrivateChats} from "./chatsThunks.ts";
+import { GroupChat, PrivateChat } from "../../types/chatTypes.ts";
+import { createSlice } from "@reduxjs/toolkit";
+import { getGroupChats, getPrivateChats } from "./chatsThunks.ts";
 
 interface ChatsState {
   groupChats: GroupChat[];
@@ -25,7 +25,7 @@ export const chatsSlice = createSlice({
       .addCase(getGroupChats.pending, (state) => {
         state.groupChatsFetching = true;
       })
-      .addCase(getGroupChats.fulfilled, (state, {payload: groupChats}) => {
+      .addCase(getGroupChats.fulfilled, (state, { payload: groupChats }) => {
         state.groupChats = groupChats;
         state.groupChatsFetching = false;
       })
@@ -38,7 +38,7 @@ export const chatsSlice = createSlice({
       })
       .addCase(
         getPrivateChats.fulfilled,
-        (state, {payload: privateChats}) => {
+        (state, { payload: privateChats }) => {
           state.privateChats = privateChats;
         },
       )
@@ -56,4 +56,4 @@ export const chatsSlice = createSlice({
 
 export const chatsReducer = chatsSlice.reducer;
 
-export const {selectGroupChats, selectPrivateChats} = chatsSlice.selectors;
+export const { selectGroupChats, selectPrivateChats } = chatsSlice.selectors;
