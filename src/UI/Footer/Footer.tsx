@@ -43,7 +43,7 @@ const Footer = () => {
         { to: `/`, label: "Home" },
         { to: `/clients/courses/${userId}`, label: "My Courses" },
         { to: `/clients/chats/${userId}`, label: "My Chats" },
-        { to: `/clients/search-select-page`, label: "Search" },
+        { to: `/clients/search-select/courses`, label: "Search" },
       ]
     : [];
 

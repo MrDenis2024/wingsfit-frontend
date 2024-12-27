@@ -211,7 +211,7 @@ const App = () => {
             }
           />
           <Route
-            path="clients/search-select-page"
+            path="clients/search-select/:page"
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "client"}>
                 <SearchSelectPage />

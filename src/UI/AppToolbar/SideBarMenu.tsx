@@ -69,7 +69,7 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
   };
 
   const navigateToSearch = () => {
-    navigate(`/${user?.role}s/search-select-page`);
+    navigate(`/${user?.role}s/search-select/courses`);
     closeDrawer();
   };
 
