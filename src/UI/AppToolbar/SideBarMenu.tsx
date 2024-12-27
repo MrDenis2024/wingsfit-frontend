@@ -51,6 +51,7 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
         ? `/clients/${user?._id}`
         : `/trainers/${user?._id}`,
     );
+    closeDrawer();
   };
 
   const navigateToCourses = () => {
@@ -131,7 +132,7 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
                 ) : (
                   <AccountBoxIcon sx={{ fontSize: 30 }} />
                 )}
-                <Typography sx={{ fontSize: "14px", fontWeight: 600 }}>
+                <Typography sx={{ fontSize: "16px", fontWeight: 600 }}>
                   {user?.firstName}
                 </Typography>
               </Box>

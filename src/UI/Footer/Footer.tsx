@@ -1,13 +1,14 @@
 import {
   Box,
   Container,
+  Divider,
   Link,
   Stack,
   styled,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Location, NavLink, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks.ts";
 import { selectUser } from "../../features/users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
@@ -16,9 +17,10 @@ import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ChatIcon from "@mui/icons-material/Chat";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import HomeIcon from "@mui/icons-material/Home";
+import GroupIcon from "@mui/icons-material/Group";
 
 const StyledLink = styled(NavLink)(({ theme }) => ({
   color: "inherit",
@@ -34,6 +36,7 @@ const StyledLink = styled(NavLink)(({ theme }) => ({
 }));
 
 const Footer = () => {
+  const location: Location = useLocation();
   const user = useAppSelector(selectUser);
   const userId = user?._id;
   const [showMenu, setShowMenu] = useState(false);
@@ -57,6 +60,10 @@ const Footer = () => {
 
   const links = user?.role === "trainer" ? trainerLinks : clientLinks;
   const isMobile = useMediaQuery("(max-width:600px)");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <>
@@ -298,7 +305,7 @@ const Footer = () => {
               {showMenu && (
                 <Box
                   sx={{
-                    width: 150,
+                    width: 170,
                     position: "absolute",
                     bottom: 70,
                     right: 5,
@@ -311,11 +318,28 @@ const Footer = () => {
                     gap: 1,
                   }}
                 >
-                  <StyledLink to="/add-new-course">
-                    <Typography variant="body1">Создать курс</Typography>
+                  <StyledLink
+                    to="/add-new-course"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                    >
+                      Создать курс <FitnessCenterIcon />
+                    </Typography>
                   </StyledLink>
-                  <StyledLink to="/add-new-group">
-                    <Typography variant="body1">Создать группу</Typography>
+                  <Divider />
+                  <StyledLink
+                    to="/add-new-group"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                    >
+                      Создать группу <GroupIcon />
+                    </Typography>
                   </StyledLink>
                 </Box>
               )}

@@ -152,7 +152,13 @@ const TrainerRegisterForm: React.FC<Props> = ({
           label="Типы курсов"
         />
         <Grid>
-          <Typography variant="h6" sx={{ marginBottom: "8px" }}>
+          <Typography
+            variant="h6"
+            sx={{
+              marginBottom: "8px",
+              fontSize: { xs: "16px", sm: "18px", md: "20px" },
+            }}
+          >
             Дни занятий:
           </Typography>
           <Grid container spacing={1} direction="row" wrap="wrap">
