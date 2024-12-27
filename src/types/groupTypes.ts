@@ -18,11 +18,21 @@ export interface IGroup {
   };
   clients: {
     _id: string;
-    firstName: string;
-    lastName: string;
+    client: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    addedAt: Date;
+    subscribeEnd: Date;
   }[];
   maxClients: number;
   scheduleLength: number;
   startTime: string;
   trainingLevel: string;
+}
+
+export interface UpdateGroupArg {
+  id: string;
+  group: GroupMutation;
 }

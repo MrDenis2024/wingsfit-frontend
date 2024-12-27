@@ -4,7 +4,7 @@ import {
   selectCourses,
   selectCoursesFetching,
 } from "../../courses/coursesSlice.ts";
-import { GroupMutation } from "../../../types/groupTypes.ts";
+import { GroupMutation, IGroup } from "../../../types/groupTypes.ts";
 import { fetchCourses } from "../../courses/coursesThunks.ts";
 import {
   Box,
@@ -24,20 +24,23 @@ import Grid from "@mui/material/Grid2";
 interface Props {
   onSubmit: (course: GroupMutation) => void;
   isLoading: boolean;
+  existingGroup?: IGroup;
 }
 
-const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
+const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
   const dispatch = useAppDispatch();
   const courses = useAppSelector(selectCourses);
   const coursesFetching = useAppSelector(selectCoursesFetching);
   const user = useAppSelector(selectUser);
   const [state, setState] = useState<GroupMutation>({
-    title: "",
-    course: "",
-    startTime: "",
-    trainingLevel: "junior",
-    maxClients: "",
-    scheduleLength: "",
+    title: existingGroup ? existingGroup.title : "",
+    course: existingGroup ? existingGroup.course._id : "",
+    startTime: existingGroup ? existingGroup.startTime : "",
+    trainingLevel: existingGroup ? existingGroup.trainingLevel : "junior",
+    maxClients: existingGroup ? existingGroup.maxClients.toString() : "",
+    scheduleLength: existingGroup
+      ? existingGroup.scheduleLength.toString()
+      : "",
   });
 
   useEffect(() => {
@@ -65,7 +68,6 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
       trainingLevel: event.target.value,
     }));
   };
-
   return (
     <Grid
       container
@@ -97,8 +99,9 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading }) => {
             label="Курс"
             id="course"
             name="course"
-            value={state.course}
+            value={state.course || ""}
             onChange={inputChangeHandler}
+            disabled={!!existingGroup}
           >
             <MenuItem value="" disabled>
               Выберите курс

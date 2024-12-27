@@ -32,7 +32,7 @@ import AvatarUploader from "../../../UI/Avatar/AvatarUploader.tsx";
 import { IClient } from "../../../types/clientTypes.ts";
 
 interface ClientsProfileDetailsProps {
-  clientsProfile: IClient | null;
+  clientsProfile: IClient;
   id: string;
   isOwner: boolean;
 }

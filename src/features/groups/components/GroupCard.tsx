@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import {
   Accordion,
-  AccordionDetails,
   AccordionSummary,
-  Card,
-  CardContent,
+  Alert,
+  Button,
   CircularProgress,
   IconButton,
+  List,
+  ListItem,
   Typography,
 } from "@mui/material";
 import { IGroup } from "../../../types/groupTypes.ts";
@@ -15,16 +16,27 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import { selectDeleteGroupLoading } from "../groupsSlice.ts";
-import ClearIcon from "@mui/icons-material/Clear";
+import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { deleteGroup, fetchAllGroups } from "../groupsThunk.ts";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 interface Props {
   group: IGroup;
+  activeGroup: string | null;
+  handleAccordionChange: (groupId: string) => void;
 }
 
-const GroupCard: React.FC<Props> = ({ group }) => {
+const GroupCard: React.FC<Props> = ({
+  group,
+  activeGroup,
+  handleAccordionChange,
+}) => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const deleteGroupLoading = useAppSelector(selectDeleteGroupLoading);
@@ -44,64 +56,86 @@ const GroupCard: React.FC<Props> = ({ group }) => {
 
   return (
     <>
-      <Accordion>
+      <Accordion
+        expanded={activeGroup === group._id}
+        onChange={() => handleAccordionChange(group._id)}
+        sx={{ mb: 2 }}
+      >
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>{group.title}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Card>
-            <CardContent>
-              <Grid container spacing={2} alignItems="center">
-                <Grid size={{ sm: 3, xs: 12 }}>
-                  <Typography
-                    variant="body2"
-                    textAlign={{ sm: "start", xs: "center" }}
-                  >
-                    Уровень: {group.trainingLevel}
-                  </Typography>
-                </Grid>
-                <Grid size={{ sm: 3, xs: 12 }}>
-                  <Typography
-                    variant="body2"
-                    textAlign={{ sm: "center", xs: "center" }}
-                  >
-                    Начало:{group.startTime}, длительность:{" "}
-                    {group.scheduleLength}{" "}
-                    {group.scheduleLength === 5
-                      ? "часов"
-                      : group.scheduleLength > 1
-                        ? "часа"
-                        : "час"}
-                  </Typography>
-                </Grid>
-                <Grid
-                  size={{ sm: 4, xs: 12 }}
-                  textAlign={{ sm: "end", xs: "center" }}
+          <Grid
+            container
+            sx={{
+              alignItems: "center",
+              minWidth: "100%",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+            }}
+          >
+            <Grid sx={{ mb: { xs: 1, sm: 0 } }}>
+              <Typography variant="body1">{group.title}</Typography>
+              <Typography variant="body2">
+                {group.clients.length}/{group.maxClients} участников
+              </Typography>
+            </Grid>
+            <Grid
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                marginRight: {
+                  xs: "10px",
+                  sm: "unused",
+                },
+                gap: 1,
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={group.clients.length === 0}
+                sx={{
+                  fontSize: {
+                    xs: "12px",
+                    sm: "16px",
+                  },
+                }}
+              >
+                Начать занятие
+              </Button>
+              <Grid>
+                <IconButton
+                  sx={{
+                    color: "black",
+                    borderColor: "black",
+                    fontSize: { xs: "16px", sm: "24px" },
+                    "&:hover": {
+                      backgroundColor: "#dff3fc",
+                      borderColor: "#0288D1",
+                    },
+                    ml: 1,
+                  }}
                 >
-                  <Typography variant="body2">
-                    Доступно: {group.maxClients - group.clients.length}/
-                    {group.maxClients}
-                  </Typography>
-                </Grid>
-                <Grid
-                  container
-                  size={{ sm: 2, xs: 12 }}
-                  justifyContent="flex-end"
-                >
-                  {(group.course.user === user?._id ||
-                    user?.role === "admin" ||
-                    user?.role === "superAdmin") && (
+                  <GroupAddIcon />
+                </IconButton>
+                {(group.course.user === user?._id ||
+                  user?.role === "admin" ||
+                  user?.role === "superAdmin") && (
+                  <>
                     <IconButton
                       sx={{
-                        color: "red",
-                        borderColor: "#0288D1",
+                        color: "black",
+                        borderColor: "black",
+                        fontSize: { xs: "16px", sm: "24px" },
                         "&:hover": {
                           backgroundColor: "#dff3fc",
                           borderColor: "#0288D1",
                         },
                         ml: 1,
                       }}
-                      onClick={() => setConfirmOpen(true)}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setConfirmOpen(true);
+                      }}
                       disabled={
                         deleteGroupLoading
                           ? deleteGroupLoading === group._id
@@ -111,16 +145,94 @@ const GroupCard: React.FC<Props> = ({ group }) => {
                       {deleteGroupLoading === group._id ? (
                         <CircularProgress size={24} />
                       ) : (
-                        <ClearIcon />
+                        <DeleteSweepIcon />
                       )}
                     </IconButton>
-                  )}
-                </Grid>
+                    {(group.course.user === user?._id ||
+                      user?.role === "admin" ||
+                      user?.role === "superAdmin") && (
+                      <Link
+                        to={`/edit-group/${group._id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <IconButton
+                          sx={{
+                            color: "#0288D1",
+                            borderColor: "#0288D1",
+                            "&:hover": {
+                              backgroundColor: "#dff3fc",
+                              borderColor: "#0288D1",
+                            },
+                          }}
+                        >
+                          <BorderColorIcon />
+                        </IconButton>
+                      </Link>
+                    )}
+                  </>
+                )}
               </Grid>
-            </CardContent>
-          </Card>
-        </AccordionDetails>
+            </Grid>
+          </Grid>
+        </AccordionSummary>
       </Accordion>
+      {activeGroup === group._id && (
+        <List>
+          {group.clients.length > 0 ? (
+            group.clients.map((client) => (
+              <ListItem
+                key={client._id}
+                sx={{ display: "flex", justifyContent: "space-between" }}
+              >
+                <Link
+                  to={`/clients/${client.client._id}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
+                  <Typography variant="body1">
+                    {client.client.lastName} {client.client.firstName}
+                  </Typography>
+                </Link>
+                <Grid>
+                  <IconButton
+                    sx={{
+                      color: "black",
+                      borderColor: "black",
+                      fontSize: { xs: "16px", sm: "24px" },
+                      backgroundColor: "#14e6dc",
+                      borderRadius: "0",
+                      "&:hover": {
+                        backgroundColor: "#dff3fc",
+                        borderColor: "#0288D1",
+                      },
+                      ml: 1,
+                    }}
+                  >
+                    <AcUnitIcon />
+                  </IconButton>
+                  <IconButton
+                    sx={{
+                      color: "black",
+                      borderColor: "black",
+                      fontSize: { xs: "16px", sm: "24px" },
+                      backgroundColor: "#14e6dc",
+                      borderRadius: "0",
+                      "&:hover": {
+                        backgroundColor: "#dff3fc",
+                        borderColor: "#0288D1",
+                      },
+                      ml: 1,
+                    }}
+                  >
+                    <DeleteOutlineIcon />
+                  </IconButton>
+                </Grid>
+              </ListItem>
+            ))
+          ) : (
+            <Alert severity="info">Нет подписчиков для данной группы</Alert>
+          )}
+        </List>
+      )}
       <CustomConfirmDialog
         open={confirmOpen}
         title="Удалить группу"
