@@ -25,6 +25,7 @@ jobs:
           touch .env
           echo VITE_GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} >> .env
           echo VITE_API_URL=${{ secrets.BACKEND_URL }}  >> .env
+          echo VITE_API_WS_URL=${{ secrets.WS_URL }} >> .env
 
       - name: Build frontend
         run: npm run build
