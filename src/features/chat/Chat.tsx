@@ -48,6 +48,9 @@ const Chat = () => {
     return `${firstName || "Неизвестно"} ${lastName || "Неизвестно"}`;
   })();
 
+  const chatType = selectedChat?.type || "group";
+
+
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -124,7 +127,8 @@ const Chat = () => {
             overflowY: "auto",
           }}
         >
-          <Messages chatId={selectedChatId} chatTitle={chatTitle || "Чат"} />
+          <Messages chatId={selectedChatId} chatTitle={chatTitle || "Чат"} chatType={chatType}
+          />
         </Box>
       </Box>
     </Container>
