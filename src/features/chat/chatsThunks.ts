@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {FetchMessagesParams, GroupChat, PrivateChat} from "../../types/chatTypes.ts";
+import {GroupChat, PrivateChat} from "../../types/chatTypes.ts";
 import {RootState} from "../../app/store.ts";
 import {GlobalError} from "../../types/userTypes.ts";
 import axiosApi from "../../axiosApi.ts";
@@ -58,18 +58,3 @@ export const getPrivateChats = createAsyncThunk<
     throw error;
   }
 });
-
-export const fetchMessages = createAsyncThunk(
-  "chats/fetchMessages",
-  async ({ chatId, page, limit }: FetchMessagesParams, thunkAPI) => {
-    try {
-      const {data: messages} = await axiosApi(`/chats/${chatId}/messages`, {
-        params: { page, limit },
-      });
-
-      return { chatId, messages: messages};
-    } catch (error) {
-      return thunkAPI.rejectWithValue({error: error});
-    }
-  }
-);

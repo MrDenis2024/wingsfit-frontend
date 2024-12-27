@@ -1,15 +1,12 @@
-import {ChatMessages, GroupChat, PrivateChat} from "../../types/chatTypes.ts";
+import {GroupChat, PrivateChat} from "../../types/chatTypes.ts";
 import {createSlice} from "@reduxjs/toolkit";
-import {fetchMessages, getGroupChats, getPrivateChats} from "./chatsThunks.ts";
+import {getGroupChats, getPrivateChats} from "./chatsThunks.ts";
 
 interface ChatsState {
   groupChats: GroupChat[];
   groupChatsFetching: boolean;
   privateChats: PrivateChat[];
   privateChatsFetching: boolean;
-  chatMessages: ChatMessages;
-  chatMessagesLoading: boolean;
-
 }
 
 const initialState: ChatsState = {
@@ -17,8 +14,6 @@ const initialState: ChatsState = {
   groupChatsFetching: false,
   privateChats: [],
   privateChatsFetching: false,
-  chatMessages: {},
-  chatMessagesLoading: false,
 };
 
 export const chatsSlice = createSlice({
@@ -50,34 +45,15 @@ export const chatsSlice = createSlice({
       .addCase(getPrivateChats.rejected, (state) => {
         state.privateChatsFetching = false;
       });
-    builder
-      .addCase(fetchMessages.pending, (state) => {
-        state.chatMessagesLoading = true;
-      })
-      .addCase(fetchMessages.fulfilled, (state, {payload}) => {
-        const {chatId, messages} = payload;
-        if (!state.chatMessages[chatId]) {
-          state.chatMessages[chatId] = {messages: [], hasMore: true, error: null};
-        }
-        if (messages.length > 0) {
-          state.chatMessages[chatId].messages.unshift(...messages);
-          state.chatMessages[chatId].hasMore = messages.length > 0;
-        }
-        state.chatMessagesLoading = false;
-      })
-      .addCase(fetchMessages.rejected, (state) => {
-        state.chatMessagesLoading = false;
-      });
   },
   selectors: {
     selectGroupChats: (state) => state.groupChats,
     selectGroupChatsFetching: (state) => state.groupChatsFetching,
     selectPrivateChats: (state) => state.privateChats,
     selectPrivateChatsFetching: (state) => state.privateChatsFetching,
-    selectChatMessages: (state) => state.chatMessages,
   },
 });
 
 export const chatsReducer = chatsSlice.reducer;
 
-export const {selectGroupChats, selectPrivateChats, selectChatMessages} = chatsSlice.selectors;
+export const {selectGroupChats, selectPrivateChats} = chatsSlice.selectors;
