@@ -45,3 +45,9 @@ export interface Review {
   comment: string;
   createdAt: string;
 }
+
+export interface SearchTrainersArgs {
+  courseTypes: string[];
+  schedule: string[];
+  rating: boolean;
+}
