@@ -55,7 +55,13 @@ const Chat = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ height: "100vh", padding: 0 }}>
+    <Container
+      maxWidth="lg"
+      sx={{
+        height: "100vh",
+        padding: 0,
+      }}
+    >
       <Box
         sx={{
           display: { xs: "block", sm: "none" },

@@ -3,6 +3,8 @@ export interface GroupMutation {
   course: string;
   startTime: string;
   trainingLevel: string;
+  maxClients: string;
+  scheduleLength: string;
 }
 
 export interface IGroup {
@@ -11,13 +13,21 @@ export interface IGroup {
   course: {
     _id: string;
     title: string;
+    schedule: string[];
+    user: string;
   };
   clients: {
     _id: string;
     firstName: string;
     lastName: string;
   }[];
-  clientsLimit: number;
+  maxClients: number;
+  scheduleLength: number;
   startTime: string;
   trainingLevel: string;
+}
+
+export interface UpdateGroupArg {
+  id: string;
+  group: GroupMutation;
 }

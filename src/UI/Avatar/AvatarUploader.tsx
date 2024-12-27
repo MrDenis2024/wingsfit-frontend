@@ -115,68 +115,117 @@ const AvatarUploader: React.FC<Props> = ({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          "& .MuiDialog-paper": {
+            borderRadius: "12px",
+            padding: "24px",
+            maxWidth: "500px",
+            width: "90vw",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+          },
         }}
       >
         <Box
           sx={{
-            maxWidth: "90vw",
-            maxHeight: "90vh",
             display: "flex",
             flexDirection: "column",
-            padding: "20px",
             justifyContent: "center",
             alignItems: "center",
+            gap: 3,
           }}
         >
           <CardMedia
             component="img"
             image={avatarImage}
-            alt="Фото замены"
+            alt="Аватар пользователя"
             sx={{
-              width: 350,
-              height: 350,
+              width: { xs: 200, sm: 300, md: 350 },
+              height: { xs: 200, sm: 300, md: 350 },
               borderRadius: "50%",
               objectFit: "cover",
-              marginBottom: "25px",
+              border: "3px solid #ddd",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
             }}
           />
-          <Box sx={{ width: "100%" }}>
-            <Grid2>
-              <FileInput
-                label="Выберите аватарку"
-                name="image"
-                onChange={handleAvatarChange}
-              />
-            </Grid2>
+          <FileInput
+            label="Выберите аватарку"
+            name="image"
+            onChange={handleAvatarChange}
+          />
+          <Grid2
+            container
+            spacing={2}
+            justifyContent="center"
+            sx={{
+              width: "100%",
+              marginTop: 2,
+              "@media (max-width: 450px)": {
+                flexDirection: "column",
+                gap: 2,
+              },
+            }}
+          >
             <Grid2
-              container
-              justifyContent="space-between"
-              sx={{ width: "100%", marginY: 2 }}
+              size={{
+                xs: 12,
+                sm: "auto",
+              }}
             >
               <Button
-                variant="outlined"
-                sx={{ width: "200px", marginRight: 2, marginBottom: 2 }}
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{
+                  fontSize: { xs: "12px", sm: "14px" },
+                  textTransform: "none",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                  "&:hover": {
+                    backgroundColor: "primary.dark",
+                  },
+                }}
                 onClick={handleAvatarSubmit}
                 disabled={!selectedAvatar}
               >
                 Сохранить аватарку
               </Button>
+            </Grid2>
+            <Grid2
+              size={{
+                xs: 12,
+                sm: "auto",
+              }}
+            >
               <Button
                 variant="outlined"
-                sx={{ width: "200px", marginBottom: 2 }}
                 color="error"
+                fullWidth
+                sx={{
+                  fontSize: { xs: "12px", sm: "14px" },
+                  textTransform: "none",
+                  borderColor: "error.main",
+                  "&:hover": {
+                    borderColor: "error.dark",
+                    backgroundColor: "rgba(255, 0, 0, 0.1)",
+                  },
+                }}
                 onClick={handleDeleteAvatar}
               >
                 Удалить аватарку
               </Button>
             </Grid2>
-          </Box>
+          </Grid2>
           <Button
             onClick={handleClose}
-            variant="contained"
-            sx={{ width: "90px", alignSelf: "flex-end" }}
+            variant="text"
+            sx={{
+              color: "text.secondary",
+              fontSize: { xs: "12px", sm: "14px" },
+              textTransform: "none",
+              "&:hover": {
+                color: "text.primary",
+              },
+            }}
           >
-            Close
+            Закрыть
           </Button>
         </Box>
       </Dialog>

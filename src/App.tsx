@@ -27,8 +27,10 @@ import TrainersPage from "./features/trainers/TrainersPage.tsx";
 import TrainerStatistics from "./features/trainers/statistic/TrainerStatistics.tsx";
 import EditTrainer from "./features/trainers/components/EditTrainer.tsx";
 import EditClient from "./features/clients/components/EditClient.tsx";
-import ClientsSelectCourses from "./features/courses/ClientsSelectCourses.tsx";
 import LessonsPage from "./features/lessons/LessonsPage/LessonsPage.tsx";
+import EditCourse from "./features/courses/EditCourse.tsx";
+import SearchSelectPage from "./features/searchSelect/SearchSelectPage.tsx";
+import EditGroup from "./features/groups/EditGroup.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -122,6 +124,14 @@ const App = () => {
             }
           />
           <Route
+            path="/edit-course/:id"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <EditCourse />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/trainer/statistics"
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
@@ -159,6 +169,28 @@ const App = () => {
               <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                 <NewGroup />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-group/:id"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <EditGroup />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-group/:id"
+            element={
+              <>
+                {user ? (
+                  <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                    <EditGroup />
+                  </ProtectedRoute>
+                ) : (
+                  <WelcomePage />
+                )}
+              </>
             }
           />
           <Route
@@ -202,10 +234,10 @@ const App = () => {
             }
           />
           <Route
-            path="/client/select-course"
+            path="clients/search-select-page"
             element={
-              <ProtectedRoute isAllowed={!!user && user.role !== "client"}>
-                <ClientsSelectCourses />
+              <ProtectedRoute isAllowed={!!user && user.role === "client"}>
+                <SearchSelectPage />
               </ProtectedRoute>
             }
           />

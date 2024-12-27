@@ -9,17 +9,22 @@ import {
 } from "@mui/material";
 import TimeZone from "../../../UI/TimeZone/TimeZone.tsx";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
+import PhoneInput from "react-phone-number-input";
 
 interface Props {
   personalInfo: UserInfoMutation;
   inputChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onTimezoneChange: (timezoneValue: string, timezoneLabel: string) => void;
+  phoneChangeHandler: (value: string | undefined) => void;
+  phoneError: boolean;
 }
 
 const EditUser: React.FC<Props> = ({
   personalInfo,
   inputChangeHandler,
   onTimezoneChange,
+  phoneChangeHandler,
+  phoneError,
 }) => {
   return (
     <>
@@ -46,14 +51,65 @@ const EditUser: React.FC<Props> = ({
           value={personalInfo.lastName}
         />
       </Grid>
-      <Grid>
-        <TextField
-          type="tel"
-          label="Номер телефона"
+      <Grid sx={{ position: "relative" }}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: "14px",
+            color: "#666666",
+            fontWeight: 400,
+            lineHeight: 1.5,
+            paddingLeft: "14px",
+          }}
+        >
+          Номер телефона
+        </Typography>
+        <PhoneInput
           name="phoneNumber"
-          onChange={inputChangeHandler}
+          label="Номер телефона"
+          defaultCountry="KG"
+          onChange={phoneChangeHandler}
+          international
           value={personalInfo.phoneNumber}
+          style={{
+            width: "100%",
+            padding: "2px",
+            paddingLeft: "14px",
+            border: phoneError ? "1px solid red" : "1px solid #ccc",
+            borderRadius: "8px",
+            fontSize: {
+              xs: "12px",
+            },
+          }}
         />
+        {phoneError && (
+          <Typography
+            color="error"
+            variant="body2"
+            sx={{
+              width: "100%",
+              position: "absolute",
+              top: 72,
+              left: 0,
+              backgroundColor: "white",
+              borderRadius: "5px",
+              p: "5px",
+              fontSize: "1rem",
+              "@media (max-width: 600px)": {
+                fontSize: "12px",
+                top: 60,
+                left: 0,
+              },
+              "@media (max-width: 350px)": {
+                fontSize: "12px",
+                top: 60,
+                left: 0,
+              },
+            }}
+          >
+            Некорректный номер телефона.
+          </Typography>
+        )}
       </Grid>
       <Grid>
         <TextField

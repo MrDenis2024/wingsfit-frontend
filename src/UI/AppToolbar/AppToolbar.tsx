@@ -7,6 +7,7 @@ import {
   Typography,
   useMediaQuery,
   Container,
+  Box,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
@@ -69,11 +70,12 @@ const AppToolbar = () => {
                   {user ? <UserMenu user={user} /> : <AnonymousMenu />}
                 </Grid>
               )}
-
               {isSmallScreen && (
-                <IconButton color="inherit" edge="end" onClick={toggleDrawer}>
-                  <MenuIcon />
-                </IconButton>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <IconButton color="inherit" edge="end" onClick={toggleDrawer}>
+                    <MenuIcon />
+                  </IconButton>
+                </Box>
               )}
             </Grid>
           </Container>

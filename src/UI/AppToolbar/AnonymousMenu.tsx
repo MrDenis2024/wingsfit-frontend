@@ -2,7 +2,7 @@ import { Link, Stack, styled } from "@mui/material";
 
 export const CustomStyledLink = styled(Link)(() => ({
   textDecoration: "none",
-  fontSize: "11px",
+  fontSize: "14px",
   fontWeight: 600,
   color: "#000000",
   position: "relative",

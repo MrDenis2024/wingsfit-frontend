@@ -37,8 +37,8 @@ const ClientMainPage = () => {
         <Typography variant="h4" component="h1" mb={3}>
           Курсы
         </Typography>
-        <CourseCards courses={courses} />
       </Grid>
+      <CourseCards courses={courses} />
       <Grid container direction="column" sx={{ my: 3 }}>
         <Typography variant="h4" component="h2" mb={3}>
           Наши тренера

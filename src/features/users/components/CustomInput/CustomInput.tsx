@@ -5,44 +5,52 @@ const CustomInput: React.FC<TextFieldProps> = (props) => {
   return (
     <TextField
       {...props}
-      variant="outlined"
+      variant="standard"
       fullWidth
-      slotProps={{
-        inputLabel: {
-          sx: {
-            position: "absolute",
-            top: "7px",
-            left: "0px",
-            "@media (max-width: 350px)": {
-              top: "5px",
-              left: "0px",
-            },
-            "&.Mui-focused": {
-              color: "#333",
-            },
-          },
-        },
-      }}
       sx={{
         mb: 2,
-        "& .MuiOutlinedInput-root": {
-          borderRadius: "8px",
-          backgroundColor: "#f9f9f9",
-          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-          "&.Mui-focused": {
-            boxShadow: "0 0 8px rgba(0, 123, 255, 0.3)",
+        "& .MuiInputBase-root": {
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+          "&:hover": {
+            boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
           },
-          fontSize: "0.9rem",
+          "&:focus-within": {
+            boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)",
+          },
         },
-        "& .MuiOutlinedInput-input": {
-          "@media (max-width: 350px)": {
-            padding: "20px 10px 10px 10px",
+        "& .MuiInputBase-input": {
+          "&::placeholder": {
+            fontSize: "14px",
+            "@media (max-width: 350px)": {
+              fontSize: "12px",
+            },
           },
         },
         "& .MuiInputLabel-root": {
-          fontWeight: "bold",
-          "@media (max-width: 350px)": {
-            fontSize: "0.75rem",
+          "&.Mui-focused": {
+            color: "white",
+          },
+        },
+      }}
+      slotProps={{
+        input: {
+          sx: {
+            padding: "10px 12px",
+            backgroundColor: "#f9f9f9",
+            borderRadius: "8px",
+            "@media (max-width: 350px)": {
+              padding: "8px 10px",
+              fontSize: "14px",
+            },
+          },
+        },
+        inputLabel: {
+          shrink: true,
+          sx: {
+            fontSize: "16px",
+            fontWeight: "bold",
+            color: "white",
+            marginBottom: "10px",
           },
         },
       }}
