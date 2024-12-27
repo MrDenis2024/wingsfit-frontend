@@ -27,20 +27,20 @@ const SearchTrainerCard: React.FC<Props> = ({trainer}) => {
   return (
     <>
       <Card sx={{ height: "100%", border: "1px solid silver"}}>
-        <CardMedia
-          component="img"
-          sx={{
-            height: "300px",
-            objectFit: "cover",
-            objectPosition: "top",
-        }}
-          image={cardImage}
-          alt={trainer.user.firstName + " " + trainer.user.lastName}
-        />
         <CardActionArea
           component={NavLink}
           to={`/trainers/${trainer.user._id}`}
         >
+          <CardMedia
+            component="img"
+            sx={{
+              height: "300px",
+              objectFit: "cover",
+              objectPosition: "top",
+            }}
+            image={cardImage}
+            alt={trainer.user.firstName + " " + trainer.user.lastName}
+          />
           <CardHeader
             title={
               <Grid

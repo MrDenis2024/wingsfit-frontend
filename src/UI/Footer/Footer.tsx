@@ -18,6 +18,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import HomeIcon from "@mui/icons-material/Home";
 
 const StyledLink = styled(NavLink)(({ theme }) => ({
@@ -43,7 +44,8 @@ const Footer = () => {
         { to: `/`, label: "Home" },
         { to: `/clients/courses/${userId}`, label: "My Courses" },
         { to: `/clients/chats/${userId}`, label: "My Chats" },
-        { to: `/clients/search-select/courses`, label: "Search" },
+        { to: `/clients/search-select/courses`, label: "Search courses" },
+        { to: `/clients/search-select/trainers`, label: "Search trainers" },
       ]
     : [];
 
@@ -271,8 +273,10 @@ const Footer = () => {
                 <FitnessCenterIcon />
               ) : link.label === "My Chats" ? (
                 <ChatIcon />
-              ) : link.label === "Search" ? (
+              ) : link.label === "Search courses" ? (
                 <SearchIcon />
+              ) : link.label === "Search trainers" ? (
+                <PersonSearchIcon />
               ) : null}
             </StyledLink>
           ))}

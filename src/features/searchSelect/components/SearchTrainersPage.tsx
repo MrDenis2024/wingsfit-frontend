@@ -80,24 +80,19 @@ const SearchTrainersPage = () => {
   };
 
   return (
-    <Grid container spacing={2} py={matches ? 2 : 4}>
-      <Grid size={{ md: 3, lg: 3, xs: 12 }}>
+    <Grid container spacing={1} py={matches ? 2 : 4}>
+      <Grid size={{ md: 3, lg: 3, xs: 12 }} border="1px solid #ccc" borderRadius="4px">
         <FormGroup>
           <Grid
-            display="flex"
-            justifyContent="space-between"
-            gap={1}
-            flexWrap="wrap"
+            mx={2}
           >
             <Typography
               variant="h6"
-              display="flex"
-              justifyContent="space-between"
+              mt={1}
               gutterBottom
             >
               Сортировка
             </Typography>
-          </Grid>
           <FormControlLabel
             control={
               <Checkbox
@@ -107,8 +102,8 @@ const SearchTrainersPage = () => {
             }
             label="По рейтингу"
           />
+          </Grid>
         </FormGroup>
-
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Направление</Typography>
@@ -133,7 +128,7 @@ const SearchTrainersPage = () => {
           </AccordionDetails>
         </Accordion>
 
-        <Typography variant="h6" gutterBottom>
+        <Typography m={2} variant="h6" gutterBottom>
           Расписание
         </Typography>
         <Accordion>
@@ -157,25 +152,26 @@ const SearchTrainersPage = () => {
             </FormGroup>
           </AccordionDetails>
         </Accordion>
-        <Box gap={1} mt={2} display="flex" justifyContent="end">
+        <Box gap={1} p={1} display="flex" justifyContent="end">
           <Button
             variant="outlined"
             sx={{
               color: "gray",
               borderColor: "gray",
+              fontSize: "11px",
             }}
             onClick={resetForm}
           >
             Сбросить
             <DeleteForeverIcon />
           </Button>
-          <Button variant="outlined" onClick={sendForm}>
+          <Button variant="outlined" sx={{fontSize: "11px"}} onClick={sendForm}>
             Сортировать
           </Button>
         </Box>
       </Grid>
 
-      <Grid size={{ sm: 12, md: 9, lg: 9, xs: 12 }}>
+      <Grid size={{ sm: 12, md: 9, lg: 9, xs: 12 }} border="1px solid #ccc" pt={2} px={2} borderRadius="4px">
         <Grid mb={3}>
           <Typography variant="h4" gutterBottom textAlign="center">
             Выбери своего тренера!

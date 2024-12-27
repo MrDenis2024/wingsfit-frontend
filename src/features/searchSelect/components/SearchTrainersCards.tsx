@@ -18,7 +18,7 @@ const SearchTrainersCards: React.FC<Props> = ({ trainers, isLoading }) => {
           trainers.map((trainer) => (
             <Grid
               key={trainer._id}
-              size={{ md: 4, lg: 4, sm: 6, xs: 11 }}
+              size={{ md: 4, lg: 4, sm: 6, xs: 12 }}
             >
               <SearchTrainerCard trainer={trainer} />
             </Grid>
