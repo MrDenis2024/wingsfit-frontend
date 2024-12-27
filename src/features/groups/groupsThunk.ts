@@ -1,9 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { GlobalError } from "../../types/userTypes.ts";
+import { GlobalError, ValidationError } from "../../types/userTypes.ts";
 import { RootState } from "../../app/store.ts";
 import axiosApi from "../../axiosApi.ts";
 import { isAxiosError } from "axios";
-import { GroupMutation, IGroup } from "../../types/groupTypes.ts";
+import {
+  GroupMutation,
+  IGroup,
+  UpdateGroupArg,
+} from "../../types/groupTypes.ts";
 
 export const fetchAllGroups = createAsyncThunk<IGroup[], void>(
   "groups/fetchAll",
@@ -15,6 +19,14 @@ export const fetchAllGroups = createAsyncThunk<IGroup[], void>(
     }
 
     return groupsData;
+  },
+);
+
+export const getOneGroup = createAsyncThunk<IGroup, string>(
+  "groups/getOneGroup",
+  async (id) => {
+    const { data: group } = await axiosApi.get<IGroup>(`/groups/group/${id}`);
+    return group;
   },
 );
 
@@ -45,6 +57,21 @@ export const createGroup = createAsyncThunk<
     );
   } catch (e) {
     if (isAxiosError(e) && e.response) {
+      return rejectWithValue(e.response.data);
+    }
+    throw e;
+  }
+});
+
+export const editGroup = createAsyncThunk<
+  void,
+  UpdateGroupArg,
+  { rejectValue: ValidationError }
+>("groups/editGroup", async ({ id, group }, { rejectWithValue }) => {
+  try {
+    await axiosApi.put(`/groups/${id}`, group);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data);
     }
     throw e;

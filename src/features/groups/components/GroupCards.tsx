@@ -13,7 +13,7 @@ interface Props {
   courses: ICourse[];
 }
 
-const CourseCards: React.FC<Props> = ({ groups, courses }) => {
+const GroupCards: React.FC<Props> = ({ groups, courses }) => {
   const isLoading = useAppSelector(selectFetchGroups);
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
 
@@ -76,4 +76,4 @@ const CourseCards: React.FC<Props> = ({ groups, courses }) => {
   );
 };
 
-export default CourseCards;
+export default GroupCards;

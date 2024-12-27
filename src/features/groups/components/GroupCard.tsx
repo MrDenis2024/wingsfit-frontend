@@ -24,6 +24,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 interface Props {
   group: IGroup;
@@ -119,33 +120,56 @@ const GroupCard: React.FC<Props> = ({
                 {(group.course.user === user?._id ||
                   user?.role === "admin" ||
                   user?.role === "superAdmin") && (
-                  <IconButton
-                    sx={{
-                      color: "black",
-                      borderColor: "black",
-                      fontSize: { xs: "16px", sm: "24px" },
-                      "&:hover": {
-                        backgroundColor: "#dff3fc",
-                        borderColor: "#0288D1",
-                      },
-                      ml: 1,
-                    }}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      setConfirmOpen(true);
-                    }}
-                    disabled={
-                      deleteGroupLoading
-                        ? deleteGroupLoading === group._id
-                        : false
-                    }
-                  >
-                    {deleteGroupLoading === group._id ? (
-                      <CircularProgress size={24} />
-                    ) : (
-                      <DeleteSweepIcon />
+                  <>
+                    <IconButton
+                      sx={{
+                        color: "black",
+                        borderColor: "black",
+                        fontSize: { xs: "16px", sm: "24px" },
+                        "&:hover": {
+                          backgroundColor: "#dff3fc",
+                          borderColor: "#0288D1",
+                        },
+                        ml: 1,
+                      }}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        setConfirmOpen(true);
+                      }}
+                      disabled={
+                        deleteGroupLoading
+                          ? deleteGroupLoading === group._id
+                          : false
+                      }
+                    >
+                      {deleteGroupLoading === group._id ? (
+                        <CircularProgress size={24} />
+                      ) : (
+                        <DeleteSweepIcon />
+                      )}
+                    </IconButton>
+                    {(group.course.user === user?._id ||
+                      user?.role === "admin" ||
+                      user?.role === "superAdmin") && (
+                      <Link
+                        to={`/edit-group/${group._id}`}
+                        style={{ textDecoration: "none" }}
+                      >
+                        <IconButton
+                          sx={{
+                            color: "#0288D1",
+                            borderColor: "#0288D1",
+                            "&:hover": {
+                              backgroundColor: "#dff3fc",
+                              borderColor: "#0288D1",
+                            },
+                          }}
+                        >
+                          <BorderColorIcon />
+                        </IconButton>
+                      </Link>
                     )}
-                  </IconButton>
+                  </>
                 )}
               </Grid>
             </Grid>
