@@ -26,3 +26,8 @@ export interface IGroup {
   startTime: string;
   trainingLevel: string;
 }
+
+export interface UpdateGroupArg {
+  id: string;
+  group: GroupMutation;
+}

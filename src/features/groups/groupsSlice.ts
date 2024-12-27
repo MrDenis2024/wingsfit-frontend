@@ -1,10 +1,12 @@
-import { GlobalError } from "../../types/userTypes.ts";
+import { GlobalError, ValidationError } from "../../types/userTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
 import {
   createGroup,
   deleteGroup,
+  editGroup,
   fetchAllGroups,
   fetchCourseGroups,
+  getOneGroup,
 } from "./groupsThunk.ts";
 import { IGroup } from "../../types/groupTypes.ts";
 
@@ -14,6 +16,10 @@ export interface GroupsState {
   fetchCourseGroups: boolean;
   isCreating: boolean;
   isCreatingError: GlobalError | null;
+  oneGroup: IGroup | null;
+  oneGroupLoading: boolean;
+  updateLoading: boolean;
+  isGroupError: ValidationError | null;
   deleteGroupLoading: false | string;
 }
 
@@ -23,6 +29,10 @@ const initialState: GroupsState = {
   fetchCourseGroups: false,
   isCreating: false,
   isCreatingError: null,
+  oneGroup: null,
+  oneGroupLoading: false,
+  updateLoading: false,
+  isGroupError: null,
   deleteGroupLoading: false,
 };
 
@@ -72,6 +82,32 @@ export const groupsSlice = createSlice({
       });
 
     builder
+      .addCase(getOneGroup.pending, (state) => {
+        state.oneGroupLoading = true;
+        state.oneGroup = null;
+      })
+      .addCase(getOneGroup.fulfilled, (state, { payload: oneGroup }) => {
+        state.oneGroup = oneGroup;
+        state.oneGroupLoading = false;
+      })
+      .addCase(getOneGroup.rejected, (state) => {
+        state.oneGroupLoading = false;
+      });
+
+    builder
+      .addCase(editGroup.pending, (state) => {
+        state.updateLoading = true;
+        state.isGroupError = null;
+      })
+      .addCase(editGroup.fulfilled, (state) => {
+        state.updateLoading = false;
+      })
+      .addCase(editGroup.rejected, (state, { payload: error }) => {
+        state.updateLoading = false;
+        state.isGroupError = error || null;
+      });
+
+    builder
       .addCase(deleteGroup.pending, (state, { meta: { arg: group } }) => {
         state.deleteGroupLoading = group;
       })
@@ -88,6 +124,10 @@ export const groupsSlice = createSlice({
     selectFetchCourseGroups: (state) => state.fetchCourseGroups,
     selectGroupCreate: (state) => state.isCreating,
     selectGroupError: (state) => state.isCreatingError,
+    selectOneGroup: (state) => state.oneGroup,
+    selectOneGroupLoading: (state) => state.oneGroupLoading,
+    selectGroupUpdateLoading: (state) => state.updateLoading,
+    selectIsGroupError: (state) => state.isGroupError,
     selectDeleteGroupLoading: (state) => state.deleteGroupLoading,
   },
 });
@@ -100,5 +140,9 @@ export const {
   selectFetchGroups,
   selectFetchCourseGroups,
   selectGroups,
+  selectOneGroup,
+  selectOneGroupLoading,
+  selectGroupUpdateLoading,
+  selectIsGroupError,
   selectDeleteGroupLoading,
 } = groupsSlice.selectors;

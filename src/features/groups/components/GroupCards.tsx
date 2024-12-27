@@ -13,7 +13,7 @@ interface Props {
   courses: ICourse[];
 }
 
-const CourseCards: React.FC<Props> = ({ groups, courses }) => {
+const GroupCards: React.FC<Props> = ({ groups, courses }) => {
   const isLoading = useAppSelector(selectFetchGroups);
   return (
     <Grid container spacing={2} sx={{ mb: 5 }}>
@@ -65,4 +65,4 @@ const CourseCards: React.FC<Props> = ({ groups, courses }) => {
   );
 };
 
-export default CourseCards;
+export default GroupCards;

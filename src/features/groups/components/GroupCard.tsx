@@ -19,6 +19,8 @@ import ClearIcon from "@mui/icons-material/Clear";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { deleteGroup, fetchAllGroups } from "../groupsThunk.ts";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
 
 interface Props {
   group: IGroup;
@@ -88,6 +90,27 @@ const GroupCard: React.FC<Props> = ({ group }) => {
                   size={{ sm: 2, xs: 12 }}
                   justifyContent="flex-end"
                 >
+                  {(group.course.user === user?._id ||
+                    user?.role === "admin" ||
+                    user?.role === "superAdmin") && (
+                    <Link
+                      to={`/edit-group/${group._id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <IconButton
+                        sx={{
+                          color: "#0288D1",
+                          borderColor: "#0288D1",
+                          "&:hover": {
+                            backgroundColor: "#dff3fc",
+                            borderColor: "#0288D1",
+                          },
+                        }}
+                      >
+                        <BorderColorIcon />
+                      </IconButton>
+                    </Link>
+                  )}
                   {(group.course.user === user?._id ||
                     user?.role === "admin" ||
                     user?.role === "superAdmin") && (

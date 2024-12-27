@@ -30,6 +30,7 @@ import EditClient from "./features/clients/components/EditClient.tsx";
 import LessonsPage from "./features/lessons/LessonsPage/LessonsPage.tsx";
 import EditCourse from "./features/courses/EditCourse.tsx";
 import SearchSelectPage from "./features/searchSelect/SearchSelectPage.tsx";
+import EditGroup from "./features/groups/EditGroup.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -168,6 +169,28 @@ const App = () => {
               <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                 <NewGroup />
               </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-group/:id"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <EditGroup />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-group/:id"
+            element={
+              <>
+                {user ? (
+                  <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                    <EditGroup />
+                  </ProtectedRoute>
+                ) : (
+                  <WelcomePage />
+                )}
+              </>
             }
           />
           <Route
