@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { Alert, Typography } from "@mui/material";
 import { IGroup } from "../../../types/groupTypes.ts";
@@ -15,6 +15,12 @@ interface Props {
 
 const CourseCards: React.FC<Props> = ({ groups, courses }) => {
   const isLoading = useAppSelector(selectFetchGroups);
+  const [activeGroup, setActiveGroup] = useState<string | null>(null);
+
+  const handleAccordionChange = (groupId: string) => {
+    setActiveGroup((prevState) => (prevState === groupId ? null : groupId));
+  };
+
   return (
     <Grid container spacing={2} sx={{ mb: 5 }}>
       {isLoading ? (
@@ -50,7 +56,12 @@ const CourseCards: React.FC<Props> = ({ groups, courses }) => {
                 </Typography>
               </Grid>
               {courseGroups.map((group) => (
-                <GroupCard key={group._id} group={group} />
+                <GroupCard
+                  key={group._id}
+                  group={group}
+                  activeGroup={activeGroup}
+                  handleAccordionChange={handleAccordionChange}
+                />
               ))}
               {courseGroups.length === 0 && (
                 <Alert severity="info" sx={{ width: "100%" }}>
