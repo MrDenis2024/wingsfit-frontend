@@ -39,7 +39,11 @@ const initialState: CoursesState = {
 export const coursesSlice = createSlice({
   name: "courses",
   initialState,
-  reducers: {},
+  reducers: {
+    resetSearchCourses: (state) => {
+      state.searchCourses = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(createCourse.pending, (state) => {
@@ -130,6 +134,8 @@ export const coursesSlice = createSlice({
 });
 
 export const coursesReducer = coursesSlice.reducer;
+
+export const { resetSearchCourses } = coursesSlice.actions;
 
 export const {
   selectCourses,

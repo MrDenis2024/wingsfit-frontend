@@ -28,7 +28,7 @@ const SearchCourseCards: React.FC<Props> = ({ courses, isLoading }) => {
           ))
         ) : (
           <Alert severity="info" sx={{ width: "100%" }}>
-            Здесь пока нет никаких курсов!
+            Здесь пока нет ничего нет, выберите фильтры!
           </Alert>
         )
       ) : (

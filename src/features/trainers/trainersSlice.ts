@@ -49,6 +49,9 @@ export const trainersSlice = createSlice({
     resetTrainerError: (state) => {
       state.trainerProfileError = null;
     },
+    resetSearchTrainers: (state) => {
+      state.searchTrainers = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -180,4 +183,4 @@ export const {
   selectSearchTrainers,
   selectFetchingSearchTrainers
 } = trainersSlice.selectors;
-export const { resetTrainerError } = trainersSlice.actions;
+export const { resetTrainerError, resetSearchTrainers } = trainersSlice.actions;

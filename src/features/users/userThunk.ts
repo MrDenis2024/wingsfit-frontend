@@ -10,6 +10,8 @@ import { isAxiosError } from "axios";
 import axiosApi from "../../axiosApi";
 import { unsetUser } from "./userSlice.ts";
 import { AdminMutation } from "../../types/adminTypes.ts";
+import { resetSearchCourses } from "../courses/coursesSlice.ts";
+import { resetSearchTrainers } from "../trainers/trainersSlice.ts";
 
 export const reloadUser = createAsyncThunk<UserProfile>(
   "users/reload",
@@ -112,5 +114,7 @@ export const logout = createAsyncThunk(
   async (_arg, { dispatch }) => {
     await axiosApi.delete("/users/sessions");
     dispatch(unsetUser());
+    dispatch(resetSearchCourses());
+    dispatch(resetSearchTrainers());
   },
 );

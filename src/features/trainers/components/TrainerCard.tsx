@@ -1,17 +1,9 @@
 import React from "react";
-import { Avatar, Card, CardHeader, styled } from "@mui/material";
+import {Avatar, Card, CardContent, styled} from "@mui/material";
 import { Link } from "react-router-dom";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { apiURL } from "../../../constants.ts";
 import Grid from "@mui/material/Grid2";
-
-// const ImageCardMedia = styled(CardMedia)({
-//   width: "50%",
-//   height: 0,
-//   paddingTop: "56.25%",
-//   borderRadius: "10px",
-//   backgroundColor: "silver",
-// });
 
 const StyledLink = styled(Link)({
   color: "inherit",
@@ -48,14 +40,23 @@ const TrainerCard: React.FC<Props> = ({ _id, firstName, lastName, avatar }) => {
               height: "100%",
               padding: "15px",
               display: "flex",
+              alignItems: "center",
             }}
           >
             <Avatar
-              sx={{ width: 70, height: 70, mt: 2 }}
+              sx={{ width: 70, height: 70 }}
               src={cardImage}
               alt={`${firstName} ${lastName}`}
             />
-            <CardHeader variant="h6" title={`${firstName} ${lastName}`} />
+            <CardContent component="h5" sx={{
+              fontWeight: "400",
+              my: 0,
+              fontSize: {
+                sm: "22px",
+                xs: "18px",
+              }}} >
+              <span>{firstName} {lastName}</span>
+            </CardContent>
           </Card>
         </StyledLink>
       </Grid>

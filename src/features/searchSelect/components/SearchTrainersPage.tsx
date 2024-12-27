@@ -1,3 +1,4 @@
+import {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid2";
 import {
   Accordion,
@@ -14,17 +15,17 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import {selectUser} from "../../users/userSlice.ts";
 import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
-import {selectSearchTrainers} from "../../trainers/trainersSlice.ts";
-import {useEffect, useState} from "react";
+import {selectFetchingSearchTrainers, selectSearchTrainers} from "../../trainers/trainersSlice.ts";
 import {fetchCourseTypes} from "../../CourseTypes/CourseTypesThunks.ts";
 import {SearchTrainersArgs} from "../../../types/trainerTypes.ts";
 import {getSearchTrainers} from "../../trainers/trainersThunks.ts";
-import TrainersCards from "../../trainers/components/TrainersCards.tsx";
+import SearchTrainersCards from "./SearchTrainersCards.tsx";
 
 const SearchTrainersPage = () => {
   const user = useAppSelector(selectUser);
   const courseTypes = useAppSelector(selectCourseTypes);
   const trainers = useAppSelector(selectSearchTrainers);
+  const isLoading = useAppSelector(selectFetchingSearchTrainers);
 
   const [filters, setFilters] = useState<SearchTrainersArgs>({
     rating: false,
@@ -183,7 +184,7 @@ const SearchTrainersPage = () => {
             Выберете удобные дни для своих занятий
           </Typography>
         </Grid>
-        <TrainersCards trainers={trainers} />
+        <SearchTrainersCards trainers={trainers} isLoading={isLoading} />
       </Grid>
     </Grid>
   );

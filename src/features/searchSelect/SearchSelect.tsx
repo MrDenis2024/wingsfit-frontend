@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import SearchCoursePage from "./components/SearchCoursePage.tsx";
 import SearchTrainersPage from "./components/SearchTrainersPage.tsx";
 
-const SearchSelectPage = () => {
+const SearchSelect = () => {
   const { page } = useParams();
 
   return (
@@ -23,4 +23,4 @@ const SearchSelectPage = () => {
   );
 };
 
-export default SearchSelectPage;
+export default SearchSelect;
