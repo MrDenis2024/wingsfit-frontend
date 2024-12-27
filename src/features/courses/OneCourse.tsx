@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import {
   selectCourses,
-  selectCoursesFetching,
   selectOneCourse,
   selectOneCourseLoading,
 } from "./coursesSlice.ts";
@@ -17,7 +16,6 @@ import {
   CardContent,
   CardMedia,
   Container,
-  Link,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -32,6 +30,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { selectUser } from "../users/userSlice.ts";
 import { fetchCourseGroups } from "../groups/groupsThunk.ts";
 import { selectFetchGroups, selectGroups } from "../groups/groupsSlice.ts";
+import AnotherCoursesLinks from "./components/AnotherCoursesLinks.tsx";
 
 const OneCourse = () => {
   const { id } = useParams<{ id: string }>();
@@ -42,7 +41,6 @@ const OneCourse = () => {
   const trainerId = course?.user._id;
   const mediaQuery768 = useMediaQuery("(min-width:768px)");
   const user = useAppSelector(selectUser);
-  const loadingCourses = useAppSelector(selectCoursesFetching);
   const courses = useAppSelector(selectCourses);
   const groups = useAppSelector(selectGroups);
   const loadingGroups = useAppSelector(selectFetchGroups);
@@ -97,6 +95,7 @@ const OneCourse = () => {
 
   const courseImage = course.image ? apiURL + "/" + course.image : "";
   const avatar = course.user.avatar ? apiURL + "/" + course.user.avatar : "";
+  const anotherCourses = courses.filter((item)=>item._id!==course._id);
 
   return (
     <>
@@ -350,6 +349,7 @@ const OneCourse = () => {
               groups.length > 0 ? (
                 groups.map((group) => (
                   <Card
+                      key={group._id}
                     sx={{
                       width: "300px",
                     }}
@@ -371,7 +371,7 @@ const OneCourse = () => {
                         Время: {group.scheduleLength}
                       </Typography>
                       <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-                        Кол-во человек: {group.maxClients}
+                        Кол-во человек: {group.maxClients-group.clients.length}
                       </Typography>
                     </CardContent>
                     <CardActions>
@@ -471,59 +471,25 @@ const OneCourse = () => {
             </Grid>
           ) : null}
         </Grid>
-        <Grid sx={{ my: 6 }}>
-          <Typography variant="h3" sx={{ fontSize: "20px", mb: 2 }}>
-            Другие программы тренера
-          </Typography>
-          <Grid
-            sx={{
-              maxWidth: "500px",
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "20px",
-            }}
-          >
-            {!loadingCourses ? (
-              courses.length > 1 ? (
-                courses.map((course) => {
-                  if (course._id !== id) {
-                    return (
-                      <Link
-                        sx={{
-                          display: "flex",
-                          textDecoration: "none",
-                          width: "100px",
-                          height: "100px",
-                          backgroundImage: `url(${apiURL}/${course.image})`,
-                          backgroundSize: "cover",
-                          backgroundPosition: "auto",
-                          borderRadius: "5px",
-                          color: "#fff",
-                          justifyContent: "center",
-                          alignItems: "end",
-                        }}
-                        href={`/courses/${course._id}`}
+          {anotherCourses.length>0&&(
+              <Grid container>
+                  <Grid size={12} sx={{ my: 6 }}>
+                      <Typography variant="h3" sx={{ fontSize: "20px", mb: 2 }}>
+                          Другие программы тренера
+                      </Typography>
+                  </Grid>
+                  <Grid
+                          size={{ md: 6, xs: 12 }}
+                          sx={{
+                              display: "flex",
+                              flexWrap: "wrap",
+                              gap: "20px",
+                          }}
                       >
-                        <Typography
-                          component="span"
-                          sx={{ textAlign: "center" }}
-                        >
-                          {course.title}
-                        </Typography>
-                      </Link>
-                    );
-                  }
-                })
-              ) : (
-                <Alert severity="info" sx={{ width: "100%" }}>
-                  Здесь пока нет никаких курсов!
-                </Alert>
-              )
-            ) : (
-              <LoadingIndicator />
-            )}
-          </Grid>
-        </Grid>
+                      <AnotherCoursesLinks courses={anotherCourses} />
+                      </Grid>
+              </Grid>
+          )}
       </Container>
     </>
   );
