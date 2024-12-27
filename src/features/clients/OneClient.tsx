@@ -39,11 +39,13 @@ const OneClient = () => {
   }
   return (
     <>
-      <ClientProfileDetail
-        clientsProfile={isMyProfile ? oneClient : null}
-        id={id}
-        isOwner={isMyProfile}
-      />
+      {oneClient && (
+        <ClientProfileDetail
+          clientsProfile={oneClient}
+          id={id}
+          isOwner={isMyProfile}
+        />
+      )}
     </>
   );
 };
