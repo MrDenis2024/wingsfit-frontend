@@ -18,7 +18,7 @@ import ChatIcon from "@mui/icons-material/Chat";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import HomeIcon from "@mui/icons-material/Home";
 
 const StyledLink = styled(NavLink)(({ theme }) => ({

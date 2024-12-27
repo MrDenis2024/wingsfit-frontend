@@ -1,8 +1,8 @@
-import {ICourse} from "../../../types/courseTypes.ts";
+import { ICourse } from "../../../types/courseTypes.ts";
 import React from "react";
 import Grid from "@mui/material/Grid2";
 import CourseCard from "../../courses/components/CourseCard.tsx";
-import {Alert} from "@mui/material";
+import { Alert } from "@mui/material";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 interface Props {
@@ -11,7 +11,6 @@ interface Props {
 }
 
 const SearchCourseCards: React.FC<Props> = ({ courses, isLoading }) => {
-
   return (
     <Grid container spacing={3} sx={{ mb: 5 }} display="flex">
       {!isLoading ? (

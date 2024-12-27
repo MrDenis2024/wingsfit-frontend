@@ -28,23 +28,26 @@ export interface SearchTrainersArgs {
   rating: boolean;
 }
 
-export const getSearchTrainers = createAsyncThunk<ITrainer[], SearchTrainersArgs>(
-  "trainers/fetchSearch",
-  async (searchData) => {
-    const params = {
-      courseTypes: searchData.courseTypes.join(",").trim(),
-      availableDays: searchData.schedule.join(",").trim(),
-      rating: searchData.rating,
-    };
+export const getSearchTrainers = createAsyncThunk<
+  ITrainer[],
+  SearchTrainersArgs
+>("trainers/fetchSearch", async (searchData) => {
+  const params = {
+    courseTypes: searchData.courseTypes.join(",").trim(),
+    availableDays: searchData.schedule.join(",").trim(),
+    rating: searchData.rating,
+  };
 
-    const { data: trainers } = await axiosApi.get<ITrainer[]>(`/trainers/search`, { params });
-    if (!trainers) {
-      return [];
-    }
+  const { data: trainers } = await axiosApi.get<ITrainer[]>(
+    `/trainers/search`,
+    { params },
+  );
+  if (!trainers) {
+    return [];
+  }
 
-    return trainers;
-  },
-);
+  return trainers;
+});
 
 export const getTrainerProfile = createAsyncThunk<
   { isUserProfile: boolean; trainer: ITrainer },

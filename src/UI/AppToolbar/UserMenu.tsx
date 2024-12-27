@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   IconButton,
@@ -8,26 +8,26 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import {UserProfile} from "../../types/userTypes.ts";
-import {apiURL} from "../../constants.ts";
-import {useAppDispatch} from "../../app/hooks.ts";
-import {logout} from "../../features/users/userThunk.ts";
+import { UserProfile } from "../../types/userTypes.ts";
+import { apiURL } from "../../constants.ts";
+import { useAppDispatch } from "../../app/hooks.ts";
+import { logout } from "../../features/users/userThunk.ts";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import ChatIcon from "@mui/icons-material/Chat";
 import AddchartIcon from "@mui/icons-material/Addchart";
 import GroupIcon from "@mui/icons-material/Group";
 import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 
 interface Props {
   user: UserProfile;
 }
 
-const UserMenu: React.FC<Props> = ({user}) => {
+const UserMenu: React.FC<Props> = ({ user }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -59,7 +59,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
     <Grid>
       <Stack direction="row" alignItems="center">
         <IconButton
-          sx={{display: "flex", gap: 1}}
+          sx={{ display: "flex", gap: 1 }}
           disableRipple
           onClick={handleClick}
         >
@@ -69,13 +69,13 @@ const UserMenu: React.FC<Props> = ({user}) => {
           <Avatar
             alt="avatar"
             src={imageUrl}
-            sx={{width: 24, height: 24, display: "inline-block"}}
+            sx={{ width: 24, height: 24, display: "inline-block" }}
           />
         </IconButton>
       </Stack>
       <Menu open={isOpen} anchorEl={anchorEl} onClose={handleClose} keepMounted>
         <MenuItem onClick={handleProfileClick}>
-          <AccountBoxIcon sx={{mr: 2}}/>
+          <AccountBoxIcon sx={{ mr: 2 }} />
           Профиль
         </MenuItem>
         <MenuItem
@@ -84,7 +84,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
             handleClose();
           }}
         >
-          <FitnessCenterIcon sx={{mr: 2}}/>
+          <FitnessCenterIcon sx={{ mr: 2 }} />
           Мои курсы
         </MenuItem>
         {user.role === "trainer" && (
@@ -94,7 +94,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
               handleClose();
             }}
           >
-            <GroupIcon sx={{mr: 2}}/>
+            <GroupIcon sx={{ mr: 2 }} />
             Создать группу
           </MenuItem>
         )}
@@ -104,19 +104,19 @@ const UserMenu: React.FC<Props> = ({user}) => {
             handleClose();
           }}
         >
-          <ChatIcon sx={{mr: 2}}/>
+          <ChatIcon sx={{ mr: 2 }} />
           Чат
         </MenuItem>
         {user.role === "client" && (
-            <MenuItem
-              onClick={() => {
-                navigate(`/${user.role}s/search-select/courses`);
-                handleClose();
-              }}
-            >
-              <AssignmentTurnedInOutlinedIcon sx={{mr: 2}}/>
-              Поиск занятий
-            </MenuItem>
+          <MenuItem
+            onClick={() => {
+              navigate(`/${user.role}s/search-select/courses`);
+              handleClose();
+            }}
+          >
+            <AssignmentTurnedInOutlinedIcon sx={{ mr: 2 }} />
+            Поиск занятий
+          </MenuItem>
         )}
         {user.role === "client" && (
           <MenuItem
@@ -125,7 +125,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
               handleClose();
             }}
           >
-            <PersonSearchIcon sx={{mr: 2}}/>
+            <PersonSearchIcon sx={{ mr: 2 }} />
             Поиск тренеров
           </MenuItem>
         )}
@@ -137,7 +137,7 @@ const UserMenu: React.FC<Props> = ({user}) => {
               handleClose();
             }}
           >
-            <AddchartIcon sx={{mr: 2}}/>
+            <AddchartIcon sx={{ mr: 2 }} />
             Статистика
           </MenuItem>
         )}
@@ -148,12 +148,12 @@ const UserMenu: React.FC<Props> = ({user}) => {
               handleClose();
             }}
           >
-            <EditNoteIcon sx={{mr: 2}}/>
+            <EditNoteIcon sx={{ mr: 2 }} />
             Занятия
           </MenuItem>
         )}
         <MenuItem onClick={handleLogout}>
-          <LogoutIcon sx={{mr: 2}}/>
+          <LogoutIcon sx={{ mr: 2 }} />
           Выход
         </MenuItem>
       </Menu>

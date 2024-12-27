@@ -23,7 +23,7 @@ import { logout } from "../../features/users/userThunk.ts";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectUser } from "../../features/users/userSlice.ts";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import { apiURL } from "../../constants.ts";
 
 interface Props {

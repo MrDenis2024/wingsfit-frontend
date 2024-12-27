@@ -1,28 +1,33 @@
-import {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
-import {selectCourseTypes} from "../../CourseTypes/CourseTypesSlice.ts";
-import {selectSearchCourses, selectSearchCoursesFetching} from "../../courses/coursesSlice.ts";
-import {selectTrainers} from "../../trainers/trainersSlice.ts";
-import {getTrainers} from "../../trainers/trainersThunks.ts";
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
+import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import {
-  Accordion, AccordionDetails,
-  AccordionSummary, Box, Button,
+  selectSearchCourses,
+  selectSearchCoursesFetching,
+} from "../../courses/coursesSlice.ts";
+import { selectTrainers } from "../../trainers/trainersSlice.ts";
+import { getTrainers } from "../../trainers/trainersThunks.ts";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
   Checkbox,
   FormControlLabel,
   FormGroup,
   Typography,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
-import {fetchSearchCourses} from "../../courses/coursesThunks.ts";
-import {fetchCourseTypes} from "../../CourseTypes/CourseTypesThunks.ts";
-import {FetchSearchCourseArgs} from "../../../types/courseTypes.ts";
-import {selectUser} from "../../users/userSlice.ts";
+import { fetchSearchCourses } from "../../courses/coursesThunks.ts";
+import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
+import { FetchSearchCourseArgs } from "../../../types/courseTypes.ts";
+import { selectUser } from "../../users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SearchCourseCards from "./SearchCourseCards.tsx";
-import {DAYS_OF_WEEK} from "../../../constants.ts";
-
+import { DAYS_OF_WEEK } from "../../../constants.ts";
 
 const SearchCoursePage = () => {
   const user = useAppSelector(selectUser);
@@ -79,40 +84,37 @@ const SearchCoursePage = () => {
     });
   };
 
-
   return (
     <Grid container spacing={1} py={matches ? 2 : 4}>
-      <Grid size={{ md: 3, lg: 3, xs: 12 }} border="1px solid #ccc" borderRadius="4px">
+      <Grid
+        size={{ md: 3, lg: 3, xs: 12 }}
+        border="1px solid #ccc"
+        borderRadius="4px"
+      >
         <FormGroup>
-          <Grid
-            mx={2}
-          >
-            <Typography
-              variant="h6"
-              mt={1}
-              gutterBottom
-            >
+          <Grid mx={2}>
+            <Typography variant="h6" mt={1} gutterBottom>
               Сортировка
             </Typography>
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={filters.format.includes("group")}
-                onChange={() => handleCheckboxChange("format", "group")}
-              />
-            }
-            label="Групповые"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={filters.format.includes("single")}
-                onChange={() => handleCheckboxChange("format", "single")}
-              />
-            }
-            label="Индивидуально"
-          />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={filters.format.includes("group")}
+                  onChange={() => handleCheckboxChange("format", "group")}
+                />
+              }
+              label="Групповые"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={filters.format.includes("single")}
+                  onChange={() => handleCheckboxChange("format", "single")}
+                />
+              }
+              label="Индивидуально"
+            />
           </Grid>
         </FormGroup>
 
@@ -201,13 +203,23 @@ const SearchCoursePage = () => {
             Сбросить
             <DeleteForeverIcon />
           </Button>
-          <Button variant="outlined" sx={{fontSize: "11px"}} onClick={sendForm}>
+          <Button
+            variant="outlined"
+            sx={{ fontSize: "11px" }}
+            onClick={sendForm}
+          >
             Сортировать
           </Button>
         </Box>
       </Grid>
 
-      <Grid size={{ sm: 12, md: 9, lg: 9, xs: 12 }} border="1px solid #ccc" pt={2} px={2} borderRadius="4px">
+      <Grid
+        size={{ sm: 12, md: 9, lg: 9, xs: 12 }}
+        border="1px solid #ccc"
+        pt={2}
+        px={2}
+        borderRadius="4px"
+      >
         <Grid mb={3}>
           <Typography variant="h4" gutterBottom textAlign="center">
             Тренировки

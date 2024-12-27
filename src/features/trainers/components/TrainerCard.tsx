@@ -1,5 +1,5 @@
 import React from "react";
-import {Avatar, Card, CardContent, styled} from "@mui/material";
+import { Avatar, Card, CardContent, styled } from "@mui/material";
 import { Link } from "react-router-dom";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { apiURL } from "../../../constants.ts";
@@ -48,14 +48,20 @@ const TrainerCard: React.FC<Props> = ({ _id, firstName, lastName, avatar }) => {
               src={cardImage}
               alt={`${firstName} ${lastName}`}
             />
-            <CardContent component="h5" sx={{
-              fontWeight: "400",
-              my: 0,
-              fontSize: {
-                sm: "22px",
-                xs: "18px",
-              }}} >
-              <span>{firstName} {lastName}</span>
+            <CardContent
+              component="h5"
+              sx={{
+                fontWeight: "400",
+                my: 0,
+                fontSize: {
+                  sm: "22px",
+                  xs: "18px",
+                },
+              }}
+            >
+              <span>
+                {firstName} {lastName}
+              </span>
             </CardContent>
           </Card>
         </StyledLink>

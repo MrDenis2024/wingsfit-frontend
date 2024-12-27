@@ -5,7 +5,8 @@ import {
   deleteCertificate,
   getTrainerProfile,
   getTrainers,
-  getTrainersReview, getSearchTrainers,
+  getTrainersReview,
+  getSearchTrainers,
 } from "./trainersThunks.ts";
 import { ITrainer, Review } from "../../types/trainerTypes.ts";
 import { GlobalError } from "../../types/userTypes.ts";
@@ -181,6 +182,6 @@ export const {
   selectDeleteCertificateLoading,
   selectEditLoading,
   selectSearchTrainers,
-  selectFetchingSearchTrainers
+  selectFetchingSearchTrainers,
 } = trainersSlice.selectors;
 export const { resetTrainerError, resetSearchTrainers } = trainersSlice.actions;
