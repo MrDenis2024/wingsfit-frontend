@@ -11,9 +11,6 @@ import {
   Alert,
   Box,
   Button,
-  Card,
-  CardActions,
-  CardContent,
   CardMedia,
   Container,
   Typography,
@@ -31,6 +28,7 @@ import { selectUser } from "../users/userSlice.ts";
 import { fetchCourseGroups } from "../groups/groupsThunk.ts";
 import { selectFetchGroups, selectGroups } from "../groups/groupsSlice.ts";
 import AnotherCoursesLinks from "./components/AnotherCoursesLinks.tsx";
+import CoursesGroupCards from "./components/CoursesGroupCards.tsx";
 
 const OneCourse = () => {
   const { id } = useParams<{ id: string }>();
@@ -64,10 +62,6 @@ const OneCourse = () => {
     navigate(`/edit-course/${id}`);
   };
 
-  const handleClickGroup = (idGroup: string) => {
-    navigate(`/groups/${idGroup}`);
-  };
-
   if (isLoading) {
     return (
       <Box
@@ -92,19 +86,17 @@ const OneCourse = () => {
       </Box>
     );
   }
-
   const courseImage = course.image ? apiURL + "/" + course.image : "";
   const avatar = course.user.avatar ? apiURL + "/" + course.user.avatar : "";
   const anotherCourses = courses.filter((item)=>item._id!==course._id);
-
   return (
     <>
       <Grid
         container
         sx={{
           backgroundColor: "#daf4fd",
-          mt: 8,
-          mb: 5,
+          mt: mediaQuery768 ? 8 : 4,
+          mb: mediaQuery768 ? 5 : 3,
           py: 4,
           borderBottom: "2px solid #bfbfbf",
         }}
@@ -127,15 +119,15 @@ const OneCourse = () => {
             <Typography
               variant="h1"
               sx={{
-                fontWeight: 700,
+                fontWeight: mediaQuery768 ? 700 : 500,
                 color: "#000",
-                fontSize: "32px",
+                fontSize: mediaQuery768 ?  "32px" : "25px",
                 whiteSpace: { xs: "normal", sm: "nowrap" },
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: { xs: "100%", sm: "calc(100% - 16px)" },
-                textAlign: "left",
-                mb: 2,
+                textAlign: mediaQuery768 ?  "left" : "center",
+                mb: mediaQuery768 ? 2 : 0,
               }}
             >
               {course.title}
@@ -159,8 +151,9 @@ const OneCourse = () => {
               sx={{
                 fontWeight: 700,
                 color: "#000",
-                fontSize: "22px",
+                fontSize: mediaQuery768 ?  "22px" : "16px",
                 mb: 2,
+                  textAlign: mediaQuery768 ? "left" : "center",
               }}
             >
               Тренер:
@@ -176,9 +169,10 @@ const OneCourse = () => {
             </Typography>
             <Grid
               sx={{
-                width: "140px",
-                height: "168px",
+                width: "200px",
+                height: "240px",
                 mb: 2,
+                  mx: "auto",
                 display: mediaQuery768 ? "none" : "flex",
                 backgroundColor: "#ccc",
                 justifyContent: "center",
@@ -204,9 +198,9 @@ const OneCourse = () => {
             <Grid
               sx={{
                 display: "flex",
-                gap: 2,
+                gap: 1,
                 width: "100%",
-                justifyContent: "space-between",
+                justifyContent: mediaQuery768 ? "space-between" : "space-around",
                 flexWrap: "wrap-reverse",
               }}
             >
@@ -276,7 +270,7 @@ const OneCourse = () => {
                 <CalendarMonthIcon
                   sx={{ color: "#000", fontSize: "30px", mt: 1 }}
                 />
-                <Grid sx={{ ml: 2 }}>
+                <Grid sx={{ ml: 2 , maxWidth: "170px", }}>
                   <Typography
                     sx={{
                       color: "#000",
@@ -348,42 +342,7 @@ const OneCourse = () => {
             {!loadingGroups ? (
               groups.length > 0 ? (
                 groups.map((group) => (
-                  <Card
-                      key={group._id}
-                    sx={{
-                      width: "300px",
-                    }}
-                  >
-                    <CardContent>
-                      <Typography
-                        gutterBottom
-                        sx={{ color: "text.secondary", fontSize: 14 }}
-                      >
-                        Уровень: {group.trainingLevel}
-                      </Typography>
-                      <Typography variant="h5" component="div">
-                        {group.title}
-                      </Typography>
-                      <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-                        Начало: {group.startTime}
-                      </Typography>
-                      <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-                        Время: {group.scheduleLength}
-                      </Typography>
-                      <Typography sx={{ color: "text.secondary", mb: 1.5 }}>
-                        Кол-во человек: {group.maxClients-group.clients.length}
-                      </Typography>
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        size="small"
-                        variant="contained"
-                        onClick={() => handleClickGroup(group._id)}
-                      >
-                        Вступить в группу
-                      </Button>
-                    </CardActions>
-                  </Card>
+                  <CoursesGroupCards group={group}/>
                 ))
               ) : (
                 <Alert severity="info" sx={{ width: "100%" }}>
