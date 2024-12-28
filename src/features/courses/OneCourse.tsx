@@ -47,11 +47,10 @@ const OneCourse = () => {
     if (id) {
       dispatch(getOneCourse(id));
       dispatch(fetchCourseGroups(id));
-      if (user?._id){
+      if (user?._id) {
         dispatch(fetchCourses(user._id));
       }
     }
-
   }, [dispatch, id, user?._id]);
 
   const handleClick = () => {
@@ -88,7 +87,7 @@ const OneCourse = () => {
   }
   const courseImage = course.image ? apiURL + "/" + course.image : "";
   const avatar = course.user.avatar ? apiURL + "/" + course.user.avatar : "";
-  const anotherCourses = courses.filter((item)=>item._id!==course._id);
+  const anotherCourses = courses.filter((item) => item._id !== course._id);
   return (
     <>
       <Grid
@@ -121,12 +120,12 @@ const OneCourse = () => {
               sx={{
                 fontWeight: mediaQuery768 ? 700 : 500,
                 color: "#000",
-                fontSize: mediaQuery768 ?  "32px" : "25px",
+                fontSize: mediaQuery768 ? "30px" : "25px",
                 whiteSpace: { xs: "normal", sm: "nowrap" },
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 maxWidth: { xs: "100%", sm: "calc(100% - 16px)" },
-                textAlign: mediaQuery768 ?  "left" : "center",
+                textAlign: mediaQuery768 ? "left" : "center",
                 mb: mediaQuery768 ? 2 : 0,
               }}
             >
@@ -151,9 +150,9 @@ const OneCourse = () => {
               sx={{
                 fontWeight: 700,
                 color: "#000",
-                fontSize: mediaQuery768 ?  "22px" : "16px",
+                fontSize: mediaQuery768 ? "22px" : "16px",
                 mb: 2,
-                  textAlign: mediaQuery768 ? "left" : "center",
+                textAlign: mediaQuery768 ? "left" : "center",
               }}
             >
               Тренер:
@@ -172,7 +171,7 @@ const OneCourse = () => {
                 width: "200px",
                 height: "240px",
                 mb: 2,
-                  mx: "auto",
+                mx: "auto",
                 display: mediaQuery768 ? "none" : "flex",
                 backgroundColor: "#ccc",
                 justifyContent: "center",
@@ -200,7 +199,9 @@ const OneCourse = () => {
                 display: "flex",
                 gap: 1,
                 width: "100%",
-                justifyContent: mediaQuery768 ? "space-between" : "space-around",
+                justifyContent: mediaQuery768
+                  ? "space-between"
+                  : "space-around",
                 flexWrap: "wrap-reverse",
               }}
             >
@@ -270,7 +271,7 @@ const OneCourse = () => {
                 <CalendarMonthIcon
                   sx={{ color: "#000", fontSize: "30px", mt: 1 }}
                 />
-                <Grid sx={{ ml: 2 , maxWidth: "170px", }}>
+                <Grid sx={{ ml: 2, maxWidth: "170px" }}>
                   <Typography
                     sx={{
                       color: "#000",
@@ -326,9 +327,16 @@ const OneCourse = () => {
           </Grid>
         </Container>
       </Grid>
-      <Container sx={{ mt: 10 }} maxWidth={"lg"}>
+      <Container maxWidth={"lg"}>
         <Grid>
-          <Typography variant="h3" sx={{ fontSize: "30px", mb: 2 }}>
+          <Typography
+            variant="h3"
+            sx={{
+              fontSize: mediaQuery768 ? "30px" : "22px",
+              textAlign: mediaQuery768 ? "left" : "center",
+              mb: 2,
+            }}
+          >
             Группы
           </Typography>
           <Grid
@@ -342,7 +350,7 @@ const OneCourse = () => {
             {!loadingGroups ? (
               groups.length > 0 ? (
                 groups.map((group) => (
-                  <CoursesGroupCards group={group}/>
+                  <CoursesGroupCards key={group._id} group={group} />
                 ))
               ) : (
                 <Alert severity="info" sx={{ width: "100%" }}>
@@ -357,7 +365,7 @@ const OneCourse = () => {
         <Grid
           sx={{
             display: "flex",
-            mt: 7,
+            mt: 4,
             gap: "30px",
             flexWrap: mediaQuery768 ? "nowrap" : "wrap-reverse",
             justifyContent: mediaQuery768 ? "space-between" : "center",
@@ -384,7 +392,14 @@ const OneCourse = () => {
               minWidth: mediaQuery768 ? "300px" : "none",
             }}
           >
-            <Typography variant="h3" sx={{ fontSize: "30px", mb: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: mediaQuery768 ? "30px" : "22px",
+                mb: 2,
+                textAlign: mediaQuery768 ? "left" : "center",
+              }}
+            >
               О программе
             </Typography>
             <Typography sx={{ color: "#747784" }}>
@@ -395,7 +410,7 @@ const OneCourse = () => {
         <Grid
           sx={{
             display: "flex",
-            my: 10,
+            my: mediaQuery768 ? 10 : 4,
             gap: "30px",
             flexWrap: mediaQuery768 ? "nowrap" : "wrap",
             justifyContent: mediaQuery768 ? "space-between" : "center",
@@ -408,7 +423,14 @@ const OneCourse = () => {
               minWidth: mediaQuery768 ? "300px" : "none",
             }}
           >
-            <Typography variant="h3" sx={{ fontSize: "30px", mb: 2 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontSize: mediaQuery768 ? "30px" : "22px",
+                mb: 2,
+                textAlign: mediaQuery768 ? "left" : "center",
+              }}
+            >
               О тренере
             </Typography>
             <Typography sx={{ color: "#747784" }}>
@@ -430,25 +452,25 @@ const OneCourse = () => {
             </Grid>
           ) : null}
         </Grid>
-          {anotherCourses.length>0&&(
-              <Grid container>
-                  <Grid size={12} sx={{ my: 6 }}>
-                      <Typography variant="h3" sx={{ fontSize: "20px", mb: 2 }}>
-                          Другие программы тренера
-                      </Typography>
-                  </Grid>
-                  <Grid
-                          size={{ md: 6, xs: 12 }}
-                          sx={{
-                              display: "flex",
-                              flexWrap: "wrap",
-                              gap: "20px",
-                          }}
-                      >
-                      <AnotherCoursesLinks courses={anotherCourses} />
-                      </Grid>
-              </Grid>
-          )}
+        {anotherCourses.length > 0 && (
+          <Grid container>
+            <Grid size={12} sx={{ my: 3 }}>
+              <Typography variant="h3" sx={{ fontSize: "20px", mb: 2 }}>
+                Другие программы тренера
+              </Typography>
+            </Grid>
+            <Grid
+              size={{ md: 6, xs: 12 }}
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "20px",
+              }}
+            >
+              <AnotherCoursesLinks courses={anotherCourses} />
+            </Grid>
+          </Grid>
+        )}
       </Container>
     </>
   );
