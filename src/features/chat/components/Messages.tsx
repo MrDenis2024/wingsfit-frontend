@@ -6,7 +6,7 @@ import ChatForm from "./ChatForm.tsx";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import { Message } from "../../../types/chatTypes.ts";
-import { wsApiURL } from "../../../constants.ts";
+import { apiURL, wsApiURL } from "../../../constants.ts";
 
 interface MessagesProps {
   chatId: string | null;
@@ -116,9 +116,13 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
     return (names[0][0] + (names[1]?.[0] || "")).toUpperCase();
   };
 
+  const getAvatarUrl = (avatarPath: string) => {
+    return avatarPath ? `${apiURL}/${avatarPath}` : undefined;
+  };
+
   const messagesWithAvatars = formattedMessages.map((msg) => ({
     ...msg,
-    avatar: msg.avatar || getAvatarText(msg.author),
+    avatar: msg.avatar ? getAvatarUrl(msg.avatar) : getAvatarText(msg.author),
   }));
 
   return (

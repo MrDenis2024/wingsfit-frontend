@@ -7,7 +7,7 @@ interface Message {
   author: string;
   message: string;
   createdAt: string;
-  avatar: string;
+  avatar?: string;
 }
 
 interface MessagesListProps {
