@@ -5,6 +5,7 @@ import axiosApi from "../../axiosApi.ts";
 import { isAxiosError } from "axios";
 import {
   CourseMutation,
+  FetchSearchCourseArgs,
   ICourse,
   UpdateCourseArg,
 } from "../../types/courseTypes.ts";
@@ -23,13 +24,6 @@ export const fetchCourses = createAsyncThunk<ICourse[], string | undefined>(
     return courses;
   },
 );
-
-interface FetchSearchCourseArgs {
-  courseTypes: string[];
-  trainers: string[];
-  format: string[];
-  schedule: string[];
-}
 
 export const fetchSearchCourses = createAsyncThunk<
   ICourse[],

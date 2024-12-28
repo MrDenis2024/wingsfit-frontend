@@ -21,6 +21,7 @@ import AddchartIcon from "@mui/icons-material/Addchart";
 import GroupIcon from "@mui/icons-material/Group";
 import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 
 interface Props {
   user: UserProfile;
@@ -109,7 +110,7 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         {user.role === "client" && (
           <MenuItem
             onClick={() => {
-              navigate(`/${user.role}s/search-select-page`);
+              navigate(`/${user.role}s/search-select/courses`);
               handleClose();
             }}
           >
@@ -117,6 +118,18 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             Поиск занятий
           </MenuItem>
         )}
+        {user.role === "client" && (
+          <MenuItem
+            onClick={() => {
+              navigate(`/${user.role}s/search-select/trainers`);
+              handleClose();
+            }}
+          >
+            <PersonSearchIcon sx={{ mr: 2 }} />
+            Поиск тренеров
+          </MenuItem>
+        )}
+
         {user.role === "trainer" && (
           <MenuItem
             onClick={() => {

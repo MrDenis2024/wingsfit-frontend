@@ -39,3 +39,10 @@ export interface UpdateCourseArg {
   id: string;
   course: CourseMutation;
 }
+
+export interface FetchSearchCourseArgs {
+  courseTypes: string[];
+  trainers: string[];
+  format: string[];
+  schedule: string[];
+}

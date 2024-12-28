@@ -22,6 +22,33 @@ export const getTrainers = createAsyncThunk<ITrainer[], string | undefined>(
   },
 );
 
+export interface SearchTrainersArgs {
+  courseTypes: string[];
+  schedule: string[];
+  rating: boolean;
+}
+
+export const getSearchTrainers = createAsyncThunk<
+  ITrainer[],
+  SearchTrainersArgs
+>("trainers/fetchSearch", async (searchData) => {
+  const params = {
+    courseTypes: searchData.courseTypes.join(",").trim(),
+    availableDays: searchData.schedule.join(",").trim(),
+    rating: searchData.rating,
+  };
+
+  const { data: trainers } = await axiosApi.get<ITrainer[]>(
+    `/trainers/search`,
+    { params },
+  );
+  if (!trainers) {
+    return [];
+  }
+
+  return trainers;
+});
+
 export const getTrainerProfile = createAsyncThunk<
   { isUserProfile: boolean; trainer: ITrainer },
   string,

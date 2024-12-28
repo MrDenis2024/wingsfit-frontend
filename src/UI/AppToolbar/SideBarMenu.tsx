@@ -23,6 +23,7 @@ import { logout } from "../../features/users/userThunk.ts";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectUser } from "../../features/users/userSlice.ts";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import { apiURL } from "../../constants.ts";
 
 interface Props {
@@ -69,8 +70,13 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
     closeDrawer();
   };
 
-  const navigateToSearch = () => {
-    navigate(`/${user?.role}s/search-select-page`);
+  const navigateToSearchCourses = () => {
+    navigate(`/${user?.role}s/search-select/courses`);
+    closeDrawer();
+  };
+
+  const navigateToSearchTrainers = () => {
+    navigate(`/${user?.role}s/search-select/trainers`);
     closeDrawer();
   };
 
@@ -152,9 +158,15 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
               Чат
             </CustomStyledLink>
             {user?.role === "client" && (
-              <CustomStyledLink onClick={navigateToSearch}>
+              <CustomStyledLink onClick={navigateToSearchCourses}>
                 <SearchIcon sx={{ mr: 1, fontSize: "14px" }} />
                 Поиск занятий
+              </CustomStyledLink>
+            )}
+            {user?.role === "client" && (
+              <CustomStyledLink onClick={navigateToSearchTrainers}>
+                <PersonSearchIcon sx={{ mr: 1, fontSize: "14px" }} />
+                Поиск тренеров
               </CustomStyledLink>
             )}
             {user?.role === "trainer" && (

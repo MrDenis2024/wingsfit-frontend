@@ -6,6 +6,7 @@ import {
   getTrainerProfile,
   getTrainers,
   getTrainersReview,
+  getSearchTrainers,
 } from "./trainersThunks.ts";
 import { ITrainer, Review } from "../../types/trainerTypes.ts";
 import { GlobalError } from "../../types/userTypes.ts";
@@ -17,6 +18,8 @@ interface TrainersState {
   trainerProfileLoading: boolean;
   trainers: ITrainer[];
   fetchingTrainers: boolean;
+  searchTrainers: ITrainer[];
+  searchFetching: boolean;
   creatingTrainerProfile: boolean;
   review: Review[];
   fetchReviewsLoading: boolean;
@@ -31,6 +34,8 @@ const initialState: TrainersState = {
   oneTrainer: null,
   trainers: [],
   fetchingTrainers: false,
+  searchTrainers: [],
+  searchFetching: false,
   creatingTrainerProfile: false,
   review: [],
   fetchReviewsLoading: false,
@@ -44,6 +49,9 @@ export const trainersSlice = createSlice({
   reducers: {
     resetTrainerError: (state) => {
       state.trainerProfileError = null;
+    },
+    resetSearchTrainers: (state) => {
+      state.searchTrainers = [];
     },
   },
   extraReducers: (builder) => {
@@ -75,6 +83,18 @@ export const trainersSlice = createSlice({
       })
       .addCase(getTrainers.rejected, (state) => {
         state.fetchingTrainers = false;
+      });
+
+    builder
+      .addCase(getSearchTrainers.pending, (state) => {
+        state.searchFetching = true;
+      })
+      .addCase(getSearchTrainers.fulfilled, (state, { payload: trainers }) => {
+        state.searchFetching = false;
+        state.searchTrainers = trainers;
+      })
+      .addCase(getSearchTrainers.rejected, (state) => {
+        state.searchFetching = false;
       });
 
     builder
@@ -136,6 +156,8 @@ export const trainersSlice = createSlice({
     selectOneTrainer: (state) => state.oneTrainer,
     selectTrainers: (state) => state.trainers,
     selectFetchingTrainers: (state) => state.fetchingTrainers,
+    selectSearchTrainers: (state) => state.searchTrainers,
+    selectFetchingSearchTrainers: (state) => state.searchFetching,
     selectCreatingTrainerProfile: (state) => state.creatingTrainerProfile,
     selectReview: (state) => state.review,
     selectFetchReviewsLoading: (state) => state.fetchReviewsLoading,
@@ -159,5 +181,7 @@ export const {
   selectTrainerProfileError,
   selectDeleteCertificateLoading,
   selectEditLoading,
+  selectSearchTrainers,
+  selectFetchingSearchTrainers,
 } = trainersSlice.selectors;
-export const { resetTrainerError } = trainersSlice.actions;
+export const { resetTrainerError, resetSearchTrainers } = trainersSlice.actions;
