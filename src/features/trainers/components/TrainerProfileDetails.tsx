@@ -124,11 +124,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               <Box
                 sx={{ display: "flex", flexDirection: "column", gap: "10px" }}
               >
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
+                <Box display="flex" alignItems="center">
                   <Typography
                     variant={isSmallScreen ? "h5" : "h4"}
                     sx={{ fontWeight: "bold" }}

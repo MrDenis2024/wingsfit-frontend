@@ -42,7 +42,7 @@ const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
         <Grid
           size={{
             xs: 8,
-            sm: 9,
+            sm: 8,
             md: 9,
           }}
         >
@@ -52,7 +52,7 @@ const FileInput: React.FC<Props> = ({ onChange, name, label }) => {
             value={filename}
             onClick={activateInput}
             sx={{
-              "@media (max-width: 600px)": {
+              "@media (max-width: 900px)": {
                 fontSize: "14px",
               },
               "@media (max-width: 350px)": {
