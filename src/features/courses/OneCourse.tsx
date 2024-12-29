@@ -46,12 +46,15 @@ const OneCourse = () => {
   useEffect(() => {
     if (id) {
       dispatch(getOneCourse(id));
-      dispatch(fetchCourseGroups(id));
-      if (user?._id) {
-        dispatch(fetchCourses(user._id));
-      }
     }
-  }, [dispatch, id, user?._id]);
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (course) {
+      dispatch(fetchCourseGroups(course._id));
+      dispatch(fetchCourses(course.user._id));
+    }
+  }, [dispatch, course]);
 
   const handleClick = () => {
     navigate(`/trainers/${trainerId}`);
