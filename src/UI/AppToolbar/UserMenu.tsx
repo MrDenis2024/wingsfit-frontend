@@ -21,6 +21,7 @@ import AddchartIcon from "@mui/icons-material/Addchart";
 import GroupIcon from "@mui/icons-material/Group";
 import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import TypeSpecimenIcon from "@mui/icons-material/TypeSpecimen";
 
 interface Props {
   user: UserProfile;
@@ -97,6 +98,18 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             Создать группу
           </MenuItem>
         )}
+        {user.role === "admin" ||
+          (user.role === "superAdmin" && (
+            <MenuItem
+              onClick={() => {
+                navigate(`/admin/course-types`);
+                handleClose();
+              }}
+            >
+              <TypeSpecimenIcon sx={{ mr: 2 }} />
+              Типы курсов
+            </MenuItem>
+          ))}
         <MenuItem
           onClick={() => {
             navigate(`/${user.role}s/chats/${user._id}`);

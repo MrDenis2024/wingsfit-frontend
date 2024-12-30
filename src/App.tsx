@@ -20,7 +20,6 @@ import LoginAdmin from "./features/users/LoginAdmin.tsx";
 import Courses from "./features/courses/Courses.tsx";
 import CreateAdmin from "./features/admin/admins/CreateAdmin.tsx";
 import OneCourse from "./features/courses/OneCourse.tsx";
-import { fetchCourseTypes } from "./features/CourseTypes/CourseTypesThunks.ts";
 import NewGroup from "./features/groups/NewGroup.tsx";
 import Chat from "./features/chat/Chat.tsx";
 import TrainersPage from "./features/trainers/TrainersPage.tsx";
@@ -31,14 +30,12 @@ import LessonsPage from "./features/lessons/LessonsPage/LessonsPage.tsx";
 import EditCourse from "./features/courses/EditCourse.tsx";
 import SearchSelectPage from "./features/searchSelect/SearchSelectPage.tsx";
 import EditGroup from "./features/groups/EditGroup.tsx";
+import AdminCourseType from "./features/admin/admins/components/AdminCourseType.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchCourseTypes());
-  }, [dispatch]);
   const getProfile = useCallback(() => {
     if (user) {
       try {
@@ -251,6 +248,18 @@ const App = () => {
                 }
               >
                 <ClientStatistics />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/course-types"
+            element={
+              <ProtectedRoute
+                isAllowed={
+                  user && (user.role === "admin" || user.role === "superAdmin")
+                }
+              >
+                <AdminCourseType />
               </ProtectedRoute>
             }
           />
