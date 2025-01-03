@@ -17,6 +17,10 @@ interface MessagesListProps {
 const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
+  const sortedMessages = [...messages].sort((a, b) => {
+    return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+  });
+
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -28,7 +32,7 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
   }, [messages]);
 
   return (
-    <Grid sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
+    <Grid sx={{display: "flex", flexDirection: "column", height: "100%"}}>
       <List
         sx={{
           overflowY: "auto",
@@ -37,21 +41,19 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
           flexGrow: 1,
         }}
       >
-        {messages
-          .slice()
-          .reverse()
+        {sortedMessages
           .map((msg) => (
             <ListItem
               key={msg.id}
-              sx={{ display: "flex", alignItems: "center" }}
+              sx={{display: "flex", alignItems: "center"}}
             >
               <Avatar
                 src={msg.avatar}
                 alt={msg.author}
                 sx={{
-                  width: { xs: 27, sm: 32 },
-                  height: { xs: 27, sm: 32 },
-                  marginRight: { xs: 1, sm: 2 },
+                  width: {xs: 27, sm: 32},
+                  height: {xs: 27, sm: 32},
+                  marginRight: {xs: 1, sm: 2},
                 }}
               />
               <Grid
@@ -69,14 +71,14 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    gap: { xs: 3, sm: 2 },
+                    gap: {xs: 3, sm: 2},
                   }}
                 >
                   <Typography
                     variant="body1"
                     sx={{
                       fontWeight: "bold",
-                      fontSize: { xs: "0.8rem", sm: "1rem" },
+                      fontSize: {xs: "0.8rem", sm: "1rem"},
                     }}
                   >
                     {msg.author}
@@ -84,7 +86,7 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
                   <Typography
                     variant="caption"
                     sx={{
-                      fontSize: { xs: "0.7rem", sm: "0.875rem" },
+                      fontSize: {xs: "0.7rem", sm: "0.875rem"},
                       color: "gray",
                       lineHeight: 1.5,
                     }}
@@ -96,7 +98,7 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
                   variant="body1"
                   sx={{
                     whiteSpace: "pre-wrap",
-                    fontSize: { xs: "0.8rem", sm: "1rem" },
+                    fontSize: {xs: "0.8rem", sm: "1rem"},
                   }}
                 >
                   {msg.message}
@@ -104,7 +106,7 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
               </Grid>
             </ListItem>
           ))}
-        <div ref={messagesEndRef} />
+        <div ref={messagesEndRef}/>
       </List>
     </Grid>
   );
