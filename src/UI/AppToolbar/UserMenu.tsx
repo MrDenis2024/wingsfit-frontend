@@ -98,18 +98,17 @@ const UserMenu: React.FC<Props> = ({ user }) => {
             Создать группу
           </MenuItem>
         )}
-        {user.role === "admin" ||
-          (user.role === "superAdmin" && (
-            <MenuItem
-              onClick={() => {
-                navigate(`/admin/course-types`);
-                handleClose();
-              }}
-            >
-              <TypeSpecimenIcon sx={{ mr: 2 }} />
-              Типы курсов
-            </MenuItem>
-          ))}
+        {(user.role === "admin" || user.role === "superAdmin") && (
+          <MenuItem
+            onClick={() => {
+              navigate(`/admin/course-types`);
+              handleClose();
+            }}
+          >
+            <TypeSpecimenIcon sx={{ mr: 2 }} />
+            Типы курсов
+          </MenuItem>
+        )}
         <MenuItem
           onClick={() => {
             navigate(`/${user.role}s/chats/${user._id}`);

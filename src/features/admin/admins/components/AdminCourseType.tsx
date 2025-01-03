@@ -83,7 +83,7 @@ const AdminCourseType = () => {
 
   return (
     <>
-      <Container maxWidth="lg" sx={{ py: 2 }}>
+      <Container maxWidth="md" sx={{ py: 2 }}>
         <Grid
           container
           alignItems="center"
@@ -108,10 +108,9 @@ const AdminCourseType = () => {
           <TableHead>
             <TableRow>
               <TableCell>Название</TableCell>
-              <TableCell>Описание</TableCell>
               <TableCell>Опубликован</TableCell>
               <TableCell>Заблокирован</TableCell>
-              <TableCell>Действия</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>Действия</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -120,13 +119,10 @@ const AdminCourseType = () => {
                 <TableCell>
                   {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
                 </TableCell>
-                <TableCell>
-                  {type.description ? type.description : "Описание отсутствует"}
-                </TableCell>
                 <TableCell>{type.isPublished ? "Да" : "Нет"}</TableCell>
                 <TableCell>{type.isBlocked ? "Да" : "Нет"}</TableCell>
                 <TableCell>
-                  <Grid container spacing={2}>
+                  <Grid container justifyContent="space-around">
                     <Button
                       variant="outlined"
                       onClick={() => openConfirmDialog("publish", type._id)}

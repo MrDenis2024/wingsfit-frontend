@@ -17,7 +17,6 @@ const CourseTypeForm: React.FC<Props> = ({ onSubmit, isLoading, onClose }) => {
   const error = useAppSelector(selectCreateCourseTypeError);
   const [state, setState] = useState<CourseTypeFields>({
     name: "",
-    description: "",
   });
 
   const submitFormHandler = (event: React.FormEvent) => {
@@ -43,7 +42,7 @@ const CourseTypeForm: React.FC<Props> = ({ onSubmit, isLoading, onClose }) => {
     <Grid
       container
       direction="column"
-      spacing={2}
+      spacing={5}
       component="form"
       onSubmit={submitFormHandler}
     >
@@ -57,17 +56,6 @@ const CourseTypeForm: React.FC<Props> = ({ onSubmit, isLoading, onClose }) => {
           onChange={inputChangeHandler}
           error={Boolean(getFieldError("name"))}
           helperText={getFieldError("name")}
-        />
-      </Grid>
-      <Grid>
-        <TextField
-          multiline
-          minRows={3}
-          label="Описание"
-          id="description"
-          name="description"
-          value={state.description}
-          onChange={inputChangeHandler}
         />
       </Grid>
       <Grid container justifyContent="flex-end">
