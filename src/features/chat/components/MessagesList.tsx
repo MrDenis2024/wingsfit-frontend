@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { List, ListItem, Typography, Avatar } from "@mui/material";
+import React, {useEffect, useRef} from "react";
+import {Avatar, List, ListItem, Typography} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 interface Message {
@@ -15,30 +15,28 @@ interface MessagesListProps {
 }
 
 const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const listRef = useRef<HTMLUListElement>(null);
 
   const sortedMessages = [...messages].sort((a, b) => {
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
 
-  const scrollToBottom = () => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   useEffect(() => {
-    scrollToBottom();
+    if (listRef.current) {
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
   }, [messages]);
 
   return (
     <Grid sx={{display: "flex", flexDirection: "column", height: "100%"}}>
       <List
+        ref={listRef}
         sx={{
           overflowY: "auto",
           display: "flex",
           flexDirection: "column",
           flexGrow: 1,
+          scrollBehavior: "smooth",
         }}
       >
         {sortedMessages
@@ -106,7 +104,6 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
               </Grid>
             </ListItem>
           ))}
-        <div ref={messagesEndRef}/>
       </List>
     </Grid>
   );
