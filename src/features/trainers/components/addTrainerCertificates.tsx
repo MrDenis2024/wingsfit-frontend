@@ -71,7 +71,15 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
             cursor: "pointer",
           }}
         >
-          <Typography variant="h5" sx={{ fontWeight: "bold" }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: "bold",
+              "@media (max-width: 600px)": {
+                fontSize: 18,
+              },
+            }}
+          >
             Добавить сертификат
           </Typography>
           <IconButton>
@@ -93,10 +101,30 @@ const AddTrainerCertificates = ({ onSubmit, isLoading }: Props) => {
                     name="title"
                     onChange={inputChangeHandler}
                     required
-                    sx={{ width: "100%", maxWidth: "300px", mb: 2 }}
+                    sx={{
+                      width: "100%",
+                      maxWidth: "300px",
+                      mb: 2,
+                    }}
+                    slotProps={{
+                      inputLabel: {
+                        sx: {
+                          "@media (max-width: 600px)": {
+                            fontSize: "14px",
+                          },
+                        },
+                      },
+                    }}
                   />
                 </Grid>
-                <Grid sx={{ width: "450px" }}>
+                <Grid
+                  sx={{
+                    maxWidth: "450px",
+                    "@media (max-width: 600px)": {
+                      maxWidth: "300px",
+                    },
+                  }}
+                >
                   <FileInput
                     label="Загрузить сертификат"
                     name="image"

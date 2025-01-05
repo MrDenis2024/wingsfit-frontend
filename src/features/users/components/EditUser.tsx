@@ -77,6 +77,7 @@ const EditUser: React.FC<Props> = ({
             paddingLeft: "14px",
             border: phoneError ? "1px solid red" : "1px solid #ccc",
             borderRadius: "8px",
+            marginBottom: "16px",
             fontSize: {
               xs: "12px",
             },

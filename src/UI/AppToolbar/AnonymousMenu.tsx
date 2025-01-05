@@ -2,7 +2,7 @@ import { Link, Stack, styled } from "@mui/material";
 
 export const CustomStyledLink = styled(Link)(() => ({
   textDecoration: "none",
-  fontSize: "14px",
+  fontSize: "16px",
   fontWeight: 600,
   color: "#000000",
   position: "relative",
@@ -10,17 +10,18 @@ export const CustomStyledLink = styled(Link)(() => ({
   "&::after": {
     content: '""',
     position: "absolute",
-    bottom: 0,
+    bottom: "-2px",
     left: 0,
     width: "100%",
     height: "1px",
     backgroundColor: "#ff5136",
     transform: "scaleY(0)",
     transformOrigin: "bottom",
-    transition: "transform 0.75s ease",
+    transition: "transform 0.75s ease, bottom 0.75s ease",
   },
   "&:hover::after": {
     transform: "scaleY(1)",
+    bottom: "-5px",
   },
 }));
 

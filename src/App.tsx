@@ -28,7 +28,7 @@ import EditTrainer from "./features/trainers/components/EditTrainer.tsx";
 import EditClient from "./features/clients/components/EditClient.tsx";
 import LessonsPage from "./features/lessons/LessonsPage/LessonsPage.tsx";
 import EditCourse from "./features/courses/EditCourse.tsx";
-import SearchSelectPage from "./features/searchSelect/SearchSelectPage.tsx";
+import SearchSelect from "./features/searchSelect/SearchSelect.tsx";
 import EditGroup from "./features/groups/EditGroup.tsx";
 import AdminCourseType from "./features/admin/admins/components/AdminCourseType.tsx";
 
@@ -231,10 +231,10 @@ const App = () => {
             }
           />
           <Route
-            path="clients/search-select-page"
+            path="clients/search-select/:page"
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "client"}>
-                <SearchSelectPage />
+                <SearchSelect />
               </ProtectedRoute>
             }
           />
