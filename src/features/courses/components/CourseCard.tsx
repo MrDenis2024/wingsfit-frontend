@@ -14,7 +14,6 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { apiURL } from "../../../constants.ts";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
-import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
@@ -32,17 +31,10 @@ interface Props {
 const CourseCard: React.FC<Props> = ({ course, isShort }) => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const courseTypes = useAppSelector(selectCourseTypes);
   const navigate = useNavigate();
   const courseDeleteLoading = useAppSelector(selectDeleteCourseLoading);
   const [confirmOpen, setConfirmOpen] = useState(false);
   let cardImage = imageNotFound;
-
-  const findCourseTypes = (typeId: string) => {
-    return courseTypes
-      .filter((course) => course._id === typeId)
-      .map((course) => course.name);
-  };
 
   if (course.image) {
     cardImage = `${apiURL}/${course.image}`;
@@ -159,7 +151,9 @@ const CourseCard: React.FC<Props> = ({ course, isShort }) => {
             {!isShort && (
               <>
                 <Typography variant="body2" color="textSecondary">
-                  Тип занятий: {findCourseTypes(course.courseType._id)}
+                  Тип занятий:{" "}
+                  {course.courseType.name.charAt(0).toUpperCase() +
+                    course.courseType.name.slice(1)}
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Цена: {course.price}

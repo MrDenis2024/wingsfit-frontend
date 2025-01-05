@@ -8,10 +8,15 @@ export interface CourseMutation {
   image: string | null;
 }
 
-export interface CourseTypeFields {
+export interface ICourseType {
   _id: string;
   name: string;
-  description: string | null;
+  isPublished: boolean;
+  isBlocked: boolean;
+}
+
+export interface CourseTypeFields {
+  name: string;
 }
 
 export interface ICourse {

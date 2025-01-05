@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
   InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
 } from "@mui/material";
-import { CourseTypeFields } from "../../types/courseTypes.ts";
+import { ICourseType } from "../../types/courseTypes.ts";
 import TagCard from "../TagCard/TagCard.tsx";
 import Grid from "@mui/material/Grid2";
 
 interface Props {
-  courseTypes: CourseTypeFields[];
+  courseTypes: ICourseType[];
   onChange: (courseTypes: string[]) => void;
   value: string[];
   onRemove: (courseType: string) => void;
