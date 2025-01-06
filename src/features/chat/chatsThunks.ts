@@ -58,3 +58,31 @@ export const getPrivateChats = createAsyncThunk<
     throw error;
   }
 });
+
+export const createPrivateChat = createAsyncThunk<
+  PrivateChat,
+  { firstPersonId: string; secondPersonId: string }
+>(
+  "chats/createPrivateChat",
+  async (
+    data: { firstPersonId: string; secondPersonId: string },
+    { rejectWithValue },
+  ) => {
+    try {
+      const { data: privateChat } = await axiosApi.post<PrivateChat>(
+        "/chats/start-chat",
+        data,
+      );
+      return privateChat;
+    } catch (error) {
+      if (
+        isAxiosError(error) &&
+        error.response &&
+        error.response.status === 400
+      ) {
+        return rejectWithValue(error.response.data);
+      }
+      throw error;
+    }
+  },
+);
