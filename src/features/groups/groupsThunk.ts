@@ -22,7 +22,7 @@ export const fetchCourseGroups = createAsyncThunk<IGroup[], string>(
   "groups/fetchCourseGroups",
   async (courseId) => {
     const { data: groupsData } = await axiosApi.get<IGroup[]>(
-      "/groups?course=" + courseId,
+      "/groups/" + courseId,
     );
 
     if (!groupsData) {
