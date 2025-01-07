@@ -215,7 +215,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
           startIcon={<SaveIcon />}
           variant="contained"
         >
-          <span>Создать</span>
+          <span>Сохранить</span>
         </LoadingButton>
       </Grid>
     </Grid>

@@ -44,7 +44,7 @@ const EditTrainer = () => {
       await dispatch(reloadUser());
 
       navigate(`/trainers/${id}`);
-      toast.success("Данный успешно обновлены");
+      toast.success("Данные успешно обновлены");
     } catch {
       toast.error("Произошла ошибка обновления данных");
     }
