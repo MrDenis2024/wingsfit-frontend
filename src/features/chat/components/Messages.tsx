@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import React, {useEffect, useRef, useState} from "react";
+import {Box, Typography} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MessagesList from "./MessagesList.tsx";
 import ChatForm from "./ChatForm.tsx";
-import { useAppSelector } from "../../../app/hooks.ts";
-import { selectUser } from "../../users/userSlice.ts";
-import { Message } from "../../../types/chatTypes.ts";
-import { apiURL, wsApiURL } from "../../../constants.ts";
+import {useAppSelector} from "../../../app/hooks.ts";
+import {selectUser} from "../../users/userSlice.ts";
+import {Message} from "../../../types/chatTypes.ts";
+import {apiURL, wsApiURL} from "../../../constants.ts";
 
 interface MessagesProps {
   chatId: string | null;
@@ -27,12 +27,10 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
       ws.current.close();
     }
 
-
     if (chatId && chatType && user._id) {
       ws.current = new WebSocket(`${wsApiURL}/chat/${chatId}/${chatType}/${user._id}`);
 
       ws.current.onopen = async () => {
-        console.log("WebSocket connection opened");
         ws.current!.send(
           JSON.stringify({ type: "LOGIN", payload: user.token }),
         );
@@ -45,8 +43,7 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
           }),
         );
 
-        ws.current!.onerror = (event) => {
-          console.error("WebSocket error:", event);
+        ws.current!.onerror = () => {
           if (ws.current) {
             ws.current.send(
               JSON.stringify({
@@ -59,13 +56,15 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
 
         ws.current!.onmessage = (event) => {
           const data = JSON.parse(event.data);
-          if (data.type === "CHAT_MESSAGES" && data.payload.chatId === chatId) {
-            console.log('Received message:', data);
+          if (
+            (data.type === "NEW_MESSAGE" &&
+              (data.payload.privateChat === chatId || data.payload.groupChat === chatId))
+          ) {
+            if (data.payload.author._id !== user._id) {
+              setMessages((prevMessages) => [...prevMessages, data.payload]);
+            }
+          } else if (data.type === "CHAT_MESSAGES" && data.payload.chatId === chatId) {
             setMessages(data.payload.latestMessages);
-          }
-          if (data.type === "NEW_MESSAGE" && data.payload.chatId === chatId) {
-            console.log('Received message:', data);
-            setMessages((prevMessages) => [...prevMessages, data.payload]);
           }
         };
 
@@ -74,7 +73,6 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
 
       return () => {
         if (ws.current) {
-          console.log("WebSocket connection closed");
           ws.current.close();
           ws.current = null;
         }
