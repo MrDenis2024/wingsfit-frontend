@@ -5,7 +5,7 @@ import MessagesList from "./MessagesList.tsx";
 import ChatForm from "./ChatForm.tsx";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectUser } from "../../users/userSlice.ts";
-import { Message } from "../../../types/chatTypes.ts";
+import { IncomingMessage, Message } from "../../../types/chatTypes.ts";
 import { apiURL, wsApiURL } from "../../../constants.ts";
 
 interface MessagesProps {
@@ -20,32 +20,24 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
+    if (!user) return;
     setMessages([]);
 
     if (ws.current) {
       ws.current.close();
     }
 
-    if (chatId && chatType) {
-      ws.current = new WebSocket(`${wsApiURL}/chat/${chatId}/${chatType}`);
+    if (chatId && chatType && user._id) {
+      ws.current = new WebSocket(
+        `${wsApiURL}/chat/${chatId}/${chatType}/${user._id}`,
+      );
 
-      ws.current.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.type === "CHAT_MESSAGES" && data.payload.chatId === chatId) {
-          setMessages(data.payload.latestMessages);
-        }
-        if (data.type === "NEW_MESSAGE" && data.payload.chatId === chatId) {
-          setMessages((prevMessages) => [...prevMessages, data.payload]);
-        }
-      };
-
-      ws.current.onopen = () => {
-        if (!user) {
-          return;
-        }
+      ws.current.onopen = async () => {
         ws.current!.send(
           JSON.stringify({ type: "LOGIN", payload: user.token }),
         );
+        await new Promise((r) => setTimeout(r, 300));
+
         ws.current!.send(
           JSON.stringify({
             type: "JOIN_CHAT",
@@ -61,6 +53,24 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
                 payload: "Что-то пошло не так!",
               }),
             );
+          }
+        };
+
+        ws.current!.onmessage = (event) => {
+          const data: IncomingMessage = JSON.parse(event.data);
+          if (
+            data.type === "NEW_MESSAGE" &&
+            (data.payload.privateChat === chatId ||
+              data.payload.groupChat === chatId)
+          ) {
+            if (data.payload.author._id !== user._id) {
+              setMessages((prevMessages) => [...prevMessages, data.payload]);
+            }
+          } else if (
+            data.type === "CHAT_MESSAGES" &&
+            data.payload.chatId === chatId
+          ) {
+            setMessages(data.payload.latestMessages);
           }
         };
 
@@ -90,7 +100,8 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
       ...prevMessages,
       {
         _id: Date.now().toString(),
-        chatId: chatId || "",
+        privateChat: chatType === "private" ? chatId || undefined : undefined,
+        groupChat: chatType === "group" ? chatId || undefined : undefined,
         author: {
           _id: user?._id || "",
           firstName: user?.firstName || "",
@@ -99,6 +110,10 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
         },
         message,
         createdAt: new Date().toISOString(),
+        isRead: {
+          user: user?._id || "",
+          read: false,
+        },
       },
     ]);
   };
