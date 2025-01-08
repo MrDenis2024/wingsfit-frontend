@@ -17,7 +17,7 @@ const ClientMainPage = () => {
   const isXs = useMediaQuery("(max-width: 599px)");
   const isSmall = useMediaQuery("(max-width: 840px)");
   const isMedium = useMediaQuery("(max-width: 900px)");
-  const isLarge = useMediaQuery("(max-width: 1160px)");
+  const isLarge = useMediaQuery("(max-width: 1200px)");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const ClientMainPage = () => {
         </Typography>
         <TrainersMatchingCards
           trainers={trainers}
-          itemsPerSlide={isSmall ? 1 : isLarge ? 2 : 3}
+          itemsPerSlide={isXs ? 1 : isSmall ? 2 : isLarge ? 2 : 3}
         />
       </Grid>
     </>
