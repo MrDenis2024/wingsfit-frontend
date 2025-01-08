@@ -14,8 +14,10 @@ const ClientMainPage = () => {
   const user = useAppSelector(selectUser);
   const trainers = useAppSelector(selectTrainers);
   const groups = useAppSelector(selectMatchingGroups);
+  const isXs = useMediaQuery("(max-width: 599px)");
   const isSmall = useMediaQuery("(max-width: 840px)");
-  const isMedium = useMediaQuery("(max-width: 1220px)");
+  const isMedium = useMediaQuery("(max-width: 900px)");
+  const isLarge = useMediaQuery("(max-width: 1220px)");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -40,7 +42,7 @@ const ClientMainPage = () => {
       </Grid>
       <GroupsMatchingCards
         groups={groups}
-        itemsPerSlide={isSmall ? 1 : isMedium ? 2 : 3}
+        itemsPerSlide={isXs ? 1 : isMedium ? 2 : 3}
       />
       <Grid container direction="column" sx={{ my: 3 }}>
         <Typography variant="h4" component="h2" mb={3}>
@@ -48,7 +50,7 @@ const ClientMainPage = () => {
         </Typography>
         <TrainersMatchingCards
           trainers={trainers}
-          itemsPerSlide={isSmall ? 1 : isMedium ? 2 : 3}
+          itemsPerSlide={isSmall ? 1 : isLarge ? 2 : 3}
         />
       </Grid>
     </>

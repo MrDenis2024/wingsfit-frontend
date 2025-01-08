@@ -63,7 +63,11 @@ const GroupsMatchingCards: React.FC<Props> = ({ groups, itemsPerSlide }) => {
                   justifyContent={isSmall ? "space-evenly" : "stretch"}
                 >
                   {slide.map((group) => (
-                    <Grid key={group._id}>
+                    <Grid key={group._id}
+                          size={{ md: 4, lg: 4, sm: 6, xs: 12 }}
+                          display="flex"
+                          justifyContent="center"
+                    >
                       <GroupMatchingCard
                         group={group}
                         isShort={false}
