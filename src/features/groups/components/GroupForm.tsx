@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import {
   selectCourses,
@@ -32,6 +32,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
   const courses = useAppSelector(selectCourses);
   const coursesFetching = useAppSelector(selectCoursesFetching);
   const user = useAppSelector(selectUser);
+
   const [state, setState] = useState<GroupMutation>({
     title: existingGroup ? existingGroup.title : "",
     course: existingGroup ? existingGroup.course._id : "",
@@ -43,9 +44,26 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
       : "",
   });
 
+  const [isIndividual, setIsIndividual] = useState(false);
+
+  const isCourseIndividual = useCallback(
+    (courseId: string): boolean => {
+      const selectedCourse = courses.find((course) => course._id === courseId);
+      return selectedCourse?.format === "single" || false;
+    },
+    [courses],
+  );
+
   useEffect(() => {
     dispatch(fetchCourses(user?._id));
   }, [dispatch, user?._id]);
+
+  useEffect(() => {
+    if (existingGroup) {
+      const individual = isCourseIndividual(existingGroup.course._id);
+      setIsIndividual(individual);
+    }
+  }, [courses, existingGroup, isCourseIndividual]);
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -62,12 +80,25 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
     }));
   };
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleCourseChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedCourseId = event.target.value;
+    const individual = isCourseIndividual(selectedCourseId);
+
+    setState((prevState) => ({
+      ...prevState,
+      course: selectedCourseId,
+      maxClients: individual ? "1" : prevState.maxClients,
+    }));
+    setIsIndividual(individual);
+  };
+
+  const handleLevelChange = (event: SelectChangeEvent) => {
     setState((prevState) => ({
       ...prevState,
       trainingLevel: event.target.value,
     }));
   };
+
   return (
     <Grid
       container
@@ -100,7 +131,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
             id="course"
             name="course"
             value={state.course || ""}
-            onChange={inputChangeHandler}
+            onChange={handleCourseChange}
             disabled={!!existingGroup}
           >
             <MenuItem value="" disabled>
@@ -138,6 +169,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
           }}
           value={state.maxClients}
           onChange={inputChangeHandler}
+          disabled={isIndividual}
         />
       </Grid>
       <Grid>
@@ -145,7 +177,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
           required
           type="number"
           id="scheduleLength"
-          label="Продолжительность занятия(в часах)"
+          label="Продолжительность занятия (в часах)"
           name="scheduleLength"
           slotProps={{
             htmlInput: {
@@ -159,21 +191,19 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
       </Grid>
       <Grid>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">
-            Уровень тренировок
-          </InputLabel>
+          <InputLabel id="training-level-label">Уровень тренировок</InputLabel>
           <Select
             required
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
+            labelId="training-level-label"
+            id="training-level"
             value={state.trainingLevel}
             label="Уровень тренировок"
             variant="outlined"
-            onChange={handleChange}
+            onChange={handleLevelChange}
           >
-            <MenuItem value={"junior"}>Начальный</MenuItem>
-            <MenuItem value={"middle"}>Средний</MenuItem>
-            <MenuItem value={"advanced"}>Продвинутый</MenuItem>
+            <MenuItem value="junior">Начальный</MenuItem>
+            <MenuItem value="middle">Средний</MenuItem>
+            <MenuItem value="advanced">Продвинутый</MenuItem>
           </Select>
         </FormControl>
       </Grid>
@@ -185,7 +215,7 @@ const GroupForm: React.FC<Props> = ({ onSubmit, isLoading, existingGroup }) => {
           startIcon={<SaveIcon />}
           variant="contained"
         >
-          <span>Создать</span>
+          <span>Сохранить</span>
         </LoadingButton>
       </Grid>
     </Grid>
