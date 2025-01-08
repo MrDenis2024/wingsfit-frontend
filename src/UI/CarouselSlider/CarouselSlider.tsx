@@ -25,7 +25,7 @@ const CarouselSlider: React.FC<Props> = ({
         margin: "0 auto",
         overflow: "hidden",
         borderRadius: "8px",
-        boxShadow: 3,
+        boxShadow: "0px 0px 2px 1px rgba(0, 0, 0, 0.2)",
       }}
     >
       <Grid

@@ -17,7 +17,7 @@ const ClientMainPage = () => {
   const isXs = useMediaQuery("(max-width: 599px)");
   const isSmall = useMediaQuery("(max-width: 840px)");
   const isMedium = useMediaQuery("(max-width: 900px)");
-  const isLarge = useMediaQuery("(max-width: 1220px)");
+  const isLarge = useMediaQuery("(max-width: 1160px)");
   const dispatch = useAppDispatch();
 
   useEffect(() => {

@@ -15,10 +15,9 @@ import { IMatchingGroup } from "../../../types/groupTypes.ts";
 
 interface Props {
   group: IMatchingGroup;
-  isShort: boolean;
 }
 
-const GroupMatchingCard: React.FC<Props> = ({ group, isShort }) => {
+const GroupMatchingCard: React.FC<Props> = ({ group }) => {
   let cardImage = imageNotFound;
 
   if (group.course.image) {
@@ -66,29 +65,26 @@ const GroupMatchingCard: React.FC<Props> = ({ group, isShort }) => {
             >
               {group.course.schedule.join(", ")}
             </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
-              Тренер: {group.course.user.firstName} {group.course.user.lastName}
+            <Typography variant="body2">
+              Курс - {group.course.title}
             </Typography>
             <Typography variant="body2">
-              О курсе - {group.course.description}
+              Тренер: {group.course.user.firstName} {group.course.user.lastName}
             </Typography>
-            {!isShort && (
-              <>
-                <Typography variant="body2" color="textSecondary">
-                  Тип занятий:{" "}
-                  {group.course.courseType.name.charAt(0).toUpperCase() +
-                    group.course.courseType.name.slice(1)}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Цена: {group.course.price}
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Формат:{" "}
-                  {group.course.format === "single" ? "индивидуальные" : "групповые"}{" "}
-                  тренировки
-                </Typography>
-              </>
-            )}
+
+            <Typography variant="body2" color="textSecondary">
+              Тип занятий:{" "}
+              {group.course.courseType.name.charAt(0).toUpperCase() +
+                group.course.courseType.name.slice(1)}
+            </Typography>
+            <Typography variant="body2" color="textSecondary">
+              Формат:{" "}
+              {group.course.format === "single" ? "индивидуальные" : "групповые"}{" "}
+              тренировки
+            </Typography>
+            <Typography variant="body2">
+              Цена: {group.course.price}
+            </Typography>
           </CardContent>
         </CardActionArea>
       </Card>

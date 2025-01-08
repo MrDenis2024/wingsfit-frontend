@@ -70,7 +70,6 @@ const GroupsMatchingCards: React.FC<Props> = ({ groups, itemsPerSlide }) => {
                     >
                       <GroupMatchingCard
                         group={group}
-                        isShort={false}
                       />
                     </Grid>
                   ))}
