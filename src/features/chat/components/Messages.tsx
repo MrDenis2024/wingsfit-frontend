@@ -20,32 +20,23 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
   const ws = useRef<WebSocket | null>(null);
 
   useEffect(() => {
+    if (!user) return;
     setMessages([]);
 
     if (ws.current) {
       ws.current.close();
     }
 
-    if (chatId && chatType) {
-      ws.current = new WebSocket(`${wsApiURL}/chat/${chatId}/${chatType}`);
+    if (chatId && chatType && user._id) {
+      ws.current = new WebSocket(`${wsApiURL}/chat/${chatId}/${chatType}/${user._id}`);
 
-      ws.current.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        if (data.type === "CHAT_MESSAGES" && data.payload.chatId === chatId) {
-          setMessages(data.payload.latestMessages);
-        }
-        if (data.type === "NEW_MESSAGE" && data.payload.chatId === chatId) {
-          setMessages((prevMessages) => [...prevMessages, data.payload]);
-        }
-      };
-
-      ws.current.onopen = () => {
-        if (!user) {
-          return;
-        }
+      ws.current.onopen = async () => {
+        console.log("WebSocket connection opened");
         ws.current!.send(
           JSON.stringify({ type: "LOGIN", payload: user.token }),
         );
+        await new Promise(r => setTimeout(r, 300));
+
         ws.current!.send(
           JSON.stringify({
             type: "JOIN_CHAT",
@@ -53,7 +44,8 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
           }),
         );
 
-        ws.current!.onerror = () => {
+        ws.current!.onerror = (event) => {
+          console.error("WebSocket error:", event);
           if (ws.current) {
             ws.current.send(
               JSON.stringify({
@@ -64,11 +56,24 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
           }
         };
 
+        ws.current!.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          if (data.type === "CHAT_MESSAGES" && data.payload.chatId === chatId) {
+            console.log('Received message:', data);
+            setMessages(data.payload.latestMessages);
+          }
+          if (data.type === "NEW_MESSAGE" && data.payload.chatId === chatId) {
+            console.log('Received message:', data);
+            setMessages((prevMessages) => [...prevMessages, data.payload]);
+          }
+        };
+
         ws.current!.onclose = () => {};
       };
 
       return () => {
         if (ws.current) {
+          console.log("WebSocket connection closed");
           ws.current.close();
           ws.current = null;
         }
