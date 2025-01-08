@@ -27,7 +27,7 @@ export interface PrivateChat {
 export interface Message {
   _id: string;
   privateChat?: string;
-  groupChat? : string;
+  groupChat?: string;
   author: {
     _id: string;
     firstName: string;
@@ -50,30 +50,30 @@ export interface ChatMessagesPayload {
 
 export type IncomingMessage =
   | {
-  type: "LOGIN";
-  payload: string;
-}
+      type: "LOGIN";
+      payload: string;
+    }
   | {
-  type: "CHAT_MESSAGES";
-  payload: ChatMessagesPayload;
-}
+      type: "CHAT_MESSAGES";
+      payload: ChatMessagesPayload;
+    }
   | {
-  type: "JOIN_CHAT";
-  payload: { chatId: string; chatType: "group" | "private" };
-}
+      type: "JOIN_CHAT";
+      payload: { chatId: string; chatType: "group" | "private" };
+    }
   | {
-  type: "SEND_MESSAGE";
-  payload: {
-    chatId: string;
-    chatType: "group" | "private";
-    message: string;
-  };
-}
+      type: "SEND_MESSAGE";
+      payload: {
+        chatId: string;
+        chatType: "group" | "private";
+        message: string;
+      };
+    }
   | {
-  type: "NEW_MESSAGE";
-  payload: Message;
-}
+      type: "NEW_MESSAGE";
+      payload: Message;
+    }
   | {
-  type: "ERROR";
-  payload: string;
-};
+      type: "ERROR";
+      payload: string;
+    };

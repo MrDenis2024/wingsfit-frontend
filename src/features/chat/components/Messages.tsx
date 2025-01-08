@@ -1,12 +1,12 @@
-import React, {useEffect, useRef, useState} from "react";
-import {Box, Typography} from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MessagesList from "./MessagesList.tsx";
 import ChatForm from "./ChatForm.tsx";
-import {useAppSelector} from "../../../app/hooks.ts";
-import {selectUser} from "../../users/userSlice.ts";
-import {IncomingMessage, Message} from "../../../types/chatTypes.ts";
-import {apiURL, wsApiURL} from "../../../constants.ts";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectUser } from "../../users/userSlice.ts";
+import { IncomingMessage, Message } from "../../../types/chatTypes.ts";
+import { apiURL, wsApiURL } from "../../../constants.ts";
 
 interface MessagesProps {
   chatId: string | null;
@@ -28,13 +28,15 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
     }
 
     if (chatId && chatType && user._id) {
-      ws.current = new WebSocket(`${wsApiURL}/chat/${chatId}/${chatType}/${user._id}`);
+      ws.current = new WebSocket(
+        `${wsApiURL}/chat/${chatId}/${chatType}/${user._id}`,
+      );
 
       ws.current.onopen = async () => {
         ws.current!.send(
           JSON.stringify({ type: "LOGIN", payload: user.token }),
         );
-        await new Promise(r => setTimeout(r, 300));
+        await new Promise((r) => setTimeout(r, 300));
 
         ws.current!.send(
           JSON.stringify({
@@ -57,13 +59,17 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
         ws.current!.onmessage = (event) => {
           const data: IncomingMessage = JSON.parse(event.data);
           if (
-            (data.type === "NEW_MESSAGE" &&
-              (data.payload.privateChat === chatId || data.payload.groupChat === chatId))
+            data.type === "NEW_MESSAGE" &&
+            (data.payload.privateChat === chatId ||
+              data.payload.groupChat === chatId)
           ) {
             if (data.payload.author._id !== user._id) {
               setMessages((prevMessages) => [...prevMessages, data.payload]);
             }
-          } else if (data.type === "CHAT_MESSAGES" && data.payload.chatId === chatId) {
+          } else if (
+            data.type === "CHAT_MESSAGES" &&
+            data.payload.chatId === chatId
+          ) {
             setMessages(data.payload.latestMessages);
           }
         };
