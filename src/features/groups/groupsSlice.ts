@@ -5,15 +5,17 @@ import {
   deleteGroup,
   editGroup,
   fetchAllGroups,
-  fetchCourseGroups,
+  fetchCourseGroups, fetchMatchingGroups,
   getOneGroup,
 } from "./groupsThunk.ts";
-import { IGroup } from "../../types/groupTypes.ts";
+import {IGroup, IMatchingGroup} from "../../types/groupTypes.ts";
 
 export interface GroupsState {
   groupsData: IGroup[];
   fetchGroups: boolean;
   fetchCourseGroups: boolean;
+  matchingGroupsData: IMatchingGroup[];
+  fetchMatchingGroups: boolean;
   isCreating: boolean;
   isCreatingError: GlobalError | null;
   oneGroup: IGroup | null;
@@ -27,6 +29,8 @@ const initialState: GroupsState = {
   groupsData: [],
   fetchGroups: false,
   fetchCourseGroups: false,
+  matchingGroupsData: [],
+  fetchMatchingGroups: false,
   isCreating: false,
   isCreatingError: null,
   oneGroup: null,
@@ -64,6 +68,18 @@ export const groupsSlice = createSlice({
       })
       .addCase(fetchAllGroups.rejected, (state) => {
         state.fetchGroups = false;
+      });
+
+    builder
+      .addCase(fetchMatchingGroups.pending, (state) => {
+        state.fetchMatchingGroups = true;
+      })
+      .addCase(fetchMatchingGroups.fulfilled, (state, { payload: groupsData }) => {
+        state.matchingGroupsData = groupsData;
+        state.fetchMatchingGroups = false;
+      })
+      .addCase(fetchMatchingGroups.rejected, (state) => {
+        state.fetchMatchingGroups = false;
       });
 
     builder
@@ -122,6 +138,8 @@ export const groupsSlice = createSlice({
     selectGroups: (state) => state.groupsData,
     selectFetchGroups: (state) => state.fetchGroups,
     selectFetchCourseGroups: (state) => state.fetchCourseGroups,
+    selectMatchingGroups: (state) => state.matchingGroupsData,
+    selectFetchMatchingGroups: (state) => state.fetchMatchingGroups,
     selectGroupCreate: (state) => state.isCreating,
     selectGroupError: (state) => state.isCreatingError,
     selectOneGroup: (state) => state.oneGroup,
@@ -139,6 +157,8 @@ export const {
   selectGroupError,
   selectFetchGroups,
   selectFetchCourseGroups,
+  selectMatchingGroups,
+  selectFetchMatchingGroups,
   selectGroups,
   selectOneGroup,
   selectOneGroupLoading,

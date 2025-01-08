@@ -1,21 +1,21 @@
 import { useEffect } from "react";
 import Grid from "@mui/material/Grid2";
 import { Typography, useMediaQuery } from "@mui/material";
-import CourseCards from "../../courses/components/CourseCards.tsx";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectTrainers } from "../../trainers/trainersSlice.ts";
-import { selectCourses } from "../../courses/coursesSlice.ts";
 import { getTrainers } from "../../trainers/trainersThunks.ts";
-import { fetchCourses } from "../../courses/coursesThunks.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import TrainersMatchingCards from "../../trainers/components/TrainersMatchingCards.tsx";
+import { selectMatchingGroups } from "../../groups/groupsSlice.ts";
+import { fetchMatchingGroups } from "../../groups/groupsThunk.ts";
+import GroupsMatchingCards from "../../groups/components/GroupsMatchingCards.tsx";
 
 const ClientMainPage = () => {
   const user = useAppSelector(selectUser);
   const trainers = useAppSelector(selectTrainers);
-  const courses = useAppSelector(selectCourses);
+  const groups = useAppSelector(selectMatchingGroups);
   const isSmall = useMediaQuery("(max-width: 840px)");
-  const isMedium = useMediaQuery("(max-width: 1200px)");
+  const isMedium = useMediaQuery("(max-width: 1220px)");
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,8 +24,8 @@ const ClientMainPage = () => {
         return;
       }
 
+      dispatch(fetchMatchingGroups());
       dispatch(getTrainers(user._id));
-      dispatch(fetchCourses());
     } catch (e) {
       console.error(e);
     }
@@ -33,12 +33,15 @@ const ClientMainPage = () => {
 
   return (
     <>
-      <Grid container direction="column" spacing={2} mb={3}>
-        <Typography variant="h4" component="h1" mb={3}>
-          Курсы
+      <Grid container direction="column" spacing={2} my={3}>
+        <Typography variant="h4" component="h1" mb={1}>
+          Занятия по предпочтениям
         </Typography>
       </Grid>
-      <CourseCards courses={courses} />
+      <GroupsMatchingCards
+        groups={groups}
+        itemsPerSlide={isSmall ? 1 : isMedium ? 2 : 3}
+      />
       <Grid container direction="column" sx={{ my: 3 }}>
         <Typography variant="h4" component="h2" mb={3}>
           Наши тренера
