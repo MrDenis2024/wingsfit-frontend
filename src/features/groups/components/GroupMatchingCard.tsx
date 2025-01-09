@@ -61,14 +61,6 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
             }}
           />
           <CardContent sx={{ margin: 0, paddingTop: 0 }}>
-            <Typography
-              variant="body1"
-              color="textSecondary"
-              textAlign="center"
-              mb={1}
-            >
-              {group.course.schedule.join(", ")}
-            </Typography>
             <Typography variant="body2">Курс - {group.course.title}</Typography>
             <Typography variant="body2">
               Тренер: {group.course.user.firstName} {group.course.user.lastName}
@@ -90,6 +82,14 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
               Количество доступных мест: {group.maxClients - group.clients.length}
             </Typography>
           </CardContent>
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            textAlign="center"
+            mb={2}
+          >
+            {group.course.schedule.join(", ")}
+          </Typography>
         </CardActionArea>
       </Card>
     </>
