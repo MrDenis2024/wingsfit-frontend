@@ -27,11 +27,10 @@ const TrainerCard: React.FC<Props> = ({ _id, firstName, lastName, avatar }) => {
   return (
     <>
       <Grid
-        sx={{
-          width: {
-            sm: "360px",
-            xs: "100%",
-          },
+        size={{
+          sm: 6,
+          lg: 4,
+          xs: 12,
         }}
       >
         <StyledLink to={`/trainers/${_id}`}>

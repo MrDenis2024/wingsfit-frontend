@@ -129,6 +129,7 @@ const SearchTrainersPage = () => {
                     />
                   }
                   label={type.name}
+                  sx={{ textTransform: "capitalize" }}
                 />
               ))}
             </FormGroup>

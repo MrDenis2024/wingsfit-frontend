@@ -1,37 +1,35 @@
 import React, { useState } from "react";
-import Grid from "@mui/material/Grid2";
-import TrainerCard from "./TrainerCard";
-import { ITrainer } from "../../../types/trainerTypes.ts";
-import CarouselSlider from "../../../UI/CarouselSlider/CarouselSlider.tsx";
 import { useAppSelector } from "../../../app/hooks.ts";
-import { selectFetchingTrainers } from "../trainersSlice.ts";
+import { selectFetchingTrainers } from "../../trainers/trainersSlice.ts";
+import CarouselSlider from "../../../UI/CarouselSlider/CarouselSlider.tsx";
+import Grid from "@mui/material/Grid2";
 import { Alert, useMediaQuery } from "@mui/material";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
+import { IMatchingGroup } from "../../../types/groupTypes.ts";
+import GroupMatchingCard from "./GroupMatchingCard.tsx";
 
-const groupTrainersIntoSlides = (
-  trainers: ITrainer[],
+const groupsDataInToSlides = (
+  groups: IMatchingGroup[],
   itemsPerSlide: number,
 ) => {
-  const slides: ITrainer[][] = [];
-  for (let i = 0; i < trainers.length; i += itemsPerSlide) {
-    slides.push(trainers.slice(i, i + itemsPerSlide));
+  const slides: IMatchingGroup[][] = [];
+  for (let i = 0; i < groups.length; i += itemsPerSlide) {
+    slides.push(groups.slice(i, i + itemsPerSlide));
   }
   return slides;
 };
 
 interface Props {
-  trainers: ITrainer[];
+  groups: IMatchingGroup[];
   itemsPerSlide: number;
 }
 
-const TrainersMatchingCards: React.FC<Props> = ({
-  trainers,
-  itemsPerSlide,
-}) => {
-  const slides = groupTrainersIntoSlides(trainers, itemsPerSlide);
+const GroupsMatchingCards: React.FC<Props> = ({ groups, itemsPerSlide }) => {
+  const slides = groupsDataInToSlides(groups, itemsPerSlide);
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLoading = useAppSelector(selectFetchingTrainers);
   const isSmall = useMediaQuery("(max-width: 840px)");
+  const isMedium = useMediaQuery("(max-width: 1220px)");
 
   const handleNext = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -44,7 +42,7 @@ const TrainersMatchingCards: React.FC<Props> = ({
   return (
     <>
       {!isLoading ? (
-        trainers.length > 0 ? (
+        groups.length > 0 ? (
           <CarouselSlider
             currentSlide={currentSlide}
             onHandleNext={handleNext}
@@ -55,24 +53,24 @@ const TrainersMatchingCards: React.FC<Props> = ({
                 key={index}
                 sx={{
                   minWidth: "100%",
-                  py: 2,
-                  px: isSmall ? 2 : 6,
+                  padding: 2,
+                  px: isMedium ? 2 : 6,
                 }}
               >
                 <Grid
                   container
                   spacing={2}
-                  display="flex"
-                  justifyContent={isSmall ? "center" : "center"}
+                  justifyContent={isSmall ? "space-evenly" : "stretch"}
                 >
-                  {slide.map((trainer) => (
-                    <TrainerCard
-                      key={trainer._id}
-                      _id={trainer.user._id}
-                      firstName={trainer.user.firstName}
-                      lastName={trainer.user.lastName}
-                      avatar={trainer.user.avatar}
-                    />
+                  {slide.map((group) => (
+                    <Grid
+                      key={group._id}
+                      size={{ md: 4, lg: 4, sm: 6, xs: 12 }}
+                      display="flex"
+                      justifyContent="center"
+                    >
+                      <GroupMatchingCard group={group} />
+                    </Grid>
                   ))}
                 </Grid>
               </Grid>
@@ -80,7 +78,7 @@ const TrainersMatchingCards: React.FC<Props> = ({
           </CarouselSlider>
         ) : (
           <Alert severity="info" sx={{ width: "100%" }}>
-            Нет доступных тренеров!
+            Нет доступных занятий!
           </Alert>
         )
       ) : (
@@ -90,4 +88,4 @@ const TrainersMatchingCards: React.FC<Props> = ({
   );
 };
 
-export default TrainersMatchingCards;
+export default GroupsMatchingCards;

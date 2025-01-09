@@ -1,7 +1,8 @@
 import React from "react";
 import Grid from "@mui/material/Grid2";
 import { IconButton } from "@mui/material";
-import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
 
 interface Props extends React.PropsWithChildren {
   onHandleNext: VoidFunction;
@@ -24,7 +25,7 @@ const CarouselSlider: React.FC<Props> = ({
         margin: "0 auto",
         overflow: "hidden",
         borderRadius: "8px",
-        boxShadow: 3,
+        boxShadow: "0px 0px 2px 1px rgba(0, 0, 0, 0.2)",
       }}
     >
       <Grid
@@ -51,7 +52,7 @@ const CarouselSlider: React.FC<Props> = ({
           },
         }}
       >
-        <ArrowBackIos />
+        <ArrowBackIosNewIcon />
       </IconButton>
       <IconButton
         onClick={onHandleNext}
