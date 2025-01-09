@@ -1,5 +1,5 @@
-import React, {useEffect, useRef} from "react";
-import {Avatar, List, ListItem, Typography} from "@mui/material";
+import React, { useEffect, useRef } from "react";
+import { Avatar, List, ListItem, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 interface Message {
@@ -28,7 +28,7 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
   }, [messages]);
 
   return (
-    <Grid sx={{display: "flex", flexDirection: "column", height: "100%"}}>
+    <Grid sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <List
         ref={listRef}
         sx={{
@@ -39,71 +39,67 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
           scrollBehavior: "smooth",
         }}
       >
-        {sortedMessages
-          .map((msg) => (
-            <ListItem
-              key={msg.id}
-              sx={{display: "flex", alignItems: "center"}}
+        {sortedMessages.map((msg) => (
+          <ListItem key={msg.id} sx={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              src={msg.avatar}
+              alt={msg.author}
+              sx={{
+                width: { xs: 27, sm: 32 },
+                height: { xs: 27, sm: 32 },
+                marginRight: { xs: 1, sm: 2 },
+              }}
+            />
+            <Grid
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                maxWidth: "70%",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                backgroundColor: "transparent",
+              }}
             >
-              <Avatar
-                src={msg.avatar}
-                alt={msg.author}
-                sx={{
-                  width: {xs: 27, sm: 32},
-                  height: {xs: 27, sm: 32},
-                  marginRight: {xs: 1, sm: 2},
-                }}
-              />
               <Grid
                 sx={{
                   display: "flex",
-                  flexDirection: "column",
-                  maxWidth: "70%",
-                  padding: "8px 16px",
-                  borderRadius: "8px",
-                  backgroundColor: "transparent",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: { xs: 3, sm: 2 },
                 }}
               >
-                <Grid
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    gap: {xs: 3, sm: 2},
-                  }}
-                >
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      fontWeight: "bold",
-                      fontSize: {xs: "0.8rem", sm: "1rem"},
-                    }}
-                  >
-                    {msg.author}
-                  </Typography>
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      fontSize: {xs: "0.7rem", sm: "0.875rem"},
-                      color: "gray",
-                      lineHeight: 1.5,
-                    }}
-                  >
-                    {new Date(msg.createdAt).toLocaleTimeString()}
-                  </Typography>
-                </Grid>
                 <Typography
                   variant="body1"
                   sx={{
-                    whiteSpace: "pre-wrap",
-                    fontSize: {xs: "0.8rem", sm: "1rem"},
+                    fontWeight: "bold",
+                    fontSize: { xs: "0.8rem", sm: "1rem" },
                   }}
                 >
-                  {msg.message}
+                  {msg.author}
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    fontSize: { xs: "0.7rem", sm: "0.875rem" },
+                    color: "gray",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {new Date(msg.createdAt).toLocaleTimeString()}
                 </Typography>
               </Grid>
-            </ListItem>
-          ))}
+              <Typography
+                variant="body1"
+                sx={{
+                  whiteSpace: "pre-wrap",
+                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                }}
+              >
+                {msg.message}
+              </Typography>
+            </Grid>
+          </ListItem>
+        ))}
       </List>
     </Grid>
   );

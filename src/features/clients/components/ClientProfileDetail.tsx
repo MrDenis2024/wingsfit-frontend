@@ -4,7 +4,7 @@ import { useAppSelector } from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { apiURL, findCourseTypes } from "../../../constants.ts";
-import { CourseTypeFields } from "../../../types/courseTypes.ts";
+import { ICourseType } from "../../../types/courseTypes.ts";
 import {
   Box,
   CardMedia,
@@ -60,7 +60,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
     setOpen(false);
   };
 
-  let preferredWorkoutType: CourseTypeFields[] = [];
+  let preferredWorkoutType: ICourseType[] = [];
 
   if (clientsProfile) {
     preferredWorkoutType = findCourseTypes(
@@ -260,7 +260,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                       variant="h6"
                       sx={{ fontWeight: "600", marginBottom: "10px" }}
                     >
-                      User Status
+                      Статус пользователя
                     </Typography>
                     <IconButton>
                       {isStatusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -281,7 +281,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                       {isSmallScreen ? (
                         <></>
                       ) : (
-                        <strong>Уровень тренировоу:</strong>
+                        <strong>Уровень тренировок:</strong>
                       )}
                       {clientsProfile?.trainingLevel}
                     </Typography>
@@ -299,7 +299,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                       {isSmallScreen ? (
                         <></>
                       ) : (
-                        <strong>Физичкские данные:</strong>
+                        <strong>Физические данные:</strong>
                       )}
                       {clientsProfile?.physicalData}
                     </Typography>

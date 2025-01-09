@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
+  Button,
   Checkbox,
   CircularProgress,
   FormControlLabel,
@@ -11,7 +12,7 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import { CourseMutation, ICourse } from "../../../types/courseTypes.ts";
-import { useAppSelector } from "../../../app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import {
   selectCourseTypes,
   selectCourseTypesFetching,
@@ -19,7 +20,14 @@ import {
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import Grid from "@mui/material/Grid2";
 import { selectCourseError } from "../coursesSlice.ts";
-import { DAYS_OF_WEEK } from "../../../constants.ts";
+import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
+import Modal from "../../../UI/Modal/Modal.tsx";
+import NewCourseType from "../../CourseTypes/NewCourseType.tsx";
+import { getTrainerProfile } from "../../trainers/trainersThunks.ts";
+import {
+  selectTrainerProfile,
+  selectTrainerProfileLoading,
+} from "../../trainers/trainersSlice.ts";
 
 interface Props {
   onSubmit: (course: CourseMutation) => void;
@@ -32,9 +40,14 @@ const CourseForm: React.FC<Props> = ({
   isLoading,
   existingCourse,
 }) => {
+  const dispatch = useAppDispatch();
   const courseTypes = useAppSelector(selectCourseTypes);
   const courseTypesFetching = useAppSelector(selectCourseTypesFetching);
   const error = useAppSelector(selectCourseError);
+  const trainerProfile = useAppSelector(selectTrainerProfile);
+  const trainerProfileLoading = useAppSelector(selectTrainerProfileLoading);
+
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [state, setState] = useState<CourseMutation>({
     title: existingCourse ? existingCourse.title : "",
     courseType: existingCourse ? existingCourse.courseType._id : "",
@@ -44,6 +57,11 @@ const CourseForm: React.FC<Props> = ({
     price: existingCourse ? existingCourse.price.toString() : "",
     image: null,
   });
+
+  useEffect(() => {
+    dispatch(fetchCourseTypes());
+    dispatch(getTrainerProfile("trainerId"));
+  }, [dispatch]);
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -85,137 +103,177 @@ const CourseForm: React.FC<Props> = ({
     return error?.errors[fieldName]?.message || null;
   };
 
+  const availableDays = trainerProfile?.availableDays || [];
+
   return (
-    <Grid
-      container
-      direction="column"
-      spacing={2}
-      component="form"
-      onSubmit={submitFormHandler}
-    >
-      <Typography variant="h4" sx={{ mb: 2 }}>
-        {existingCourse ? "Редактировать курс" : "Новый курс"}
-      </Typography>
-      <Grid>
-        <TextField
-          required
-          label="Название"
-          id="title"
-          name="title"
-          value={state.title}
-          onChange={inputChangeHandler}
-          error={Boolean(getFieldError("title"))}
-          helperText={getFieldError("title")}
-        />
-      </Grid>
-      <Grid>
-        {courseTypesFetching ? (
-          <CircularProgress />
-        ) : (
+    <>
+      <Grid
+        container
+        direction="column"
+        spacing={2}
+        component="form"
+        onSubmit={submitFormHandler}
+      >
+        <Grid container justifyContent="space-between">
+          <Typography variant="h4" sx={{ mb: 2 }}>
+            {existingCourse ? "Редактировать курс" : "Новый курс"}
+          </Typography>
+          {!existingCourse && (
+            <Button
+              onClick={() => setModalOpen(true)}
+              sx={{
+                fontWeight: "bold",
+                fontSize: "14px",
+                px: 1,
+                height: "40px",
+              }}
+              variant="outlined"
+            >
+              Новый тип курса
+            </Button>
+          )}
+        </Grid>
+        <Grid>
           <TextField
             required
-            select
-            label="Типы"
-            id="courseType"
-            name="courseType"
-            value={state.courseType}
+            label="Название"
+            id="title"
+            name="title"
+            value={state.title}
             onChange={inputChangeHandler}
-            error={Boolean(getFieldError("courseType"))}
-            helperText={getFieldError("courseType")}
-          >
-            <MenuItem value="" disabled>
-              Select course
-            </MenuItem>
-            {courseTypes.map((courseType) => (
-              <MenuItem key={courseType._id} value={courseType._id}>
-                {courseType.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        )}
-      </Grid>
-      <Grid>
-        <TextField
-          multiline
-          required
-          minRows={3}
-          label="Описание"
-          id="description"
-          name="description"
-          value={state.description}
-          onChange={inputChangeHandler}
-          error={Boolean(getFieldError("description"))}
-          helperText={getFieldError("description")}
-        />
-      </Grid>
-      <Grid>
-        <TextField
-          select
-          label="Формат"
-          required
-          id="format"
-          name="format"
-          value={state.format}
-          onChange={inputChangeHandler}
-          error={Boolean(getFieldError("format"))}
-          helperText={getFieldError("format")}
-        >
-          <MenuItem value="group">Групповой</MenuItem>
-          <MenuItem value="single">Индивидуальный</MenuItem>
-        </TextField>
-      </Grid>
-      <Grid>
-        <Typography variant="h6">Расписание:</Typography>
-        <FormGroup row>
-          {DAYS_OF_WEEK.map((day) => (
-            <FormControlLabel
-              key={day}
-              control={
-                <Checkbox
-                  checked={state.schedule.includes(day)}
-                  onChange={() => handleScheduleChange(day)}
-                />
-              }
-              label={day}
-            />
-          ))}
-        </FormGroup>
-      </Grid>
-      <Grid>
-        <TextField
-          required
-          label="Цена"
-          id="price"
-          name="price"
-          type="number"
-          value={state.price}
-          onChange={inputChangeHandler}
-          error={Boolean(getFieldError("price"))}
-          helperText={getFieldError("price")}
-        />
-      </Grid>
-      {!existingCourse && (
-        <Grid>
-          <FileInput
-            label="Изображение"
-            name="image"
-            onChange={fileInputChangeHandler}
+            error={Boolean(getFieldError("title"))}
+            helperText={getFieldError("title")}
           />
         </Grid>
-      )}
-      <Grid>
-        <LoadingButton
-          type="submit"
-          loading={isLoading}
-          disabled={state.schedule.length === 0 || isLoading}
-          loadingPosition="start"
-          startIcon={<SaveIcon />}
-          variant="contained"
-        >
-          <span>Сохранить</span>
-        </LoadingButton>
+        <Grid>
+          {courseTypesFetching ? (
+            <CircularProgress />
+          ) : (
+            <TextField
+              required
+              select
+              label="Типы"
+              id="courseType"
+              name="courseType"
+              value={state.courseType}
+              onChange={inputChangeHandler}
+              error={Boolean(getFieldError("courseType"))}
+              helperText={getFieldError("courseType")}
+            >
+              <MenuItem value="" disabled>
+                Select course
+              </MenuItem>
+              {courseTypes.map((courseType) => (
+                <MenuItem key={courseType._id} value={courseType._id}>
+                  {courseType.name.charAt(0).toUpperCase() +
+                    courseType.name.slice(1)}
+                </MenuItem>
+              ))}
+            </TextField>
+          )}
+        </Grid>
+        <Grid>
+          <TextField
+            multiline
+            required
+            minRows={3}
+            label="Описание"
+            id="description"
+            name="description"
+            value={state.description}
+            onChange={inputChangeHandler}
+            error={Boolean(getFieldError("description"))}
+            helperText={getFieldError("description")}
+          />
+        </Grid>
+        <Grid>
+          <TextField
+            select
+            label="Формат"
+            required
+            id="format"
+            name="format"
+            value={state.format}
+            onChange={inputChangeHandler}
+            error={Boolean(getFieldError("format"))}
+            helperText={getFieldError("format")}
+          >
+            <MenuItem value="group">Групповой</MenuItem>
+            <MenuItem value="single">Индивидуальный</MenuItem>
+          </TextField>
+        </Grid>
+        <Grid>
+          <Typography variant="h6">Расписание:</Typography>
+          {trainerProfileLoading ? (
+            <CircularProgress />
+          ) : availableDays.length > 0 ? (
+            <FormGroup row>
+              {availableDays.map((day) => (
+                <FormControlLabel
+                  key={day}
+                  control={
+                    <Checkbox
+                      checked={state.schedule.includes(day)}
+                      onChange={() => handleScheduleChange(day)}
+                    />
+                  }
+                  label={day}
+                />
+              ))}
+            </FormGroup>
+          ) : (
+            <Typography color="error">
+              Перед созданием курса заполните профиль тренера!
+            </Typography>
+          )}
+        </Grid>
+        <Grid>
+          <TextField
+            required
+            label="Цена"
+            id="price"
+            name="price"
+            type="number"
+            value={state.price}
+            onChange={inputChangeHandler}
+            error={Boolean(getFieldError("price"))}
+            helperText={getFieldError("price")}
+          />
+        </Grid>
+        {!existingCourse && (
+          <Grid>
+            <FileInput
+              label="Изображение"
+              name="image"
+              onChange={fileInputChangeHandler}
+            />
+          </Grid>
+        )}
+        <Grid>
+          <LoadingButton
+            type="submit"
+            loading={isLoading}
+            disabled={
+              state.schedule.length === 0 ||
+              isLoading ||
+              availableDays.length === 0
+            }
+            loadingPosition="start"
+            startIcon={<SaveIcon />}
+            variant="contained"
+          >
+            <span>Сохранить</span>
+          </LoadingButton>
+        </Grid>
       </Grid>
-    </Grid>
+      <Modal
+        title={"Новый тип курса"}
+        onClose={() => setModalOpen(false)}
+        show={modalOpen}
+      >
+        <NewCourseType onClose={() => setModalOpen(false)} />
+      </Modal>
+    </>
   );
 };
 
