@@ -46,8 +46,6 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
                 justifyContent="space-between"
               >
                 <Typography
-                  component={NavLink}
-                  to={`/courses/${group.course._id}`}
                   variant="h6"
                   sx={{ color: "#1a3b7e", textDecoration: "none" }}
                 >
@@ -89,8 +87,7 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
             </Typography>
             <Typography variant="body2">Цена: {group.course.price}</Typography>
             <Typography variant="body2">
-              Количество доступных мест:{" "}
-              {group.maxClients - group.clients.length}
+              Количество доступных мест: {group.maxClients - group.clients.length}
             </Typography>
           </CardContent>
         </CardActionArea>
