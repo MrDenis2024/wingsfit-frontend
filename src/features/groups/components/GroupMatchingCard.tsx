@@ -27,25 +27,6 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
   return (
     <>
       <Card sx={{ maxWidth: 345, height: "100%", border: "1px solid silver" }}>
-        <CardHeader
-          title={
-            <Grid container alignItems="center" justifyContent="space-between">
-              <Typography
-                component={NavLink}
-                to={`/courses/${group.course._id}`}
-                variant="h6"
-                sx={{ color: "#1a3b7e", textDecoration: "none" }}
-              >
-                {group.title}
-              </Typography>
-            </Grid>
-          }
-          sx={{
-            p: 1,
-            color: "#1a3b7e",
-            textDecoration: "none",
-          }}
-        />
         <CardActionArea
           component={NavLink}
           to={`/courses/${group.course._id}`}
@@ -55,13 +36,34 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
             component="img"
             height="220"
             image={cardImage}
-            alt="Course Image"
+            alt={group.course.title}
           />
-          <CardContent>
+          <CardHeader
+            title={
+              <Grid container alignItems="center" justifyContent="space-between">
+                <Typography
+                  component={NavLink}
+                  to={`/courses/${group.course._id}`}
+                  variant="h6"
+                  sx={{ color: "#1a3b7e", textDecoration: "none" }}
+                >
+                  {group.title}
+                </Typography>
+              </Grid>
+            }
+            sx={{
+              color: "#1a3b7e",
+              textDecoration: "none",
+              mb: 0,
+              pb: 1,
+            }}
+          />
+          <CardContent sx={{ margin: 0, paddingTop: 0 }}>
             <Typography
               variant="body1"
               color="textSecondary"
               textAlign="center"
+              mb={1}
             >
               {group.course.schedule.join(", ")}
             </Typography>
@@ -71,7 +73,6 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
             <Typography variant="body2">
               Тренер: {group.course.user.firstName} {group.course.user.lastName}
             </Typography>
-
             <Typography variant="body2" color="textSecondary">
               Тип занятий:{" "}
               {group.course.courseType.name.charAt(0).toUpperCase() +
@@ -84,6 +85,9 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
             </Typography>
             <Typography variant="body2">
               Цена: {group.course.price}
+            </Typography>
+            <Typography variant="body2">
+              Количество доступных мест: {group.maxClients - group.clients.length}
             </Typography>
           </CardContent>
         </CardActionArea>

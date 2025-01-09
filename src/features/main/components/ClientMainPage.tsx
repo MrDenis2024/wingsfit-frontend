@@ -39,11 +39,11 @@ const ClientMainPage = () => {
         <Typography variant="h4" component="h1" mb={1}>
           Занятия по предпочтениям
         </Typography>
+        <GroupsMatchingCards
+          groups={groups}
+          itemsPerSlide={isXs ? 1 : isMedium ? 2 : 3}
+        />
       </Grid>
-      <GroupsMatchingCards
-        groups={groups}
-        itemsPerSlide={isXs ? 1 : isMedium ? 2 : 3}
-      />
       <Grid container direction="column" sx={{ my: 3 }}>
         <Typography variant="h4" component="h2" mb={3}>
           Наши тренера
