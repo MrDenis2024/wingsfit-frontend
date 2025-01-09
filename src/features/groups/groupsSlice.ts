@@ -5,10 +5,11 @@ import {
   deleteGroup,
   editGroup,
   fetchAllGroups,
-  fetchCourseGroups, fetchMatchingGroups,
+  fetchCourseGroups,
+  fetchMatchingGroups,
   getOneGroup,
 } from "./groupsThunk.ts";
-import {IGroup, IMatchingGroup} from "../../types/groupTypes.ts";
+import { IGroup, IMatchingGroup } from "../../types/groupTypes.ts";
 
 export interface GroupsState {
   groupsData: IGroup[];
@@ -74,10 +75,13 @@ export const groupsSlice = createSlice({
       .addCase(fetchMatchingGroups.pending, (state) => {
         state.fetchMatchingGroups = true;
       })
-      .addCase(fetchMatchingGroups.fulfilled, (state, { payload: groupsData }) => {
-        state.matchingGroupsData = groupsData;
-        state.fetchMatchingGroups = false;
-      })
+      .addCase(
+        fetchMatchingGroups.fulfilled,
+        (state, { payload: groupsData }) => {
+          state.matchingGroupsData = groupsData;
+          state.fetchMatchingGroups = false;
+        },
+      )
       .addCase(fetchMatchingGroups.rejected, (state) => {
         state.fetchMatchingGroups = false;
       });

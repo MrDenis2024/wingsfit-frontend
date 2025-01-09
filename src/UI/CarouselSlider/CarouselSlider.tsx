@@ -1,8 +1,8 @@
 import React from "react";
 import Grid from "@mui/material/Grid2";
 import { IconButton } from "@mui/material";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import ArrowForwardIos from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowForwardIos from "@mui/icons-material/ArrowForwardIos";
 
 interface Props extends React.PropsWithChildren {
   onHandleNext: VoidFunction;

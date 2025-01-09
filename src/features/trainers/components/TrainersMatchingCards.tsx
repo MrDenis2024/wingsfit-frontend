@@ -5,7 +5,7 @@ import { ITrainer } from "../../../types/trainerTypes.ts";
 import CarouselSlider from "../../../UI/CarouselSlider/CarouselSlider.tsx";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectFetchingTrainers } from "../trainersSlice.ts";
-import {Alert, useMediaQuery} from "@mui/material";
+import { Alert, useMediaQuery } from "@mui/material";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const groupTrainersIntoSlides = (
@@ -56,10 +56,15 @@ const TrainersMatchingCards: React.FC<Props> = ({
                 sx={{
                   minWidth: "100%",
                   py: 2,
-                  px: isSmall ? 2 : 6
+                  px: isSmall ? 2 : 6,
                 }}
               >
-                <Grid container spacing={2} display="flex" justifyContent={isSmall ? "center" : "center"} >
+                <Grid
+                  container
+                  spacing={2}
+                  display="flex"
+                  justifyContent={isSmall ? "center" : "center"}
+                >
                   {slide.map((trainer) => (
                     <TrainerCard
                       key={trainer._id}

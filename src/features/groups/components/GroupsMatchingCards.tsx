@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {useAppSelector} from "../../../app/hooks.ts";
-import {selectFetchingTrainers} from "../../trainers/trainersSlice.ts";
+import React, { useState } from "react";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectFetchingTrainers } from "../../trainers/trainersSlice.ts";
 import CarouselSlider from "../../../UI/CarouselSlider/CarouselSlider.tsx";
 import Grid from "@mui/material/Grid2";
-import {Alert, useMediaQuery} from "@mui/material";
+import { Alert, useMediaQuery } from "@mui/material";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import { IMatchingGroup } from "../../../types/groupTypes.ts";
 import GroupMatchingCard from "./GroupMatchingCard.tsx";
@@ -54,7 +54,7 @@ const GroupsMatchingCards: React.FC<Props> = ({ groups, itemsPerSlide }) => {
                 sx={{
                   minWidth: "100%",
                   padding: 2,
-                  px: isMedium ? 2 : 6
+                  px: isMedium ? 2 : 6,
                 }}
               >
                 <Grid
@@ -63,14 +63,13 @@ const GroupsMatchingCards: React.FC<Props> = ({ groups, itemsPerSlide }) => {
                   justifyContent={isSmall ? "space-evenly" : "stretch"}
                 >
                   {slide.map((group) => (
-                    <Grid key={group._id}
-                          size={{ md: 4, lg: 4, sm: 6, xs: 12 }}
-                          display="flex"
-                          justifyContent="center"
+                    <Grid
+                      key={group._id}
+                      size={{ md: 4, lg: 4, sm: 6, xs: 12 }}
+                      display="flex"
+                      justifyContent="center"
                     >
-                      <GroupMatchingCard
-                        group={group}
-                      />
+                      <GroupMatchingCard group={group} />
                     </Grid>
                   ))}
                 </Grid>

@@ -69,7 +69,6 @@ export interface IMatchingGroup {
   trainingLevel: string;
 }
 
-
 export interface UpdateGroupArg {
   id: string;
   group: GroupMutation;

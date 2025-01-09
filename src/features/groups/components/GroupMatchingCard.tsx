@@ -40,7 +40,11 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
           />
           <CardHeader
             title={
-              <Grid container alignItems="center" justifyContent="space-between">
+              <Grid
+                container
+                alignItems="center"
+                justifyContent="space-between"
+              >
                 <Typography
                   component={NavLink}
                   to={`/courses/${group.course._id}`}
@@ -67,9 +71,7 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
             >
               {group.course.schedule.join(", ")}
             </Typography>
-            <Typography variant="body2">
-              Курс - {group.course.title}
-            </Typography>
+            <Typography variant="body2">Курс - {group.course.title}</Typography>
             <Typography variant="body2">
               Тренер: {group.course.user.firstName} {group.course.user.lastName}
             </Typography>
@@ -80,14 +82,15 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
             </Typography>
             <Typography variant="body2" color="textSecondary">
               Формат:{" "}
-              {group.course.format === "single" ? "индивидуальные" : "групповые"}{" "}
+              {group.course.format === "single"
+                ? "индивидуальные"
+                : "групповые"}{" "}
               тренировки
             </Typography>
+            <Typography variant="body2">Цена: {group.course.price}</Typography>
             <Typography variant="body2">
-              Цена: {group.course.price}
-            </Typography>
-            <Typography variant="body2">
-              Количество доступных мест: {group.maxClients - group.clients.length}
+              Количество доступных мест:{" "}
+              {group.maxClients - group.clients.length}
             </Typography>
           </CardContent>
         </CardActionArea>
