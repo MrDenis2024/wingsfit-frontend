@@ -157,8 +157,8 @@ const GroupCard: React.FC<Props> = ({
                       >
                         <IconButton
                           sx={{
-                            color: "#0288D1",
-                            borderColor: "#0288D1",
+                            color: "black",
+                            borderColor: "black",
                             "&:hover": {
                               backgroundColor: "#dff3fc",
                               borderColor: "#0288D1",

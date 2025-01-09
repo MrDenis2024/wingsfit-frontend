@@ -20,10 +20,14 @@ import {
 import FileInput from "../../../UI/FileInput/FileInput.tsx";
 import Grid from "@mui/material/Grid2";
 import { selectCourseError } from "../coursesSlice.ts";
-import { DAYS_OF_WEEK } from "../../../constants.ts";
 import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 import Modal from "../../../UI/Modal/Modal.tsx";
 import NewCourseType from "../../CourseTypes/NewCourseType.tsx";
+import { getTrainerProfile } from "../../trainers/trainersThunks.ts";
+import {
+  selectTrainerProfile,
+  selectTrainerProfileLoading,
+} from "../../trainers/trainersSlice.ts";
 
 interface Props {
   onSubmit: (course: CourseMutation) => void;
@@ -40,6 +44,9 @@ const CourseForm: React.FC<Props> = ({
   const courseTypes = useAppSelector(selectCourseTypes);
   const courseTypesFetching = useAppSelector(selectCourseTypesFetching);
   const error = useAppSelector(selectCourseError);
+  const trainerProfile = useAppSelector(selectTrainerProfile);
+  const trainerProfileLoading = useAppSelector(selectTrainerProfileLoading);
+
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [state, setState] = useState<CourseMutation>({
     title: existingCourse ? existingCourse.title : "",
@@ -53,6 +60,7 @@ const CourseForm: React.FC<Props> = ({
 
   useEffect(() => {
     dispatch(fetchCourseTypes());
+    dispatch(getTrainerProfile("trainerId"));
   }, [dispatch]);
 
   const submitFormHandler = (event: React.FormEvent) => {
@@ -94,6 +102,8 @@ const CourseForm: React.FC<Props> = ({
   const getFieldError = (fieldName: string) => {
     return error?.errors[fieldName]?.message || null;
   };
+
+  const availableDays = trainerProfile?.availableDays || [];
 
   return (
     <>
@@ -194,20 +204,28 @@ const CourseForm: React.FC<Props> = ({
         </Grid>
         <Grid>
           <Typography variant="h6">Расписание:</Typography>
-          <FormGroup row>
-            {DAYS_OF_WEEK.map((day) => (
-              <FormControlLabel
-                key={day}
-                control={
-                  <Checkbox
-                    checked={state.schedule.includes(day)}
-                    onChange={() => handleScheduleChange(day)}
-                  />
-                }
-                label={day}
-              />
-            ))}
-          </FormGroup>
+          {trainerProfileLoading ? (
+            <CircularProgress />
+          ) : availableDays.length > 0 ? (
+            <FormGroup row>
+              {availableDays.map((day) => (
+                <FormControlLabel
+                  key={day}
+                  control={
+                    <Checkbox
+                      checked={state.schedule.includes(day)}
+                      onChange={() => handleScheduleChange(day)}
+                    />
+                  }
+                  label={day}
+                />
+              ))}
+            </FormGroup>
+          ) : (
+            <Typography color="error">
+              Перед созданием курса заполните профиль тренера!
+            </Typography>
+          )}
         </Grid>
         <Grid>
           <TextField
@@ -235,7 +253,11 @@ const CourseForm: React.FC<Props> = ({
           <LoadingButton
             type="submit"
             loading={isLoading}
-            disabled={state.schedule.length === 0 || isLoading}
+            disabled={
+              state.schedule.length === 0 ||
+              isLoading ||
+              availableDays.length === 0
+            }
             loadingPosition="start"
             startIcon={<SaveIcon />}
             variant="contained"

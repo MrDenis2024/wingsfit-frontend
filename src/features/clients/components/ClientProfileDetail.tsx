@@ -260,7 +260,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                       variant="h6"
                       sx={{ fontWeight: "600", marginBottom: "10px" }}
                     >
-                      User Status
+                      Статус пользователя
                     </Typography>
                     <IconButton>
                       {isStatusOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -281,7 +281,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                       {isSmallScreen ? (
                         <></>
                       ) : (
-                        <strong>Уровень тренировоу:</strong>
+                        <strong>Уровень тренировок:</strong>
                       )}
                       {clientsProfile?.trainingLevel}
                     </Typography>
@@ -299,7 +299,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                       {isSmallScreen ? (
                         <></>
                       ) : (
-                        <strong>Физичкские данные:</strong>
+                        <strong>Физические данные:</strong>
                       )}
                       {clientsProfile?.physicalData}
                     </Typography>
