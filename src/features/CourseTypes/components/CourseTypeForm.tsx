@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { CourseTypeFields } from "../../../types/courseTypes.ts";
+import React, {useState} from "react";
+import {CourseTypeFields} from "../../../types/courseTypes.ts";
 import Grid from "@mui/material/Grid2";
-import { Button, TextField } from "@mui/material";
+import {Button, TextField} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
-import { useAppSelector } from "../../../app/hooks.ts";
-import { selectCreateCourseTypeError } from "../CourseTypesSlice.ts";
+import {useAppSelector} from "../../../app/hooks.ts";
+import {selectCreateCourseTypeError} from "../CourseTypesSlice.ts";
 
 interface Props {
   onSubmit: (courseType: CourseTypeFields) => void;
@@ -15,23 +15,18 @@ interface Props {
 
 const CourseTypeForm: React.FC<Props> = ({ onSubmit, isLoading, onClose }) => {
   const error = useAppSelector(selectCreateCourseTypeError);
-  const [state, setState] = useState<CourseTypeFields>({
-    name: "",
-  });
+  const [state, setState] = useState<string>("");
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();
-    onSubmit({ ...state });
+    onSubmit({ name: state });
   };
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, value } = event.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    const { value } = event.target;
+    setState(value);
   };
 
   const getFieldError = (fieldName: string) => {
@@ -52,13 +47,13 @@ const CourseTypeForm: React.FC<Props> = ({ onSubmit, isLoading, onClose }) => {
           label="Название"
           id="name"
           name="name"
-          value={state.name}
+          value={state}
           onChange={inputChangeHandler}
           error={Boolean(getFieldError("name"))}
           helperText={getFieldError("name")}
         />
       </Grid>
-      <Grid container justifyContent="flex-end">
+      <Grid container justifyContent="center">
         <Button
           onClick={onClose}
           variant="outlined"

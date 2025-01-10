@@ -28,6 +28,7 @@ import {
   selectTrainerProfile,
   selectTrainerProfileLoading,
 } from "../../trainers/trainersSlice.ts";
+import {selectUser} from "../../users/userSlice.ts";
 
 interface Props {
   onSubmit: (course: CourseMutation) => void;
@@ -46,7 +47,7 @@ const CourseForm: React.FC<Props> = ({
   const error = useAppSelector(selectCourseError);
   const trainerProfile = useAppSelector(selectTrainerProfile);
   const trainerProfileLoading = useAppSelector(selectTrainerProfileLoading);
-
+  const user = useAppSelector(selectUser);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [state, setState] = useState<CourseMutation>({
     title: existingCourse ? existingCourse.title : "",
@@ -60,7 +61,7 @@ const CourseForm: React.FC<Props> = ({
 
   useEffect(() => {
     dispatch(fetchCourseTypes());
-    dispatch(getTrainerProfile("trainerId"));
+    dispatch(getTrainerProfile(user?._id as string));
   }, [dispatch]);
 
   const submitFormHandler = (event: React.FormEvent) => {

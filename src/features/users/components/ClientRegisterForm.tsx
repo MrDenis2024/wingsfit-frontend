@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Grid from "@mui/material/Grid2";
 import {
   FormControlLabel,
@@ -10,11 +10,12 @@ import {
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
-import { useAppSelector } from "../../../app/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
 import CustomButton from "./CustomBottom/CustomBottom.tsx";
 import CustomInput from "./CustomInput/CustomInput.tsx";
+import {fetchCourseTypes} from "../../CourseTypes/CourseTypesThunks.ts";
 
 interface Props {
   initialState: ClientProfileMutation;
@@ -34,8 +35,13 @@ const ClientRegisterForm: React.FC<Props> = ({
   updatePersonalInfo,
 }) => {
   const courseTypes = useAppSelector(selectCourseTypes);
+  const dispatch = useAppDispatch();
   const [profileData, setProfileData] =
     useState<ClientProfileMutation>(initialState);
+
+  useEffect(() => {
+      dispatch(fetchCourseTypes());
+  }, [dispatch]);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
