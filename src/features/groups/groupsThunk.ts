@@ -6,6 +6,7 @@ import { isAxiosError } from "axios";
 import {
   GroupMutation,
   IGroup,
+  IMatchingGroup,
   UpdateGroupArg,
 } from "../../types/groupTypes.ts";
 
@@ -13,6 +14,19 @@ export const fetchAllGroups = createAsyncThunk<IGroup[], void>(
   "groups/fetchAll",
   async () => {
     const { data: groupsData } = await axiosApi.get<IGroup[]>("/groups");
+
+    if (!groupsData) {
+      return [];
+    }
+
+    return groupsData;
+  },
+);
+
+export const fetchMatchingGroups = createAsyncThunk<IMatchingGroup[], void>(
+  "groups/fetchMatching",
+  async () => {
+    const { data: groupsData } = await axiosApi.get<IMatchingGroup[]>("/groups/matching");
 
     if (!groupsData) {
       return [];

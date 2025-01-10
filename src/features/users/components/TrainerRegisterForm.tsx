@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { Checkbox, FormControlLabel, Paper, Typography } from "@mui/material";
 import { TrainerProfileMutation } from "../../../types/trainerTypes.ts";
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import { ClientProfileMutation } from "../../../types/clientTypes.ts";
-import { useAppSelector } from "../../../app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelector.tsx";
 import CustomButton from "./CustomBottom/CustomBottom.tsx";
 import CustomInput from "./CustomInput/CustomInput.tsx";
 import { DAYS_OF_WEEK } from "../../../constants.ts";
+import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 
 interface Props {
   initialState: TrainerProfileMutation;
@@ -29,6 +30,10 @@ const TrainerRegisterForm: React.FC<Props> = ({
   updatePersonalInfo,
 }) => {
   const courseTypes = useAppSelector(selectCourseTypes);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(fetchCourseTypes());
+  }, [dispatch]);
   const [profileData, setProfileData] =
     useState<TrainerProfileMutation>(initialState);
 

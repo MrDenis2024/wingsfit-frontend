@@ -98,7 +98,7 @@ const CourseTypeSelector: React.FC<Props> = ({
         </MenuItem>
         {availableTypes.map((type) => (
           <MenuItem key={type._id} value={type._id}>
-            {type.name}
+            {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
           </MenuItem>
         ))}
       </Select>
