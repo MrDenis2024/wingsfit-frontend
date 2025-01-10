@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
-import { createPrivateChat } from "../../chat/chatsThunks.ts";
+import { createPrivateChat } from "../chatsThunks.ts";
 import { useNavigate } from "react-router-dom";
 import { selectUser } from "../../users/userSlice.ts";
 import { toast } from "react-toastify";
+import { SxProps, Theme } from "@mui/material/styles";
+
 
 interface Props {
   firstPersonId: string;
   secondPersonId: string;
+  buttonText: string;
+  children?: SxProps<Theme>;
 }
 
-const ChatButton: React.FC<Props> = ({ firstPersonId, secondPersonId }) => {
+const ChatButton: React.FC<Props> = ({ firstPersonId, secondPersonId, buttonText, children }) => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -41,11 +45,11 @@ const ChatButton: React.FC<Props> = ({ firstPersonId, secondPersonId }) => {
     <Button
       variant="contained"
       color="success"
-      sx={{ width: "fit-content" }}
       onClick={startChat}
       disabled={isLoading}
+      sx={children}
     >
-      {isLoading ? "Загрузка..." : "Связаться с тренером"}
+      {isLoading ? "Загрузка..." : buttonText}
     </Button>
   );
 };
