@@ -6,7 +6,8 @@ import {
   CardHeader,
   CardMedia,
   CircularProgress,
-  IconButton, Tooltip,
+  IconButton,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { ICourse } from "../../../types/courseTypes.ts";
@@ -20,7 +21,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import ClearIcon from "@mui/icons-material/Clear";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { toast } from "react-toastify";
-import {deleteCourse, fetchCourses} from "../coursesThunks.ts";
+import { deleteCourse, fetchCourses } from "../coursesThunks.ts";
 import { selectDeleteCourseLoading } from "../coursesSlice.ts";
 
 interface Props {
@@ -59,19 +60,19 @@ const CourseCard: React.FC<Props> = ({ course, isShort }) => {
         <CardHeader
           title={
             <Grid container alignItems="center" justifyContent="space-between">
-              <Tooltip title={course.title} placement="top" >
+              <Tooltip title={course.title} placement="top">
                 <Typography
-                    component={NavLink}
-                    to={`/courses/${course._id}`}
-                    variant="h6"
-                    sx={{
-                      color: "#1a3b7e",
-                      textDecoration: "none",
-                      flex: "1",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
+                  component={NavLink}
+                  to={`/courses/${course._id}`}
+                  variant="h6"
+                  sx={{
+                    color: "#1a3b7e",
+                    textDecoration: "none",
+                    flex: "1",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
                 >
                   {course.title}
                 </Typography>
@@ -155,14 +156,17 @@ const CourseCard: React.FC<Props> = ({ course, isShort }) => {
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
               Тренер: {course.user.firstName} {course.user.lastName}
             </Typography>
-            <Typography variant="body2" sx={{
-              maxHeight: "100px",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              display: "-webkit-box",
-              WebkitLineClamp: 4,
-              WebkitBoxOrient: "vertical",
-            }}>
+            <Typography
+              variant="body2"
+              sx={{
+                maxHeight: "100px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: 4,
+                WebkitBoxOrient: "vertical",
+              }}
+            >
               О курсе - {course.description}
             </Typography>
             {!isShort && (

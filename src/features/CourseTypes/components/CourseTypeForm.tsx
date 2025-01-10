@@ -1,11 +1,11 @@
-import React, {useState} from "react";
-import {CourseTypeFields} from "../../../types/courseTypes.ts";
+import React, { useState } from "react";
+import { CourseTypeFields } from "../../../types/courseTypes.ts";
 import Grid from "@mui/material/Grid2";
-import {Button, TextField} from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
-import {useAppSelector} from "../../../app/hooks.ts";
-import {selectCreateCourseTypeError} from "../CourseTypesSlice.ts";
+import { useAppSelector } from "../../../app/hooks.ts";
+import { selectCreateCourseTypeError } from "../CourseTypesSlice.ts";
 
 interface Props {
   onSubmit: (courseType: CourseTypeFields) => void;

@@ -41,7 +41,9 @@ const EditGroup = () => {
   return (
     <Container maxWidth="md" sx={{ my: 5 }}>
       <Grid>
-        <Typography variant={"h4"} sx={{marginBottom:'20px'}}>Редактирование группы</Typography>
+        <Typography variant={"h4"} sx={{ marginBottom: "20px" }}>
+          Редактирование группы
+        </Typography>
         {isFetching ? (
           <LoadingIndicator />
         ) : (

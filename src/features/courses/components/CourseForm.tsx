@@ -28,7 +28,7 @@ import {
   selectTrainerProfile,
   selectTrainerProfileLoading,
 } from "../../trainers/trainersSlice.ts";
-import {selectUser} from "../../users/userSlice.ts";
+import { selectUser } from "../../users/userSlice.ts";
 
 interface Props {
   onSubmit: (course: CourseMutation) => void;
@@ -62,7 +62,7 @@ const CourseForm: React.FC<Props> = ({
   useEffect(() => {
     dispatch(fetchCourseTypes());
     dispatch(getTrainerProfile(user?._id as string));
-  }, [dispatch , user?._id]);
+  }, [dispatch, user?._id]);
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();

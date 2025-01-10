@@ -3,7 +3,7 @@ import { createCertificate, getTrainerProfile } from "./trainersThunks.ts";
 import AddTrainerCertificates from "./components/addTrainerCertificates.tsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectTrainerProfile } from "./trainersSlice.ts";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 const NewAddTrainerCertificates = () => {
   const dispatch = useAppDispatch();
