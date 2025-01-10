@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../../app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectCourseTypes } from "../../CourseTypes/CourseTypesSlice.ts";
 import imageNotFound from "/src/assets/images/user-icon-not-found.png";
 import { apiURL, findCourseTypes } from "../../../constants.ts";
@@ -30,6 +30,10 @@ import SchoolIcon from "@mui/icons-material/School";
 import HealingIcon from "@mui/icons-material/Healing";
 import AvatarUploader from "../../../UI/Avatar/AvatarUploader.tsx";
 import { IClient } from "../../../types/clientTypes.ts";
+import { selectFetchGroups, selectGroups } from "../../groups/groupsSlice.ts";
+import { fetchAllGroups } from "../../groups/groupsThunk.ts";
+import SubscribedGroupCard from "../../groups/components/SubscribedGroupCard.tsx";
+import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 interface ClientsProfileDetailsProps {
   clientsProfile: IClient;
@@ -43,8 +47,17 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
   isOwner,
 }) => {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
+  const dispatch = useAppDispatch();
   const courseTypes = useAppSelector(selectCourseTypes);
+  const groups = useAppSelector(selectGroups);
+  const isLoading = useAppSelector(selectFetchGroups);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (clientsProfile) {
+      dispatch(fetchAllGroups());
+    }
+  }, [dispatch, clientsProfile]);
 
   let cardImage = imageNotFound;
 
@@ -132,8 +145,9 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                 >
                   <Box
                     display="flex"
-                    justifyContent="space-betwee+n"
+                    justifyContent="start"
                     alignItems="center"
+                    gap="10px"
                   >
                     <Typography
                       variant={isSmallScreen ? "h5" : "h4"}
@@ -195,7 +209,9 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                     <CelebrationIcon />
                     {isSmallScreen ? <></> : <strong>Дата рождения:</strong>}
                     <span>
-                      {clientsProfile?.user.dateOfBirth?.slice(0, 10) || "N/A"}
+                      {clientsProfile?.user?.dateOfBirth
+                        ? clientsProfile.user.dateOfBirth.slice(0, 10)
+                        : "N/A"}
                     </span>
                   </Typography>
                   <Typography
@@ -227,7 +243,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                     }}
                   >
                     <SportsGymnasticsIcon />
-                    {isSmallScreen ? <></> : <strong>Предпочитения:</strong>}
+                    {isSmallScreen ? <></> : <strong>Предпочтения:</strong>}
                     {preferredWorkoutType.map((type, index) => {
                       return (
                         <span key={type._id}>
@@ -305,44 +321,6 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                     </Typography>
                   </Collapse>
                 </Box>
-
-                <Box sx={{ textAlign: "start", marginBottom: "20px" }}>
-                  <Typography variant="h6" sx={{ fontWeight: "600" }}>
-                    Подписки
-                  </Typography>
-                  <Box
-                    sx={{
-                      backgroundColor: "#dff3fc",
-                      padding: "15px",
-                      borderRadius: "8px",
-                      marginTop: "10px",
-                    }}
-                  >
-                    {clientsProfile?.subscribes?.length === 0 ? (
-                      <Typography
-                        variant="h6"
-                        sx={{ fontSize: "12px", color: "#01579B" }}
-                      >
-                        Нет активных подписок на тренировки
-                      </Typography>
-                    ) : (
-                      clientsProfile?.subscribes?.map((subscription) => (
-                        <Link
-                          key={subscription._id}
-                          to={`/courses/${subscription._id}`}
-                          style={{ textDecoration: "none" }}
-                        >
-                          <Typography
-                            variant="body2"
-                            sx={{ fontSize: "12px", color: "#01579B" }}
-                          >
-                            {subscription.title}
-                          </Typography>
-                        </Link>
-                      ))
-                    )}
-                  </Box>
-                </Box>
               </Grid>
             </Grid>
           </Container>
@@ -353,6 +331,45 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
             onClose={handleClose}
           />
         </Box>
+        <Container maxWidth="lg" sx={{ py: 5 }}>
+          <Box
+            sx={{
+              textAlign: isSmallScreen ? "center" : "start",
+              marginBottom: "20px",
+              backgroundColor: "white",
+            }}
+          >
+            <Typography variant="h5" sx={{ fontWeight: "600" }}>
+              Подписки:
+            </Typography>
+            <Box
+              sx={{
+                borderRadius: "8px",
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: isSmallScreen ? "center" : "start",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: "20px",
+              }}
+            >
+              {isLoading ? (
+                <LoadingIndicator />
+              ) : groups.length === 0 ? (
+                <Typography
+                  variant="h6"
+                  sx={{ fontSize: "12px", color: "#01579B" }}
+                >
+                  Нет активных подписок на тренировки
+                </Typography>
+              ) : (
+                groups.map((group) => (
+                  <SubscribedGroupCard key={group._id} group={group} id={id} />
+                ))
+              )}
+            </Box>
+          </Box>
+        </Container>
       </>
     )
   );

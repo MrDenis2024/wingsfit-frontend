@@ -20,7 +20,7 @@ import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { deleteGroup, fetchAllGroups } from "../groupsThunk.ts";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -199,10 +199,12 @@ const GroupCard: React.FC<Props> = ({
                       borderColor: "black",
                       fontSize: { xs: "16px", sm: "24px" },
                       backgroundColor: "#14e6dc",
-                      borderRadius: "0",
+                      borderRadius: "8px",
+                      boxShadow: "0px 4px 10px rgba(20, 230, 220, 0.5)",
                       "&:hover": {
                         backgroundColor: "#dff3fc",
                         borderColor: "#0288D1",
+                        transform: "scale(1.05)",
                       },
                       ml: 1,
                     }}
@@ -211,19 +213,21 @@ const GroupCard: React.FC<Props> = ({
                   </IconButton>
                   <IconButton
                     sx={{
-                      color: "black",
-                      borderColor: "black",
+                      color: "white",
+                      borderColor: "transparent",
                       fontSize: { xs: "16px", sm: "24px" },
-                      backgroundColor: "#14e6dc",
-                      borderRadius: "0",
+                      backgroundColor: "#d32f2f",
+                      borderRadius: "8px",
+                      boxShadow: "0px 4px 10px rgba(211, 47, 47, 0.5)",
                       "&:hover": {
-                        backgroundColor: "#dff3fc",
-                        borderColor: "#0288D1",
+                        backgroundColor: "#b71c1c",
+                        borderColor: "#d32f2f",
+                        transform: "scale(1.05)",
                       },
                       ml: 1,
                     }}
                   >
-                    <DeleteOutlineIcon />
+                    <PersonRemoveIcon />
                   </IconButton>
                 </Grid>
               </ListItem>
