@@ -30,7 +30,7 @@ import { Link } from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AvatarUploader from "../../../UI/Avatar/AvatarUploader.tsx";
-import ChatButton from "./ChatButton.tsx";
+import ChatButton from "../../chat/components/ChatButton.tsx";
 
 interface TrainerProfileDetailsProps {
   trainerProfile: ITrainer | null;
@@ -235,6 +235,10 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   <ChatButton
                     firstPersonId={trainerProfile.user._id}
                     secondPersonId={clientId}
+                    buttonText="Связаться с тренером"
+                    children={{
+                      width: "fit-content",
+                    }}
                   />
                 )}
               </Box>
