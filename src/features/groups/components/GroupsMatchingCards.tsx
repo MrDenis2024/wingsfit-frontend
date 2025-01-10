@@ -28,7 +28,6 @@ const GroupsMatchingCards: React.FC<Props> = ({ groups, itemsPerSlide }) => {
   const slides = groupsDataInToSlides(groups, itemsPerSlide);
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLoading = useAppSelector(selectFetchingTrainers);
-  const isSmall = useMediaQuery("(max-width: 840px)");
   const isMedium = useMediaQuery("(max-width: 1220px)");
 
   const handleNext = () => {
@@ -50,29 +49,31 @@ const GroupsMatchingCards: React.FC<Props> = ({ groups, itemsPerSlide }) => {
           >
             {slides.map((slide, index) => (
               <Grid
+                container
+                spacing={2}
                 key={index}
                 sx={{
                   minWidth: "100%",
                   padding: 2,
                   px: isMedium ? 2 : 6,
                 }}
+                display="flex"
+                justifyContent="space-around"
+                flexWrap="nowrap"
               >
-                <Grid
-                  container
-                  spacing={2}
-                  justifyContent={isSmall ? "space-evenly" : "stretch"}
-                >
-                  {slide.map((group) => (
-                    <Grid
-                      key={group._id}
-                      size={{ md: 4, lg: 4, sm: 6, xs: 12 }}
-                      display="flex"
-                      justifyContent="center"
-                    >
-                      <GroupMatchingCard group={group} />
-                    </Grid>
-                  ))}
-                </Grid>
+                {slide.map((group) => (
+                  <Grid
+                    key={group._id}
+                    size={{
+                      sm: 6,
+                      xs: 12,
+                    }}
+                    display="flex"
+                    justifyContent="center"
+                  >
+                    <GroupMatchingCard group={group} />
+                  </Grid>
+                ))}
               </Grid>
             ))}
           </CarouselSlider>

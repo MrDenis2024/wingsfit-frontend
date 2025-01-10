@@ -56,14 +56,15 @@ const TrainersMatchingCards: React.FC<Props> = ({
                 sx={{
                   minWidth: "100%",
                   py: 2,
-                  px: isSmall ? 2 : 6,
+                  px: isSmall ? 2 : 4,
                 }}
               >
                 <Grid
                   container
                   spacing={2}
                   display="flex"
-                  justifyContent={isSmall ? "center" : "center"}
+                  justifyContent="center"
+                  flexWrap="nowrap"
                 >
                   {slide.map((trainer) => (
                     <TrainerCard
