@@ -62,7 +62,7 @@ const CourseForm: React.FC<Props> = ({
   useEffect(() => {
     dispatch(fetchCourseTypes());
     dispatch(getTrainerProfile(user?._id as string));
-  }, [dispatch]);
+  }, [dispatch , user?._id]);
 
   const submitFormHandler = (event: React.FormEvent) => {
     event.preventDefault();

@@ -30,7 +30,7 @@ const TrainerRegisterForm: React.FC<Props> = ({
   updatePersonalInfo,
 }) => {
   const courseTypes = useAppSelector(selectCourseTypes);
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchCourseTypes());
   }, [dispatch]);
