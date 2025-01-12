@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   GlobalError,
+  IUser,
   UserProfile,
   ValidationError,
 } from "../../types/userTypes";
 import {
+  fetchUsers,
   googleLogin,
   login,
   loginAdmin,
@@ -21,6 +23,8 @@ interface UserState {
   registerError: ValidationError | null;
   adminLoginLoading: boolean;
   adminLoginError: GlobalError | null;
+  items: IUser[];
+  itemsFetching: boolean;
 }
 
 const initialState: UserState = {
@@ -32,6 +36,8 @@ const initialState: UserState = {
   registerError: null,
   adminLoginLoading: false,
   adminLoginError: null,
+  items: [],
+  itemsFetching: false,
 };
 
 export const userSlice = createSlice({
@@ -104,6 +110,17 @@ export const userSlice = createSlice({
         state.adminLoginLoading = false;
         state.adminLoginError = error || null;
       });
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.itemsFetching = true;
+      })
+      .addCase(fetchUsers.fulfilled, (state, { payload: users }) => {
+        state.itemsFetching = false;
+        state.items = users;
+      })
+      .addCase(fetchUsers.rejected, (state) => {
+        state.itemsFetching = false;
+      });
   },
   selectors: {
     selectUser: (state) => state.user,
@@ -114,6 +131,8 @@ export const userSlice = createSlice({
     selectRegisterError: (state) => state.registerError,
     selectLoginAdminLoading: (state) => state.adminLoginLoading,
     selectLoginAdminError: (state) => state.adminLoginError,
+    selectUsers: (state) => state.items,
+    selectUsersFetching: (state) => state.itemsFetching,
   },
 });
 
@@ -130,4 +149,6 @@ export const {
   selectRegisterError,
   selectLoginAdminLoading,
   selectLoginAdminError,
+  selectUsers,
+  selectUsersFetching,
 } = userSlice.selectors;

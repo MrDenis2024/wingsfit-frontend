@@ -5,6 +5,7 @@ import {
   UserLogin,
   UserMutation,
   ValidationError,
+  IUser,
 } from "../../types/userTypes";
 import { isAxiosError } from "axios";
 import axiosApi from "../../axiosApi";
@@ -12,6 +13,14 @@ import { unsetUser } from "./userSlice.ts";
 import { AdminMutation } from "../../types/adminTypes.ts";
 import { resetSearchCourses } from "../courses/coursesSlice.ts";
 import { resetSearchTrainers } from "../trainers/trainersSlice.ts";
+
+export const fetchUsers = createAsyncThunk<IUser[], void>(
+  "users/fetchAll",
+  async () => {
+    const { data: users } = await axiosApi.get<IUser[]>("/users");
+    return users;
+  },
+);
 
 export const reloadUser = createAsyncThunk<UserProfile>(
   "users/reload",

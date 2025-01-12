@@ -26,7 +26,8 @@ export const fetchAllGroups = createAsyncThunk<IGroup[], void>(
 export const fetchMatchingGroups = createAsyncThunk<IMatchingGroup[], void>(
   "groups/fetchMatching",
   async () => {
-    const { data: groupsData } = await axiosApi.get<IMatchingGroup[]>("/groups/matching");
+    const { data: groupsData } =
+      await axiosApi.get<IMatchingGroup[]>("/groups/matching");
 
     if (!groupsData) {
       return [];
