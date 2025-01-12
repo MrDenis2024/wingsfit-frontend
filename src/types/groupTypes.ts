@@ -27,6 +27,8 @@ export interface IGroup {
     };
     addedAt: Date;
     subscribeEnd: Date;
+    status: string;
+    frozenAt: Date;
   }[];
   maxClients: number;
   scheduleLength: number;

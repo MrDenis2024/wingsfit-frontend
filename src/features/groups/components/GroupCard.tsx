@@ -15,16 +15,29 @@ import Grid from "@mui/material/Grid2";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectUser } from "../../users/userSlice.ts";
-import { selectDeleteGroupLoading } from "../groupsSlice.ts";
+import {
+  selectActivateClientLoading,
+  selectDeleteGroupLoading,
+  selectFreezeClientLoading,
+  selectRemoveClientLoading,
+} from "../groupsSlice.ts";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
-import { deleteGroup, fetchAllGroups } from "../groupsThunk.ts";
+import {
+  activateClient,
+  deleteGroup,
+  fetchAllGroups,
+  freezeClient,
+  removeClient,
+} from "../groupsThunk.ts";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
+import WhatshotIcon from "@mui/icons-material/Whatshot";
+import { GlobalError } from "../../../types/userTypes.ts";
 
 interface Props {
   group: IGroup;
@@ -40,7 +53,16 @@ const GroupCard: React.FC<Props> = ({
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const deleteGroupLoading = useAppSelector(selectDeleteGroupLoading);
+  const deleteClientLoading = useAppSelector(selectRemoveClientLoading);
+  const freezeLoading = useAppSelector(selectFreezeClientLoading);
+  const activeLoading = useAppSelector(selectActivateClientLoading);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [confirmClientDelete, setConfirmClientDelete] = useState(false);
+  const [clientToDelete, setClientToDelete] = useState<{
+    id: string;
+    firstName: string;
+    lastName: string;
+  } | null>(null);
 
   const handleGroupDelete = async (groupId: string) => {
     try {
@@ -51,6 +73,48 @@ const GroupCard: React.FC<Props> = ({
       toast.error("Произошла ошибка при удалении группы");
     } finally {
       setConfirmOpen(false);
+    }
+  };
+
+  const handleClientDelete = async (clientId: string) => {
+    try {
+      await dispatch(removeClient({ id: group._id, clientId })).unwrap();
+      dispatch(fetchAllGroups());
+      toast.success("Клиент успешно удален из группы");
+    } catch (error) {
+      toast.error((error as GlobalError).error || "Произошла ошибка");
+    } finally {
+      setConfirmClientDelete(false);
+      setClientToDelete(null);
+    }
+  };
+
+  const handleOpenClientDeleteConfirm = (
+    clientId: string,
+    firstName: string,
+    lastName: string,
+  ) => {
+    setClientToDelete({ id: clientId, firstName, lastName });
+    setConfirmClientDelete(true);
+  };
+
+  const handleFreezeClient = async (clientId: string) => {
+    try {
+      await dispatch(freezeClient({ id: group._id, clientId })).unwrap();
+      dispatch(fetchAllGroups());
+      toast.success("Клиент успешно заморожен");
+    } catch (error) {
+      toast.error((error as GlobalError).error || "Произошла ошибка");
+    }
+  };
+
+  const handleActiveClient = async (clientId: string) => {
+    try {
+      await dispatch(activateClient({ id: group._id, clientId })).unwrap();
+      dispatch(fetchAllGroups());
+      toast.success("Клиент успешно разморожен");
+    } catch (error) {
+      toast.error((error as GlobalError).error || "Произошла ошибка");
     }
   };
 
@@ -193,24 +257,66 @@ const GroupCard: React.FC<Props> = ({
                   </Typography>
                 </Link>
                 <Grid>
-                  <IconButton
-                    sx={{
-                      color: "black",
-                      borderColor: "black",
-                      fontSize: { xs: "16px", sm: "24px" },
-                      backgroundColor: "#14e6dc",
-                      borderRadius: "8px",
-                      boxShadow: "0px 4px 10px rgba(20, 230, 220, 0.5)",
-                      "&:hover": {
-                        backgroundColor: "#dff3fc",
-                        borderColor: "#0288D1",
-                        transform: "scale(1.05)",
-                      },
-                      ml: 1,
-                    }}
-                  >
-                    <AcUnitIcon />
-                  </IconButton>
+                  {client.status === "active" && (
+                    <IconButton
+                      sx={{
+                        color: "black",
+                        borderColor: "black",
+                        fontSize: { xs: "16px", sm: "24px" },
+                        backgroundColor: "#14e6dc",
+                        borderRadius: "8px",
+                        boxShadow: "0px 4px 10px rgba(20, 230, 220, 0.5)",
+                        "&:hover": {
+                          backgroundColor: "#dff3fc",
+                          borderColor: "#0288D1",
+                          transform: "scale(1.05)",
+                        },
+                        ml: 1,
+                      }}
+                      onClick={() => handleFreezeClient(client.client._id)}
+                      disabled={
+                        freezeLoading
+                          ? freezeLoading === client.client._id
+                          : false
+                      }
+                    >
+                      {freezeLoading === client.client._id ? (
+                        <CircularProgress size={24} />
+                      ) : (
+                        <AcUnitIcon />
+                      )}
+                    </IconButton>
+                  )}
+                  {client.status === "frozen" && (
+                    <IconButton
+                      sx={{
+                        color: "white",
+                        borderColor: "transparent",
+                        fontSize: { xs: "16px", sm: "24px" },
+                        backgroundColor: "#ff6347",
+                        borderRadius: "8px",
+                        boxShadow: "0px 4px 10px rgba(255, 99, 71, 0.5)",
+                        "&:hover": {
+                          backgroundColor: "#ff4500",
+                          borderColor: "#ff6347",
+                          transform: "scale(1.05)",
+                        },
+                        ml: 1,
+                      }}
+                      onClick={() => handleActiveClient(client.client._id)}
+                      disabled={
+                        activeLoading
+                          ? activeLoading === client.client._id
+                          : false
+                      }
+                    >
+                      {activeLoading === client.client._id ? (
+                        <CircularProgress size={24} />
+                      ) : (
+                        <WhatshotIcon />
+                      )}
+                    </IconButton>
+                  )}
                   <IconButton
                     sx={{
                       color: "white",
@@ -226,8 +332,24 @@ const GroupCard: React.FC<Props> = ({
                       },
                       ml: 1,
                     }}
+                    disabled={
+                      deleteClientLoading
+                        ? deleteClientLoading === client.client._id
+                        : false
+                    }
+                    onClick={() =>
+                      handleOpenClientDeleteConfirm(
+                        client.client._id,
+                        client.client.firstName,
+                        client.client.lastName,
+                      )
+                    }
                   >
-                    <PersonRemoveIcon />
+                    {deleteClientLoading === client.client._id ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      <PersonRemoveIcon />
+                    )}
                   </IconButton>
                 </Grid>
               </ListItem>
@@ -245,6 +367,20 @@ const GroupCard: React.FC<Props> = ({
         cancelText="Отмена"
         onConfirm={() => handleGroupDelete(group._id)}
         onCancel={() => setConfirmOpen(false)}
+      />
+      <CustomConfirmDialog
+        open={confirmClientDelete}
+        title="Удалить клиента из группы"
+        description={`Вы уверены, что хотите удалить клиента "${clientToDelete?.firstName} ${clientToDelete?.lastName}" из группы?`}
+        confirmText="Удалить"
+        cancelText="Отмена"
+        onConfirm={() =>
+          clientToDelete && handleClientDelete(clientToDelete.id)
+        }
+        onCancel={() => {
+          setConfirmClientDelete(false);
+          setClientToDelete(null);
+        }}
       />
     </>
   );

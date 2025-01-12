@@ -79,7 +79,8 @@ const GroupMatchingCard: React.FC<Props> = ({ group }) => {
             </Typography>
             <Typography variant="body2">Цена: {group.course.price}</Typography>
             <Typography variant="body2">
-              Количество доступных мест: {group.maxClients - group.clients.length}
+              Количество доступных мест:{" "}
+              {group.maxClients - group.clients.length}
             </Typography>
           </CardContent>
           <Typography

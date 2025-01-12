@@ -26,7 +26,8 @@ export const fetchAllGroups = createAsyncThunk<IGroup[], void>(
 export const fetchMatchingGroups = createAsyncThunk<IMatchingGroup[], void>(
   "groups/fetchMatching",
   async () => {
-    const { data: groupsData } = await axiosApi.get<IMatchingGroup[]>("/groups/matching");
+    const { data: groupsData } =
+      await axiosApi.get<IMatchingGroup[]>("/groups/matching");
 
     if (!groupsData) {
       return [];
@@ -84,6 +85,72 @@ export const editGroup = createAsyncThunk<
 >("groups/editGroup", async ({ id, group }, { rejectWithValue }) => {
   try {
     await axiosApi.put(`/groups/${id}`, group);
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data);
+    }
+    throw e;
+  }
+});
+
+export const updateSubscribe = createAsyncThunk<
+  void,
+  { id: string; clientId: string; newSubscribeEnd: Date },
+  { rejectValue: GlobalError }
+>(
+  "groups/updateSubscribe",
+  async ({ id, clientId, newSubscribeEnd }, { rejectWithValue }) => {
+    try {
+      await axiosApi.patch(`/groups/update_subscribe/${id}`, {
+        clientId,
+        newSubscribeEnd,
+      });
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data);
+      }
+      throw e;
+    }
+  },
+);
+
+export const removeClient = createAsyncThunk<
+  void,
+  { id: string; clientId: string },
+  { rejectValue: GlobalError }
+>("groups/removeClient", async ({ id, clientId }, { rejectWithValue }) => {
+  try {
+    await axiosApi.patch(`/groups/remove/${id}`, { clientId });
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data);
+    }
+    throw e;
+  }
+});
+
+export const freezeClient = createAsyncThunk<
+  void,
+  { id: string; clientId: string },
+  { rejectValue: GlobalError }
+>("groups/frozenClient", async ({ id, clientId }, { rejectWithValue }) => {
+  try {
+    await axiosApi.patch(`/groups/frozen/${id}`, { clientId });
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data);
+    }
+    throw e;
+  }
+});
+
+export const activateClient = createAsyncThunk<
+  void,
+  { id: string; clientId: string },
+  { rejectValue: GlobalError }
+>("groups/activateClient", async ({ id, clientId }, { rejectWithValue }) => {
+  try {
+    await axiosApi.patch(`/groups/active/${id}`, { clientId });
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data);
