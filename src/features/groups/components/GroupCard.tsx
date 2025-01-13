@@ -5,9 +5,11 @@ import {
   Alert,
   Button,
   CircularProgress,
+  FormControl,
   IconButton,
   List,
   ListItem,
+  TextField,
   Typography,
 } from "@mui/material";
 import { IGroup } from "../../../types/groupTypes.ts";
@@ -29,6 +31,7 @@ import {
   fetchAllGroups,
   freezeClient,
   removeClient,
+  updateSubscribe,
 } from "../groupsThunk.ts";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
@@ -38,6 +41,8 @@ import { Link } from "react-router-dom";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { GlobalError } from "../../../types/userTypes.ts";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import Modal from "../../../UI/Modal/Modal.tsx";
 
 interface Props {
   group: IGroup;
@@ -63,6 +68,14 @@ const GroupCard: React.FC<Props> = ({
     firstName: string;
     lastName: string;
   } | null>(null);
+  const [openSubscriptionDialog, setOpenSubscriptionDialog] = useState(false);
+  const [clientToExtend, setClientToExtend] = useState<{
+    id: string;
+    firstName: string;
+    lastName: string;
+    subscribeEnd: string;
+  } | null>(null);
+  const [newEndDate, setNewEndDate] = useState<string>("");
 
   const handleGroupDelete = async (groupId: string) => {
     try {
@@ -115,6 +128,44 @@ const GroupCard: React.FC<Props> = ({
       toast.success("Клиент успешно разморожен");
     } catch (error) {
       toast.error((error as GlobalError).error || "Произошла ошибка");
+    }
+  };
+
+  const handleOpenSubscriptionDialog = (
+    clientId: string,
+    firstName: string,
+    lastName: string,
+    subscribeEnd: Date,
+  ) => {
+    const formattedEndDate = new Date(subscribeEnd).toISOString().split("T")[0];
+    setClientToExtend({
+      id: clientId,
+      firstName,
+      lastName,
+      subscribeEnd: formattedEndDate,
+    });
+    setOpenSubscriptionDialog(true);
+  };
+
+  const handleExtendSubscription = async () => {
+    if (clientToExtend && newEndDate) {
+      try {
+        await dispatch(
+          updateSubscribe({
+            id: group._id,
+            clientId: clientToExtend.id,
+            newSubscribeEnd: newEndDate,
+          }),
+        ).unwrap();
+        dispatch(fetchAllGroups());
+        toast.success("Подписка успешно продлена");
+      } catch (error) {
+        toast.error((error as GlobalError).error || "Произошла ошибка");
+      } finally {
+        setOpenSubscriptionDialog(false);
+        setNewEndDate("");
+        setClientToExtend(null);
+      }
     }
   };
 
@@ -351,6 +402,32 @@ const GroupCard: React.FC<Props> = ({
                       <PersonRemoveIcon />
                     )}
                   </IconButton>
+                  <IconButton
+                    sx={{
+                      color: "white",
+                      borderColor: "transparent",
+                      fontSize: { xs: "16px", sm: "24px" },
+                      backgroundColor: "#027a02",
+                      borderRadius: "8px",
+                      boxShadow: "0px 4px 10px rgba(255, 99, 71, 0.5)",
+                      "&:hover": {
+                        backgroundColor: "#027a02",
+                        borderColor: "#027a02",
+                        transform: "scale(1.05)",
+                      },
+                      ml: 1,
+                    }}
+                    onClick={() =>
+                      handleOpenSubscriptionDialog(
+                        client.client._id,
+                        client.client.firstName,
+                        client.client.lastName,
+                        client.subscribeEnd,
+                      )
+                    }
+                  >
+                    <AccessTimeIcon />
+                  </IconButton>
                 </Grid>
               </ListItem>
             ))
@@ -382,6 +459,48 @@ const GroupCard: React.FC<Props> = ({
           setClientToDelete(null);
         }}
       />
+      <Modal
+        show={openSubscriptionDialog}
+        onClose={() => setOpenSubscriptionDialog(false)}
+        title={`Продлить подписку клиенту ${clientToExtend?.firstName} ${clientToExtend?.lastName}?`}
+      >
+        <Grid>
+          <Typography>
+            Текущая дата окончания подписки:{" "}
+            {clientToExtend?.subscribeEnd
+              ? new Date(clientToExtend.subscribeEnd).toLocaleDateString()
+              : "Дата не указана"}
+          </Typography>
+          <FormControl fullWidth margin="normal">
+            <TextField
+              label="Новая дата окончания подписки"
+              type="date"
+              value={newEndDate}
+              onChange={(e) => setNewEndDate(e.target.value)}
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
+            />
+          </FormControl>
+        </Grid>
+        <Grid container justifyContent="flex-end">
+          <Button
+            onClick={() => setOpenSubscriptionDialog(false)}
+            color="primary"
+          >
+            Отмена
+          </Button>
+          <Button
+            onClick={handleExtendSubscription}
+            color="primary"
+            disabled={!newEndDate}
+          >
+            Подтвердить
+          </Button>
+        </Grid>
+      </Modal>
     </>
   );
 };

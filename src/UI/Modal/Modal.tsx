@@ -25,7 +25,7 @@ const Modal: React.FC<Props> = ({ show, onClose, title, children }) => {
         },
       }}
     >
-      <DialogTitle variant="h4" textAlign="center">
+      <DialogTitle variant="h5" textAlign="center">
         {title}
       </DialogTitle>
       <DialogContent>{children}</DialogContent>

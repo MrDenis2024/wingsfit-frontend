@@ -95,7 +95,7 @@ export const editGroup = createAsyncThunk<
 
 export const updateSubscribe = createAsyncThunk<
   void,
-  { id: string; clientId: string; newSubscribeEnd: Date },
+  { id: string; clientId: string; newSubscribeEnd: string },
   { rejectValue: GlobalError }
 >(
   "groups/updateSubscribe",
