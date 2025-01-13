@@ -1,13 +1,17 @@
 import { GlobalError, ValidationError } from "../../types/userTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  activateClient,
   createGroup,
   deleteGroup,
   editGroup,
   fetchAllGroups,
   fetchCourseGroups,
   fetchMatchingGroups,
+  freezeClient,
   getOneGroup,
+  removeClient,
+  updateSubscribe,
 } from "./groupsThunk.ts";
 import { IGroup, IMatchingGroup } from "../../types/groupTypes.ts";
 
@@ -24,6 +28,10 @@ export interface GroupsState {
   updateLoading: boolean;
   isGroupError: ValidationError | null;
   deleteGroupLoading: false | string;
+  subscribeLoading: boolean;
+  removeClientLoading: false | string;
+  freezeClientLoading: false | string;
+  activateClientLoading: false | string;
 }
 
 const initialState: GroupsState = {
@@ -39,6 +47,10 @@ const initialState: GroupsState = {
   updateLoading: false,
   isGroupError: null,
   deleteGroupLoading: false,
+  subscribeLoading: false,
+  removeClientLoading: false,
+  freezeClientLoading: false,
+  activateClientLoading: false,
 };
 
 export const groupsSlice = createSlice({
@@ -128,6 +140,50 @@ export const groupsSlice = createSlice({
       });
 
     builder
+      .addCase(updateSubscribe.pending, (state) => {
+        state.subscribeLoading = true;
+      })
+      .addCase(updateSubscribe.fulfilled, (state) => {
+        state.subscribeLoading = false;
+      })
+      .addCase(updateSubscribe.rejected, (state) => {
+        state.subscribeLoading = false;
+      });
+
+    builder
+      .addCase(freezeClient.pending, (state, { meta: { arg } }) => {
+        state.freezeClientLoading = arg.clientId;
+      })
+      .addCase(freezeClient.fulfilled, (state) => {
+        state.freezeClientLoading = false;
+      })
+      .addCase(freezeClient.rejected, (state) => {
+        state.freezeClientLoading = false;
+      });
+
+    builder
+      .addCase(removeClient.pending, (state, { meta: { arg } }) => {
+        state.removeClientLoading = arg.clientId;
+      })
+      .addCase(removeClient.fulfilled, (state) => {
+        state.removeClientLoading = false;
+      })
+      .addCase(removeClient.rejected, (state) => {
+        state.removeClientLoading = false;
+      });
+
+    builder
+      .addCase(activateClient.pending, (state, { meta: { arg } }) => {
+        state.activateClientLoading = arg.clientId;
+      })
+      .addCase(activateClient.fulfilled, (state) => {
+        state.activateClientLoading = false;
+      })
+      .addCase(activateClient.rejected, (state) => {
+        state.activateClientLoading = false;
+      });
+
+    builder
       .addCase(deleteGroup.pending, (state, { meta: { arg: group } }) => {
         state.deleteGroupLoading = group;
       })
@@ -151,6 +207,10 @@ export const groupsSlice = createSlice({
     selectGroupUpdateLoading: (state) => state.updateLoading,
     selectIsGroupError: (state) => state.isGroupError,
     selectDeleteGroupLoading: (state) => state.deleteGroupLoading,
+    selectSubscribeLoading: (state) => state.subscribeLoading,
+    selectRemoveClientLoading: (state) => state.removeClientLoading,
+    selectFreezeClientLoading: (state) => state.freezeClientLoading,
+    selectActivateClientLoading: (state) => state.activateClientLoading,
   },
 });
 
@@ -169,4 +229,8 @@ export const {
   selectGroupUpdateLoading,
   selectIsGroupError,
   selectDeleteGroupLoading,
+  selectSubscribeLoading,
+  selectRemoveClientLoading,
+  selectFreezeClientLoading,
+  selectActivateClientLoading,
 } = groupsSlice.selectors;
