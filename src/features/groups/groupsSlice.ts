@@ -28,7 +28,7 @@ export interface GroupsState {
   updateLoading: boolean;
   isGroupError: ValidationError | null;
   deleteGroupLoading: false | string;
-  subscribeLoading: boolean;
+  subscribeLoading: false | string;
   removeClientLoading: false | string;
   freezeClientLoading: false | string;
   activateClientLoading: false | string;
@@ -140,8 +140,8 @@ export const groupsSlice = createSlice({
       });
 
     builder
-      .addCase(updateSubscribe.pending, (state) => {
-        state.subscribeLoading = true;
+      .addCase(updateSubscribe.pending, (state, { meta: { arg } }) => {
+        state.subscribeLoading = arg.clientId;
       })
       .addCase(updateSubscribe.fulfilled, (state) => {
         state.subscribeLoading = false;
