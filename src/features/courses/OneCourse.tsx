@@ -244,7 +244,7 @@ const OneCourse = () => {
                     </Typography>
                   </Grid>
                 </Grid>
-                {user?._id !== trainerId && trainerId && user?._id &&  (
+                {user?._id !== trainerId && trainerId && user?._id && (
                   <ChatButton
                     firstPersonId={trainerId}
                     secondPersonId={user._id}

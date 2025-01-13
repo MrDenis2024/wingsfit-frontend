@@ -64,10 +64,13 @@ export const chatsSlice = createSlice({
       .addCase(createGroupChat.pending, (state) => {
         state.groupChatsFetching = true;
       })
-      .addCase(createGroupChat.fulfilled, (state, { payload: newGroupChat }) => {
-        state.groupChats.push(newGroupChat);
-        state.groupChatsFetching = false;
-      })
+      .addCase(
+        createGroupChat.fulfilled,
+        (state, { payload: newGroupChat }) => {
+          state.groupChats.push(newGroupChat);
+          state.groupChatsFetching = false;
+        },
+      )
       .addCase(createGroupChat.rejected, (state) => {
         state.groupChatsFetching = false;
       });
