@@ -6,7 +6,7 @@ import {
   editCourse,
   fetchCourses,
   fetchSearchCourses,
-  getOneCourse,
+  getOneCourse, joinToCourseGroup, migrateToAnotherCourseGroup,
 } from "./coursesThunks.ts";
 import { ICourse } from "../../types/courseTypes.ts";
 
@@ -21,6 +21,7 @@ export interface CoursesState {
   updateLoading: boolean;
   isCourseError: ValidationError | null;
   deleteCourseLoading: false | string;
+  addingToCourse: string|false,
 }
 
 const initialState: CoursesState = {
@@ -34,6 +35,7 @@ const initialState: CoursesState = {
   updateLoading: false,
   isCourseError: null,
   deleteCourseLoading: false,
+  addingToCourse: false,
 };
 
 export const coursesSlice = createSlice({
@@ -108,6 +110,22 @@ export const coursesSlice = createSlice({
         state.isCourseError = error || null;
       });
 
+    builder.addCase(joinToCourseGroup.pending, (state,{meta:{arg}}) => {
+      state.addingToCourse=arg.groupId;
+    }).addCase(joinToCourseGroup.fulfilled, (state) => {
+      state.addingToCourse=false;
+    }).addCase(joinToCourseGroup.rejected, (state) => {
+      state.addingToCourse=false;
+    });
+
+    builder.addCase(migrateToAnotherCourseGroup.pending, (state,{meta:{arg}}) => {
+      state.addingToCourse=arg.groupId;
+    }).addCase(migrateToAnotherCourseGroup.fulfilled, (state) => {
+      state.addingToCourse=false;
+    }).addCase(migrateToAnotherCourseGroup.rejected, (state) => {
+      state.addingToCourse=false;
+    });
+
     builder
       .addCase(deleteCourse.pending, (state, { meta: { arg: course } }) => {
         state.deleteCourseLoading = course;
@@ -130,6 +148,7 @@ export const coursesSlice = createSlice({
     selectCourseUpdateLoading: (state) => state.updateLoading,
     selectCourseError: (state) => state.isCourseError,
     selectDeleteCourseLoading: (state) => state.deleteCourseLoading,
+    selectAddingToCourse: (state) => state.addingToCourse,
   },
 });
 
@@ -148,4 +167,5 @@ export const {
   selectSearchCourses,
   selectSearchCoursesFetching,
   selectDeleteCourseLoading,
+    selectAddingToCourse,
 } = coursesSlice.selectors;

@@ -19,7 +19,7 @@ const Modal: React.FC<Props> = ({ show, onClose, title, children }) => {
         "& .MuiDialog-paper": {
           borderRadius: "12px",
           padding: "24px",
-          maxWidth: "500px",
+          maxWidth: "900px",
           width: "90vw",
           boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
         },
