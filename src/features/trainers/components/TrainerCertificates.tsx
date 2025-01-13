@@ -70,10 +70,10 @@ const TrainerCertificates: React.FC<Props> = ({ trainerProfile }) => {
       try {
         await dispatch(deleteCertificate(selectedCertificate._id)).unwrap();
         dispatch(getTrainerProfile(trainerProfile.user._id));
-        toast.success("Certificate deleted successfully.");
+        toast.success("Сертификат успешно удален.");
       } catch (error) {
         console.error("Delete certificate error: ", error);
-        toast.error("Failed to delete certificate.");
+        toast.error("Ошибка при попытке удалить сертификат");
       } finally {
         setIsConfirmDialogOpen(false);
       }

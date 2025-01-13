@@ -3,6 +3,7 @@ import { createCertificate, getTrainerProfile } from "./trainersThunks.ts";
 import AddTrainerCertificates from "./components/addTrainerCertificates.tsx";
 import { useAppDispatch, useAppSelector } from "../../app/hooks.ts";
 import { selectTrainerProfile } from "./trainersSlice.ts";
+import { toast } from "react-toastify";
 
 const NewAddTrainerCertificates = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ const NewAddTrainerCertificates = () => {
       for (const certificate of certificates) {
         await dispatch(createCertificate([certificate]));
         dispatch(getTrainerProfile(trainerProfile!.user._id));
+        toast.success("Сертификат успешно добавлен!");
       }
     } catch (error) {
       console.error("Ошибка при создании сертификатов", error);

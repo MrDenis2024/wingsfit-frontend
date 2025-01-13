@@ -15,6 +15,47 @@ export interface IGroup {
     title: string;
     schedule: string[];
     user: string;
+    image: string | null;
+    price: number;
+  };
+  clients: {
+    _id: string;
+    client: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    addedAt: Date;
+    subscribeEnd: Date;
+    status: string;
+    frozenAt: Date;
+  }[];
+  maxClients: number;
+  scheduleLength: number;
+  startTime: string;
+  trainingLevel: string;
+}
+
+export interface IMatchingGroup {
+  _id: string;
+  title: string;
+  course: {
+    _id: string;
+    title: string;
+    schedule: string[];
+    user: {
+      _id: string;
+      firstName: string;
+      lastName: string;
+    };
+    courseType: {
+      _id: string;
+      name: string;
+    };
+    image: string;
+    description: string;
+    price: number;
+    format: string;
   };
   clients: {
     _id: string;

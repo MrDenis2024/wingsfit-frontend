@@ -5,6 +5,11 @@ import { GlobalError } from "../../types/userTypes.ts";
 import { isAxiosError } from "axios";
 import { RootState } from "../../app/store.ts";
 
+export const fetchClients = createAsyncThunk("clients/fetchAll", async () => {
+  const { data: clients } = await axiosApi.get<IClient[]>("/clients");
+  return clients;
+});
+
 export const getClientProfile = createAsyncThunk<
   IClient,
   string,

@@ -5,7 +5,7 @@ import { ITrainer } from "../../../types/trainerTypes.ts";
 import CarouselSlider from "../../../UI/CarouselSlider/CarouselSlider.tsx";
 import { useAppSelector } from "../../../app/hooks.ts";
 import { selectFetchingTrainers } from "../trainersSlice.ts";
-import { Alert } from "@mui/material";
+import { Alert, useMediaQuery } from "@mui/material";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 
 const groupTrainersIntoSlides = (
@@ -31,6 +31,7 @@ const TrainersMatchingCards: React.FC<Props> = ({
   const slides = groupTrainersIntoSlides(trainers, itemsPerSlide);
   const [currentSlide, setCurrentSlide] = useState(0);
   const isLoading = useAppSelector(selectFetchingTrainers);
+  const isSmall = useMediaQuery("(max-width: 840px)");
 
   const handleNext = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -54,10 +55,17 @@ const TrainersMatchingCards: React.FC<Props> = ({
                 key={index}
                 sx={{
                   minWidth: "100%",
-                  padding: 2,
+                  py: 2,
+                  px: isSmall ? 2 : 4,
                 }}
               >
-                <Grid container spacing={2} justifyContent="space-around">
+                <Grid
+                  container
+                  spacing={2}
+                  display="flex"
+                  justifyContent="center"
+                  flexWrap="nowrap"
+                >
                   {slide.map((trainer) => (
                     <TrainerCard
                       key={trainer._id}

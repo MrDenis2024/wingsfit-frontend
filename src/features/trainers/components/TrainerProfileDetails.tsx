@@ -188,7 +188,9 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   <CelebrationIcon />
                   {isSmallScreen ? <></> : <strong>Дата рождения: </strong>}
                   <span>
-                    {trainerProfile?.user.dateOfBirth.slice(0, 10) || "N/A"}
+                    {trainerProfile?.user?.dateOfBirth
+                      ? trainerProfile.user.dateOfBirth.slice(0, 10)
+                      : "N/A"}
                   </span>
                 </Typography>
                 <Typography

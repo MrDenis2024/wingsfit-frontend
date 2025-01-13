@@ -2,12 +2,15 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   createClientProfile,
   editClient,
+  fetchClients,
   getClientProfile,
 } from "./clientThunk.ts";
 import { IClient } from "../../types/clientTypes.ts";
 import { GlobalError } from "../../types/userTypes.ts";
 
 interface ClientState {
+  items: IClient[];
+  itemsFetching: boolean;
   clientProfile: IClient | null;
   clientProfileError: GlobalError | null;
   clientProfileLoading: boolean;
@@ -18,6 +21,8 @@ interface ClientState {
 }
 
 const initialState: ClientState = {
+  items: [],
+  itemsFetching: false,
   clientProfile: null,
   clientProfileError: null,
   clientProfileLoading: false,
@@ -36,6 +41,8 @@ export const clientSlice = createSlice({
     },
   },
   selectors: {
+    selectClients: (state) => state.items,
+    selectClientsFetching: (state) => state.itemsFetching,
     selectClientProfile: (state) => state.clientProfile,
     selectClientProfileLoading: (state) => state.clientProfileLoading,
     selectCreatingClientProfile: (state) => state.creatingClientProfile,
@@ -43,6 +50,17 @@ export const clientSlice = createSlice({
     selectEditClientLoading: (state) => state.editClientLoading,
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(fetchClients.pending, (state) => {
+        state.itemsFetching = true;
+      })
+      .addCase(fetchClients.fulfilled, (state, { payload: clients }) => {
+        state.itemsFetching = false;
+        state.items = clients;
+      })
+      .addCase(fetchClients.rejected, (state) => {
+        state.itemsFetching = false;
+      });
     builder
       .addCase(getClientProfile.pending, (state) => {
         state.clientProfileLoading = true;
@@ -88,6 +106,8 @@ export const clientSlice = createSlice({
 export const clientsReducer = clientSlice.reducer;
 
 export const {
+  selectClients,
+  selectClientsFetching,
   selectClientProfile,
   selectClientProfileLoading,
   selectCreatingClientProfile,
