@@ -6,7 +6,6 @@ import NewCourse from "./features/courses/NewCourse.tsx";
 import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
 import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
 import { selectUser } from "./features/users/userSlice.ts";
-import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import OneClient from "./features/clients/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
@@ -31,6 +30,7 @@ import EditCourse from "./features/courses/EditCourse.tsx";
 import SearchSelect from "./features/searchSelect/SearchSelect.tsx";
 import EditGroup from "./features/groups/EditGroup.tsx";
 import AdminCourseType from "./features/admin/admins/components/AdminCourseType.tsx";
+import GroupManagement from "./features/groups/GroupManagement.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -129,6 +129,14 @@ const App = () => {
             }
           />
           <Route
+            path="/trainer/groups"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <GroupManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/trainer/statistics"
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
@@ -136,6 +144,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/trainer/statistics/clients"
             element={
@@ -198,27 +207,12 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          {/*<Route*/}
-          {/*  path="/add-new-lesson"*/}
-          {/*  element={*/}
-          {/*    <ProtectedRoute isAllowed={!!user}>*/}
-          {/*      <AddNewLesson />*/}
-          {/*    </ProtectedRoute>*/}
-          {/*  }*/}
-          {/*/>*/}
+
           <Route
             path="/lessons"
             element={
               <ProtectedRoute isAllowed={!!user}>
                 <LessonsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/create-lesson"
-            element={
-              <ProtectedRoute isAllowed={!!user}>
-                <AddNewLesson />
               </ProtectedRoute>
             }
           />

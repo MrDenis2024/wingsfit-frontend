@@ -5,9 +5,16 @@ interface Props extends React.PropsWithChildren {
   show: boolean;
   onClose: () => void;
   title: string;
+  maxWidth?: number;
 }
 
-const Modal: React.FC<Props> = ({ show, onClose, title, children }) => {
+const Modal: React.FC<Props> = ({
+  show,
+  onClose,
+  title,
+  maxWidth,
+  children,
+}) => {
   return (
     <Dialog
       open={show}
@@ -19,7 +26,7 @@ const Modal: React.FC<Props> = ({ show, onClose, title, children }) => {
         "& .MuiDialog-paper": {
           borderRadius: "12px",
           padding: "24px",
-          maxWidth: "900px",
+          maxWidth: maxWidth ? `${maxWidth}px` : "500px",
           width: "90vw",
           boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
         },

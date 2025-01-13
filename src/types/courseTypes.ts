@@ -21,12 +21,12 @@ export interface CourseTypeFields {
 
 export interface CourseWaitList {
   _id: string;
-  user:{
+  user: {
     _id: string;
     firstName: string;
     lastName: string;
   };
-  createdAt:string;
+  createdAt: string;
   favoriteGroup: string;
   status: string;
 }
@@ -49,7 +49,7 @@ export interface ICourse {
   format: string;
   schedule: string[];
   price: number;
-  waitList:CourseWaitList[];
+  waitList: CourseWaitList[];
   image: string | null;
 }
 
@@ -62,12 +62,12 @@ export interface JoinCourseArg {
   id: string;
   groupId: string;
 }
-export interface JoinApproveArgs{
+export interface JoinApproveArgs {
   id: string;
   waitListId: string;
-  subscribeEndDate:string;
+  subscribeEndDate: string;
 }
-export interface JoinDeclineArgs{
+export interface JoinDeclineArgs {
   id: string;
   waitListId: string;
 }
