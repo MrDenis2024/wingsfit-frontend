@@ -1,6 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
 import {
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -8,21 +7,85 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { IGroup } from "../../../types/groupTypes.ts";
-import { useNavigate } from "react-router-dom";
+import {CourseWaitList} from "../../../types/courseTypes.ts";
+import {getOneCourse, joinToCourseGroup, migrateToAnotherCourseGroup} from "../coursesThunks.ts";
+import {toast} from "react-toastify";
+import LoadingButton from "@mui/lab/LoadingButton";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
+import {selectAddingToCourse} from "../coursesSlice.ts";
+import {selectUser} from "../../users/userSlice.ts";
+import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 
 interface Props {
   group: IGroup;
+  courseId: string;
+  waitListItem:CourseWaitList|undefined;
+  userIsClient:boolean;
 }
 
-const CoursesGroupCards: React.FC<Props> = ({ group }) => {
-  const navigate = useNavigate();
+const CoursesGroupCards: React.FC<Props> = ({ group, waitListItem,courseId, userIsClient }) => {
   const mediaQuery500 = useMediaQuery("(min-width:500px)");
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector(selectAddingToCourse);
+  const user = useAppSelector(selectUser);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const handleClickGroup = (idGroup: string) => {
-    navigate(`/groups/${idGroup}`);
+
+  let actionBtn = (
+      <></>
+  );
+
+  const handleClickGroup = () => {
+    setConfirmOpen(true);
+  };
+  const enterToGroup = async () => {
+    setConfirmOpen(false);
+    if(!userIsClient) {
+      await dispatch(joinToCourseGroup({id:courseId,groupId:group._id})).unwrap();
+    }else{
+      await dispatch(migrateToAnotherCourseGroup({id:courseId,groupId:group._id})).unwrap();
+    }
+    toast.success("Запрос отправлен, ожидайте подтверждение тренера!");
+    dispatch(getOneCourse(courseId));
   };
 
+  if (user?.role==='client') {
+    if (!userIsClient){
+      actionBtn = (
+          <LoadingButton
+              loading={loading===group._id}
+              size="small"
+              variant="contained"
+              disabled={!!waitListItem || (!!loading && loading!==group._id)}
+              onClick={() => handleClickGroup()}
+          >
+            {waitListItem?.favoriteGroup === group._id ?
+                <span>Заявка подана</span> :
+                <span>Вступить в группу</span>
+            }
+          </LoadingButton>
+      );
+    }else {
+      const userOnGroup = group.clients.find(item => item.client._id === user?._id);
+      actionBtn = (
+          <LoadingButton
+              loading={loading===group._id}
+              size="small"
+              variant="contained"
+              disabled={!!waitListItem || !!userOnGroup || (!!loading && loading!==group._id)}
+              onClick={() => handleClickGroup()}
+          >
+            {!userOnGroup ?
+                (waitListItem?.favoriteGroup === group._id ? <span>Заявка подана</span> : <span>Перейти в группу</span>)
+                :(<span>Ваша группа</span>)
+            }
+          </LoadingButton>
+      );
+    }
+  }
+
   return (
+      <>
     <Card
       sx={{
         width: mediaQuery500 ? "100%" : "210px",
@@ -56,15 +119,19 @@ const CoursesGroupCards: React.FC<Props> = ({ group }) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button
-          size="small"
-          variant="contained"
-          onClick={() => handleClickGroup(group._id)}
-        >
-          Вступить в группу
-        </Button>
+        {actionBtn}
       </CardActions>
     </Card>
+        <CustomConfirmDialog
+            open={confirmOpen}
+            title="Отклонить"
+            description="Вы уверены, что хотите подать заявку на вступление в эту группу? Если подадите заявку, то Вы не сможете подать заявку в другие группы этого курса до подтверждения тренера."
+            confirmText="Подтвердить"
+            cancelText="Отмена"
+            onConfirm={() => enterToGroup()}
+            onCancel={() => setConfirmOpen(false)}
+        />
+        </>
   );
 };
 
