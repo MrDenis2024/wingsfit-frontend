@@ -86,3 +86,25 @@ export const createPrivateChat = createAsyncThunk<
     }
   },
 );
+
+export const createGroupChat = createAsyncThunk<
+  GroupChat,
+  { groupId: string },
+  { rejectValue: GlobalError }
+>(
+  "chats/createGroupChat",
+  async ({ groupId }, { rejectWithValue }) => {
+    try {
+      const {data: groupChat} = await axiosApi.post<GroupChat>("/chats/start-groupChat", {
+        group: groupId,
+      });
+
+      return groupChat;
+    } catch (error) {
+      if (isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response.data);
+      }
+      throw error;
+    }
+  }
+);
