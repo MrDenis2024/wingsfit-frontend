@@ -5,6 +5,7 @@ export interface GroupChat {
   groupId: string;
   title: string;
   type: "group";
+  isTrainingUrl: boolean;
 }
 
 export interface PrivateChat {
