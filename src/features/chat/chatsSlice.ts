@@ -1,6 +1,7 @@
 import { GroupChat, PrivateChat } from "../../types/chatTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  createGroupChat,
   createPrivateChat,
   getGroupChats,
   getPrivateChats,
@@ -58,6 +59,17 @@ export const chatsSlice = createSlice({
       })
       .addCase(createPrivateChat.rejected, (state) => {
         state.privateChatsFetching = false;
+      });
+    builder
+      .addCase(createGroupChat.pending, (state) => {
+        state.groupChatsFetching = true;
+      })
+      .addCase(createGroupChat.fulfilled, (state, { payload: newGroupChat }) => {
+        state.groupChats.push(newGroupChat);
+        state.groupChatsFetching = false;
+      })
+      .addCase(createGroupChat.rejected, (state) => {
+        state.groupChatsFetching = false;
       });
   },
   selectors: {
