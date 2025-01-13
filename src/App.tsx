@@ -6,7 +6,6 @@ import NewCourse from "./features/courses/NewCourse.tsx";
 import ProtectedRoute from "./UI/ProtectedRoute/ProtectedRoute.tsx";
 import { useAppDispatch, useAppSelector } from "./app/hooks.ts";
 import { selectUser } from "./features/users/userSlice.ts";
-import AddNewLesson from "./features/lessons/AddNewLesson.tsx";
 import WelcomePage from "./features/welcomePage/WelcomePage.tsx";
 import OneClient from "./features/clients/OneClient.tsx";
 import OnBoardingProfile from "./features/users/OnBoardingProfile.tsx";
@@ -198,27 +197,11 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          {/*<Route*/}
-          {/*  path="/add-new-lesson"*/}
-          {/*  element={*/}
-          {/*    <ProtectedRoute isAllowed={!!user}>*/}
-          {/*      <AddNewLesson />*/}
-          {/*    </ProtectedRoute>*/}
-          {/*  }*/}
-          {/*/>*/}
           <Route
-            path="/lessons"
+            path="/lessons/:id"
             element={
               <ProtectedRoute isAllowed={!!user}>
                 <LessonsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/create-lesson"
-            element={
-              <ProtectedRoute isAllowed={!!user}>
-                <AddNewLesson />
               </ProtectedRoute>
             }
           />
