@@ -22,6 +22,7 @@ import {
   selectDeleteGroupLoading,
   selectFreezeClientLoading,
   selectRemoveClientLoading,
+  selectSubscribeLoading,
 } from "../groupsSlice.ts";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import CustomConfirmDialog from "../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
@@ -61,6 +62,7 @@ const GroupCard: React.FC<Props> = ({
   const deleteClientLoading = useAppSelector(selectRemoveClientLoading);
   const freezeLoading = useAppSelector(selectFreezeClientLoading);
   const activeLoading = useAppSelector(selectActivateClientLoading);
+  const updateSubscribeLoading = useAppSelector(selectSubscribeLoading);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmClientDelete, setConfirmClientDelete] = useState(false);
   const [clientToDelete, setClientToDelete] = useState<{
@@ -417,6 +419,11 @@ const GroupCard: React.FC<Props> = ({
                       },
                       ml: 1,
                     }}
+                    disabled={
+                      updateSubscribeLoading
+                        ? updateSubscribeLoading === client.client._id
+                        : false
+                    }
                     onClick={() =>
                       handleOpenSubscriptionDialog(
                         client.client._id,
@@ -426,7 +433,11 @@ const GroupCard: React.FC<Props> = ({
                       )
                     }
                   >
-                    <AccessTimeIcon />
+                    {updateSubscribeLoading === client.client._id ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      <AccessTimeIcon />
+                    )}
                   </IconButton>
                 </Grid>
               </ListItem>
