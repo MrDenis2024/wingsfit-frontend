@@ -209,7 +209,7 @@ const App = () => {
           />
 
           <Route
-            path="/lessons"
+            path="/lessons/:id"
             element={
               <ProtectedRoute isAllowed={!!user}>
                 <LessonsPage />

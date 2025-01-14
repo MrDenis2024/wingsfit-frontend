@@ -45,6 +45,10 @@ import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { GlobalError } from "../../../types/userTypes.ts";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Modal from "../../../UI/Modal/Modal.tsx";
+import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
+import { createLesson } from "../../lessons/lessonsThunk.ts";
+import { selectLessonCreating } from "../../lessons/lessonsSlice.ts";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { CourseWaitList } from "../../../types/courseTypes.ts";
 import CandidatesList from "./CandidatesList.tsx";
 
@@ -68,6 +72,7 @@ const GroupCard: React.FC<Props> = ({
   const freezeLoading = useAppSelector(selectFreezeClientLoading);
   const activeLoading = useAppSelector(selectActivateClientLoading);
   const updateSubscribeLoading = useAppSelector(selectSubscribeLoading);
+  const isLessonCreating = useAppSelector(selectLessonCreating);
   const [candidatesListOpen, setCandidatesListOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmClientDelete, setConfirmClientDelete] = useState(false);
@@ -177,6 +182,16 @@ const GroupCard: React.FC<Props> = ({
     }
   };
 
+  const handleStartLesson = async (groupId: string) => {
+    try {
+      await dispatch(createLesson(groupId)).unwrap();
+      toast.success("Занятие успешно создано");
+    } catch (error) {
+      console.log(error);
+      toast.error("Произошла ошибка создании занятия");
+    }
+  };
+
   return (
     <>
       <Accordion
@@ -212,10 +227,15 @@ const GroupCard: React.FC<Props> = ({
                 gap: 1,
               }}
             >
-              <Button
+              <LoadingButton
+                loading={isLessonCreating}
                 variant="contained"
                 color="primary"
                 disabled={group.clients.length === 0}
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  await handleStartLesson(group._id);
+                }}
                 sx={{
                   fontSize: {
                     xs: "12px",
@@ -224,8 +244,24 @@ const GroupCard: React.FC<Props> = ({
                 }}
               >
                 Начать занятие
-              </Button>
+              </LoadingButton>
               <Grid>
+                <IconButton
+                  component={Link}
+                  to={`lessons/${group._id}`}
+                  sx={{
+                    color: "black",
+                    borderColor: "black",
+                    fontSize: { xs: "16px", sm: "24px" },
+                    "&:hover": {
+                      backgroundColor: "#dff3fc",
+                      borderColor: "#0288D1",
+                    },
+                    ml: 1,
+                  }}
+                >
+                  <FeaturedPlayListIcon />
+                </IconButton>
                 <IconButton
                   disabled={candidates.length === 0}
                   onClick={(e) => {
