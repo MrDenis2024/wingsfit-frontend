@@ -25,10 +25,10 @@ export interface IGroup {
       firstName: string;
       lastName: string;
     };
-    addedAt: Date;
-    subscribeEnd: Date;
+    addedAt: string;
+    subscribeEnd: string;
     status: string;
-    frozenAt: Date;
+    frozenAt: string;
   }[];
   maxClients: number;
   scheduleLength: number;
