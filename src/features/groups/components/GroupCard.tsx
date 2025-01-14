@@ -44,8 +44,10 @@ import WhatshotIcon from "@mui/icons-material/Whatshot";
 import { GlobalError } from "../../../types/userTypes.ts";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Modal from "../../../UI/Modal/Modal.tsx";
-import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
-import {createLesson} from "../../lessons/lessonsThunk.ts";
+import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
+import { createLesson } from "../../lessons/lessonsThunk.ts";
+import { selectLessonCreating } from "../../lessons/lessonsSlice.ts";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 interface Props {
   group: IGroup;
@@ -65,6 +67,7 @@ const GroupCard: React.FC<Props> = ({
   const freezeLoading = useAppSelector(selectFreezeClientLoading);
   const activeLoading = useAppSelector(selectActivateClientLoading);
   const updateSubscribeLoading = useAppSelector(selectSubscribeLoading);
+  const isLessonCreating = useAppSelector(selectLessonCreating);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmClientDelete, setConfirmClientDelete] = useState(false);
   const [clientToDelete, setClientToDelete] = useState<{
@@ -218,7 +221,8 @@ const GroupCard: React.FC<Props> = ({
                 gap: 1,
               }}
             >
-              <Button
+              <LoadingButton
+                loading={isLessonCreating}
                 variant="contained"
                 color="primary"
                 disabled={group.clients.length === 0}
@@ -234,7 +238,7 @@ const GroupCard: React.FC<Props> = ({
                 }}
               >
                 Начать занятие
-              </Button>
+              </LoadingButton>
               <Grid>
                 <IconButton
                   component={Link}

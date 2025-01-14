@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
-import {
-  Typography,
-  Alert,
-  Container, useMediaQuery,
-} from "@mui/material";
+import { Typography, Alert, Container, useMediaQuery } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import LessonDetailModal from "../components/LessonDetailModal/LessonDetailModal.tsx";
 import { useParams } from "react-router-dom";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import Grid from "@mui/material/Grid2";
-import {Lesson} from "../../../types/lessonTypes.ts";
-import {fetchGroupLessons} from "../lessonsThunk.ts";
-import {selectGroupLessons, selectGroupLessonsLoading} from "../lessonsSlice.ts";
-import {getOneGroup} from "../../groups/groupsThunk.ts";
-import {selectOneGroup, selectOneGroupLoading} from "../../groups/groupsSlice.ts";
+import { Lesson } from "../../../types/lessonTypes.ts";
+import { fetchGroupLessons } from "../lessonsThunk.ts";
+import {
+  selectGroupLessons,
+  selectGroupLessonsLoading,
+} from "../lessonsSlice.ts";
+import { getOneGroup } from "../../groups/groupsThunk.ts";
+import {
+  selectOneGroup,
+  selectOneGroupLoading,
+} from "../../groups/groupsSlice.ts";
 import LessonsCards from "../components/LessonsCards.tsx";
 
 const LessonsPage = () => {
@@ -44,27 +46,51 @@ const LessonsPage = () => {
           spacing={2}
         >
           {loadingOneGroup ? (
-            <Grid size={{ xs: 12 }} display="flex" justifyContent="center" mt={3}>
+            <Grid
+              size={{ xs: 12 }}
+              display="flex"
+              justifyContent="center"
+              mt={3}
+            >
               <LoadingIndicator />
             </Grid>
-          ) : oneGroup && (
-            <>
-              <Typography variant={isSmall ? "h5" : "h4" }>Посещаемость группы {oneGroup?.title}</Typography>
-              <Grid size={{ xs: 12 }} display="flex" mt={1} flexDirection="column">
-                <Typography variant="h6"><strong>Расписание:</strong> <span>{oneGroup.startTime}.</span> <span>{oneGroup.course.schedule.join(", ")}</span></Typography>
-                <Typography variant="h6"><strong>Клиентов:</strong> {oneGroup.clients.length} / {oneGroup.maxClients}</Typography>
-              </Grid>
-            </>
+          ) : (
+            oneGroup && (
+              <>
+                <Typography variant={isSmall ? "h5" : "h4"}>
+                  Посещаемость группы {oneGroup?.title}
+                </Typography>
+                <Grid
+                  size={{ xs: 12 }}
+                  display="flex"
+                  mt={1}
+                  flexDirection="column"
+                >
+                  <Typography variant="h6">
+                    <strong>Расписание:</strong>{" "}
+                    <span>{oneGroup.startTime}.</span>{" "}
+                    <span>{oneGroup.course.schedule.join(", ")}</span>
+                  </Typography>
+                  <Typography variant="h6">
+                    <strong>Клиентов:</strong> {oneGroup.clients.length} /{" "}
+                    {oneGroup.maxClients}
+                  </Typography>
+                </Grid>
+              </>
+            )
           )}
         </Grid>
         <Grid size={{ xs: 12 }} mt={1}>
-          <Typography variant="h5" marginBottom={0}>Список занятий</Typography>
+          <Typography variant="h5" marginBottom={0}>
+            Список занятий
+          </Typography>
         </Grid>
 
-        {loading &&
-          <Grid size={{xs: 12}} display="flex" justifyContent="center" mt={3}>
-            <LoadingIndicator/>
-          </Grid>}
+        {loading && (
+          <Grid size={{ xs: 12 }} display="flex" justifyContent="center" mt={3}>
+            <LoadingIndicator />
+          </Grid>
+        )}
         {!loading && lessons.length === 0 && (
           <Grid size={{ xs: 12 }} mt={3}>
             <Alert severity="info">Занятия у группы отсутствуют</Alert>

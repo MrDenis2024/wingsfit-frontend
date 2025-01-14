@@ -1,4 +1,3 @@
-
 export interface Lesson {
   _id: string;
   group: {
@@ -7,18 +6,18 @@ export interface Lesson {
     course: {
       _id: string;
       title: string;
-    }
+    };
   };
   createdAt: Date;
   notPresent: {
     _id: string;
     firstName: string;
     lastName: string;
-  }[],
+  }[];
   arePresent: {
     _id: string;
 
     firstName: string;
     lastName: string;
-  }[],
+  }[];
 }

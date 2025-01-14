@@ -9,10 +9,14 @@ import {
   DialogActions,
   Alert,
   Paper,
-  Stack, List, ListItem, ListItemIcon, ListItemText,
+  Stack,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import { Lesson } from "../../../../types/lessonTypes.ts";
-import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from "@mui/icons-material/Person";
 
 interface Props {
   oneLesson: Lesson;
@@ -20,12 +24,7 @@ interface Props {
   onClose: () => void;
 }
 
-const LessonDetailModal: React.FC<Props> = ({
-  oneLesson,
-  open,
-  onClose,
-}) => {
-
+const LessonDetailModal: React.FC<Props> = ({ oneLesson, open, onClose }) => {
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
       <DialogTitle>Детали урока</DialogTitle>

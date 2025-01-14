@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Lesson } from "../../types/lessonTypes";
-import {createLesson, fetchGroupLessons, fetchTrainerLessons, patchLesson} from "./lessonsThunk.ts";
+import {
+  createLesson,
+  fetchGroupLessons,
+  fetchTrainerLessons,
+  patchLesson,
+} from "./lessonsThunk.ts";
 
 interface LessonState {
   trainerLessons: Lesson[];
@@ -85,9 +90,7 @@ export const lessonsReducer = lessonsSlice.reducer;
 
 export const {
   selectTrainerLessons,
-  selectTrainerLessonsLoading,
   selectGroupLessons,
   selectGroupLessonsLoading,
   selectLessonCreating,
-  selectLessonUpdating,
 } = lessonsSlice.selectors;

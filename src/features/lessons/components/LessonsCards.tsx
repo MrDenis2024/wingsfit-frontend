@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import Grid from "@mui/material/Grid2";
-import {Card, CardContent, Typography} from "@mui/material";
-import {Lesson} from "../../../types/lessonTypes.ts";
-import {IGroup} from "../../../types/groupTypes.ts";
+import { Card, CardContent, Typography } from "@mui/material";
+import { Lesson } from "../../../types/lessonTypes.ts";
+import { IGroup } from "../../../types/groupTypes.ts";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from "dayjs";
-import 'dayjs/locale/ru';
+import "dayjs/locale/ru";
 
 dayjs.extend(localizedFormat);
-dayjs.locale('ru');
+dayjs.locale("ru");
 
 interface Props {
   onClick: (lesson: Lesson) => void;
@@ -37,10 +37,11 @@ const LessonsCards: React.FC<Props> = ({ onClick, lessons, group }) => {
           >
             <CardContent>
               <Typography variant="h6" fontSize="16px">
-                {dayjs(lesson.createdAt).format('dddd, MMMM - D, YYYY')}
+                {dayjs(lesson.createdAt).format("dddd, MMMM - D, YYYY")}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Количество посетивших: {lesson.arePresent.length}/{group.clients.length}
+                Количество посетивших: {lesson.arePresent.length}/
+                {group.clients.length}
               </Typography>
             </CardContent>
           </Card>

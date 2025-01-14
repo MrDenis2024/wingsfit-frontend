@@ -31,12 +31,12 @@ import { Link } from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AvatarUploader from "../../../UI/Avatar/AvatarUploader.tsx";
-import {Lesson} from "../../../types/lessonTypes.ts";
-import {UserProfile} from "../../../types/userTypes.ts";
+import { Lesson } from "../../../types/lessonTypes.ts";
+import { UserProfile } from "../../../types/userTypes.ts";
 
 const checkPresence = (lessons: Lesson[], searchId: string) => {
-  return lessons.some(lesson =>
-    lesson.arePresent.some(person => person._id === searchId)
+  return lessons.some((lesson) =>
+    lesson.arePresent.some((person) => person._id === searchId),
   );
 };
 
@@ -291,8 +291,9 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               marginTop: "40px",
             }}
           >
-            {user && user.role === "client" && (
-              checkPresence(lessons, user._id) ? (
+            {user &&
+              user.role === "client" &&
+              (checkPresence(lessons, user._id) ? (
                 <>
                   <Box sx={{ marginTop: "20px", textAlign: "center" }}>
                     <Button
@@ -322,10 +323,12 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 </>
               ) : (
                 <Grid size={{ xs: 12 }} mt={3}>
-                  <Alert severity="info">Только посетившие занятия тренера пользователи могут оставлять отзывы</Alert>
+                  <Alert severity="info">
+                    Только посетившие занятия тренера пользователи могут
+                    оставлять отзывы
+                  </Alert>
                 </Grid>
-              )
-            )}
+              ))}
           </Box>
         </Grid>
         <AvatarUploader
