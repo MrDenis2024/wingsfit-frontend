@@ -127,34 +127,7 @@ const AllChats: React.FC<Props> = ({
           }}
         />
       </Grid>
-      <Divider sx={{ marginY: 2 }} /> {/*<Grid*/}
-      {/*  sx={{*/}
-      {/*    display: "flex",*/}
-      {/*    justifyContent: "center",*/}
-      {/*    alignItems: "center",*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  {user?.role !== "client" && (*/}
-      {/*    <Button*/}
-      {/*      sx={{*/}
-      {/*        fontSize: { xs: "0.8rem", sm: "1rem" },*/}
-      {/*        justifyContent: "flex-start",*/}
-      {/*        width: "100%",*/}
-      {/*        padding: "10px 16px",*/}
-      {/*        color: "#333",*/}
-      {/*        textTransform: "none",*/}
-      {/*        borderRadius: "0px",*/}
-      {/*        backgroundColor: "#56cad5",*/}
-      {/*        fontWeight: "bold",*/}
-      {/*        "&:hover": {*/}
-      {/*          backgroundColor: "#4db8c5",*/}
-      {/*        },*/}
-      {/*      }}*/}
-      {/*    >*/}
-      {/*      Создать чат <TryIcon sx={{ ml: 1 }} />{" "}*/}
-      {/*    </Button>*/}
-      {/*  )}*/}
-      {/*</Grid>*/}
+      <Divider sx={{ marginY: 2 }} />
     </Grid>
   );
 };
