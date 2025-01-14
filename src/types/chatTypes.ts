@@ -5,7 +5,6 @@ export interface GroupChat {
   groupId: string;
   title: string;
   type: "group";
-  isTrainingUrl: boolean;
 }
 
 export interface PrivateChat {
@@ -41,6 +40,7 @@ export interface Message {
     user: string;
     read: boolean;
   };
+  isTrainingUrl?: boolean;
 }
 
 export interface ChatMessagesPayload {
