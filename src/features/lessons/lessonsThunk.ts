@@ -21,11 +21,7 @@ export const fetchGroupLessons = createAsyncThunk<Lesson[], string>(
 export const createLesson = createAsyncThunk<void, string>(
   "lessons/create",
   async (groupId,) => {
-    try {
-      await axiosApi.post("/lessons", { groupId });
-    } catch (e) {
-      console.error(e);
-    }
+    await axiosApi.post("/lessons", { groupId });
 });
 
 export const patchLesson = createAsyncThunk<void, string>(

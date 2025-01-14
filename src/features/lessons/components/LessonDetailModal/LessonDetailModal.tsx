@@ -35,15 +35,8 @@ const LessonDetailModal: React.FC<Props> = ({
             {oneLesson.group.title}
           </Typography>
           <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-            <Typography
-              variant="subtitle1"
-              color="textSecondary"
-              gutterBottom
-            >
-              {oneLesson.group.course.title}
-            </Typography>
-            <Typography variant="body2">
-              <strong>Курс:</strong> {oneLesson.group.title}
+            <Typography variant="body2" fontSize="16px">
+              <strong>Курс:</strong> {oneLesson.group.course.title}
             </Typography>
           </Paper>
 
@@ -54,7 +47,7 @@ const LessonDetailModal: React.FC<Props> = ({
             <Stack spacing={1}>
               <List>
                 {oneLesson.notPresent.map((client) => (
-                  <ListItem>
+                  <ListItem key={client._id}>
                     <ListItemIcon>
                       <PersonIcon />
                     </ListItemIcon>
@@ -66,7 +59,7 @@ const LessonDetailModal: React.FC<Props> = ({
               </List>
             </Stack>
           ) : (
-            <Alert severity="info">Участников нет</Alert>
+            <Alert severity="info">Пусто</Alert>
           )}
           <Typography variant="h6" mt={2} gutterBottom>
             Присутствующие
@@ -75,7 +68,7 @@ const LessonDetailModal: React.FC<Props> = ({
             <Stack spacing={1}>
               <List>
                 {oneLesson.arePresent.map((client) => (
-                  <ListItem>
+                  <ListItem key={client._id}>
                     <ListItemIcon>
                       <PersonIcon />
                     </ListItemIcon>
@@ -87,7 +80,7 @@ const LessonDetailModal: React.FC<Props> = ({
               </List>
             </Stack>
           ) : (
-            <Alert severity="info">Присутствующих нет</Alert>
+            <Alert severity="info">Пусто</Alert>
           )}
         </Box>
       </DialogContent>

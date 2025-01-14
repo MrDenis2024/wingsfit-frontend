@@ -11,10 +11,13 @@ export interface Lesson {
   };
   createdAt: Date;
   notPresent: {
+    _id: string;
     firstName: string;
     lastName: string;
   }[],
   arePresent: {
+    _id: string;
+
     firstName: string;
     lastName: string;
   }[],
