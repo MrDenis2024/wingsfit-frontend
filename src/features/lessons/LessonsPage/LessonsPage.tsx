@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Typography,
   Alert,
-  Container,
+  Container, useMediaQuery,
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import LessonDetailModal from "../components/LessonDetailModal/LessonDetailModal.tsx";
@@ -26,6 +26,7 @@ const LessonsPage = () => {
   const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
   const oneGroup = useAppSelector(selectOneGroup);
   const loadingOneGroup = useAppSelector(selectOneGroupLoading);
+  const isSmall = useMediaQuery("(max-width: 600px)");
 
   useEffect(() => {
     dispatch(getOneGroup(id));
@@ -44,19 +45,29 @@ const LessonsPage = () => {
           justifyContent="space-between"
           spacing={2}
         >
-          <Grid size={{ xs: 12, sm: 8, md: 6 }}>
-            <Typography variant="h4">Посещаемость группы</Typography>
-          </Grid>
+          {loadingOneGroup ? (
+            <Grid size={{ xs: 12 }} display="flex" justifyContent="center" mt={3}>
+              <LoadingIndicator />
+            </Grid>
+          ) : oneGroup && (
+            <>
+              <Typography variant={isSmall ? "h5" : "h4" }>Посещаемость группы {oneGroup?.title}</Typography>
+              <Grid size={{ xs: 12 }} display="flex" mt={1} flexDirection="column">
+                <Typography variant="h6"><strong>Расписание:</strong> <span>{oneGroup.startTime}.</span> <span>{oneGroup.course.schedule.join(", ")}</span></Typography>
+                <Typography variant="h6"><strong>Клиентов:</strong> {oneGroup.clients.length} / {oneGroup.maxClients}</Typography>
+              </Grid>
+            </>
+          )}
+        </Grid>
+        <Grid size={{ xs: 12 }} mt={1}>
+          <Typography variant="h5" marginBottom={0}>Список занятий</Typography>
         </Grid>
 
-        {loadingOneGroup && (
-          <Grid size={{ xs: 12 }} display="flex" justifyContent="center" mt={3}>
-            <LoadingIndicator />
-          </Grid>
-        )}
-        <Grid size={{ xs: 12 }} my={0}>
-          <Typography variant="h5" marginBottom={0}>Занятия</Typography>
-        </Grid>
+
+        {loading &&
+            <Grid size={{xs: 12}} display="flex" justifyContent="center" mt={3}>
+            <LoadingIndicator/>
+          </Grid>}
         {!loading && lessons.length === 0 && (
           <Grid size={{ xs: 12 }} mt={3}>
             <Alert severity="info">Занятия у группы отсутствуют</Alert>
