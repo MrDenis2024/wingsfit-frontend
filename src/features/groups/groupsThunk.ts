@@ -61,15 +61,16 @@ export const fetchCourseGroups = createAsyncThunk<IGroup[], string>(
 );
 
 export const createGroup = createAsyncThunk<
-  void,
+  IGroup,
   GroupMutation,
   { rejectValue: GlobalError; state: RootState }
 >("groups/create", async (groupMutation, { rejectWithValue }) => {
   try {
-    await axiosApi.post(
+    const { data: group } = await axiosApi.post<IGroup>(
       `/groups?course=${groupMutation.course}`,
       groupMutation,
     );
+    return group;
   } catch (e) {
     if (isAxiosError(e) && e.response) {
       return rejectWithValue(e.response.data);

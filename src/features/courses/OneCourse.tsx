@@ -29,6 +29,8 @@ import { fetchCourseGroups } from "../groups/groupsThunk.ts";
 import { selectFetchGroups, selectGroups } from "../groups/groupsSlice.ts";
 import AnotherCoursesLinks from "./components/AnotherCoursesLinks.tsx";
 import CoursesGroupCards from "./components/CoursesGroupCards.tsx";
+import { UserProfile } from "../../types/userTypes.ts";
+import ChatButton from "../chat/components/ChatButton.tsx";
 
 const OneCourse = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,7 +40,7 @@ const OneCourse = () => {
   const isLoading = useAppSelector(selectOneCourseLoading);
   const trainerId = course?.user._id;
   const mediaQuery768 = useMediaQuery("(min-width:768px)");
-  const user = useAppSelector(selectUser);
+  const user = useAppSelector(selectUser) as UserProfile;
   const courses = useAppSelector(selectCourses);
   const groups = useAppSelector(selectGroups);
   const loadingGroups = useAppSelector(selectFetchGroups);
@@ -56,13 +58,22 @@ const OneCourse = () => {
     }
   }, [dispatch, course]);
 
-  const handleClick = () => {
-    navigate(`/trainers/${trainerId}`);
-  };
-
   const handleClickEditCourse = () => {
     navigate(`/edit-course/${id}`);
   };
+
+  const userIsCandidate = course?.waitList.find(
+    (item) => item.user._id === user?._id,
+  );
+  let userIsClient = false;
+  groups.forEach((group) => {
+    const userSubscriber = group.clients.find(
+      (client) => client.client._id === user?._id,
+    );
+    if (userSubscriber) {
+      userIsClient = true;
+    }
+  });
 
   if (isLoading) {
     return (
@@ -247,23 +258,24 @@ const OneCourse = () => {
                     </Typography>
                   </Grid>
                 </Grid>
-                <Button
-                  onClick={handleClick}
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#5cc532",
-                    color: "#ffffff",
-                    mt: 2,
-                    fontSize: "20px",
-                    textTransform: "none",
-                    borderRadius: "10px",
-                    ":hover": {
-                      backgroundColor: "#408a23",
-                    },
-                  }}
-                >
-                  Попробовать!
-                </Button>
+                {user?._id !== trainerId && trainerId && user?._id && (
+                  <ChatButton
+                    firstPersonId={trainerId}
+                    secondPersonId={user._id}
+                    buttonText="Попробовать!"
+                  >
+                    {{
+                      backgroundColor: "#5cc532",
+                      color: "#ffffff",
+                      fontSize: "20px",
+                      textTransform: "none",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#408a23",
+                      },
+                    }}
+                  </ChatButton>
+                )}
               </Grid>
               <Grid
                 sx={{
@@ -353,7 +365,13 @@ const OneCourse = () => {
             {!loadingGroups ? (
               groups.length > 0 ? (
                 groups.map((group) => (
-                  <CoursesGroupCards key={group._id} group={group} />
+                  <CoursesGroupCards
+                    key={group._id}
+                    group={group}
+                    waitListItem={userIsCandidate}
+                    courseId={course._id}
+                    userIsClient={userIsClient}
+                  />
                 ))
               ) : (
                 <Alert severity="info" sx={{ width: "100%" }}>

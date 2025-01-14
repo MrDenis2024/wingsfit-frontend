@@ -7,6 +7,8 @@ import GroupForm from "./components/GroupForm.tsx";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { createGroupChat } from "../chat/chatsThunks.ts";
+import { isGroup } from "../../constants.ts";
 
 const NewGroup = () => {
   const dispatch = useAppDispatch();
@@ -25,14 +27,25 @@ const NewGroup = () => {
           "Продолжительность занятия не может быть меньше 0.5 часа",
         );
       } else {
-        await dispatch(createGroup(groupMutation));
-        if (!error?.error) {
+        const groupCreationResult = await dispatch(createGroup(groupMutation));
+        if (
+          !error?.error &&
+          groupCreationResult.payload &&
+          isGroup(groupCreationResult.payload)
+        ) {
           toast.success("Группа успешно создана!");
-          navigate("/");
+
+          const groupId = groupCreationResult.payload._id;
+
+          if (groupId) {
+            await dispatch(createGroupChat({ groupId }));
+            toast.success("Чат для группы успешно создан!");
+            navigate("/");
+          }
         }
       }
-    } catch (error) {
-      console.error("Course creation error", error);
+    } catch {
+      toast.error("Произошла ошибка при создании группы. Попробуйте снова.");
     }
   };
 

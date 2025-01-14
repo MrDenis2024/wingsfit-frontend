@@ -1,12 +1,16 @@
 import { ValidationError } from "../../types/userTypes.ts";
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  approveJoinToCourseGroup,
   createCourse,
+  declineJoinToCourseGroup,
   deleteCourse,
   editCourse,
   fetchCourses,
   fetchSearchCourses,
   getOneCourse,
+  joinToCourseGroup,
+  migrateToAnotherCourseGroup,
 } from "./coursesThunks.ts";
 import { ICourse } from "../../types/courseTypes.ts";
 
@@ -21,6 +25,8 @@ export interface CoursesState {
   updateLoading: boolean;
   isCourseError: ValidationError | null;
   deleteCourseLoading: false | string;
+  addingToCourse: string | false;
+  waitListManageLoading: string | false;
 }
 
 const initialState: CoursesState = {
@@ -34,6 +40,8 @@ const initialState: CoursesState = {
   updateLoading: false,
   isCourseError: null,
   deleteCourseLoading: false,
+  addingToCourse: false,
+  waitListManageLoading: false,
 };
 
 export const coursesSlice = createSlice({
@@ -109,6 +117,51 @@ export const coursesSlice = createSlice({
       });
 
     builder
+      .addCase(joinToCourseGroup.pending, (state, { meta: { arg } }) => {
+        state.addingToCourse = arg.groupId;
+      })
+      .addCase(joinToCourseGroup.fulfilled, (state) => {
+        state.addingToCourse = false;
+      })
+      .addCase(joinToCourseGroup.rejected, (state) => {
+        state.addingToCourse = false;
+      });
+
+    builder
+      .addCase(
+        migrateToAnotherCourseGroup.pending,
+        (state, { meta: { arg } }) => {
+          state.addingToCourse = arg.groupId;
+        },
+      )
+      .addCase(migrateToAnotherCourseGroup.fulfilled, (state) => {
+        state.addingToCourse = false;
+      })
+      .addCase(migrateToAnotherCourseGroup.rejected, (state) => {
+        state.addingToCourse = false;
+      });
+    builder
+      .addCase(approveJoinToCourseGroup.pending, (state, { meta: { arg } }) => {
+        state.waitListManageLoading = arg.waitListId;
+      })
+      .addCase(approveJoinToCourseGroup.fulfilled, (state) => {
+        state.waitListManageLoading = false;
+      })
+      .addCase(approveJoinToCourseGroup.rejected, (state) => {
+        state.waitListManageLoading = false;
+      });
+    builder
+      .addCase(declineJoinToCourseGroup.pending, (state, { meta: { arg } }) => {
+        state.waitListManageLoading = arg.waitListId;
+      })
+      .addCase(declineJoinToCourseGroup.fulfilled, (state) => {
+        state.waitListManageLoading = false;
+      })
+      .addCase(declineJoinToCourseGroup.rejected, (state) => {
+        state.waitListManageLoading = false;
+      });
+
+    builder
       .addCase(deleteCourse.pending, (state, { meta: { arg: course } }) => {
         state.deleteCourseLoading = course;
       })
@@ -130,6 +183,8 @@ export const coursesSlice = createSlice({
     selectCourseUpdateLoading: (state) => state.updateLoading,
     selectCourseError: (state) => state.isCourseError,
     selectDeleteCourseLoading: (state) => state.deleteCourseLoading,
+    selectAddingToCourse: (state) => state.addingToCourse,
+    selectWaitlistManageLoading: (state) => state.waitListManageLoading,
   },
 });
 
@@ -148,4 +203,6 @@ export const {
   selectSearchCourses,
   selectSearchCoursesFetching,
   selectDeleteCourseLoading,
+  selectAddingToCourse,
+  selectWaitlistManageLoading,
 } = coursesSlice.selectors;

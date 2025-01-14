@@ -55,14 +55,20 @@ const GroupCards: React.FC<Props> = ({ groups, courses }) => {
                   Активных групп: {courseGroups.length}
                 </Typography>
               </Grid>
-              {courseGroups.map((group) => (
-                <GroupCard
-                  key={group._id}
-                  group={group}
-                  activeGroup={activeGroup}
-                  handleAccordionChange={handleAccordionChange}
-                />
-              ))}
+              {courseGroups.map((group) => {
+                const candidates = course.waitList.filter(
+                  (item) => item.favoriteGroup === group._id,
+                );
+                return (
+                  <GroupCard
+                    key={group._id}
+                    group={group}
+                    activeGroup={activeGroup}
+                    candidates={candidates}
+                    handleAccordionChange={handleAccordionChange}
+                  />
+                );
+              })}
               {courseGroups.length === 0 && (
                 <Alert severity="info" sx={{ width: "100%" }}>
                   Здесь пока нет никаких групп!

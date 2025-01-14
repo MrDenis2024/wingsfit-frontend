@@ -33,6 +33,7 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AvatarUploader from "../../../UI/Avatar/AvatarUploader.tsx";
 import { Lesson } from "../../../types/lessonTypes.ts";
 import { UserProfile } from "../../../types/userTypes.ts";
+import ChatButton from "../../chat/components/ChatButton.tsx";
 
 const checkPresence = (lessons: Lesson[], searchId: string) => {
   return lessons.some((lesson) =>
@@ -48,6 +49,7 @@ interface TrainerProfileDetailsProps {
   showForm: boolean;
   setShowForm: (show: boolean) => void;
   handleReviewSubmit: (reviewText: string, ratingValue: number | null) => void;
+  clientId: string;
   user: UserProfile | null;
   lessons: Lesson[];
 }
@@ -60,6 +62,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   showForm,
   setShowForm,
   handleReviewSubmit,
+  clientId,
   user,
   lessons,
 }) => {
@@ -100,32 +103,39 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               alignItems="center"
             >
               <CardMedia
-                component="img"
-                image={cardImage}
-                alt={`Фото тренера ${trainerProfile?.user.firstName}`}
                 sx={{
+                  position: "relative",
                   width: 220,
                   height: 220,
                   borderRadius: "50%",
-                  objectFit: "cover",
+                  overflow: "visible",
                   margin: "0 auto",
+                  backgroundImage: `url(${cardImage})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  mb: 2,
                 }}
-              />
-              {isOwner && (
-                <IconButton
-                  onClick={handleClickOpen}
-                  sx={{
-                    color: "#0288D1",
-                    borderColor: "#0288D1",
-                    "&:hover": {
-                      backgroundColor: "#dff3fc",
+              >
+                {isOwner && (
+                  <IconButton
+                    onClick={handleClickOpen}
+                    sx={{
+                      position: "absolute",
+                      bottom: "10px",
+                      right: "10px",
+                      backgroundColor: "#fff",
+                      color: "#030303",
                       borderColor: "#0288D1",
-                    },
-                  }}
-                >
-                  <CameraAltIcon />
-                </IconButton>
-              )}
+                      "&:hover": {
+                        backgroundColor: "#dff3fc",
+                        borderColor: "#0288D1",
+                      },
+                    }}
+                  >
+                    <CameraAltIcon />
+                  </IconButton>
+                )}
+              </CardMedia>
             </Grid>
             <Grid
               size={{ md: 7, sm: 6, xs: 12 }}
@@ -243,14 +253,15 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 <TrainerCertificates trainerProfile={trainerProfile} />
 
                 {isOwner && <NewAddTrainerCertificates />}
-                {!isOwner && (
-                  <Button
-                    variant="contained"
-                    color="success"
-                    sx={{ width: "fit-content" }}
-                  >
-                    Связаться с тренером
-                  </Button>
+                {!isOwner && trainerProfile?.user._id && (
+                  <ChatButton
+                    firstPersonId={trainerProfile.user._id}
+                    secondPersonId={clientId}
+                    buttonText="Связаться с тренером"
+                    children={{
+                      width: "fit-content",
+                    }}
+                  />
                 )}
               </Box>
             </Grid>

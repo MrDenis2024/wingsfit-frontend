@@ -22,6 +22,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import TypeSpecimenIcon from "@mui/icons-material/TypeSpecimen";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 interface Props {
   user: UserProfile;
@@ -90,14 +91,26 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         {user.role === "trainer" && (
           <MenuItem
             onClick={() => {
-              navigate(`/add-new-group`);
+              navigate(`/trainer/groups`);
               handleClose();
             }}
           >
             <GroupIcon sx={{ mr: 2 }} />
+            Мои группы
+          </MenuItem>
+        )}
+        {user.role === "trainer" && (
+          <MenuItem
+            onClick={() => {
+              navigate(`/add-new-group`);
+              handleClose();
+            }}
+          >
+            <GroupAddIcon sx={{ mr: 2 }} />
             Создать группу
           </MenuItem>
         )}
+
         {(user.role === "admin" || user.role === "superAdmin") && (
           <MenuItem
             onClick={() => {

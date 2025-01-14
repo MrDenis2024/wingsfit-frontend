@@ -30,6 +30,7 @@ import EditCourse from "./features/courses/EditCourse.tsx";
 import SearchSelect from "./features/searchSelect/SearchSelect.tsx";
 import EditGroup from "./features/groups/EditGroup.tsx";
 import AdminCourseType from "./features/admin/admins/components/AdminCourseType.tsx";
+import GroupManagement from "./features/groups/GroupManagement.tsx";
 
 const App = () => {
   const user = useAppSelector(selectUser);
@@ -128,6 +129,14 @@ const App = () => {
             }
           />
           <Route
+            path="/trainer/groups"
+            element={
+              <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
+                <GroupManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/trainer/statistics"
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
@@ -135,6 +144,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/trainer/statistics/clients"
             element={
@@ -197,6 +207,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/lessons/:id"
             element={

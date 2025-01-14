@@ -65,6 +65,7 @@ const OneTrainer = () => {
   };
 
   const isMyProfile = user?._id === id;
+  const clientId = user?._id ?? "";
 
   return (
     <>
@@ -81,6 +82,7 @@ const OneTrainer = () => {
           handleReviewSubmit={handleReviewSubmit}
           lessons={trainerLessons}
           user={user}
+          clientId={clientId}
         />
       )}
     </>

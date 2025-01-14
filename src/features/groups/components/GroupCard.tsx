@@ -3,6 +3,7 @@ import {
   Accordion,
   AccordionSummary,
   Alert,
+  Badge,
   Button,
   CircularProgress,
   FormControl,
@@ -48,17 +49,21 @@ import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
 import { createLesson } from "../../lessons/lessonsThunk.ts";
 import { selectLessonCreating } from "../../lessons/lessonsSlice.ts";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { CourseWaitList } from "../../../types/courseTypes.ts";
+import CandidatesList from "./CandidatesList.tsx";
 
 interface Props {
   group: IGroup;
   activeGroup: string | null;
   handleAccordionChange: (groupId: string) => void;
+  candidates: CourseWaitList[];
 }
 
 const GroupCard: React.FC<Props> = ({
   group,
   activeGroup,
   handleAccordionChange,
+  candidates,
 }) => {
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
@@ -68,6 +73,7 @@ const GroupCard: React.FC<Props> = ({
   const activeLoading = useAppSelector(selectActivateClientLoading);
   const updateSubscribeLoading = useAppSelector(selectSubscribeLoading);
   const isLessonCreating = useAppSelector(selectLessonCreating);
+  const [candidatesListOpen, setCandidatesListOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [confirmClientDelete, setConfirmClientDelete] = useState(false);
   const [clientToDelete, setClientToDelete] = useState<{
@@ -142,7 +148,7 @@ const GroupCard: React.FC<Props> = ({
     clientId: string,
     firstName: string,
     lastName: string,
-    subscribeEnd: Date,
+    subscribeEnd: string,
   ) => {
     const formattedEndDate = new Date(subscribeEnd).toISOString().split("T")[0];
     setClientToExtend({
@@ -165,7 +171,7 @@ const GroupCard: React.FC<Props> = ({
           }),
         ).unwrap();
         dispatch(fetchAllGroups());
-        toast.success("Подписка успешно продлена");
+        toast.success("Дата окончания подписки успешно изменена");
       } catch (error) {
         toast.error((error as GlobalError).error || "Произошла ошибка");
       } finally {
@@ -257,6 +263,11 @@ const GroupCard: React.FC<Props> = ({
                   <FeaturedPlayListIcon />
                 </IconButton>
                 <IconButton
+                  disabled={candidates.length === 0}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCandidatesListOpen(true);
+                  }}
                   sx={{
                     color: "black",
                     borderColor: "black",
@@ -268,7 +279,9 @@ const GroupCard: React.FC<Props> = ({
                     ml: 1,
                   }}
                 >
-                  <GroupAddIcon />
+                  <Badge color="primary" badgeContent={candidates.length}>
+                    <GroupAddIcon />
+                  </Badge>
                 </IconButton>
                 {(group.course.user === user?._id ||
                   user?.role === "admin" ||
@@ -345,6 +358,11 @@ const GroupCard: React.FC<Props> = ({
                     {client.client.lastName} {client.client.firstName}
                   </Typography>
                 </Link>
+
+                <Typography variant="body1">
+                  {new Date(client.subscribeEnd).toLocaleDateString()}
+                </Typography>
+
                 <Grid>
                   {client.status === "active" && (
                     <IconButton
@@ -547,6 +565,15 @@ const GroupCard: React.FC<Props> = ({
             Подтвердить
           </Button>
         </Grid>
+      </Modal>
+
+      <Modal
+        title={`Список ожидания`}
+        show={candidatesListOpen}
+        maxWidth={900}
+        onClose={() => setCandidatesListOpen(false)}
+      >
+        <CandidatesList candidates={candidates} courseId={group.course._id} />
       </Modal>
     </>
   );
