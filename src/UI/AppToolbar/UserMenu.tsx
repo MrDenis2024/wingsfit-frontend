@@ -20,7 +20,6 @@ import ChatIcon from "@mui/icons-material/Chat";
 import AddchartIcon from "@mui/icons-material/Addchart";
 import GroupIcon from "@mui/icons-material/Group";
 import AssignmentTurnedInOutlinedIcon from "@mui/icons-material/AssignmentTurnedInOutlined";
-import EditNoteIcon from "@mui/icons-material/EditNote";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import TypeSpecimenIcon from "@mui/icons-material/TypeSpecimen";
 
@@ -151,17 +150,6 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           >
             <AddchartIcon sx={{ mr: 2 }} />
             Статистика
-          </MenuItem>
-        )}
-        {user.role === "trainer" && (
-          <MenuItem
-            onClick={() => {
-              navigate("/lessons");
-              handleClose();
-            }}
-          >
-            <EditNoteIcon sx={{ mr: 2 }} />
-            Занятия
           </MenuItem>
         )}
         <MenuItem onClick={handleLogout}>

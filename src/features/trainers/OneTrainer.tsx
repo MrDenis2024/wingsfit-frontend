@@ -6,7 +6,7 @@ import {
   selectTrainerProfile,
   selectTrainerProfileLoading,
 } from "./trainersSlice.ts";
-import { getTrainerProfile } from "./trainersThunks.ts";
+import {getTrainerProfile, getTrainersReview} from "./trainersThunks.ts";
 import { fetchCourses } from "../courses/coursesThunks.ts";
 import { selectCourses } from "../courses/coursesSlice.ts";
 import { selectUser } from "../users/userSlice.ts";
@@ -15,6 +15,8 @@ import { selectError } from "../reviewForm/reviewSlice.ts";
 import { createReview } from "../reviewForm/reviewThunk.ts";
 import TrainerProfileDetails from "./components/TrainerProfileDetails.tsx";
 import LoadingIndicator from "../../UI/LoadingIndicator/LoadingIndicator.tsx";
+import {selectTrainerLessons} from "../lessons/lessonsSlice.ts";
+import {fetchTrainerLessons} from "../lessons/lessonsThunk.ts";
 
 const OneTrainer = () => {
   const { id } = useParams() as { id: string };
@@ -26,10 +28,12 @@ const OneTrainer = () => {
   const reviewError = useAppSelector(selectError);
   const [showForm, setShowForm] = useState(false);
   const loading = useAppSelector(selectTrainerProfileLoading);
+  const trainerLessons = useAppSelector(selectTrainerLessons);
 
   useEffect(() => {
     dispatch(getTrainerProfile(id));
     dispatch(fetchCourses(id));
+    dispatch(fetchTrainerLessons(id));
   }, [dispatch, id]);
 
   useEffect(() => {
@@ -53,6 +57,7 @@ const OneTrainer = () => {
         ).unwrap();
         toast.success("Отзыв успешно отправлен!");
         setShowForm(false);
+        dispatch(getTrainersReview(id));
       }
     } catch (error) {
       console.error(error);
@@ -74,6 +79,8 @@ const OneTrainer = () => {
           showForm={showForm}
           setShowForm={setShowForm}
           handleReviewSubmit={handleReviewSubmit}
+          lessons={trainerLessons}
+          user={user}
         />
       )}
     </>

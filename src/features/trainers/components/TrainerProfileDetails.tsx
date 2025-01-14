@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   CardMedia,
@@ -30,6 +31,14 @@ import { Link } from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AvatarUploader from "../../../UI/Avatar/AvatarUploader.tsx";
+import {Lesson} from "../../../types/lessonTypes.ts";
+import {UserProfile} from "../../../types/userTypes.ts";
+
+const checkPresence = (lessons: Lesson[], searchId: string) => {
+  return lessons.some(lesson =>
+    lesson.arePresent.some(person => person._id === searchId)
+  );
+};
 
 interface TrainerProfileDetailsProps {
   trainerProfile: ITrainer | null;
@@ -39,6 +48,8 @@ interface TrainerProfileDetailsProps {
   showForm: boolean;
   setShowForm: (show: boolean) => void;
   handleReviewSubmit: (reviewText: string, ratingValue: number | null) => void;
+  user: UserProfile | null;
+  lessons: Lesson[];
 }
 
 const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
@@ -49,6 +60,8 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   showForm,
   setShowForm,
   handleReviewSubmit,
+  user,
+  lessons,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -278,34 +291,40 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               marginTop: "40px",
             }}
           >
-            {!isOwner && (
-              <>
-                <Box sx={{ marginTop: "20px", textAlign: "center" }}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => setShowForm(!showForm)}
-                    sx={{
-                      color: "black",
-                      borderColor: "black",
-                      borderRadius: "7px",
-                    }}
-                  >
-                    {showForm ? "Закрыть" : "Оставить отзыв"}
-                  </Button>
-                </Box>
-                {showForm && (
-                  <Box
-                    sx={{
-                      marginTop: "20px",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <ReviewFormBlock onSubmit={handleReviewSubmit} />
+            {user && user.role === "client" && (
+              checkPresence(lessons, user._id) ? (
+                <>
+                  <Box sx={{ marginTop: "20px", textAlign: "center" }}>
+                    <Button
+                      variant="outlined"
+                      onClick={() => setShowForm(!showForm)}
+                      sx={{
+                        color: "black",
+                        borderColor: "black",
+                        borderRadius: "7px",
+                      }}
+                    >
+                      {showForm ? "Закрыть" : "Оставить отзыв"}
+                    </Button>
                   </Box>
-                )}
-              </>
+                  {showForm && (
+                    <Box
+                      sx={{
+                        marginTop: "20px",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      <ReviewFormBlock onSubmit={handleReviewSubmit} />
+                    </Box>
+                  )}
+                </>
+              ) : (
+                <Grid size={{ xs: 12 }} mt={3}>
+                  <Alert severity="info">Только посетившие занятия тренера пользователи могут оставлять отзывы</Alert>
+                </Grid>
+              )
             )}
           </Box>
         </Grid>

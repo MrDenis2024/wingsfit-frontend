@@ -16,8 +16,6 @@ import {getOneGroup} from "../../groups/groupsThunk.ts";
 import {selectOneGroup, selectOneGroupLoading} from "../../groups/groupsSlice.ts";
 import LessonsCards from "../components/LessonsCards.tsx";
 
-
-
 const LessonsPage = () => {
   const { id } = useParams() as { id: string };
   const dispatch = useAppDispatch();
@@ -63,9 +61,8 @@ const LessonsPage = () => {
           <Typography variant="h5" marginBottom={0}>Список занятий</Typography>
         </Grid>
 
-
         {loading &&
-            <Grid size={{xs: 12}} display="flex" justifyContent="center" mt={3}>
+          <Grid size={{xs: 12}} display="flex" justifyContent="center" mt={3}>
             <LoadingIndicator/>
           </Grid>}
         {!loading && lessons.length === 0 && (
