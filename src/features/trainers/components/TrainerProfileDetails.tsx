@@ -87,32 +87,39 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               alignItems="center"
             >
               <CardMedia
-                component="img"
-                image={cardImage}
-                alt={`Фото тренера ${trainerProfile?.user.firstName}`}
                 sx={{
+                  position: "relative",
                   width: 220,
                   height: 220,
                   borderRadius: "50%",
-                  objectFit: "cover",
+                  overflow: "visible",
                   margin: "0 auto",
+                  backgroundImage: `url(${cardImage})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  mb: 2,
                 }}
-              />
-              {isOwner && (
-                <IconButton
-                  onClick={handleClickOpen}
-                  sx={{
-                    color: "#0288D1",
-                    borderColor: "#0288D1",
-                    "&:hover": {
-                      backgroundColor: "#dff3fc",
+              >
+                {isOwner && (
+                  <IconButton
+                    onClick={handleClickOpen}
+                    sx={{
+                      position: "absolute",
+                      bottom: "10px",
+                      right: "10px",
+                      backgroundColor: "#fff",
+                      color: "#030303",
                       borderColor: "#0288D1",
-                    },
-                  }}
-                >
-                  <CameraAltIcon />
-                </IconButton>
-              )}
+                      "&:hover": {
+                        backgroundColor: "#dff3fc",
+                        borderColor: "#0288D1",
+                      },
+                    }}
+                  >
+                    <CameraAltIcon />
+                  </IconButton>
+                )}
+              </CardMedia>
             </Grid>
             <Grid
               size={{ md: 7, sm: 6, xs: 12 }}
