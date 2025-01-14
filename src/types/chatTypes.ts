@@ -40,6 +40,7 @@ export interface Message {
     user: string;
     read: boolean;
   };
+  isTrainingUrl?: boolean;
 }
 
 export interface ChatMessagesPayload {

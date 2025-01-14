@@ -30,6 +30,7 @@ import { selectFetchGroups, selectGroups } from "../groups/groupsSlice.ts";
 import AnotherCoursesLinks from "./components/AnotherCoursesLinks.tsx";
 import CoursesGroupCards from "./components/CoursesGroupCards.tsx";
 import { UserProfile } from "../../types/userTypes.ts";
+import ChatButton from "../chat/components/ChatButton.tsx";
 
 const OneCourse = () => {
   const { id } = useParams<{ id: string }>();
@@ -56,10 +57,6 @@ const OneCourse = () => {
       dispatch(fetchCourses(course.user._id));
     }
   }, [dispatch, course]);
-
-  const handleClick = () => {
-    navigate(`/trainers/${trainerId}`);
-  };
 
   const handleClickEditCourse = () => {
     navigate(`/edit-course/${id}`);
@@ -261,23 +258,24 @@ const OneCourse = () => {
                     </Typography>
                   </Grid>
                 </Grid>
-                <Button
-                  onClick={handleClick}
-                  variant="contained"
-                  sx={{
-                    backgroundColor: "#5cc532",
-                    color: "#ffffff",
-                    mt: 2,
-                    fontSize: "20px",
-                    textTransform: "none",
-                    borderRadius: "10px",
-                    ":hover": {
-                      backgroundColor: "#408a23",
-                    },
-                  }}
-                >
-                  Попробовать!
-                </Button>
+                {user?._id !== trainerId && trainerId && user?._id && (
+                  <ChatButton
+                    firstPersonId={trainerId}
+                    secondPersonId={user._id}
+                    buttonText="Попробовать!"
+                  >
+                    {{
+                      backgroundColor: "#5cc532",
+                      color: "#ffffff",
+                      fontSize: "20px",
+                      textTransform: "none",
+                      borderRadius: "10px",
+                      "&:hover": {
+                        backgroundColor: "#408a23",
+                      },
+                    }}
+                  </ChatButton>
+                )}
               </Grid>
               <Grid
                 sx={{

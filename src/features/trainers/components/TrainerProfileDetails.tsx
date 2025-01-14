@@ -30,6 +30,7 @@ import { Link } from "react-router-dom";
 import TrainerCertificates from "./TrainerCertificates.tsx";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import AvatarUploader from "../../../UI/Avatar/AvatarUploader.tsx";
+import ChatButton from "../../chat/components/ChatButton.tsx";
 
 interface TrainerProfileDetailsProps {
   trainerProfile: ITrainer | null;
@@ -39,6 +40,7 @@ interface TrainerProfileDetailsProps {
   showForm: boolean;
   setShowForm: (show: boolean) => void;
   handleReviewSubmit: (reviewText: string, ratingValue: number | null) => void;
+  clientId: string;
 }
 
 const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
@@ -49,6 +51,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
   showForm,
   setShowForm,
   handleReviewSubmit,
+  clientId,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -230,14 +233,15 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                 <TrainerCertificates trainerProfile={trainerProfile} />
 
                 {isOwner && <NewAddTrainerCertificates />}
-                {!isOwner && (
-                  <Button
-                    variant="contained"
-                    color="success"
-                    sx={{ width: "fit-content" }}
-                  >
-                    Связаться с тренером
-                  </Button>
+                {!isOwner && trainerProfile?.user._id && (
+                  <ChatButton
+                    firstPersonId={trainerProfile.user._id}
+                    secondPersonId={clientId}
+                    buttonText="Связаться с тренером"
+                    children={{
+                      width: "fit-content",
+                    }}
+                  />
                 )}
               </Box>
             </Grid>

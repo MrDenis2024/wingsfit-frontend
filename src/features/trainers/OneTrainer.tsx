@@ -60,6 +60,7 @@ const OneTrainer = () => {
   };
 
   const isMyProfile = user?._id === id;
+  const clientId = user?._id ?? "";
 
   return (
     <>
@@ -74,6 +75,7 @@ const OneTrainer = () => {
           showForm={showForm}
           setShowForm={setShowForm}
           handleReviewSubmit={handleReviewSubmit}
+          clientId={clientId}
         />
       )}
     </>
