@@ -34,6 +34,7 @@ import { selectFetchGroups, selectGroups } from "../../groups/groupsSlice.ts";
 import { fetchAllGroups } from "../../groups/groupsThunk.ts";
 import SubscribedGroupCard from "../../groups/components/SubscribedGroupCard.tsx";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
+import {fetchCourseTypes} from "../../CourseTypes/CourseTypesThunks.ts";
 
 interface ClientsProfileDetailsProps {
   clientsProfile: IClient;
@@ -56,6 +57,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
   useEffect(() => {
     if (clientsProfile) {
       dispatch(fetchAllGroups());
+        dispatch(fetchCourseTypes());
     }
   }, [dispatch, clientsProfile]);
 
