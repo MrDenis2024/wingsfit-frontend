@@ -7,6 +7,9 @@ import {
   CourseMutation,
   FetchSearchCourseArgs,
   ICourse,
+  JoinApproveArgs,
+  JoinCourseArg,
+  JoinDeclineArgs,
   UpdateCourseArg,
 } from "../../types/courseTypes.ts";
 
@@ -97,6 +100,36 @@ export const editCourse = createAsyncThunk<
     throw e;
   }
 });
+
+export const joinToCourseGroup = createAsyncThunk<void, JoinCourseArg>(
+  "courses/joinToCourseGroup",
+  async ({ id, groupId }) => {
+    await axiosApi.patch(`/courses/new/${id}`, { groupId });
+  },
+);
+export const migrateToAnotherCourseGroup = createAsyncThunk<
+  void,
+  JoinCourseArg
+>("courses/migrateToAnotherCourseGroup", async ({ id, groupId }) => {
+  await axiosApi.patch(`/courses/migrate/${id}`, { groupId });
+});
+
+export const approveJoinToCourseGroup = createAsyncThunk<void, JoinApproveArgs>(
+  "courses/approveJoinToCourseGroup",
+  async ({ id, waitListId, subscribeEndDate }) => {
+    await axiosApi.patch(`/courses/approve/${id}`, {
+      waitListId,
+      subscribeEndDate,
+    });
+  },
+);
+
+export const declineJoinToCourseGroup = createAsyncThunk<void, JoinDeclineArgs>(
+  "courses/declineJoinToCourseGroup",
+  async ({ id, waitListId }) => {
+    await axiosApi.patch(`/courses/decline/${id}`, { waitListId });
+  },
+);
 
 export const deleteCourse = createAsyncThunk<void, string>(
   "courses/deleteCourse",
