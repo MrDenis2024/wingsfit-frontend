@@ -48,22 +48,55 @@ const ChatsList: React.FC<Props> = ({
           {chats.map((chat) => (
             <ListItem
               key={chat._id}
-              onClick={() => setSelectedChatId(chat._id)}
+              onClick={() => {
+                if (chat.type === "group" && !chat.disabled) {
+                  setSelectedChatId(chat._id);
+                } else if (chat.type === "private") {
+                  setSelectedChatId(chat._id);
+                }
+              }}
               sx={{
                 backgroundColor:
                   selectedChatId === chat._id ? "#56cad5" : "transparent",
-                "&:hover": { backgroundColor: "#56cad5" },
+                "&:hover": {
+                  backgroundColor:
+                    chat.type === "group" && chat.disabled
+                      ? "transparent"
+                      : "#56cad5",
+                },
+                cursor:
+                  chat.type === "group" && chat.disabled
+                    ? "not-allowed"
+                    : "pointer",
               }}
             >
               <ListItemText
                 primary={
-                  <Typography
-                    sx={{
-                      fontSize: { xs: "0.8rem", sm: "1rem" },
-                    }}
-                  >
-                    {renderChatTitle(chat)}
-                  </Typography>
+                  <>
+                    <Typography
+                      sx={{
+                        fontSize: { xs: "0.8rem", sm: "1rem" },
+                        color:
+                          chat.type === "group" && chat.disabled
+                            ? "gray"
+                            : "inherit",
+                      }}
+                    >
+                      {renderChatTitle(chat)}
+                    </Typography>
+                    {chat.type === "group" && chat.disabled && (
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          mt: 1,
+                          fontSize: { xs: "0.4rem", sm: "0.6rem" },
+                          color: "red",
+                        }}
+                      >
+                        Ваш статус в этой группе заморожен
+                      </Typography>
+                    )}
+                  </>
                 }
               />
             </ListItem>
