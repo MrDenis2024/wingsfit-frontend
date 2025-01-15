@@ -48,11 +48,17 @@ const ChatsList: React.FC<Props> = ({
           {chats.map((chat) => (
             <ListItem
               key={chat._id}
-              onClick={() => setSelectedChatId(chat._id)}
+              onClick={() => {
+                if (chat.type === "group" && !chat.disabled) {
+                  setSelectedChatId(chat._id);
+                } else if (chat.type === "private") {
+                  setSelectedChatId(chat._id);
+                }
+              }}
               sx={{
-                backgroundColor:
-                  selectedChatId === chat._id ? "#56cad5" : "transparent",
-                "&:hover": { backgroundColor: "#56cad5" },
+                backgroundColor: selectedChatId === chat._id ? "#56cad5" : "transparent",
+                "&:hover": { backgroundColor: chat.type === "group" && chat.disabled ? "transparent" : "#56cad5" },
+                cursor: chat.type === "group" && chat.disabled ? "not-allowed" : "pointer",
               }}
             >
               <ListItemText
@@ -60,6 +66,7 @@ const ChatsList: React.FC<Props> = ({
                   <Typography
                     sx={{
                       fontSize: { xs: "0.8rem", sm: "1rem" },
+                      color: chat.type === "group" && chat.disabled ? "gray" : "inherit",
                     }}
                   >
                     {renderChatTitle(chat)}
