@@ -64,6 +64,7 @@ const CourseTypeSelector: React.FC<Props> = ({
           },
           color: "white",
           fontWeight: "bold",
+          textWrap: "wrap",
         }}
       >
         {label}
@@ -78,6 +79,9 @@ const CourseTypeSelector: React.FC<Props> = ({
           fontSize: {
             xs: "0.9rem",
             sm: "16px",
+            "@media (max-width: 320px)": {
+              maxWidth: "190px",
+            },
           },
           backgroundColor: "#f9f9f9",
           borderRadius: "8px",

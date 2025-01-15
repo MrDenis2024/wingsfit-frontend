@@ -42,6 +42,9 @@ const CustomInput: React.FC<TextFieldProps> = (props) => {
               padding: "8px 10px",
               fontSize: "14px",
             },
+            "@media (max-width: 320px)": {
+              maxWidth: "190px",
+            },
           },
         },
         inputLabel: {

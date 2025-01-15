@@ -11,3 +11,9 @@
     font-size: 14px;
   }
 }
+
+@media (max-width: 320px) {
+  .PhoneInput {
+    max-width: 190px;
+  }
+}
