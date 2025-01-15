@@ -248,7 +248,7 @@ const GroupCard: React.FC<Props> = ({
               <Grid>
                 <IconButton
                   component={Link}
-                  to={`lessons/${group._id}`}
+                  to={`/lessons/${group._id}`}
                   sx={{
                     color: "black",
                     borderColor: "black",
