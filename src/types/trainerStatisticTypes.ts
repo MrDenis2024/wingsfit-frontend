@@ -4,6 +4,7 @@ export interface TrainerStatisticGroup {
   clientsLimit: number;
   trainingLevel: string;
   startTime: string;
+  scheduleLength: number;
   clients: {
     _id: string;
     client: string;

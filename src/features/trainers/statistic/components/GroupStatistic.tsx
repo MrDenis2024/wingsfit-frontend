@@ -26,9 +26,7 @@ const GroupStatistic = () => {
   useEffect(() => {
     dispatch(getStatisticGroup());
   }, [dispatch]);
-  useEffect(() => {
-    console.log(statisticGroup)
-  }, [statisticGroup]);
+
   return (
     <>
       {isLoading ? (
