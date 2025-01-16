@@ -27,6 +27,7 @@ import CustomConfirmDialog from "../../../../UI/CustomConfirmDialog/CustomConfir
 import { selectDeleteCourseLoading } from "../../../courses/coursesSlice.ts";
 import { deleteCourse, fetchCourses } from "../../../courses/coursesThunks.ts";
 import dayjs from "dayjs";
+import AdminCourseType from "./AdminCourseType.tsx";
 
 interface Props {
   users: IUser[];
@@ -382,6 +383,12 @@ const AdminPanelItem: React.FC<Props> = ({
             </Table>
           </>
         );
+      case "course type":
+        return (
+            <>
+                <AdminCourseType/>
+            </>
+        );
       default:
         return (
           <Typography variant="h6" color="textSecondary" align="center">
@@ -416,6 +423,9 @@ const AdminPanelItem: React.FC<Props> = ({
           </Button>
           <Button color="inherit" onClick={() => setActiveTab("groups")}>
             Группы
+          </Button>
+          <Button color="inherit" onClick={() => setActiveTab("course type")}>
+            Типы курсов
           </Button>
           <Button color="inherit" onClick={() => setActiveTab("courses")}>
             Курсы

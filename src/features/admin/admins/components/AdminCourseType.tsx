@@ -13,7 +13,6 @@ import {
 import {
   Button,
   CircularProgress,
-  Container,
   Table,
   TableBody,
   TableCell,
@@ -83,14 +82,12 @@ const AdminCourseType = () => {
 
   return (
     <>
-      <Container maxWidth="md" sx={{ py: 2 }}>
         <Grid
           container
           alignItems="center"
           justifyContent="space-between"
-          mb={3}
         >
-          <Typography variant="h2">Типы курсов</Typography>
+          <Typography variant="h5" gutterBottom>Типы курсов</Typography>
           <Button
             onClick={() => setModalOpen(true)}
             sx={{
@@ -107,10 +104,10 @@ const AdminCourseType = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Название</TableCell>
-              <TableCell>Опубликован</TableCell>
-              <TableCell>Заблокирован</TableCell>
-              <TableCell sx={{ textAlign: "center" }}>Действия</TableCell>
+              <TableCell><strong>Название</strong></TableCell>
+              <TableCell><strong>Опубликован</strong></TableCell>
+              <TableCell><strong>Заблокирован</strong></TableCell>
+              <TableCell sx={{ textAlign: "center" }}><strong>Действия</strong></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -149,7 +146,6 @@ const AdminCourseType = () => {
             ))}
           </TableBody>
         </Table>
-      </Container>
       <CustomConfirmDialog
         open={confirmOpen}
         title={

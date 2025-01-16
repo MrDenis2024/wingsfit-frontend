@@ -19,6 +19,7 @@ import AnonymousMenu from "./AnonymousMenu.tsx";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SideBarMenu from "./SideBarMenu.tsx";
+import AdminNavigationBar from "./AdminNavigationBar.tsx";
 
 export const StyledLink = styled(NavLink)({
   color: "inherit",
@@ -66,9 +67,17 @@ const AppToolbar = () => {
                 </Typography>
               </Grid>
               {!isSmallScreen && (
-                <Grid>
-                  {user ? <UserMenu user={user} /> : <AnonymousMenu />}
-                </Grid>
+                  <Grid>
+                    {user ? (
+                        user.role === "admin" || user.role === "superAdmin" ? (
+                            <AdminNavigationBar user={user} />
+                        ) : (
+                            <UserMenu user={user} />
+                        )
+                    ) : (
+                        <AnonymousMenu />
+                    )}
+                  </Grid>
               )}
               {isSmallScreen && (
                 <Box sx={{ display: "flex", alignItems: "center" }}>
