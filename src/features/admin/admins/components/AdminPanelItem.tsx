@@ -26,6 +26,7 @@ import { selectDeleteGroupLoading } from "../../../groups/groupsSlice.ts";
 import CustomConfirmDialog from "../../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { selectDeleteCourseLoading } from "../../../courses/coursesSlice.ts";
 import { deleteCourse, fetchCourses } from "../../../courses/coursesThunks.ts";
+import dayjs from "dayjs";
 
 interface Props {
   users: IUser[];
@@ -130,7 +131,7 @@ const AdminPanelItem: React.FC<Props> = ({
                       {user.timeZone ? user.timeZone.label : "Не указан"}
                     </TableCell>
                     <TableCell>{user.phoneNumber}</TableCell>
-                    <TableCell>{user.dateOfBirth}</TableCell>
+                    <TableCell>{dayjs(user.dateOfBirth).format('DD.MM.YYYY')}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
