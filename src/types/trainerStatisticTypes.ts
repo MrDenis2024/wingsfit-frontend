@@ -6,9 +6,12 @@ export interface TrainerStatisticGroup {
   startTime: string;
   clients: {
     _id: string;
-    firstName: string;
-    lastName: string;
+    client: string;
+    addedAt: Date;
+    status: string;
+    subscribeEnd: Date;
   }[];
+  maxClients: number;
   course: {
     _id: string;
     title: string;

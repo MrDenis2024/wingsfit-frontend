@@ -25,15 +25,15 @@ const TrainerStatisticMenu = () => {
             <ListItemText primary="Мои группы" />
           </ListItemButton>
         </ListItem>
-        <ListItem sx={{ flex: "1 1 30%" }}>
-          <ListItemButton
-            sx={{ textAlign: "center" }}
-            component={Link}
-            to="/trainer/statistics/chart"
-          >
-            <ListItemText primary="Статистика" />
-          </ListItemButton>
-        </ListItem>
+        {/*<ListItem sx={{ flex: "1 1 30%" }}>*/}
+        {/*  <ListItemButton*/}
+        {/*    sx={{ textAlign: "center" }}*/}
+        {/*    component={Link}*/}
+        {/*    to="/trainer/statistics/chart"*/}
+        {/*  >*/}
+        {/*    <ListItemText primary="Статистика" />*/}
+        {/*  </ListItemButton>*/}
+        {/*</ListItem>*/}
       </List>
     </>
   );
