@@ -23,10 +23,11 @@ export interface TrainerStatisticGroup {
 
 export interface TrainerStatisticClient {
   _id: string;
-  name: string;
+  addedAt: Date;
+  clientId: string;
+  groupTitle: string;
   lastName: string;
-  phoneNumber: string;
-  email: string;
-  groups: string[];
-  courses: string[];
+  name: string;
+  status: string;
+  subscribeEnd: Date;
 }

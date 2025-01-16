@@ -25,10 +25,6 @@ const CourseStatistic = () => {
         dispatch(fetchCourses());
     }, [dispatch]);
 
-    useEffect(() => {
-        console.log(statisticCourses)
-    }, [statisticCourses]);
-
     const getPersonWord = (count: number): string => {
         if (count % 10 === 1 && count % 100 !== 11) {
             return 'человек';
