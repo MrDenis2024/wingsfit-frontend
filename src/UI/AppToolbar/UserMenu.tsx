@@ -75,19 +75,23 @@ const UserMenu: React.FC<Props> = ({ user }) => {
         </IconButton>
       </Stack>
       <Menu open={isOpen} anchorEl={anchorEl} onClose={handleClose} keepMounted>
-        <MenuItem onClick={handleProfileClick}>
-          <AccountBoxIcon sx={{ mr: 2 }} />
-          Профиль
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            navigate(`/${user.role}s/courses/${user._id}`);
-            handleClose();
-          }}
-        >
-          <FitnessCenterIcon sx={{ mr: 2 }} />
-          Мои курсы
-        </MenuItem>
+        {(user.role === "client" || user.role === "trainer") && (
+          <>
+            <MenuItem onClick={handleProfileClick}>
+              <AccountBoxIcon sx={{ mr: 2 }} />
+              Профиль
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                navigate(`/${user.role}s/courses/${user._id}`);
+                handleClose();
+              }}
+            >
+              <FitnessCenterIcon sx={{ mr: 2 }} />
+              Мои курсы
+            </MenuItem>
+          </>
+        )}
         {user.role === "trainer" && (
           <MenuItem
             onClick={() => {
