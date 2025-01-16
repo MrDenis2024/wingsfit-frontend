@@ -108,6 +108,7 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                 alignItems="center"
               >
                 <CardMedia
+                  image={cardImage}
                   sx={{
                     position: "relative",
                     width: 220,
@@ -115,7 +116,6 @@ const ClientProfileDetail: React.FC<ClientsProfileDetailsProps> = ({
                     borderRadius: "50%",
                     overflow: "visible",
                     margin: "0 auto",
-                    backgroundImage: `url(${cardImage})`,
                     backgroundSize: "cover",
                     backgroundPosition: "center",
                     mb: 2,
