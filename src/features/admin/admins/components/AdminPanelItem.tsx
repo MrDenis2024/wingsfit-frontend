@@ -28,6 +28,8 @@ import { selectDeleteCourseLoading } from "../../../courses/coursesSlice.ts";
 import { deleteCourse, fetchCourses } from "../../../courses/coursesThunks.ts";
 import Modal from "../../../../UI/Modal/Modal.tsx";
 import ChangePassword from "../../../users/components/ChangePassword.tsx";
+import dayjs from "dayjs";
+import AdminCourseType from "./AdminCourseType.tsx";
 
 interface Props {
   users: IUser[];
@@ -133,7 +135,7 @@ const AdminPanelItem: React.FC<Props> = ({
                       {user.timeZone ? user.timeZone.label : "Не указан"}
                     </TableCell>
                     <TableCell>{user.phoneNumber}</TableCell>
-                    <TableCell>{user.dateOfBirth}</TableCell>
+                    <TableCell>{dayjs(user.dateOfBirth).format('DD.MM.YYYY')}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -384,6 +386,12 @@ const AdminPanelItem: React.FC<Props> = ({
             </Table>
           </>
         );
+      case "course type":
+        return (
+            <>
+                <AdminCourseType/>
+            </>
+        );
       default:
         return (
           <Typography variant="h6" color="textSecondary" align="center">
@@ -418,6 +426,9 @@ const AdminPanelItem: React.FC<Props> = ({
           </Button>
           <Button color="inherit" onClick={() => setActiveTab("groups")}>
             Группы
+          </Button>
+          <Button color="inherit" onClick={() => setActiveTab("course type")}>
+            Типы курсов
           </Button>
           <Button color="inherit" onClick={() => setActiveTab("courses")}>
             Курсы

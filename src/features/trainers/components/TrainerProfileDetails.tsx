@@ -103,6 +103,7 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
               alignItems="center"
             >
               <CardMedia
+                image={cardImage}
                 sx={{
                   position: "relative",
                   width: 220,
@@ -110,7 +111,6 @@ const TrainerProfileDetails: React.FC<TrainerProfileDetailsProps> = ({
                   borderRadius: "50%",
                   overflow: "visible",
                   margin: "0 auto",
-                  backgroundImage: `url(${cardImage})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   mb: 2,
