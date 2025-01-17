@@ -28,9 +28,6 @@ const ClientStatistic = () => {
     dispatch(getStatisticClient());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log(statisticClient)
-  }, [statisticClient]);
   return (
     <>
       {isLoading ? (
@@ -39,12 +36,25 @@ const ClientStatistic = () => {
         <>
           {statisticClient.length > 0 ? (
             <>
-              <TableContainer component={Paper} sx={{border:'1px solid #ECECEC', borderRadius:'20px'}}>
-                <Typography variant="h5" textAlign="left" marginBottom={2} sx={{margin:'20px 0 10px 15px'}}>
+              <TableContainer
+                component={Paper}
+                sx={{ border: "1px solid #ECECEC", borderRadius: "20px" }}
+              >
+                <Typography
+                  variant="h5"
+                  textAlign="left"
+                  marginBottom={2}
+                  sx={{ margin: "20px 0 10px 15px" }}
+                >
                   Клиенты
                 </Typography>
                 <Table>
-                  <TableHead sx={{borderBottom:'1px solid #ECECEC', backgroundColor:'#F5F5F5'}}>
+                  <TableHead
+                    sx={{
+                      borderBottom: "1px solid #ECECEC",
+                      backgroundColor: "#F5F5F5",
+                    }}
+                  >
                     <TableRow>
                       <TableCell>
                         <strong>ФИО</strong>
@@ -65,17 +75,18 @@ const ClientStatistic = () => {
                   </TableHead>
                   <TableBody>
                     {statisticClient.map((client) => (
-                      <TableRow
-                        key={client._id}
-                      >
+                      <TableRow key={client._id}>
                         <TableCell>
                           {client.name} {client.lastName}
                         </TableCell>
                         <TableCell>{client.groupTitle}</TableCell>
                         <TableCell>{client.status}</TableCell>
-                        <TableCell>{new Date(client.addedAt).toLocaleString()}</TableCell>
-                        <TableCell>{new Date(client.subscribeEnd).toLocaleString()}</TableCell>
-
+                        <TableCell>
+                          {new Date(client.addedAt).toLocaleString()}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(client.subscribeEnd).toLocaleString()}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

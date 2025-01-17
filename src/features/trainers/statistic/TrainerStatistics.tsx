@@ -1,8 +1,8 @@
 import React from "react";
 import TrainerStatisticMenu from "./components/TrainerStatisticMenu.tsx";
 import Grid from "@mui/material/Grid2";
-import {Alert, Container} from "@mui/material";
-import {useLocation} from "react-router-dom";
+import { Alert, Container } from "@mui/material";
+import { useLocation } from "react-router-dom";
 import ClientStatistic from "./components/ClientStatistic.tsx";
 import GroupStatistic from "./components/GroupStatistic.tsx";
 import CourseStatistic from "./components/CourseStatistic.tsx";
@@ -21,7 +21,7 @@ const TrainerStatistics = () => {
     content = <GroupStatistic />;
   } else if (lastWord === "clients") {
     content = <ClientStatistic />;
-  }else if (lastWord === "courses") {
+  } else if (lastWord === "courses") {
     content = <CourseStatistic />;
   }
 
