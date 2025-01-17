@@ -6,6 +6,7 @@ import {
   ValidationError,
 } from "../../types/userTypes";
 import {
+  changePassword,
   fetchUsers,
   googleLogin,
   login,
@@ -25,6 +26,8 @@ interface UserState {
   adminLoginError: GlobalError | null;
   items: IUser[];
   itemsFetching: boolean;
+  changePasswordLoading: boolean;
+  changePasswordError: GlobalError | null;
 }
 
 const initialState: UserState = {
@@ -38,6 +41,8 @@ const initialState: UserState = {
   adminLoginError: null,
   items: [],
   itemsFetching: false,
+  changePasswordLoading: false,
+  changePasswordError: null,
 };
 
 export const userSlice = createSlice({
@@ -111,6 +116,19 @@ export const userSlice = createSlice({
         state.adminLoginError = error || null;
       });
     builder
+      .addCase(changePassword.pending, (state) => {
+        state.changePasswordLoading = true;
+        state.changePasswordError = null;
+      })
+      .addCase(changePassword.fulfilled, (state) => {
+        state.changePasswordLoading = false;
+      })
+      .addCase(changePassword.rejected, (state, { payload: error }) => {
+        state.changePasswordLoading = false;
+        state.changePasswordError = error || null;
+      });
+
+    builder
       .addCase(fetchUsers.pending, (state) => {
         state.itemsFetching = true;
       })
@@ -133,6 +151,8 @@ export const userSlice = createSlice({
     selectLoginAdminError: (state) => state.adminLoginError,
     selectUsers: (state) => state.items,
     selectUsersFetching: (state) => state.itemsFetching,
+    selectChangePasswordLoading: (state) => state.changePasswordLoading,
+    selectChangePasswordError: (state) => state.changePasswordError,
   },
 });
 
@@ -151,4 +171,6 @@ export const {
   selectLoginAdminError,
   selectUsers,
   selectUsersFetching,
+  selectChangePasswordLoading,
+  selectChangePasswordError,
 } = userSlice.selectors;

@@ -6,6 +6,7 @@ import {
   UserMutation,
   ValidationError,
   IUser,
+  IChangePassword,
 } from "../../types/userTypes";
 import { isAxiosError } from "axios";
 import axiosApi from "../../axiosApi";
@@ -110,6 +111,21 @@ export const loginAdmin = createAsyncThunk<
       loginMutation,
     );
     return user;
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data);
+    }
+    throw e;
+  }
+});
+
+export const changePassword = createAsyncThunk<
+  void,
+  IChangePassword,
+  { rejectValue: GlobalError }
+>("users/changePassword", async (changePassword, { rejectWithValue }) => {
+  try {
+    await axiosApi.patch("/users/changePassword", changePassword);
   } catch (e) {
     if (isAxiosError(e) && e.response && e.response.status === 400) {
       return rejectWithValue(e.response.data);
