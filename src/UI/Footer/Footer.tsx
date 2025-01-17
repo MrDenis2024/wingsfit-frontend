@@ -22,6 +22,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupIcon from "@mui/icons-material/Group";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 const StyledLink = styled(NavLink)(({ theme }) => ({
   color: "inherit",
@@ -45,7 +46,6 @@ const Footer = () => {
   const clientLinks = userId
     ? [
         { to: `/`, label: "Home" },
-        { to: `/clients/courses/${userId}`, label: "My Courses" },
         { to: `/clients/chats/${userId}`, label: "My Chats" },
         { to: `/clients/search-select/courses`, label: "Search courses" },
         { to: `/clients/search-select/trainers`, label: "Search trainers" },
@@ -57,6 +57,7 @@ const Footer = () => {
         { to: `/`, label: "Home" },
         { to: `/trainers/courses/${userId}`, label: "My Courses" },
         { to: `/trainers/chats/${userId}`, label: "My Chats" },
+        { to: `/trainer/groups`, label: "My Groups" },
       ]
     : [];
 
@@ -251,6 +252,8 @@ const Footer = () => {
                 <FitnessCenterIcon />
               ) : link.label === "My Chats" ? (
                 <ChatIcon />
+              ) : link.label === "My Groups" ? (
+                <GroupIcon />
               ) : link.label === "Search courses" ? (
                 <SearchIcon />
               ) : link.label === "Search trainers" ? (
@@ -313,7 +316,7 @@ const Footer = () => {
                       variant="body1"
                       sx={{ display: "flex", alignItems: "center", gap: 1 }}
                     >
-                      Создать группу <GroupIcon />
+                      Создать группу <GroupAddIcon />
                     </Typography>
                   </StyledLink>
                 </Box>

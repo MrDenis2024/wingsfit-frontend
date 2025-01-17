@@ -15,7 +15,6 @@ import { UserProfile } from "../../types/userTypes.ts";
 import { apiURL } from "../../constants.ts";
 import { useAppDispatch } from "../../app/hooks.ts";
 import { logout } from "../../features/users/userThunk.ts";
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import ChatIcon from "@mui/icons-material/Chat";
 import AddchartIcon from "@mui/icons-material/Addchart";
 import GroupIcon from "@mui/icons-material/Group";
@@ -80,18 +79,6 @@ const UserMenu: React.FC<Props> = ({ user }) => {
           <AccountBoxIcon sx={{ mr: 2 }} />
           Профиль
         </MenuItem>
-        )}
-        {(user.role === "client" || user.role === "trainer") && (
-        <MenuItem
-          onClick={() => {
-            navigate(`/${user.role}s/courses/${user._id}`);
-            handleClose();
-          }}
-        >
-          <FitnessCenterIcon sx={{ mr: 2 }} />
-          Мои курсы
-        </MenuItem>
-
         )}
         {user.role === "trainer" && (
           <MenuItem
