@@ -11,11 +11,13 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Autocomplete,
   Box,
   Button,
-  Checkbox,
+  Checkbox, Chip,
   FormControlLabel,
   FormGroup,
+  TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -56,7 +58,7 @@ const SearchCoursePage = () => {
 
   const handleCheckboxChange = (
     category: keyof FetchSearchCourseArgs,
-    value: string,
+    value: string
   ) => {
     setFilters((prevFilters) => {
       const currentValues = prevFilters[category];
@@ -76,12 +78,11 @@ const SearchCoursePage = () => {
   };
 
   const resetForm = () => {
-    setFilters({
+    setFilters((prevState) => ({
+      ...prevState,
       format: [],
       schedule: [],
-      trainers: [],
-      courseTypes: [],
-    });
+    }));
   };
 
   return (
@@ -91,55 +92,41 @@ const SearchCoursePage = () => {
         border="1px solid #ccc"
         borderRadius="4px"
       >
-        <FormGroup>
-          <Grid mx={2}>
-            <Typography variant="h6" mt={1} gutterBottom>
-              Сортировка
-            </Typography>
-
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={filters.format.includes("group")}
-                  onChange={() => handleCheckboxChange("format", "group")}
-                />
-              }
-              label="Групповые"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={filters.format.includes("single")}
-                  onChange={() => handleCheckboxChange("format", "single")}
-                />
-              }
-              label="Индивидуально"
-            />
-          </Grid>
-        </FormGroup>
-
+        <Typography variant="h6" mx={1} mt={1} gutterBottom textAlign={{ md: "center", lg: "left"}}>
+          Сортировка
+        </Typography>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Направление</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <FormGroup>
-              {courseTypes.map((type) => (
-                <FormControlLabel
-                  key={type._id}
-                  control={
-                    <Checkbox
-                      checked={filters.courseTypes.includes(type._id)}
-                      onChange={() =>
-                        handleCheckboxChange("courseTypes", type._id)
-                      }
+            <Autocomplete
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...tagProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      key={key}
+                      {...tagProps}
+                      label={option.name}
+                      style={{ border: "1px solid lightblue", borderRadius: "8px", backgroundColor: "#fff", fontSize: "10px", textTransform: "capitalize" }}
                     />
-                  }
-                  label={type.name}
-                  sx={{ textTransform: "capitalize" }}
-                />
-              ))}
-            </FormGroup>
+                  );
+                })
+              }
+              multiple
+              options={courseTypes}
+              getOptionLabel={(option) => option.name}
+              onChange={(_event, newValue) => {
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  courseTypes: newValue.map((type) => type._id),
+                }));
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Выберите направления" />
+              )}
+            />
           </AccordionDetails>
         </Accordion>
 
@@ -148,28 +135,55 @@ const SearchCoursePage = () => {
             <Typography>Тренера</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <FormGroup>
-              {trainers.map((trainer) => (
-                <FormControlLabel
-                  key={trainer.user._id}
-                  control={
-                    <Checkbox
-                      checked={filters.trainers.includes(trainer.user._id)}
-                      onChange={() =>
-                        handleCheckboxChange("trainers", trainer.user._id)
-                      }
+            <Autocomplete
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...tagProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      key={key}
+                      {...tagProps}
+                      label={`${option.user.firstName} ${option.user.lastName}`}
+                      style={{ border: "1px solid lightblue", borderRadius: "8px", backgroundColor: "#fff", fontSize: "10px" }}
                     />
-                  }
-                  label={`${trainer.user.firstName} ${trainer.user.lastName}`}
-                />
-              ))}
-            </FormGroup>
+                  );
+                })
+              }
+              multiple
+              options={trainers}
+              getOptionLabel={(option) =>
+                `${option.user.firstName} ${option.user.lastName}`
+              }
+              onChange={(_event, newValue) => {
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  trainers: newValue.map((trainer) => trainer.user._id),
+                }));
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Выберите тренеров" />
+              )}
+            />
           </AccordionDetails>
         </Accordion>
-
-        <Typography m={2} variant="h6" gutterBottom>
-          Расписание
-        </Typography>
+        <Grid p={1} my={1} display="flex" flexWrap="wrap" justifyContent={{ xs: "space-between", md: "center", lg: "stretch" }} textAlign="center">
+          <Typography variant="h6" gutterBottom>
+            Расписание и формат
+          </Typography>
+          <Button
+            variant="outlined"
+            sx={{
+              color: "gray",
+              borderColor: "gray",
+              fontSize: "11px",
+              alignSelf: "center",
+            }}
+            onClick={resetForm}
+          >
+            Сбросить
+            <DeleteForeverIcon />
+          </Button>
+        </Grid>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Дни недели</Typography>
@@ -191,27 +205,37 @@ const SearchCoursePage = () => {
             </FormGroup>
           </AccordionDetails>
         </Accordion>
-        <Box gap={1} p={1} display="flex" justifyContent="end">
-          <Button
-            variant="outlined"
-            sx={{
-              color: "gray",
-              borderColor: "gray",
-              fontSize: "11px",
-            }}
-            onClick={resetForm}
-          >
-            Сбросить
-            <DeleteForeverIcon />
-          </Button>
-          <Button
-            variant="outlined"
-            sx={{ fontSize: "11px" }}
-            onClick={sendForm}
-          >
-            Сортировать
-          </Button>
-        </Box>
+        <FormGroup>
+          <Grid mx={2}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={filters.format.includes("group")}
+                  onChange={() => handleCheckboxChange("format", "group")}
+                />
+              }
+              label="Групповые"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={filters.format.includes("single")}
+                  onChange={() => handleCheckboxChange("format", "single")}
+                />
+              }
+              label="Индивидуально"
+            />
+          </Grid>
+        </FormGroup>
+        <Box gap={1} p={1} display="flex" justifyContent="end" borderTop="1px solid #ccc">
+        <Button
+          variant="outlined"
+          sx={{ fontSize: "11px" }}
+          onClick={sendForm}
+        >
+          Сортировать
+        </Button>
+      </Box>
       </Grid>
 
       <Grid
