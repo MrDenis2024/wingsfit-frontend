@@ -236,7 +236,15 @@ const CourseForm: React.FC<Props> = ({
             name="price"
             type="number"
             value={state.price}
-            onChange={inputChangeHandler}
+            onChange={(event) => {
+              const value = event.target.value;
+              if (Number(value) >= 0) {
+                setState((prevState) => ({
+                  ...prevState,
+                  price: value,
+                }));
+              }
+            }}
             error={Boolean(getFieldError("price"))}
             helperText={getFieldError("price")}
           />
