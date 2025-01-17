@@ -135,7 +135,9 @@ const AdminPanelItem: React.FC<Props> = ({
                       {user.timeZone ? user.timeZone.label : "Не указан"}
                     </TableCell>
                     <TableCell>{user.phoneNumber}</TableCell>
-                    <TableCell>{dayjs(user.dateOfBirth).format('DD.MM.YYYY')}</TableCell>
+                    <TableCell>
+                      {dayjs(user.dateOfBirth).format("DD.MM.YYYY")}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -388,9 +390,9 @@ const AdminPanelItem: React.FC<Props> = ({
         );
       case "course type":
         return (
-            <>
-                <AdminCourseType/>
-            </>
+          <>
+            <AdminCourseType />
+          </>
         );
       default:
         return (
