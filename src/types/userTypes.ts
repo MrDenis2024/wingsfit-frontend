@@ -32,6 +32,11 @@ export interface UserLogin {
   password: string;
 }
 
+export interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}
+
 export interface ValidationError {
   errors: {
     [key: string]: {

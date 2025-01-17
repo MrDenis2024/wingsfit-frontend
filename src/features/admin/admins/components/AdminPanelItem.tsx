@@ -26,6 +26,8 @@ import { selectDeleteGroupLoading } from "../../../groups/groupsSlice.ts";
 import CustomConfirmDialog from "../../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { selectDeleteCourseLoading } from "../../../courses/coursesSlice.ts";
 import { deleteCourse, fetchCourses } from "../../../courses/coursesThunks.ts";
+import Modal from "../../../../UI/Modal/Modal.tsx";
+import ChangePassword from "../../../users/components/ChangePassword.tsx";
 import dayjs from "dayjs";
 import AdminCourseType from "./AdminCourseType.tsx";
 
@@ -51,6 +53,7 @@ const AdminPanelItem: React.FC<Props> = ({
   const deleteGroupLoading = useAppSelector(selectDeleteGroupLoading);
   const courseDeleteLoading = useAppSelector(selectDeleteCourseLoading);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [itemToDelete, setItemToDelete] = useState<{
     type: "group" | "course";
     id: string;
@@ -430,6 +433,13 @@ const AdminPanelItem: React.FC<Props> = ({
           <Button color="inherit" onClick={() => setActiveTab("courses")}>
             Курсы
           </Button>
+          <Button
+            onClick={() => setModalOpen(true)}
+            color="inherit"
+            sx={{ marginLeft: "auto" }}
+          >
+            Сменить пароль
+          </Button>
         </Toolbar>
       </AppBar>
       {renderContent()}
@@ -442,6 +452,13 @@ const AdminPanelItem: React.FC<Props> = ({
         onConfirm={handleDelete}
         onCancel={() => setConfirmOpen(false)}
       />
+      <Modal
+        title={"Сменить пароль"}
+        onClose={() => setModalOpen(false)}
+        show={modalOpen}
+      >
+        <ChangePassword onClose={() => setModalOpen(false)} />
+      </Modal>
     </>
   );
 };
