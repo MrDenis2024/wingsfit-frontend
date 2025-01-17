@@ -36,38 +36,57 @@ const ClientStatistic = () => {
         <>
           {statisticClient.length > 0 ? (
             <>
-              <Typography variant="h5" textAlign="center" marginBottom={2}>
-                Клиенты
-              </Typography>
-              <TableContainer component={Paper}>
+              <TableContainer
+                component={Paper}
+                sx={{ border: "1px solid #ECECEC", borderRadius: "20px" }}
+              >
+                <Typography
+                  variant="h5"
+                  textAlign="left"
+                  marginBottom={2}
+                  sx={{ margin: "20px 0 10px 15px" }}
+                >
+                  Клиенты
+                </Typography>
                 <Table>
-                  <TableHead>
+                  <TableHead
+                    sx={{
+                      borderBottom: "1px solid #ECECEC",
+                      backgroundColor: "#F5F5F5",
+                    }}
+                  >
                     <TableRow>
                       <TableCell>
                         <strong>ФИО</strong>
                       </TableCell>
                       <TableCell>
-                        <strong>Телефон</strong>
+                        <strong>Группа</strong>
                       </TableCell>
                       <TableCell>
-                        <strong>Группа</strong>
+                        <strong>Стастус</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Появление в группе</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Окончание подписки</strong>
                       </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {statisticClient.map((client, index) => (
-                      <TableRow
-                        key={client._id}
-                        sx={{
-                          backgroundColor:
-                            index % 2 === 0 ? "#f5f5f5" : "#ffffff",
-                        }}
-                      >
+                    {statisticClient.map((client) => (
+                      <TableRow key={client._id}>
                         <TableCell>
                           {client.name} {client.lastName}
                         </TableCell>
-                        <TableCell>{client.phoneNumber}</TableCell>
-                        <TableCell>{client.groups}</TableCell>
+                        <TableCell>{client.groupTitle}</TableCell>
+                        <TableCell>{client.status}</TableCell>
+                        <TableCell>
+                          {new Date(client.addedAt).toLocaleString()}
+                        </TableCell>
+                        <TableCell>
+                          {new Date(client.subscribeEnd).toLocaleString()}
+                        </TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

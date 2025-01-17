@@ -99,7 +99,11 @@ const CandidatesList: React.FC<Props> = ({ candidates, courseId }) => {
           candidates.map((candidate) => (
             <ListItem
               key={candidate._id}
-              sx={{ display: "flex", justifyContent: "space-between", borderBottom:'1px solid black'}}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                borderBottom: "1px solid black",
+              }}
             >
               <Link
                 to={`/clients/${candidate.user._id}`}
@@ -111,7 +115,9 @@ const CandidatesList: React.FC<Props> = ({ candidates, courseId }) => {
               </Link>
 
               <Typography variant="body1">{candidate.status}</Typography>
-              <Typography variant="body1">{new Date(candidate.createdAt).toLocaleString()}</Typography>
+              <Typography variant="body1">
+                {new Date(candidate.createdAt).toLocaleString()}
+              </Typography>
               <Grid>
                 <IconButton
                   color="primary"
