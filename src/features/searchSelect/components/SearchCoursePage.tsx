@@ -23,13 +23,14 @@ import {
 } from "@mui/material";
 import { fetchSearchCourses } from "../../courses/coursesThunks.ts";
 import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
-import { FetchSearchCourseArgs } from "../../../types/courseTypes.ts";
+import {FetchSearchCourseArgs, ICourseType} from "../../../types/courseTypes.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SearchCourseCards from "./SearchCourseCards.tsx";
 import { DAYS_OF_WEEK } from "../../../constants.ts";
+import {ITrainer} from "../../../types/trainerTypes.ts";
 
 const SearchCoursePage = () => {
   const user = useAppSelector(selectUser);
@@ -43,6 +44,9 @@ const SearchCoursePage = () => {
     trainers: [],
     courseTypes: [],
   });
+  const [selectedCourseTypes, setSelectedCourseTypes] = useState<ICourseType[]>([]);
+  const [selectedTrainers, setSelectedTrainers] = useState<ITrainer[]>([]);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -78,11 +82,14 @@ const SearchCoursePage = () => {
   };
 
   const resetForm = () => {
-    setFilters((prevState) => ({
-      ...prevState,
+    setFilters({
       format: [],
       schedule: [],
-    }));
+      trainers: [],
+      courseTypes: [],
+    });
+    setSelectedCourseTypes([]);
+    setSelectedTrainers([]);
   };
 
   return (
@@ -92,9 +99,33 @@ const SearchCoursePage = () => {
         border="1px solid #ccc"
         borderRadius="4px"
       >
-        <Typography variant="h6" mx={1} mt={1} gutterBottom textAlign={{ md: "center", lg: "left"}}>
-          Сортировка
-        </Typography>
+        <FormGroup>
+          <Grid mx={2}>
+            <Typography variant="h6" mt={1} gutterBottom>
+              Сортировка
+            </Typography>
+
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={filters.format.includes("group")}
+                  onChange={() => handleCheckboxChange("format", "group")}
+                />
+              }
+              label="Групповые"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={filters.format.includes("single")}
+                  onChange={() => handleCheckboxChange("format", "single")}
+                />
+              }
+              label="Индивидуально"
+            />
+          </Grid>
+        </FormGroup>
+
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Направление</Typography>
@@ -117,7 +148,9 @@ const SearchCoursePage = () => {
               multiple
               options={courseTypes}
               getOptionLabel={(option) => option.name}
+              value={selectedCourseTypes}
               onChange={(_event, newValue) => {
+                setSelectedCourseTypes(newValue);
                 setFilters((prevFilters) => ({
                   ...prevFilters,
                   courseTypes: newValue.map((type) => type._id),
@@ -144,7 +177,7 @@ const SearchCoursePage = () => {
                       key={key}
                       {...tagProps}
                       label={`${option.user.firstName} ${option.user.lastName}`}
-                      style={{ border: "1px solid lightblue", borderRadius: "8px", backgroundColor: "#fff", fontSize: "10px" }}
+                      style={{ border: "1px solid lightblue", borderRadius: "8px", backgroundColor: "#fff", fontSize: "10px", textTransform: "capitalize" }}
                     />
                   );
                 })
@@ -154,7 +187,9 @@ const SearchCoursePage = () => {
               getOptionLabel={(option) =>
                 `${option.user.firstName} ${option.user.lastName}`
               }
+              value={selectedTrainers}
               onChange={(_event, newValue) => {
+                setSelectedTrainers(newValue);
                 setFilters((prevFilters) => ({
                   ...prevFilters,
                   trainers: newValue.map((trainer) => trainer.user._id),
@@ -166,24 +201,10 @@ const SearchCoursePage = () => {
             />
           </AccordionDetails>
         </Accordion>
-        <Grid p={1} my={1} display="flex" flexWrap="wrap" justifyContent={{ xs: "space-between", md: "center", lg: "stretch" }} textAlign="center">
-          <Typography variant="h6" gutterBottom>
-            Расписание и формат
-          </Typography>
-          <Button
-            variant="outlined"
-            sx={{
-              color: "gray",
-              borderColor: "gray",
-              fontSize: "11px",
-              alignSelf: "center",
-            }}
-            onClick={resetForm}
-          >
-            Сбросить
-            <DeleteForeverIcon />
-          </Button>
-        </Grid>
+
+        <Typography m={2} variant="h6" gutterBottom>
+          Расписание
+        </Typography>
         <Accordion>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Дни недели</Typography>
@@ -205,37 +226,27 @@ const SearchCoursePage = () => {
             </FormGroup>
           </AccordionDetails>
         </Accordion>
-        <FormGroup>
-          <Grid mx={2}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={filters.format.includes("group")}
-                  onChange={() => handleCheckboxChange("format", "group")}
-                />
-              }
-              label="Групповые"
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={filters.format.includes("single")}
-                  onChange={() => handleCheckboxChange("format", "single")}
-                />
-              }
-              label="Индивидуально"
-            />
-          </Grid>
-        </FormGroup>
-        <Box gap={1} p={1} display="flex" justifyContent="end" borderTop="1px solid #ccc">
-        <Button
-          variant="outlined"
-          sx={{ fontSize: "11px" }}
-          onClick={sendForm}
-        >
-          Сортировать
-        </Button>
-      </Box>
+        <Box gap={1} p={1} display="flex" justifyContent="end">
+          <Button
+            variant="outlined"
+            sx={{
+              color: "gray",
+              borderColor: "gray",
+              fontSize: "11px",
+            }}
+            onClick={resetForm}
+          >
+            Сбросить
+            <DeleteForeverIcon />
+          </Button>
+          <Button
+            variant="outlined"
+            sx={{ fontSize: "11px" }}
+            onClick={sendForm}
+          >
+            Сортировать
+          </Button>
+        </Box>
       </Grid>
 
       <Grid
