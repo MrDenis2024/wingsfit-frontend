@@ -14,7 +14,8 @@ import {
   Autocomplete,
   Box,
   Button,
-  Checkbox, Chip,
+  Checkbox,
+  Chip,
   FormControlLabel,
   FormGroup,
   TextField,
@@ -23,14 +24,17 @@ import {
 } from "@mui/material";
 import { fetchSearchCourses } from "../../courses/coursesThunks.ts";
 import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
-import {FetchSearchCourseArgs, ICourseType} from "../../../types/courseTypes.ts";
+import {
+  FetchSearchCourseArgs,
+  ICourseType,
+} from "../../../types/courseTypes.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SearchCourseCards from "./SearchCourseCards.tsx";
 import { DAYS_OF_WEEK } from "../../../constants.ts";
-import {ITrainer} from "../../../types/trainerTypes.ts";
+import { ITrainer } from "../../../types/trainerTypes.ts";
 
 const SearchCoursePage = () => {
   const user = useAppSelector(selectUser);
@@ -44,7 +48,9 @@ const SearchCoursePage = () => {
     trainers: [],
     courseTypes: [],
   });
-  const [selectedCourseTypes, setSelectedCourseTypes] = useState<ICourseType[]>([]);
+  const [selectedCourseTypes, setSelectedCourseTypes] = useState<ICourseType[]>(
+    [],
+  );
   const [selectedTrainers, setSelectedTrainers] = useState<ITrainer[]>([]);
 
   const dispatch = useAppDispatch();
@@ -62,7 +68,7 @@ const SearchCoursePage = () => {
 
   const handleCheckboxChange = (
     category: keyof FetchSearchCourseArgs,
-    value: string
+    value: string,
   ) => {
     setFilters((prevFilters) => {
       const currentValues = prevFilters[category];
@@ -140,7 +146,13 @@ const SearchCoursePage = () => {
                       key={key}
                       {...tagProps}
                       label={option.name}
-                      style={{ border: "1px solid lightblue", borderRadius: "8px", backgroundColor: "#fff", fontSize: "10px", textTransform: "capitalize" }}
+                      style={{
+                        border: "1px solid lightblue",
+                        borderRadius: "8px",
+                        backgroundColor: "#fff",
+                        fontSize: "10px",
+                        textTransform: "capitalize",
+                      }}
                     />
                   );
                 })
@@ -177,7 +189,13 @@ const SearchCoursePage = () => {
                       key={key}
                       {...tagProps}
                       label={`${option.user.firstName} ${option.user.lastName}`}
-                      style={{ border: "1px solid lightblue", borderRadius: "8px", backgroundColor: "#fff", fontSize: "10px", textTransform: "capitalize" }}
+                      style={{
+                        border: "1px solid lightblue",
+                        borderRadius: "8px",
+                        backgroundColor: "#fff",
+                        fontSize: "10px",
+                        textTransform: "capitalize",
+                      }}
                     />
                   );
                 })
