@@ -1,24 +1,15 @@
 import {useEffect} from "react";
-import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
-import {getUnreadMessages} from "./notificationThunk.ts";
-import { selectUnreadMessages} from "./notificationSlice.ts";
+import {useAppDispatch} from "../../app/hooks.ts";
+import {getCoursesToday, getEndedSubscription, getUnreadMessages} from "./notificationThunk.ts";
 
 const Notification = ()=>{
     const dispatch = useAppDispatch();
-    const unreadMessages = useAppSelector(selectUnreadMessages);
     useEffect(() => {
-        dispatch(getUnreadMessages());
+        dispatch(getEndedSubscription());
     }, [dispatch]);
 
     return(
         <>
-            {unreadMessages.map((message)=>{
-                return(
-                    <>
-                        {message.message}
-                    </>
-                );
-            })}
         </>
     );
 };
