@@ -7,19 +7,20 @@ import {
   Typography,
   useMediaQuery,
   Container,
-  Box,
+  Box, Badge, Popover,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import logo from "../../assets/images/logo.png";
-import { useAppSelector } from "../../app/hooks.ts";
+import { useAppSelector} from "../../app/hooks.ts";
 import { selectUser } from "../../features/users/userSlice.ts";
 import UserMenu from "./UserMenu.tsx";
 import AnonymousMenu from "./AnonymousMenu.tsx";
-import { useState } from "react";
+import { useState} from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SideBarMenu from "./SideBarMenu.tsx";
 import AdminNavigationBar from "./AdminNavigationBar.tsx";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 export const StyledLink = styled(NavLink)({
   color: "inherit",
@@ -44,6 +45,19 @@ const AppToolbar = () => {
     setDrawerOpen(false);
   };
 
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   return (
     <>
       <AppBar position="sticky" color="inherit">
@@ -65,6 +79,23 @@ const AppToolbar = () => {
                     />
                   </StyledLink>
                 </Typography>
+              </Grid>
+              <Grid>
+                <Badge color="secondary" onClick={handleClick} badgeContent={0} showZero>
+                  <NotificationsIcon />
+                </Badge>
+                <Popover
+                    id={id}
+                    open={open}
+                    anchorEl={anchorEl}
+                    onClose={handleClose}
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'left',
+                    }}
+                >
+                  <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+                </Popover>
               </Grid>
               {!isSmallScreen && (
                   <Grid>
