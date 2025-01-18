@@ -30,6 +30,7 @@ import Modal from "../../../../UI/Modal/Modal.tsx";
 import ChangePassword from "../../../users/components/ChangePassword.tsx";
 import dayjs from "dayjs";
 import AdminCourseType from "./AdminCourseType.tsx";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   users: IUser[];
@@ -88,317 +89,317 @@ const AdminPanelItem: React.FC<Props> = ({
     switch (activeTab) {
       case "users":
         return (
-          <>
-            <Typography variant="h5" gutterBottom>
-              Пользователи
-            </Typography>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <strong>Email</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Имя пользователя</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Роль</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Фамилия Имя</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Пол</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Часовой пояс</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Номер телефона</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>День рождения</strong>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users.map((user) => (
-                  <TableRow key={user._id}>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.userName}</TableCell>
-                    <TableCell>{user.role}</TableCell>
+            <>
+              <Typography variant="h5" gutterBottom>
+                Пользователи
+              </Typography>
+              <Table>
+                <TableHead>
+                  <TableRow>
                     <TableCell>
-                      {user.firstName} {user.lastName}
+                      <strong>Email</strong>
                     </TableCell>
-                    <TableCell>{user.gender}</TableCell>
                     <TableCell>
-                      {user.timeZone ? user.timeZone.label : "Не указан"}
+                      <strong>Имя пользователя</strong>
                     </TableCell>
-                    <TableCell>{user.phoneNumber}</TableCell>
                     <TableCell>
-                      {dayjs(user.dateOfBirth).format("DD.MM.YYYY")}
+                      <strong>Роль</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Фамилия Имя</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Пол</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Часовой пояс</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Номер телефона</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>День рождения</strong>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </>
+                </TableHead>
+                <TableBody>
+                  {users.map((user) => (
+                      <TableRow key={user._id}>
+                        <TableCell>{user.email}</TableCell>
+                        <TableCell>{user.userName}</TableCell>
+                        <TableCell>{user.role}</TableCell>
+                        <TableCell>
+                          {user.lastName} {user.firstName}
+                        </TableCell>
+                        <TableCell>{user.gender}</TableCell>
+                        <TableCell>
+                          {user.timeZone ? user.timeZone.label : "Не указан"}
+                        </TableCell>
+                        <TableCell>{user.phoneNumber}</TableCell>
+                        <TableCell>
+                          {dayjs(user.dateOfBirth).format("DD.MM.YYYY")}
+                        </TableCell>
+                      </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </>
         );
       case "trainers":
         return (
-          <>
-            <Typography variant="h5" gutterBottom>
-              Тренеры
-            </Typography>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <strong>Фамилия Имя</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Тип курса</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Рейтинг</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Специализация</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Опыт</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Описание</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Доступные дни</strong>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {trainers.map((trainer) => (
-                  <TableRow key={trainer._id}>
+            <>
+              <Typography variant="h5" gutterBottom>
+                Тренеры
+              </Typography>
+              <Table>
+                <TableHead>
+                  <TableRow>
                     <TableCell>
-                      {trainer.user.firstName} {trainer.user.lastName}
+                      <strong>Фамилия Имя</strong>
                     </TableCell>
                     <TableCell>
-                      {trainer.courseTypes
-                        .map((courseTypeId) => {
-                          const courseType = coursesType.find(
-                            (course) => course._id === courseTypeId,
-                          );
-                          return courseType
-                            ? courseType.name
-                            : "Неизвестный тип курса";
-                        })
-                        .join(", ")}
+                      <strong>Тип курса</strong>
                     </TableCell>
-                    <TableCell>{trainer.rating}</TableCell>
-                    <TableCell>{trainer.specialization}</TableCell>
-                    <TableCell>{trainer.experience}</TableCell>
-                    <TableCell>{trainer.description}</TableCell>
-                    <TableCell>{trainer.availableDays?.join(", ")}</TableCell>
+                    <TableCell>
+                      <strong>Рейтинг</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Специализация</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Опыт</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Описание</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Доступные дни</strong>
+                    </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </>
+                </TableHead>
+                <TableBody>
+                  {trainers.map((trainer) => (
+                      <TableRow key={trainer._id}>
+                        <TableCell>
+                          {trainer.user.lastName} {trainer.user.firstName}
+                        </TableCell>
+                        <TableCell>
+                          {trainer.courseTypes
+                              .map((courseTypeId) => {
+                                const courseType = coursesType.find(
+                                    (course) => course._id === courseTypeId,
+                                );
+                                return courseType
+                                    ? courseType.name
+                                    : "Неизвестный тип курса";
+                              })
+                              .join(", ")}
+                        </TableCell>
+                        <TableCell>{trainer.rating}</TableCell>
+                        <TableCell>{trainer.specialization}</TableCell>
+                        <TableCell>{trainer.experience}</TableCell>
+                        <TableCell>{trainer.description}</TableCell>
+                        <TableCell>{trainer.availableDays?.join(", ")}</TableCell>
+                      </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </>
         );
       case "clients":
         return (
-          <>
-            <Typography variant="h5" gutterBottom>
-              Клиенты
-            </Typography>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <strong>Фамилия Имя</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Типы тренировок</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Уровень тренировок</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Физические данные</strong>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {clients.map((client) => (
-                  <TableRow key={client._id}>
+            <>
+              <Typography variant="h5" gutterBottom>
+                Клиенты
+              </Typography>
+              <Table>
+                <TableHead>
+                  <TableRow>
                     <TableCell>
-                      {client.user.firstName} {client.user.lastName}
+                      <strong>Фамилия Имя</strong>
                     </TableCell>
                     <TableCell>
-                      {findCourseTypes(
-                        coursesType,
-                        ...client.preferredWorkoutType,
-                      )
-                        .map((type) => type.name)
-                        .join(", ")}
+                      <strong>Типы тренировок</strong>
                     </TableCell>
-                    <TableCell>{client.trainingLevel}</TableCell>
-                    <TableCell>{client.physicalData}</TableCell>
+                    <TableCell>
+                      <strong>Уровень тренировок</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Физические данные</strong>
+                    </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </>
+                </TableHead>
+                <TableBody>
+                  {clients.map((client) => (
+                      <TableRow key={client._id}>
+                        <TableCell>
+                          {client.user.lastName} {client.user.firstName}
+                        </TableCell>
+                        <TableCell>
+                          {findCourseTypes(
+                              coursesType,
+                              ...client.preferredWorkoutType,
+                          )
+                              .map((type) => type.name)
+                              .join(", ")}
+                        </TableCell>
+                        <TableCell>{client.trainingLevel}</TableCell>
+                        <TableCell>{client.physicalData}</TableCell>
+                      </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </>
         );
       case "groups":
         return (
-          <>
-            <Typography variant="h5" gutterBottom>
-              Группы
-            </Typography>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <strong>Название группы</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Курс</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Клиенты</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Начало</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Уровень тренировки</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Длительность</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Максимальное количество клиентов</strong>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {groups.map((group) => (
-                  <TableRow key={group._id}>
-                    <TableCell>{group.title}</TableCell>
+            <>
+              <Typography variant="h5" gutterBottom>
+                Группы
+              </Typography>
+              <Table>
+                <TableHead>
+                  <TableRow>
                     <TableCell>
-                      {group.course ? group.course.title : "Нет курса"}
+                      <strong>Название группы</strong>
                     </TableCell>
                     <TableCell>
-                      {group.clients.map((client) => (
-                        <div key={client.client._id}>
-                          {client.client.firstName} {client.client.lastName}
-                        </div>
-                      ))}
+                      <strong>Курс</strong>
                     </TableCell>
-                    <TableCell>{group.startTime}</TableCell>
-                    <TableCell>{group.trainingLevel}</TableCell>
-                    <TableCell>{group.scheduleLength}</TableCell>
-                    <TableCell>{group.maxClients}</TableCell>
                     <TableCell>
-                      <IconButton
-                        onClick={() => {
-                          setItemToDelete({ type: "group", id: group._id });
-                          setConfirmOpen(true);
-                        }}
-                        disabled={
-                          deleteGroupLoading
-                            ? deleteGroupLoading === group._id
-                            : false
-                        }
-                      >
-                        {deleteGroupLoading === group._id ? (
-                          <CircularProgress size={24} />
-                        ) : (
-                          <DeleteSweepIcon />
-                        )}
-                      </IconButton>
+                      <strong>Клиенты</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Начало</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Уровень тренировки</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Длительность</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Максимальное количество клиентов</strong>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </>
+                </TableHead>
+                <TableBody>
+                  {groups.map((group) => (
+                      <TableRow key={group._id}>
+                        <TableCell>{group.title}</TableCell>
+                        <TableCell>
+                          {group.course ? group.course.title : "Нет курса"}
+                        </TableCell>
+                        <TableCell>
+                          {group.clients.map((client) => (
+                              <div key={client.client._id}>
+                                {client.client.firstName} {client.client.lastName}
+                              </div>
+                          ))}
+                        </TableCell>
+                        <TableCell>{group.startTime}</TableCell>
+                        <TableCell>{group.trainingLevel}</TableCell>
+                        <TableCell>{group.scheduleLength}</TableCell>
+                        <TableCell>{group.maxClients}</TableCell>
+                        <TableCell>
+                          <IconButton
+                              onClick={() => {
+                                setItemToDelete({ type: "group", id: group._id });
+                                setConfirmOpen(true);
+                              }}
+                              disabled={
+                                deleteGroupLoading
+                                    ? deleteGroupLoading === group._id
+                                    : false
+                              }
+                          >
+                            {deleteGroupLoading === group._id ? (
+                                <CircularProgress size={24} />
+                            ) : (
+                                <DeleteSweepIcon />
+                            )}
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </>
         );
       case "courses":
         return (
-          <>
-            <Typography variant="h5" gutterBottom>
-              Курсы
-            </Typography>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>
-                    <strong>Тип курса</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Название курса</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Описание</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Формат</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Расписание</strong>
-                  </TableCell>
-                  <TableCell>
-                    <strong>Цена</strong>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {courses.map((course) => (
-                  <TableRow key={course._id}>
-                    <TableCell>{course.courseType.name}</TableCell>
-                    <TableCell>{course.title}</TableCell>
-                    <TableCell>{course.description}</TableCell>
-                    <TableCell>{course.format}</TableCell>
-                    <TableCell>{course.schedule.join(", ")}</TableCell>
-                    <TableCell>{course.price}</TableCell>
+            <>
+              <Typography variant="h5" gutterBottom>
+                Курсы
+              </Typography>
+              <Table>
+                <TableHead>
+                  <TableRow>
                     <TableCell>
-                      <IconButton
-                        onClick={() => {
-                          setItemToDelete({ type: "course", id: course._id });
-                          setConfirmOpen(true);
-                        }}
-                        disabled={
-                          courseDeleteLoading
-                            ? courseDeleteLoading === course._id
-                            : false
-                        }
-                      >
-                        {courseDeleteLoading === course._id ? (
-                          <CircularProgress size={24} />
-                        ) : (
-                          <DeleteSweepIcon />
-                        )}
-                      </IconButton>
+                      <strong>Тип курса</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Название курса</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Описание</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Формат</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Расписание</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Цена</strong>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </>
+                </TableHead>
+                <TableBody>
+                  {courses.map((course) => (
+                      <TableRow key={course._id}>
+                        <TableCell>{course.courseType.name}</TableCell>
+                        <TableCell>{course.title}</TableCell>
+                        <TableCell>{course.description}</TableCell>
+                        <TableCell>{course.format}</TableCell>
+                        <TableCell>{course.schedule.join(", ")}</TableCell>
+                        <TableCell>{course.price}</TableCell>
+                        <TableCell>
+                          <IconButton
+                              onClick={() => {
+                                setItemToDelete({ type: "course", id: course._id });
+                                setConfirmOpen(true);
+                              }}
+                              disabled={
+                                courseDeleteLoading
+                                    ? courseDeleteLoading === course._id
+                                    : false
+                              }
+                          >
+                            {courseDeleteLoading === course._id ? (
+                                <CircularProgress size={24} />
+                            ) : (
+                                <DeleteSweepIcon />
+                            )}
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </>
         );
       case "course type":
         return (
-          <>
-            <AdminCourseType />
-          </>
+            <>
+              <AdminCourseType />
+            </>
         );
       default:
         return (
-          <Typography variant="h6" color="textSecondary" align="center">
-            Выбранная вкладка не поддерживается.
-          </Typography>
+            <Typography variant="h6" color="textSecondary" align="center">
+              Выбранная вкладка не поддерживается.
+            </Typography>
         );
     }
   };
@@ -411,57 +412,59 @@ const AdminPanelItem: React.FC<Props> = ({
     return "";
   };
   return (
-    <>
-      <AppBar
-        position="static"
-        sx={{ bgcolor: "#44a9ca", marginBottom: "15px" }}
-      >
-        <Toolbar>
-          <Button color="inherit" onClick={() => setActiveTab("users")}>
-            Пользователи
-          </Button>
-          <Button color="inherit" onClick={() => setActiveTab("trainers")}>
-            Тренеры
-          </Button>
-          <Button color="inherit" onClick={() => setActiveTab("clients")}>
-            Клиенты
-          </Button>
-          <Button color="inherit" onClick={() => setActiveTab("groups")}>
-            Группы
-          </Button>
-          <Button color="inherit" onClick={() => setActiveTab("course type")}>
-            Типы курсов
-          </Button>
-          <Button color="inherit" onClick={() => setActiveTab("courses")}>
-            Курсы
-          </Button>
-          <Button
-            onClick={() => setModalOpen(true)}
-            color="inherit"
-            sx={{ marginLeft: "auto" }}
-          >
-            Сменить пароль
-          </Button>
-        </Toolbar>
-      </AppBar>
-      {renderContent()}
-      <CustomConfirmDialog
-        open={confirmOpen}
-        title={`Удалить ${itemToDelete?.type === "group" ? "группу" : "курс"}`}
-        description={getDescription()}
-        confirmText="Удалить"
-        cancelText="Отмена"
-        onConfirm={handleDelete}
-        onCancel={() => setConfirmOpen(false)}
-      />
-      <Modal
-        title={"Сменить пароль"}
-        onClose={() => setModalOpen(false)}
-        show={modalOpen}
-      >
-        <ChangePassword onClose={() => setModalOpen(false)} />
-      </Modal>
-    </>
+      <>
+        <AppBar
+            position="static"
+            sx={{ bgcolor: "#44a9ca", marginBottom: "15px" }}
+        >
+          <Toolbar>
+            <Button color="inherit" onClick={() => setActiveTab("users")}>
+              Пользователи
+            </Button>
+            <Button color="inherit" onClick={() => setActiveTab("trainers")}>
+              Тренеры
+            </Button>
+            <Button color="inherit" onClick={() => setActiveTab("clients")}>
+              Клиенты
+            </Button>
+            <Button color="inherit" onClick={() => setActiveTab("groups")}>
+              Группы
+            </Button>
+            <Button color="inherit" onClick={() => setActiveTab("course type")}>
+              Типы курсов
+            </Button>
+            <Button color="inherit" onClick={() => setActiveTab("courses")}>
+              Курсы
+            </Button>
+            <Button
+                onClick={() => setModalOpen(true)}
+                color="inherit"
+                sx={{ marginLeft: "auto" }}
+            >
+              Сменить пароль
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Grid style={{ overflowX: 'auto' }}>
+          {renderContent()}
+        </Grid>
+        <CustomConfirmDialog
+            open={confirmOpen}
+            title={`Удалить ${itemToDelete?.type === "group" ? "группу" : "курс"}`}
+            description={getDescription()}
+            confirmText="Удалить"
+            cancelText="Отмена"
+            onConfirm={handleDelete}
+            onCancel={() => setConfirmOpen(false)}
+        />
+        <Modal
+            title={"Сменить пароль"}
+            onClose={() => setModalOpen(false)}
+            show={modalOpen}
+        >
+          <ChangePassword onClose={() => setModalOpen(false)} />
+        </Modal>
+      </>
   );
 };
 
