@@ -32,6 +32,8 @@ export interface GroupsState {
   removeClientLoading: false | string;
   freezeClientLoading: false | string;
   activateClientLoading: false | string;
+  activeClientLoading: false | string;
+  deleteClientLading: false | string;
 }
 
 const initialState: GroupsState = {
@@ -51,6 +53,8 @@ const initialState: GroupsState = {
   removeClientLoading: false,
   freezeClientLoading: false,
   activateClientLoading: false,
+  activeClientLoading: false,
+  deleteClientLading: false,
 };
 
 export const groupsSlice = createSlice({
@@ -164,23 +168,29 @@ export const groupsSlice = createSlice({
     builder
       .addCase(removeClient.pending, (state, { meta: { arg } }) => {
         state.removeClientLoading = arg.clientId;
+        state.deleteClientLading = arg.id;
       })
       .addCase(removeClient.fulfilled, (state) => {
         state.removeClientLoading = false;
+        state.deleteClientLading = false;
       })
       .addCase(removeClient.rejected, (state) => {
         state.removeClientLoading = false;
+        state.deleteClientLading = false;
       });
 
     builder
       .addCase(activateClient.pending, (state, { meta: { arg } }) => {
         state.activateClientLoading = arg.clientId;
+        state.activeClientLoading = arg.id;
       })
       .addCase(activateClient.fulfilled, (state) => {
         state.activateClientLoading = false;
+        state.activeClientLoading = false;
       })
       .addCase(activateClient.rejected, (state) => {
         state.activateClientLoading = false;
+        state.activeClientLoading = false;
       });
 
     builder
@@ -211,6 +221,8 @@ export const groupsSlice = createSlice({
     selectRemoveClientLoading: (state) => state.removeClientLoading,
     selectFreezeClientLoading: (state) => state.freezeClientLoading,
     selectActivateClientLoading: (state) => state.activateClientLoading,
+    selectActiveClientLoading: (state) => state.activeClientLoading,
+    selectDeleteClientLading: (state) => state.deleteClientLading,
   },
 });
 
@@ -233,4 +245,6 @@ export const {
   selectRemoveClientLoading,
   selectFreezeClientLoading,
   selectActivateClientLoading,
+  selectActiveClientLoading,
+  selectDeleteClientLading,
 } = groupsSlice.selectors;
