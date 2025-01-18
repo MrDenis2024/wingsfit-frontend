@@ -171,10 +171,17 @@ const OneCourse = () => {
             >
               Тренер:
               <Typography
+                component="a"
+                href={`/trainers/${course.user._id}`}
                 sx={{
                   display: "inline-block",
                   fontSize: "22px",
                   ml: 1,
+                  textDecoration: "none",
+                  color: "inherit",
+                  "&:hover": {
+                    textDecoration: "underline",
+                  },
                 }}
               >
                 {course.user.firstName} {course.user.lastName}
@@ -262,7 +269,7 @@ const OneCourse = () => {
                   <ChatButton
                     firstPersonId={trainerId}
                     secondPersonId={user._id}
-                    buttonText="Попробовать!"
+                    buttonText="Связаться с тренером"
                   >
                     {{
                       backgroundColor: "#5cc532",
