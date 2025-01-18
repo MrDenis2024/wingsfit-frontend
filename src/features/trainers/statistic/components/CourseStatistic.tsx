@@ -15,10 +15,10 @@ import {
 } from "@mui/material";
 import { fetchCourses } from "../../../courses/coursesThunks.ts";
 import { selectCourses } from "../../../courses/coursesSlice.ts";
-import {selectUser} from "../../../users/userSlice.ts";
+import { selectUser } from "../../../users/userSlice.ts";
 
 const CourseStatistic = () => {
-  const user = useAppSelector(selectUser)
+  const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const statisticCourses = useAppSelector(selectCourses);
   const isLoading = useAppSelector(selectLoadingStatisticGroup);
