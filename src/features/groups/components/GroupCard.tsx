@@ -188,8 +188,7 @@ const GroupCard: React.FC<Props> = ({
       await dispatch(createLesson(groupId)).unwrap();
       toast.success("Занятие успешно создано");
     } catch (error) {
-      console.log(error);
-      toast.error("Произошла ошибка создании занятия");
+      toast.error((error as GlobalError).error || "Произошла ошибка при создании занятия");
     }
   };
 
