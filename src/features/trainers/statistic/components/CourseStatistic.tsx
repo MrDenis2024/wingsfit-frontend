@@ -15,15 +15,17 @@ import {
 } from "@mui/material";
 import { fetchCourses } from "../../../courses/coursesThunks.ts";
 import { selectCourses } from "../../../courses/coursesSlice.ts";
+import { selectUser } from "../../../users/userSlice.ts";
 
 const CourseStatistic = () => {
+  const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const statisticCourses = useAppSelector(selectCourses);
   const isLoading = useAppSelector(selectLoadingStatisticGroup);
 
   useEffect(() => {
-    dispatch(fetchCourses());
-  }, [dispatch]);
+    dispatch(fetchCourses(user?._id));
+  }, [dispatch, user]);
 
   const getPersonWord = (count: number): string => {
     if (count % 10 === 1 && count % 100 !== 11) {
