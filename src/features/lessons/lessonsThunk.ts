@@ -39,3 +39,15 @@ export const patchLesson = createAsyncThunk<void, string>(
     }
   },
 );
+
+export const fetchLastLesson = createAsyncThunk<Lesson, string>(
+  "lessons/fetchLastLesson",
+  async (groupId) => {
+    console.log("Fetching last lesson for group:", groupId);
+
+    const { data: lastLesson } = await axiosApi.get<Lesson>(
+      `/lessons/last/${groupId}`,
+    );
+    return lastLesson;
+  },
+);
