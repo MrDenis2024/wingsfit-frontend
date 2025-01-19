@@ -7,6 +7,7 @@ import { useAppSelector } from "../../../app/hooks.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import { IncomingMessage, Message } from "../../../types/chatTypes.ts";
 import { apiURL, wsApiURL } from "../../../constants.ts";
+import SendLinkModal from "./SendLinkModal.tsx";
 
 interface MessagesProps {
   chatId: string | null;
@@ -60,8 +61,8 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
           const data: IncomingMessage = JSON.parse(event.data);
           if (
             data.type === "NEW_MESSAGE" &&
-            (data.payload.privateChat === chatId ||
-              data.payload.groupChat === chatId)
+            ((chatType === "private" && data.payload.privateChat === chatId) ||
+              (chatType === "group" && data.payload.groupChat === chatId))
           ) {
             if (data.payload.author._id !== user._id) {
               setMessages((prevMessages) => [...prevMessages, data.payload]);
@@ -118,10 +119,46 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
     ]);
   };
 
+  const handleSendLessonLink = (videoUrl: string) => {
+    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+      ws.current.send(
+        JSON.stringify({
+          type: "SEND_MESSAGE",
+          payload: {
+            message: videoUrl,
+            isTrainingUrl: true,
+          },
+        }),
+      );
+    }
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        _id: Date.now().toString(),
+        privateChat: chatType === "private" ? chatId || undefined : undefined,
+        groupChat: chatType === "group" ? chatId || undefined : undefined,
+        author: {
+          _id: user?._id || "",
+          firstName: user?.firstName || "",
+          lastName: user?.lastName || "",
+          avatar: user?.avatar || "",
+        },
+        message: videoUrl,
+        isTrainingUrl: true,
+        createdAt: new Date().toISOString(),
+        isRead: {
+          user: user?._id || "",
+          read: false,
+        },
+      },
+    ]);
+  };
+
   const formattedMessages = messages.map((msg) => ({
     id: msg._id,
     author: `${msg.author.firstName} ${msg.author.lastName}`,
     message: msg.message,
+    isTrainingUrl: !!msg.isTrainingUrl,
     createdAt: msg.createdAt,
     avatar: msg.author.avatar,
   }));
@@ -160,6 +197,10 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
           position: "sticky",
           top: 0,
           zIndex: 1,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "16px",
         }}
       >
         <Typography
@@ -172,10 +213,14 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
               sm: "center",
               md: "left",
             },
+            ml: 4,
           }}
         >
           {chatId ? `Чат с ${chatTitle}` : "Чат"}
         </Typography>
+        {chatId && chatType === "group" && user?.role === "trainer" && (
+          <SendLinkModal onSend={handleSendLessonLink} />
+        )}
       </Box>
       <Box
         sx={{
