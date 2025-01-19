@@ -6,6 +6,7 @@ import { UserInfoMutation } from "../../../types/userTypes.ts";
 import EditUser from "../../users/components/EditUser.tsx";
 import Grid from "@mui/material/Grid2";
 import {
+  Button,
   FormControlLabel,
   Radio,
   RadioGroup,
@@ -16,6 +17,8 @@ import CourseTypeSelector from "../../../UI/CourseTypesSelector/CourseTypesSelec
 import LoadingButton from "@mui/lab/LoadingButton";
 import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import ChangePassword from "../../users/components/ChangePassword.tsx";
+import Modal from "../../../UI/Modal/Modal.tsx";
 
 interface Props {
   existingProfile: IClient;
@@ -50,6 +53,7 @@ const EditClientForm: React.FC<Props> = ({
     physicalData: existingProfile.physicalData,
   });
   const [phoneError, setPhoneError] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(fetchCourseTypes());
@@ -117,77 +121,105 @@ const EditClientForm: React.FC<Props> = ({
   };
 
   return (
-    <Grid
-      container
-      spacing={2}
-      component={"form"}
-      direction="column"
-      sx={{
-        my: 3,
-      }}
-      onSubmit={onFormSubmit}
-    >
-      <EditUser
-        personalInfo={clientPersonalInfo}
-        onTimezoneChange={changeTimezone}
-        inputChangeHandler={inputChangeHandlerClientPersonal}
-        phoneChangeHandler={phoneChangeHandler}
-        phoneError={phoneError}
-      />
-      <Grid>
-        <Typography variant="h6">Измените профильные данные</Typography>
-      </Grid>
-      <Grid>
-        <CourseTypeSelector
-          courseTypes={courseTypes}
-          onChange={onChangeWorkoutType}
-          value={optionalInfo.preferredWorkoutType}
-          onRemove={removeWorkoutType}
-          label="Предпочтения"
+    <>
+      <Grid
+        container
+        spacing={2}
+        component={"form"}
+        direction="column"
+        sx={{
+          my: 3,
+        }}
+        onSubmit={onFormSubmit}
+      >
+        <Grid container justifyContent="space-between">
+          <Typography variant="h4">Редактирования профиля</Typography>
+          <Button
+            onClick={() => setModalOpen(true)}
+            sx={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              px: 1,
+              height: "40px",
+            }}
+            variant="outlined"
+          >
+            Сменить пароль
+          </Button>
+        </Grid>
+        <EditUser
+          personalInfo={clientPersonalInfo}
+          onTimezoneChange={changeTimezone}
+          inputChangeHandler={inputChangeHandlerClientPersonal}
+          phoneChangeHandler={phoneChangeHandler}
+          phoneError={phoneError}
         />
-      </Grid>
-      <Grid>
-        <Typography variant="subtitle1">Уровень тренировок: </Typography>
-        <RadioGroup
-          name="trainingLevel"
-          value={optionalInfo.trainingLevel}
-          onChange={inputChangeHandlerClientOptional}
-          sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
-        >
-          <FormControlLabel
-            value="junior"
-            control={<Radio />}
-            label="Начальный"
+        <Grid>
+          <Typography variant="h6">Измените профильные данные</Typography>
+        </Grid>
+        <Grid>
+          <CourseTypeSelector
+            courseTypes={courseTypes}
+            onChange={onChangeWorkoutType}
+            value={optionalInfo.preferredWorkoutType}
+            onRemove={removeWorkoutType}
+            label="Предпочтения"
           />
-          <FormControlLabel
-            value="middle"
-            control={<Radio />}
-            label="Средний"
+        </Grid>
+        <Grid>
+          <Typography variant="subtitle1">Уровень тренировок: </Typography>
+          <RadioGroup
+            name="trainingLevel"
+            value={optionalInfo.trainingLevel}
+            onChange={inputChangeHandlerClientOptional}
+            sx={{ mx: 4, flexDirection: "row", justifyContent: "start" }}
+          >
+            <FormControlLabel
+              value="junior"
+              control={<Radio />}
+              label="Начальный"
+            />
+            <FormControlLabel
+              value="middle"
+              control={<Radio />}
+              label="Средний"
+            />
+            <FormControlLabel
+              value="advanced"
+              control={<Radio />}
+              label="Продвинутый"
+            />
+          </RadioGroup>
+        </Grid>
+        <Grid>
+          <TextField
+            type="text"
+            multiline
+            minRows={2}
+            label="Физические данные"
+            name="physicalData"
+            onChange={inputChangeHandlerClientOptional}
+            value={optionalInfo.physicalData}
           />
-          <FormControlLabel
-            value="advanced"
-            control={<Radio />}
-            label="Продвинутый"
-          />
-        </RadioGroup>
+        </Grid>
+        <Grid>
+          <LoadingButton
+            type={"submit"}
+            variant="outlined"
+            loading={editLoading}
+          >
+            Сохранить
+          </LoadingButton>
+        </Grid>
       </Grid>
-      <Grid>
-        <TextField
-          type="text"
-          multiline
-          minRows={2}
-          label="Физические данные"
-          name="physicalData"
-          onChange={inputChangeHandlerClientOptional}
-          value={optionalInfo.physicalData}
-        />
-      </Grid>
-      <Grid>
-        <LoadingButton type={"submit"} variant="outlined" loading={editLoading}>
-          Сохранить
-        </LoadingButton>
-      </Grid>
-    </Grid>
+      <Modal
+        title={"Сменить пароль"}
+        onClose={() => setModalOpen(false)}
+        show={modalOpen}
+      >
+        <ChangePassword onClose={() => setModalOpen(false)} />
+      </Modal>
+    </>
   );
 };
 

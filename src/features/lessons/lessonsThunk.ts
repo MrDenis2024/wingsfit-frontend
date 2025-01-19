@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Lesson } from "../../types/lessonTypes";
 import axiosApi from "../../axiosApi";
+import { isAxiosError } from "axios";
+import { GlobalError } from "../../types/userTypes.ts";
 
 export const fetchTrainerLessons = createAsyncThunk<Lesson[], string>(
   "lessons/fetchAll",
@@ -22,10 +24,17 @@ export const fetchGroupLessons = createAsyncThunk<Lesson[], string>(
   },
 );
 
-export const createLesson = createAsyncThunk<void, string>(
+export const createLesson = createAsyncThunk<void, string, { rejectValue: GlobalError }>(
   "lessons/create",
-  async (groupId) => {
-    await axiosApi.post("/lessons", { groupId });
+  async (groupId, { rejectWithValue }) => {
+    try {
+      await axiosApi.post("/lessons", { groupId });
+    } catch (e) {
+      if (isAxiosError(e) && e.response && e.response.status === 400) {
+        return rejectWithValue(e.response.data);
+      }
+      throw e;
+    }
   },
 );
 

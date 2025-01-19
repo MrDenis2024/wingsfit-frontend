@@ -50,7 +50,7 @@ const GroupsMatchingCards: React.FC<Props> = ({ groups, itemsPerSlide }) => {
             {slides.map((slide, index) => (
               <Grid
                 container
-                spacing={2}
+                spacing={4}
                 key={index}
                 sx={{
                   minWidth: "100%",
@@ -65,7 +65,6 @@ const GroupsMatchingCards: React.FC<Props> = ({ groups, itemsPerSlide }) => {
                   <Grid
                     key={group._id}
                     size={{
-                      sm: 6,
                       xs: 12,
                     }}
                     display="flex"
