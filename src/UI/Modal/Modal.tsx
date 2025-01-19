@@ -16,7 +16,6 @@ const Modal: React.FC<Props> = ({
   maxWidth,
   children,
   backgroundColor,
-
 }) => {
   return (
     <Dialog

@@ -67,17 +67,17 @@ const AppToolbar = () => {
                 </Typography>
               </Grid>
               {!isSmallScreen && (
-                  <Grid>
-                    {user ? (
-                        user.role === "admin" || user.role === "superAdmin" ? (
-                            <AdminNavigationBar user={user} />
-                        ) : (
-                            <UserMenu user={user} />
-                        )
+                <Grid>
+                  {user ? (
+                    user.role === "admin" || user.role === "superAdmin" ? (
+                      <AdminNavigationBar user={user} />
                     ) : (
-                        <AnonymousMenu />
-                    )}
-                  </Grid>
+                      <UserMenu user={user} />
+                    )
+                  ) : (
+                    <AnonymousMenu />
+                  )}
+                </Grid>
               )}
               {isSmallScreen && (
                 <Box sx={{ display: "flex", alignItems: "center" }}>
