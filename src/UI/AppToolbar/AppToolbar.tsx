@@ -129,6 +129,7 @@ const AppToolbar = () => {
                 <Popover
                   id={id}
                   open={open}
+                  aria-hidden={!open}
                   anchorEl={anchorEl}
                   onClose={handleClose}
                   anchorOrigin={{
@@ -160,10 +161,10 @@ const AppToolbar = () => {
                         />
                       );
                     })}
-                    {endedSubscriptions.map((endedSubscription) => {
+                    {endedSubscriptions.map((endedSubscription, index) => {
                       return (
                         <Notification
-                          key={endedSubscription.courseId}
+                          key={endedSubscription.courseId + index.toString()}
                           endedSubscription={endedSubscription}
                         />
                       );

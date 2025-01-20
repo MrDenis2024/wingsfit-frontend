@@ -41,8 +41,13 @@ const Notification: React.FC<Props> = ({
           primary={`${message.groupChat ? message.groupChat.title + " - " : ""} ${message.author.firstName} ${message.author.lastName}`}
           secondary={
             <>
-              <Typography>{message.message}</Typography>
-              <Typography sx={{ textAlign: "right" }}>
+              <Typography component="span" sx={{ display: "block" }}>
+                {message.message}
+              </Typography>
+              <Typography
+                component="span"
+                sx={{ textAlign: "right", display: "block" }}
+              >
                 {new Date(message.createdAt).toLocaleTimeString()}
               </Typography>
             </>
