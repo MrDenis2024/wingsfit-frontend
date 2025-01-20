@@ -7,20 +7,32 @@ import {
   Typography,
   useMediaQuery,
   Container,
-  Box, Badge, Popover,
+  Box, Badge, Popover, List,
 } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
 import logo from "../../assets/images/logo.png";
-import { useAppSelector} from "../../app/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../app/hooks.ts";
 import { selectUser } from "../../features/users/userSlice.ts";
 import UserMenu from "./UserMenu.tsx";
 import AnonymousMenu from "./AnonymousMenu.tsx";
-import { useState} from "react";
+import {useEffect, useState} from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import SideBarMenu from "./SideBarMenu.tsx";
 import AdminNavigationBar from "./AdminNavigationBar.tsx";
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import Notification from "../../features/notification/component/Notification.tsx";
+import {
+  selectCoursesToday, selectEndedSubscriptions,
+  selectNotificationLoading, selectStartedLessons,
+  selectUnreadMessages
+} from "../../features/notification/notificationSlice.ts";
+import {
+  getCoursesToday,
+  getEndedSubscription, getStartedLessons,
+  getUnreadMessages
+} from "../../features/notification/notificationThunk.ts";
+import LoadingIndicator from "../LoadingIndicator/LoadingIndicator.tsx";
 
 export const StyledLink = styled(NavLink)({
   color: "inherit",
@@ -32,10 +44,24 @@ export const StyledLink = styled(NavLink)({
 
 const AppToolbar = () => {
   const user = useAppSelector(selectUser);
+  const dispath = useAppDispatch();
+  const messages = useAppSelector(selectUnreadMessages);
+  const notificationLoading = useAppSelector(selectNotificationLoading);
+  const coursesToday = useAppSelector(selectCoursesToday);
+  const endedSubscriptions = useAppSelector(selectEndedSubscriptions);
+  const startedLessons = useAppSelector(selectStartedLessons);
+
   const [drawerOpen, setDrawerOpen] = useState(false);
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down("sm"),
   );
+
+  useEffect(() => {
+    dispath(getUnreadMessages());
+    dispath(getEndedSubscription());
+    dispath(getCoursesToday());
+    dispath(getStartedLessons());
+  }, [dispath]);
 
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
@@ -80,8 +106,8 @@ const AppToolbar = () => {
                   </StyledLink>
                 </Typography>
               </Grid>
-              <Grid>
-                <Badge color="secondary" onClick={handleClick} badgeContent={0} showZero>
+              <Grid sx={{ ml: "auto", mr: 3, }}>
+                <Badge color="secondary" onClick={handleClick} badgeContent={messages.length + coursesToday.length + endedSubscriptions.length + startedLessons.length} showZero>
                   <NotificationsIcon />
                 </Badge>
                 <Popover
@@ -93,8 +119,40 @@ const AppToolbar = () => {
                       vertical: 'bottom',
                       horizontal: 'left',
                     }}
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
                 >
-                  <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+                  <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                    {messages.map((message) => {
+                      return (
+                          <Notification key={message._id}  message={message}/>
+                      );
+                    })}
+                    {coursesToday.map((courseToday) => {
+                      return (
+                          <Notification key={courseToday.group._id}  courseToday={courseToday}/>
+                      );
+                    })}
+                    {endedSubscriptions.map((endedSubscription) => {
+                      return (
+                          <Notification key={endedSubscription.courseId} endedSubscription={endedSubscription}/>
+                      );
+                    })}
+                    {startedLessons.map((startedLesson) => {
+                      return (
+                          <Notification key={startedLesson._id} lesson={startedLesson}/>
+                      );
+                    })}
+                    {notificationLoading?
+                        <Grid sx={{mb: 3}}>
+                          <LoadingIndicator/>
+                        </Grid>
+                        :
+                        null
+                    }
+                  </List>
                 </Popover>
               </Grid>
               {!isSmallScreen && (

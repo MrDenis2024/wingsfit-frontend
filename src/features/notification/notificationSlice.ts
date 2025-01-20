@@ -1,18 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {getCoursesToday, getEndedSubscription, getUnreadMessages} from "./notificationThunk.ts";
-import {Message} from "../../types/chatTypes.ts";
+import {
+    getCoursesToday,
+    getEndedSubscription,
+    getStartedLessons,
+    getUnreadMessages
+} from "./notificationThunk.ts";
+import {MessageNotification} from "../../types/chatTypes.ts";
 import {CourseToday, EndedSubscription} from "../../types/notificationTypes.ts";
+import {Lesson} from "../../types/lessonTypes.ts";
 
 interface notificationState {
-    unreadMessages: Message[],
+    unreadMessages: MessageNotification[],
     coursesToday: CourseToday[];
     endedSubscriptions: EndedSubscription[];
+    startedLessons: Lesson[],
     notificationsLoading: boolean;
 }
 
 const initialState: notificationState = {
     unreadMessages: [],
     coursesToday: [],
+    startedLessons: [],
     endedSubscriptions: [],
     notificationsLoading: false,
 };
@@ -26,8 +34,8 @@ export const notificationSlice = createSlice({
             .addCase(getUnreadMessages.pending, (state) => {
                 state.notificationsLoading = true;
             })
-            .addCase(getUnreadMessages.fulfilled, (state, { payload: groupChats }) => {
-                state.unreadMessages = groupChats;
+            .addCase(getUnreadMessages.fulfilled, (state, { payload: messages }) => {
+                state.unreadMessages = messages;
                 state.notificationsLoading = false;
             })
             .addCase(getUnreadMessages.rejected, (state) => {
@@ -50,10 +58,20 @@ export const notificationSlice = createSlice({
             })
             .addCase(getEndedSubscription.fulfilled, (state, { payload: endedSubscriptions }) => {
                 state.endedSubscriptions = endedSubscriptions;
-                console.log(endedSubscriptions);
                 state.notificationsLoading = false;
             })
             .addCase(getEndedSubscription.rejected, (state) => {
+                state.notificationsLoading = false;
+            });
+        builder
+            .addCase(getStartedLessons.pending, (state) => {
+                state.notificationsLoading = true;
+            })
+            .addCase(getStartedLessons.fulfilled, (state, { payload: lessons }) => {
+                state.startedLessons = lessons;
+                state.notificationsLoading = false;
+            })
+            .addCase(getStartedLessons.rejected, (state) => {
                 state.notificationsLoading = false;
             });
     },
@@ -61,9 +79,11 @@ export const notificationSlice = createSlice({
         selectUnreadMessages: (state) => state.unreadMessages,
         selectNotificationLoading: (state) => state.notificationsLoading,
         selectCoursesToday: (state)=> state.coursesToday,
+        selectEndedSubscriptions: (state) => state.endedSubscriptions,
+        selectStartedLessons: (state)=> state.startedLessons,
     },
 });
 
 export const notificationsReducer = notificationSlice.reducer;
 
-export const { selectNotificationLoading, selectUnreadMessages, selectCoursesToday } = notificationSlice.selectors;
+export const { selectUnreadMessages, selectNotificationLoading, selectCoursesToday, selectEndedSubscriptions, selectStartedLessons } = notificationSlice.selectors;

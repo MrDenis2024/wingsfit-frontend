@@ -44,6 +44,28 @@ export interface Message {
   isTrainingUrl?: boolean;
 }
 
+export interface MessageNotification {
+  _id: string;
+  privateChat?: string;
+  groupChat?: {
+    _id: string;
+    title: string;
+  };
+  author: {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    avatar?: string;
+  };
+  message: string;
+  createdAt: string;
+  isRead: {
+    user: string;
+    read: boolean;
+  };
+  isTrainingUrl?: boolean;
+}
+
 export interface ChatMessagesPayload {
   chatId: string;
   chatType: "group" | "private";

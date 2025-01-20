@@ -1,5 +1,5 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import { Message} from "../../types/chatTypes.ts";
+import {MessageNotification} from "../../types/chatTypes.ts";
 import {RootState} from "../../app/store.ts";
 import {GlobalError} from "../../types/userTypes.ts";
 import axiosApi from "../../axiosApi.ts";
@@ -7,9 +7,11 @@ import {isAxiosError} from "axios";
 import {IGroup} from "../../types/groupTypes.ts";
 import { ICourse} from "../../types/courseTypes.ts";
 import {CourseToday, EndedSubscription} from "../../types/notificationTypes.ts";
+import {ITrainer} from "../../types/trainerTypes.ts";
+import {Lesson} from "../../types/lessonTypes.ts";
 
 export const getUnreadMessages = createAsyncThunk<
-    Message[],
+    MessageNotification[],
     void,
     {
         state: RootState;
@@ -17,8 +19,8 @@ export const getUnreadMessages = createAsyncThunk<
     }
 >("notifications/getUnreadMessages", async (_, { rejectWithValue }) => {
     try {
-        const { data: groupChatsUnreadMessages } = await axiosApi.get<Message[]>("/chats/groupChatsUnreadMessages");
-        const { data: privateChatsUnreadMessages } = await axiosApi.get<Message[]>("/chats/privateChatsUnreadMessages");
+        const { data: groupChatsUnreadMessages } = await axiosApi.get<MessageNotification[]>("/chats/groupChatsUnreadMessages");
+        const { data: privateChatsUnreadMessages } = await axiosApi.get<MessageNotification[]>("/chats/privateChatsUnreadMessages");
         const messages = groupChatsUnreadMessages.concat(privateChatsUnreadMessages);
 
         return messages;
@@ -105,9 +107,16 @@ export const getEndedSubscription = createAsyncThunk<
             groups.map((group)=>{
                group.clients.map((client)=>{
                    const dateSubscription = new Date(client.subscribeEnd);
-                   if (client.client._id === user._id && dateSubscription <= date ) {
+                   const dateInThreeDays = new Date(date); // Создаем копию текущей даты
+                   dateInThreeDays.setDate(date.getDate() + 3);
+                   if (client.client._id === user._id && dateSubscription.getTime() <= date.getTime() ) {
                        endedSubscription.push({
                            message: `У вас закончилась подписка на курс - ${group.course.title}`,
+                           courseId: group.course._id,
+                       });
+                   }else if (client.client._id === user._id && dateSubscription.getTime() <= dateInThreeDays.getTime()){
+                       endedSubscription.push({
+                           message: `У вас скоро закончится подписка на курс - ${group.course.title}`,
                            courseId: group.course._id,
                        });
                    }
@@ -115,6 +124,48 @@ export const getEndedSubscription = createAsyncThunk<
             });
         }
         return endedSubscription;
+    } catch (error) {
+        if (
+            isAxiosError(error) &&
+            error.response &&
+            error.response.status === 400
+        ) {
+            return rejectWithValue(error.response.data);
+        }
+        throw error;
+    }
+});
+
+export const getStartedLessons = createAsyncThunk<
+    Lesson[],
+    void,
+    {
+        state: RootState;
+        rejectValue: GlobalError;
+    }
+>("notifications/getStartedLessons", async (_, {getState, rejectWithValue }) => {
+    try {
+        const clientId = getState().clients.clientProfile?._id;
+        let lessons: Lesson[] = [];
+        const datetime = new Date().getTime();
+        const { data: trainers } = await axiosApi.get<ITrainer[]>(
+            `/trainers?clientId=${clientId}`,
+        );
+        await Promise.all(
+            trainers.map(async (trainer) => {
+                const { data: lessonsTrainer } = await axiosApi.get<Lesson[]>(
+                    `/lessons?trainer=${trainer.user._id}`,
+                );
+                lessonsTrainer.map((lesson)=>{
+                   const created = new Date(lesson.createdAt).getTime();
+                   if (datetime >= created && datetime <= created + (30 * 60 * 1000) ) {
+                       lessons = [...lessons, lesson];
+                   }
+                });
+            })
+        );
+
+        return lessons;
     } catch (error) {
         if (
             isAxiosError(error) &&
