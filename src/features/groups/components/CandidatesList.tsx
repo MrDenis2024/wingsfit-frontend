@@ -1,14 +1,15 @@
 import { CourseWaitList } from "../../../types/courseTypes.ts";
 import React, { useState } from "react";
 import {
-  Alert,
   Button,
   FormControl,
   IconButton,
-  List,
-  ListItem,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   TextField,
-  Typography,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
@@ -94,64 +95,58 @@ const CandidatesList: React.FC<Props> = ({ candidates, courseId }) => {
 
   return (
     <>
-      <List>
-        {candidates.length > 0 ? (
-          candidates.map((candidate) => (
-            <ListItem
-              key={candidate._id}
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                borderBottom: "1px solid black",
-              }}
-            >
-              <Link
-                to={`/clients/${candidate.user._id}`}
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Typography variant="body1">
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Имя</TableCell>
+            <TableCell>Статус</TableCell>
+            <TableCell>Дата</TableCell>
+            <TableCell>Действия</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {candidates.map((candidate) => (
+            <TableRow key={candidate._id}>
+              <TableCell>
+                <Link
+                  to={`/clients/${candidate.user._id}`}
+                  style={{ textDecoration: "none", color: "inherit" }}
+                >
                   {candidate.user.lastName} {candidate.user.firstName}
-                </Typography>
-              </Link>
-
-              <Typography variant="body1">{candidate.status}</Typography>
-              <Typography variant="body1">
+                </Link>
+              </TableCell>
+              <TableCell>{candidate.status}</TableCell>
+              <TableCell>
                 {new Date(candidate.createdAt).toLocaleString()}
-              </Typography>
-              <Grid>
+              </TableCell>
+              <TableCell>
                 <IconButton
+                  sx={{ padding: 0, marginLeft: "8px" }}
                   color="primary"
                   disabled={loading === candidate._id}
-                  onClick={() => {
+                  onClick={() =>
                     handleOpenApproveDialog(
                       candidate._id,
                       candidate.user.firstName,
                       candidate.user.lastName,
-                    );
-                  }}
-                  sx={{
-                    fontSize: { xs: "16px", sm: "24px" },
-                  }}
+                    )
+                  }
                 >
                   <CheckIcon />
                 </IconButton>
                 <IconButton
+                  sx={{ padding: 0, marginLeft: "8px" }}
                   color="error"
                   disabled={loading === candidate._id}
                   onClick={() => setConfirmOpen(candidate._id)}
-                  sx={{
-                    fontSize: { xs: "16px", sm: "24px" },
-                  }}
                 >
                   <CloseIcon />
                 </IconButton>
-              </Grid>
-            </ListItem>
-          ))
-        ) : (
-          <Alert>Cписок пуст</Alert>
-        )}
-      </List>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
       <CustomConfirmDialog
         open={!!confirmOpen}
         title="Отклонить"

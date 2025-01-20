@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid2";
 import { selectRegisterError, selectRegisterLoading } from "./userSlice.ts";
 import { UserMutation } from "../../types/userTypes.ts";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const { role } = useParams() as { role: string };
@@ -32,6 +33,9 @@ const Register = () => {
 
   const submitFormHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!state.email.trim()) {
+      return toast.error("Поле 'E-mail' обязательно для заполнения.");
+    }
     try {
       const userMutation = {
         email: state.email.trim().toLowerCase(),
@@ -81,7 +85,7 @@ const Register = () => {
                 <TextField
                   required
                   type="email"
-                  label="Gmail"
+                  label="E-mail"
                   name="email"
                   autoComplete="new-username"
                   value={state.email}

@@ -51,6 +51,7 @@ import { selectLessonCreating } from "../../lessons/lessonsSlice.ts";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { CourseWaitList } from "../../../types/courseTypes.ts";
 import CandidatesList from "./CandidatesList.tsx";
+import EventNoteIcon from "@mui/icons-material/EventNote";
 
 interface Props {
   group: IGroup;
@@ -187,8 +188,7 @@ const GroupCard: React.FC<Props> = ({
       await dispatch(createLesson(groupId)).unwrap();
       toast.success("Занятие успешно создано");
     } catch (error) {
-      console.log(error);
-      toast.error("Произошла ошибка создании занятия");
+      toast.error((error as GlobalError).error || "Произошла ошибка при создании занятия");
     }
   };
 
@@ -348,7 +348,10 @@ const GroupCard: React.FC<Props> = ({
             group.clients.map((client) => (
               <ListItem
                 key={client._id}
-                sx={{ display: "flex", justifyContent: "space-between" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
               >
                 <Link
                   to={`/clients/${client.client._id}`}
@@ -358,12 +361,36 @@ const GroupCard: React.FC<Props> = ({
                     {client.client.lastName} {client.client.firstName}
                   </Typography>
                 </Link>
-
-                <Typography variant="body1">
-                  {new Date(client.subscribeEnd).toLocaleDateString()}
-                </Typography>
-
-                <Grid>
+                <Grid
+                  sx={{
+                    "@media (max-width: 400px)": {
+                      display: "flex",
+                      justifyContent: "center",
+                      flexWrap: "wrap",
+                      gap: "2px",
+                    },
+                  }}
+                >
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      textAlign: "center",
+                      pb: "2px",
+                      "@media (max-width: 400px)": {
+                        display: "block",
+                        width: "100%",
+                      },
+                    }}
+                  >
+                    <EventNoteIcon
+                      sx={{
+                        verticalAlign: "middle",
+                        fontSize: "1rem",
+                        pb: "2px",
+                      }}
+                    />{" "}
+                    {new Date(client.subscribeEnd).toLocaleDateString()}
+                  </Typography>
                   {client.status === "active" && (
                     <IconButton
                       sx={{
@@ -390,7 +417,11 @@ const GroupCard: React.FC<Props> = ({
                       {freezeLoading === client.client._id ? (
                         <CircularProgress size={24} />
                       ) : (
-                        <AcUnitIcon />
+                        <AcUnitIcon
+                          sx={{
+                            fontSize: { xs: "16px", sm: "24px" },
+                          }}
+                        />
                       )}
                     </IconButton>
                   )}
@@ -420,7 +451,11 @@ const GroupCard: React.FC<Props> = ({
                       {activeLoading === client.client._id ? (
                         <CircularProgress size={24} />
                       ) : (
-                        <WhatshotIcon />
+                        <WhatshotIcon
+                          sx={{
+                            fontSize: { xs: "16px", sm: "24px" },
+                          }}
+                        />
                       )}
                     </IconButton>
                   )}
@@ -455,7 +490,11 @@ const GroupCard: React.FC<Props> = ({
                     {deleteClientLoading === client.client._id ? (
                       <CircularProgress size={24} />
                     ) : (
-                      <PersonRemoveIcon />
+                      <PersonRemoveIcon
+                        sx={{
+                          fontSize: { xs: "16px", sm: "24px" },
+                        }}
+                      />
                     )}
                   </IconButton>
                   <IconButton
@@ -490,7 +529,11 @@ const GroupCard: React.FC<Props> = ({
                     {updateSubscribeLoading === client.client._id ? (
                       <CircularProgress size={24} />
                     ) : (
-                      <AccessTimeIcon />
+                      <AccessTimeIcon
+                        sx={{
+                          fontSize: { xs: "16px", sm: "24px" },
+                        }}
+                      />
                     )}
                   </IconButton>
                 </Grid>

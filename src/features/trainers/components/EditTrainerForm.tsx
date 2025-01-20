@@ -6,6 +6,7 @@ import {
 import { UserInfoMutation } from "../../../types/userTypes.ts";
 import Grid from "@mui/material/Grid2";
 import {
+  Button,
   Checkbox,
   FormControlLabel,
   FormGroup,
@@ -20,6 +21,8 @@ import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
 import EditUser from "../../users/components/EditUser.tsx";
 import { isValidPhoneNumber } from "react-phone-number-input/min";
 import { DAYS_OF_WEEK } from "../../../constants.ts";
+import ChangePassword from "../../users/components/ChangePassword.tsx";
+import Modal from "../../../UI/Modal/Modal.tsx";
 
 interface Props {
   existingProfile: ITrainer;
@@ -57,6 +60,7 @@ const EditTrainerForm: React.FC<Props> = ({
       : [],
   });
   const [phoneError, setPhoneError] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(fetchCourseTypes());
@@ -131,87 +135,115 @@ const EditTrainerForm: React.FC<Props> = ({
   };
 
   return (
-    <Grid
-      container
-      spacing={2}
-      component={"form"}
-      direction="column"
-      sx={{
-        my: 3,
-      }}
-      onSubmit={onFormSubmit}
-    >
-      <EditUser
-        personalInfo={personalInfo}
-        onTimezoneChange={changeTimezone}
-        inputChangeHandler={inputChangeHandlerPersonal}
-        phoneChangeHandler={phoneChangeHandler}
-        phoneError={phoneError}
-      />
-      <Grid>
-        <Typography variant="h6">Измените профильную информацию</Typography>
-      </Grid>
-      <Grid>
-        <TextField
-          type="text"
-          multiline
-          minRows={2}
-          label="Описание"
-          name="description"
-          onChange={inputChangeHandlerOptional}
-          value={optionalInfo.description}
+    <>
+      <Grid
+        container
+        spacing={2}
+        component={"form"}
+        direction="column"
+        sx={{
+          my: 3,
+        }}
+        onSubmit={onFormSubmit}
+      >
+        <Grid container justifyContent="space-between">
+          <Typography variant="h4">Редактирования профиля</Typography>
+          <Button
+            onClick={() => setModalOpen(true)}
+            sx={{
+              fontWeight: "bold",
+              fontSize: "14px",
+              px: 1,
+              height: "40px",
+            }}
+            variant="outlined"
+          >
+            Сменить пароль
+          </Button>
+        </Grid>
+        <EditUser
+          personalInfo={personalInfo}
+          onTimezoneChange={changeTimezone}
+          inputChangeHandler={inputChangeHandlerPersonal}
+          phoneChangeHandler={phoneChangeHandler}
+          phoneError={phoneError}
         />
-      </Grid>
-      <Grid>
-        <TextField
-          type="text"
-          label="Специализация"
-          name="specialization"
-          onChange={inputChangeHandlerOptional}
-          value={optionalInfo.specialization}
+        <Grid>
+          <Typography variant="h6">Измените профильную информацию</Typography>
+        </Grid>
+        <Grid>
+          <TextField
+            type="text"
+            multiline
+            minRows={2}
+            label="Описание"
+            name="description"
+            onChange={inputChangeHandlerOptional}
+            value={optionalInfo.description}
+          />
+        </Grid>
+        <Grid>
+          <TextField
+            type="text"
+            label="Специализация"
+            name="specialization"
+            onChange={inputChangeHandlerOptional}
+            value={optionalInfo.specialization}
+          />
+        </Grid>
+        <Grid>
+          <TextField
+            type="text"
+            multiline
+            minRows={2}
+            label="Опыт"
+            name="experience"
+            onChange={inputChangeHandlerOptional}
+            value={optionalInfo.experience}
+          />
+        </Grid>
+        <CourseTypeSelector
+          courseTypes={courseTypes}
+          onChange={onChangeCourseTypes}
+          value={optionalInfo.courseTypes}
+          onRemove={removeCourseType}
+          label="Course types"
         />
+        <Grid>
+          <Typography variant="h6">Дни проведения занятий:</Typography>
+          <FormGroup row>
+            {DAYS_OF_WEEK.map((day) => (
+              <FormControlLabel
+                key={day}
+                control={
+                  <Checkbox
+                    checked={optionalInfo.availableDays.includes(day)}
+                    onChange={() => handleDayChange(day)}
+                  />
+                }
+                label={day}
+              />
+            ))}
+          </FormGroup>
+        </Grid>
+        <Grid>
+          <LoadingButton
+            type={"submit"}
+            variant="outlined"
+            loading={editLoading}
+          >
+            Сохранить
+          </LoadingButton>
+        </Grid>
       </Grid>
-      <Grid>
-        <TextField
-          type="text"
-          multiline
-          minRows={2}
-          label="Опыт"
-          name="experience"
-          onChange={inputChangeHandlerOptional}
-          value={optionalInfo.experience}
-        />
-      </Grid>
-      <CourseTypeSelector
-        courseTypes={courseTypes}
-        onChange={onChangeCourseTypes}
-        value={optionalInfo.courseTypes}
-        onRemove={removeCourseType}
-        label="Course types"
-      />
-      <Grid>
-        <Typography variant="h6">Дни проведения занятий:</Typography>
-        <FormGroup row>
-          {DAYS_OF_WEEK.map((day) => (
-            <FormControlLabel
-              key={day}
-              control={
-                <Checkbox
-                  checked={optionalInfo.availableDays.includes(day)}
-                  onChange={() => handleDayChange(day)}
-                />
-              }
-              label={day}
-            />
-          ))}
-        </FormGroup>
-      </Grid>
-      <Grid>
-        <LoadingButton type={"submit"} variant="outlined" loading={editLoading}>
-          Сохранить
-        </LoadingButton>
-      </Grid>
-    </Grid>
+      <Modal
+        title={"Сменить пароль"}
+        onClose={() => setModalOpen(false)}
+        show={modalOpen}
+      >
+        <ChangePassword onClose={() => setModalOpen(false)} />
+      </Modal>
+    </>
   );
 };
 

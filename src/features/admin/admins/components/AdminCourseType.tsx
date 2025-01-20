@@ -129,7 +129,11 @@ const AdminCourseType = () => {
                   <Button
                     variant="outlined"
                     onClick={() => openConfirmDialog("publish", type._id)}
-                    disabled={publicLoading === type._id || type.isBlocked}
+                    disabled={
+                      publicLoading === type._id ||
+                      type.isBlocked ||
+                      type.isPublished
+                    }
                   >
                     {publicLoading === type._id && (
                       <CircularProgress size={24} />
@@ -139,7 +143,11 @@ const AdminCourseType = () => {
                   <Button
                     variant="outlined"
                     onClick={() => openConfirmDialog("block", type._id)}
-                    disabled={type.isPublished || blockLoading === type._id}
+                    disabled={
+                      type.isPublished ||
+                      blockLoading === type._id ||
+                      type.isBlocked
+                    }
                   >
                     {blockLoading === type._id && (
                       <CircularProgress size={24} />

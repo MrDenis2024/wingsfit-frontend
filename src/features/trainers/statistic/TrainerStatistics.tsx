@@ -5,7 +5,7 @@ import { Alert, Container } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import ClientStatistic from "./components/ClientStatistic.tsx";
 import GroupStatistic from "./components/GroupStatistic.tsx";
-import ChartStatistic from "./components/ChartStatistic.tsx";
+import CourseStatistic from "./components/CourseStatistic.tsx";
 
 const TrainerStatistics = () => {
   const { pathname: location } = useLocation();
@@ -21,8 +21,8 @@ const TrainerStatistics = () => {
     content = <GroupStatistic />;
   } else if (lastWord === "clients") {
     content = <ClientStatistic />;
-  } else if (lastWord === "chart") {
-    content = <ChartStatistic />;
+  } else if (lastWord === "courses") {
+    content = <CourseStatistic />;
   }
 
   return (

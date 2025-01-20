@@ -104,7 +104,7 @@ const Login = () => {
                 <TextField
                   required
                   type="email"
-                  label="Gmail"
+                  label="E-mail"
                   name="email"
                   autoComplete="new-username"
                   value={state.email}

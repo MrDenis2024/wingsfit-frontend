@@ -11,9 +11,9 @@ const TrainerStatisticMenu = () => {
           <ListItemButton
             sx={{ textAlign: "center" }}
             component={Link}
-            to="/trainer/statistics/clients"
+            to="/trainer/statistics/courses"
           >
-            <ListItemText primary="Мои клиенты" />
+            <ListItemText primary="Мои курсы" />
           </ListItemButton>
         </ListItem>
         <ListItem sx={{ flex: "1 1 30%" }}>
@@ -29,9 +29,9 @@ const TrainerStatisticMenu = () => {
           <ListItemButton
             sx={{ textAlign: "center" }}
             component={Link}
-            to="/trainer/statistics/chart"
+            to="/trainer/statistics/clients"
           >
-            <ListItemText primary="Статистика" />
+            <ListItemText primary="Мои клиенты" />
           </ListItemButton>
         </ListItem>
       </List>
