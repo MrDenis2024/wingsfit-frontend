@@ -114,7 +114,7 @@ const AppToolbar = () => {
               </Grid>
               <Grid sx={{ ml: "auto", mr: 3 }}>
                 <Badge
-                  color="secondary"
+                  color="primary"
                   onClick={handleClick}
                   badgeContent={
                     messages.length +

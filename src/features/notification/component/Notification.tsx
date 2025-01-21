@@ -60,7 +60,7 @@ const Notification: React.FC<Props> = ({
   if (endedSubscription) {
     content = (
       <Link
-        href={`/courses/${endedSubscription.courseId}`}
+        href={user?.role === "trainer" ? (`/trainer/groups`) : (`/courses/${endedSubscription.courseId}`)}
         sx={{
           p: 1,
           border: "1px solid gray",

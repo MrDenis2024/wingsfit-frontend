@@ -109,7 +109,7 @@ export const getEndedSubscription = createAsyncThunk<
             if (dateSubscription <= date) {
               endedSubscription.push({
                 message: `У участника группы "${group.title}" - ${client.client.firstName} ${client.client.lastName} закончилась подписка!`,
-                courseId: "",
+                courseId: group._id,
               });
             }
           });
