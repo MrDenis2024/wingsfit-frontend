@@ -93,7 +93,7 @@ const ChatsList: React.FC<Props> = ({
                           color: "red",
                         }}
                       >
-                        Ваш статус в этой группе заморожен
+                        Чат для вас недоступен
                       </Typography>
                     )}
                   </>
