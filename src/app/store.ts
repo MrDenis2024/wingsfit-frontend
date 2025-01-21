@@ -22,6 +22,7 @@ import { groupsReducer } from "../features/groups/groupsSlice.ts";
 import { reviewReducer } from "../features/reviewForm/reviewSlice.ts";
 import { trainerStatisticReducer } from "../features/trainers/statistic/trainerStatisticSlice.ts";
 import { chatsReducer } from "../features/chat/chatsSlice.ts";
+import { notificationsReducer } from "../features/notification/notificationSlice.ts";
 
 const usersPersistConfig = {
   key: "wingsfit:users",
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   review: reviewReducer,
   trainerStatistic: trainerStatisticReducer,
   chats: chatsReducer,
+  notifications: notificationsReducer,
 });
 
 export const store = configureStore({
