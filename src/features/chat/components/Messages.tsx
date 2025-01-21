@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import {Box, Button, Typography} from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MessagesList from "./MessagesList.tsx";
 import ChatForm from "./ChatForm.tsx";
-import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import { IncomingMessage, Message } from "../../../types/chatTypes.ts";
 import { apiURL, wsApiURL } from "../../../constants.ts";
-import {fetchLastLesson, patchLesson} from "../../lessons/lessonsThunk.ts";
-import {selectGroupChats} from "../chatsSlice.ts";
-import {selectLastLesson} from "../../lessons/lessonsSlice.ts";
-import {toast} from "react-toastify";
-import {GlobalError} from "../../../types/userTypes.ts";
+import { fetchLastLesson, patchLesson } from "../../lessons/lessonsThunk.ts";
+import { selectGroupChats } from "../chatsSlice.ts";
+import { selectLastLesson } from "../../lessons/lessonsSlice.ts";
+import { toast } from "react-toastify";
+import { GlobalError } from "../../../types/userTypes.ts";
 
 interface MessagesProps {
   chatId: string | null;
@@ -26,25 +26,28 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
   const groupChats = useAppSelector(selectGroupChats);
   const dispatch = useAppDispatch();
   const lastLesson = useAppSelector(selectLastLesson);
-  const btnMoveToLessonDisabled = () =>{
+  const btnMoveToLessonDisabled = () => {
     if (lastLesson) {
       const currentDate = new Date();
       const lastLessonDate = new Date(lastLesson.createdAt);
-      return !(lastLessonDate.getFullYear()===currentDate.getFullYear() &&
-          lastLessonDate.getMonth()===currentDate.getMonth() &&
-          lastLessonDate.getDate()===currentDate.getDate());
-    }else return true;
+      return !(
+        lastLessonDate.getFullYear() === currentDate.getFullYear() &&
+        lastLessonDate.getMonth() === currentDate.getMonth() &&
+        lastLessonDate.getDate() === currentDate.getDate()
+      );
+    } else return true;
   };
 
   useEffect(() => {
-    if(chatId !== null && chatType ==='group') {
-      const currentGroupChat = groupChats.find((groupChat) => groupChat._id === chatId);
+    if (chatId !== null && chatType === "group") {
+      const currentGroupChat = groupChats.find(
+        (groupChat) => groupChat._id === chatId,
+      );
       if (currentGroupChat) {
         dispatch(fetchLastLesson(currentGroupChat.group));
       }
     }
-  }, [dispatch, groupChats,chatType,chatId]);
-
+  }, [dispatch, groupChats, chatType, chatId]);
 
   useEffect(() => {
     if (!user) return;
@@ -168,16 +171,19 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
     avatar: msg.avatar ? getAvatarUrl(msg.avatar) : getAvatarText(msg.author),
   }));
 
-  const handleMoveToLesson = async () =>{
-    if (lastLesson && user){
+  const handleMoveToLesson = async () => {
+    if (lastLesson && user) {
       try {
-        if(user.role === 'client' && lastLesson.notPresent.find(item=>item._id===user._id)){
-         await dispatch(patchLesson(lastLesson._id)).unwrap();
-         toast.success("Вы отметились как присутствующий");
-         window.location.href = `${lastLesson.lessonURL}`;
+        if (
+          user.role === "client" &&
+          lastLesson.notPresent.find((item) => item._id === user._id)
+        ) {
+          await dispatch(patchLesson(lastLesson._id)).unwrap();
+          toast.success("Вы отметились как присутствующий");
+          window.location.href = `${lastLesson.lessonURL}`;
         }
         window.location.href = `${lastLesson.lessonURL}`;
-      }catch (error) {
+      } catch (error) {
         toast.error((error as GlobalError).error || "Произошла ошибка");
       }
     }
@@ -225,7 +231,14 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
           {chatId ? `Чат с ${chatTitle}` : "Чат"}
         </Typography>
         {chatId && chatType === "group" && lastLesson && (
-          <Button variant={"contained"} disabled={btnMoveToLessonDisabled()} onClick={handleMoveToLesson}> Перерйти к занятию </Button>
+          <Button
+            variant={"contained"}
+            disabled={btnMoveToLessonDisabled()}
+            onClick={handleMoveToLesson}
+          >
+            {" "}
+            Перерйти к занятию{" "}
+          </Button>
         )}
       </Box>
       <Box

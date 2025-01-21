@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { styled } from "@mui/system";
 import Modal from "../../../UI/Modal/Modal.tsx";
-import {IGroup} from "../../../types/groupTypes.ts";
-
+import { IGroup } from "../../../types/groupTypes.ts";
 
 const StyledTextField = styled(TextField)({
   "& .MuiInputBase-root": {
@@ -32,18 +31,23 @@ const CustomButton = styled(Button)({
 });
 
 interface Props {
-  onSend: (groupId:string,lessonUrl: string) => void;
-  handleClose:VoidFunction// Pass video URL to parent
-    isOpen:boolean;
-    group: IGroup;
+  onSend: (groupId: string, lessonUrl: string) => void;
+  handleClose: VoidFunction; // Pass video URL to parent
+  isOpen: boolean;
+  group: IGroup;
 }
 
-const SendLinkModal: React.FC<Props> = ({ group,onSend,isOpen,handleClose}) => {
+const SendLinkModal: React.FC<Props> = ({
+  group,
+  onSend,
+  isOpen,
+  handleClose,
+}) => {
   const [lessonUrl, setLessonUrl] = useState("");
 
   const handleSend = () => {
     if (isValidUrl(lessonUrl)) {
-      onSend(group._id,lessonUrl);
+      onSend(group._id, lessonUrl);
       setLessonUrl("");
       handleClose();
     }
@@ -67,7 +71,6 @@ const SendLinkModal: React.FC<Props> = ({ group,onSend,isOpen,handleClose}) => {
         maxWidth={500}
         backgroundColor={"#e0f7fa"}
       >
-
         <Box sx={{ textAlign: "center", padding: "16px" }}>
           <StyledTextField
             variant="outlined"

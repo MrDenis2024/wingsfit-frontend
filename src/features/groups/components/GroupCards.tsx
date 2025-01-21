@@ -7,7 +7,7 @@ import { selectFetchGroups } from "../groupsSlice.ts";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import Grid from "@mui/material/Grid2";
 import { ICourse } from "../../../types/courseTypes.ts";
-import {selectTrainerLessons} from "../../lessons/lessonsSlice.ts";
+import { selectTrainerLessons } from "../../lessons/lessonsSlice.ts";
 
 interface Props {
   groups: IGroup[];
@@ -61,7 +61,9 @@ const GroupCards: React.FC<Props> = ({ groups, courses }) => {
                 const candidates = course.waitList.filter(
                   (item) => item.favoriteGroup === group._id,
                 );
-                const groupLessons=lessons.filter((item)=>item.group._id===group._id);
+                const groupLessons = lessons.filter(
+                  (item) => item.group._id === group._id,
+                );
                 return (
                   <GroupCard
                     key={group._id}

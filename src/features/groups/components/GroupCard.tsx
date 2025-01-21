@@ -46,18 +46,21 @@ import { GlobalError } from "../../../types/userTypes.ts";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Modal from "../../../UI/Modal/Modal.tsx";
 import FeaturedPlayListIcon from "@mui/icons-material/FeaturedPlayList";
-import {createLesson, fetchTrainerLessons} from "../../lessons/lessonsThunk.ts";
-import {selectLessonCreating} from "../../lessons/lessonsSlice.ts";
+import {
+  createLesson,
+  fetchTrainerLessons,
+} from "../../lessons/lessonsThunk.ts";
+import { selectLessonCreating } from "../../lessons/lessonsSlice.ts";
 import { CourseWaitList } from "../../../types/courseTypes.ts";
 import CandidatesList from "./CandidatesList.tsx";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import SendLinkModal from "../../chat/components/SendLinkModal.tsx";
 import LoadingButton from "@mui/lab/LoadingButton";
-import {Lesson} from "../../../types/lessonTypes.ts";
+import { Lesson } from "../../../types/lessonTypes.ts";
 
 interface Props {
   group: IGroup;
-  groupLessons:Lesson[];
+  groupLessons: Lesson[];
   activeGroup: string | null;
   handleAccordionChange: (groupId: string) => void;
   candidates: CourseWaitList[];
@@ -65,7 +68,7 @@ interface Props {
 
 const GroupCard: React.FC<Props> = ({
   group,
-                                      groupLessons,
+  groupLessons,
   activeGroup,
   handleAccordionChange,
   candidates,
@@ -79,7 +82,7 @@ const GroupCard: React.FC<Props> = ({
   const updateSubscribeLoading = useAppSelector(selectSubscribeLoading);
   const isLessonCreating = useAppSelector(selectLessonCreating);
 
-  const lastLesson=groupLessons[groupLessons.length - 1];
+  const lastLesson = groupLessons[groupLessons.length - 1];
 
   const [candidatesListOpen, setCandidatesListOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -99,15 +102,17 @@ const GroupCard: React.FC<Props> = ({
   } | null>(null);
   const [newEndDate, setNewEndDate] = useState<string>("");
 
-  const btnCreateLessonIsDisabled = () =>{
-    if(group.clients.length === 0) return true;
+  const btnCreateLessonIsDisabled = () => {
+    if (group.clients.length === 0) return true;
     if (lastLesson) {
       const currentDate = new Date();
       const lastLessonDate = new Date(lastLesson.createdAt);
-      return (lastLessonDate.getFullYear()===currentDate.getFullYear() &&
-          lastLessonDate.getMonth()===currentDate.getMonth() &&
-          lastLessonDate.getDate()===currentDate.getDate());
-    }else return false;
+      return (
+        lastLessonDate.getFullYear() === currentDate.getFullYear() &&
+        lastLessonDate.getMonth() === currentDate.getMonth() &&
+        lastLessonDate.getDate() === currentDate.getDate()
+      );
+    } else return false;
   };
 
   const handleGroupDelete = async (groupId: string) => {
@@ -202,15 +207,17 @@ const GroupCard: React.FC<Props> = ({
     }
   };
 
-  const handleStartLesson = async (groupId: string,lessonUrl:string) => {
+  const handleStartLesson = async (groupId: string, lessonUrl: string) => {
     try {
-      await dispatch(createLesson({ groupId,lessonUrl })).unwrap();
+      await dispatch(createLesson({ groupId, lessonUrl })).unwrap();
       toast.success("Занятие успешно создано");
-      if (user){
+      if (user) {
         await dispatch(fetchTrainerLessons(user._id));
       }
     } catch (error) {
-      toast.error((error as GlobalError).error || "Произошла ошибка при создании занятия");
+      toast.error(
+        (error as GlobalError).error || "Произошла ошибка при создании занятия",
+      );
     }
   };
 
@@ -250,20 +257,20 @@ const GroupCard: React.FC<Props> = ({
               }}
             >
               <LoadingButton
-                  loading={isLessonCreating === group._id}
-                  variant="contained"
-                  color="primary"
-                  disabled={btnCreateLessonIsDisabled()}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSendLinkOpen(true);
-                  }}
-                  sx={{
-                    fontSize: {
-                      xs: "12px",
-                      sm: "16px",
-                    },
-                  }}
+                loading={isLessonCreating === group._id}
+                variant="contained"
+                color="primary"
+                disabled={btnCreateLessonIsDisabled()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSendLinkOpen(true);
+                }}
+                sx={{
+                  fontSize: {
+                    xs: "12px",
+                    sm: "16px",
+                  },
+                }}
               >
                 Начать занятие
               </LoadingButton>
@@ -640,7 +647,12 @@ const GroupCard: React.FC<Props> = ({
       >
         <CandidatesList candidates={candidates} courseId={group.course._id} />
       </Modal>
-      <SendLinkModal onSend={handleStartLesson} group={group} isOpen={sendLinkOpen} handleClose={()=>setSendLinkOpen(false)} />
+      <SendLinkModal
+        onSend={handleStartLesson}
+        group={group}
+        isOpen={sendLinkOpen}
+        handleClose={() => setSendLinkOpen(false)}
+      />
     </>
   );
 };

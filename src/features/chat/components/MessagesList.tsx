@@ -89,15 +89,15 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
                   {new Date(msg.createdAt).toLocaleTimeString()}
                 </Typography>
               </Grid>
-                <Typography
-                  variant="body1"
-                  sx={{
-                    whiteSpace: "pre-wrap",
-                    fontSize: { xs: "0.8rem", sm: "1rem" },
-                  }}
-                >
-                  {msg.message}
-                </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  whiteSpace: "pre-wrap",
+                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                }}
+              >
+                {msg.message}
+              </Typography>
             </Grid>
           </ListItem>
         ))}
