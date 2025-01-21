@@ -3,6 +3,7 @@ import { Lesson } from "../../types/lessonTypes";
 import {
   createLesson,
   fetchGroupLessons,
+  fetchLastLesson,
   fetchTrainerLessons,
   patchLesson,
 } from "./lessonsThunk.ts";
@@ -12,8 +13,10 @@ interface LessonState {
   groupLessons: Lesson[];
   trainerLessonsLoading: boolean;
   groupLessonsLoading: boolean;
-  lessonCreating: boolean;
+  lessonCreating: string | false;
   lessonUpdating: boolean;
+  lastLesson: Lesson | null;
+  lastLessonLoading: boolean;
 }
 
 const initialState: LessonState = {
@@ -23,6 +26,8 @@ const initialState: LessonState = {
   groupLessonsLoading: false,
   lessonCreating: false,
   lessonUpdating: false,
+  lastLesson: null,
+  lastLessonLoading: false,
 };
 
 export const lessonsSlice = createSlice({
@@ -55,8 +60,8 @@ export const lessonsSlice = createSlice({
       });
 
     builder
-      .addCase(createLesson.pending, (state) => {
-        state.lessonCreating = true;
+      .addCase(createLesson.pending, (state, { meta: { arg } }) => {
+        state.lessonCreating = arg.groupId;
       })
       .addCase(createLesson.fulfilled, (state) => {
         state.lessonCreating = false;
@@ -75,6 +80,19 @@ export const lessonsSlice = createSlice({
       .addCase(patchLesson.rejected, (state) => {
         state.lessonUpdating = false;
       });
+
+    builder
+      .addCase(fetchLastLesson.pending, (state) => {
+        state.lastLessonLoading = true;
+      })
+      .addCase(fetchLastLesson.fulfilled, (state, { payload: lastLesson }) => {
+        state.lastLessonLoading = false;
+        state.lastLesson = lastLesson;
+      })
+      .addCase(fetchLastLesson.rejected, (state) => {
+        state.lastLessonLoading = false;
+        state.lastLesson = null;
+      });
   },
   selectors: {
     selectTrainerLessons: (state) => state.trainerLessons,
@@ -83,6 +101,8 @@ export const lessonsSlice = createSlice({
     selectGroupLessonsLoading: (state) => state.groupLessonsLoading,
     selectLessonCreating: (state) => state.lessonCreating,
     selectLessonUpdating: (state) => state.lessonUpdating,
+    selectLastLesson: (state) => state.lastLesson,
+    selectLastLessonLoading: (state) => state.lastLessonLoading,
   },
 });
 
@@ -93,4 +113,5 @@ export const {
   selectGroupLessons,
   selectGroupLessonsLoading,
   selectLessonCreating,
+  selectLastLesson,
 } = lessonsSlice.selectors;

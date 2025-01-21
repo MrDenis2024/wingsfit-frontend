@@ -8,6 +8,7 @@ interface Message {
   message: string;
   createdAt: string;
   avatar?: string;
+  isTrainingUrl?: boolean;
 }
 
 interface MessagesListProps {

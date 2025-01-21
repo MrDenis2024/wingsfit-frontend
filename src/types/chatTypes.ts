@@ -2,7 +2,7 @@ export type OneChat = PrivateChat | GroupChat;
 
 export interface GroupChat {
   _id: string;
-  groupId: string;
+  group: string;
   title: string;
   type: "group";
   disabled: boolean;

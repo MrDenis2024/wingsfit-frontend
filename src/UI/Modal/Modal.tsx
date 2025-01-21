@@ -6,6 +6,7 @@ interface Props extends React.PropsWithChildren {
   onClose: () => void;
   title: string;
   maxWidth?: number;
+  backgroundColor?: string;
 }
 
 const Modal: React.FC<Props> = ({
@@ -14,6 +15,7 @@ const Modal: React.FC<Props> = ({
   title,
   maxWidth,
   children,
+  backgroundColor,
 }) => {
   return (
     <Dialog
@@ -29,6 +31,7 @@ const Modal: React.FC<Props> = ({
           maxWidth: maxWidth ? `${maxWidth}px` : "500px",
           width: "90vw",
           boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+          backgroundColor: backgroundColor ? backgroundColor : "white",
         },
       }}
     >

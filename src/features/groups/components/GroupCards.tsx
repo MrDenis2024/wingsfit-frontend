@@ -7,6 +7,7 @@ import { selectFetchGroups } from "../groupsSlice.ts";
 import LoadingIndicator from "../../../UI/LoadingIndicator/LoadingIndicator.tsx";
 import Grid from "@mui/material/Grid2";
 import { ICourse } from "../../../types/courseTypes.ts";
+import { selectTrainerLessons } from "../../lessons/lessonsSlice.ts";
 
 interface Props {
   groups: IGroup[];
@@ -16,6 +17,7 @@ interface Props {
 const GroupCards: React.FC<Props> = ({ groups, courses }) => {
   const isLoading = useAppSelector(selectFetchGroups);
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
+  const lessons = useAppSelector(selectTrainerLessons);
 
   const handleAccordionChange = (groupId: string) => {
     setActiveGroup((prevState) => (prevState === groupId ? null : groupId));
@@ -59,10 +61,14 @@ const GroupCards: React.FC<Props> = ({ groups, courses }) => {
                 const candidates = course.waitList.filter(
                   (item) => item.favoriteGroup === group._id,
                 );
+                const groupLessons = lessons.filter(
+                  (item) => item.group._id === group._id,
+                );
                 return (
                   <GroupCard
                     key={group._id}
                     group={group}
+                    groupLessons={groupLessons}
                     activeGroup={activeGroup}
                     candidates={candidates}
                     handleAccordionChange={handleAccordionChange}

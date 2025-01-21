@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Lesson } from "../../types/lessonTypes";
+import { Lesson, LessonCreatingSArgs } from "../../types/lessonTypes";
 import axiosApi from "../../axiosApi";
 import { isAxiosError } from "axios";
 import { GlobalError } from "../../types/userTypes.ts";
@@ -24,19 +24,20 @@ export const fetchGroupLessons = createAsyncThunk<Lesson[], string>(
   },
 );
 
-export const createLesson = createAsyncThunk<void, string, { rejectValue: GlobalError }>(
-  "lessons/create",
-  async (groupId, { rejectWithValue }) => {
-    try {
-      await axiosApi.post("/lessons", { groupId });
-    } catch (e) {
-      if (isAxiosError(e) && e.response && e.response.status === 400) {
-        return rejectWithValue(e.response.data);
-      }
-      throw e;
+export const createLesson = createAsyncThunk<
+  void,
+  LessonCreatingSArgs,
+  { rejectValue: GlobalError }
+>("lessons/create", async ({ groupId, lessonUrl }, { rejectWithValue }) => {
+  try {
+    await axiosApi.post("/lessons", { groupId, lessonUrl });
+  } catch (e) {
+    if (isAxiosError(e) && e.response && e.response.status === 400) {
+      return rejectWithValue(e.response.data);
     }
-  },
-);
+    throw e;
+  }
+});
 
 export const patchLesson = createAsyncThunk<void, string>(
   "lessons/update",
@@ -46,5 +47,15 @@ export const patchLesson = createAsyncThunk<void, string>(
     } catch (e) {
       console.error(e);
     }
+  },
+);
+
+export const fetchLastLesson = createAsyncThunk<Lesson, string>(
+  "lessons/fetchLastLesson",
+  async (groupId) => {
+    const { data: lastLesson } = await axiosApi.get<Lesson>(
+      `/lessons/last/${groupId}`,
+    );
+    return lastLesson;
   },
 );

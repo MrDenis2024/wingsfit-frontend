@@ -33,6 +33,9 @@ const LessonDetailModal: React.FC<Props> = ({ oneLesson, open, onClose }) => {
           <Typography variant="h5" gutterBottom>
             {oneLesson.group.title}
           </Typography>
+          <Typography variant="body1" gutterBottom>
+            Ссылка: {oneLesson.lessonURL}
+          </Typography>
           <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
             <Typography variant="body2" fontSize="16px">
               <strong>Курс:</strong> {oneLesson.group.course.title}
