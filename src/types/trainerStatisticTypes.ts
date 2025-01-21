@@ -4,11 +4,15 @@ export interface TrainerStatisticGroup {
   clientsLimit: number;
   trainingLevel: string;
   startTime: string;
+  scheduleLength: number;
   clients: {
     _id: string;
-    firstName: string;
-    lastName: string;
+    client: string;
+    addedAt: Date;
+    status: string;
+    subscribeEnd: Date;
   }[];
+  maxClients: number;
   course: {
     _id: string;
     title: string;
@@ -19,10 +23,11 @@ export interface TrainerStatisticGroup {
 
 export interface TrainerStatisticClient {
   _id: string;
-  name: string;
+  addedAt: Date;
+  clientId: string;
+  groupTitle: string;
   lastName: string;
-  phoneNumber: string;
-  email: string;
-  groups: string[];
-  courses: string[];
+  name: string;
+  status: string;
+  subscribeEnd: Date;
 }

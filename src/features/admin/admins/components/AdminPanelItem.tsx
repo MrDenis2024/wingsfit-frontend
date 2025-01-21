@@ -26,8 +26,11 @@ import { selectDeleteGroupLoading } from "../../../groups/groupsSlice.ts";
 import CustomConfirmDialog from "../../../../UI/CustomConfirmDialog/CustomConfirmDialog.tsx";
 import { selectDeleteCourseLoading } from "../../../courses/coursesSlice.ts";
 import { deleteCourse, fetchCourses } from "../../../courses/coursesThunks.ts";
+import Modal from "../../../../UI/Modal/Modal.tsx";
+import ChangePassword from "../../../users/components/ChangePassword.tsx";
 import dayjs from "dayjs";
 import AdminCourseType from "./AdminCourseType.tsx";
+import Grid from "@mui/material/Grid2";
 
 interface Props {
   users: IUser[];
@@ -51,6 +54,7 @@ const AdminPanelItem: React.FC<Props> = ({
   const deleteGroupLoading = useAppSelector(selectDeleteGroupLoading);
   const courseDeleteLoading = useAppSelector(selectDeleteCourseLoading);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [itemToDelete, setItemToDelete] = useState<{
     type: "group" | "course";
     id: string;
@@ -125,7 +129,7 @@ const AdminPanelItem: React.FC<Props> = ({
                     <TableCell>{user.userName}</TableCell>
                     <TableCell>{user.role}</TableCell>
                     <TableCell>
-                      {user.firstName} {user.lastName}
+                      {user.lastName} {user.firstName}
                     </TableCell>
                     <TableCell>{user.gender}</TableCell>
                     <TableCell>
@@ -177,7 +181,7 @@ const AdminPanelItem: React.FC<Props> = ({
                 {trainers.map((trainer) => (
                   <TableRow key={trainer._id}>
                     <TableCell>
-                      {trainer.user.firstName} {trainer.user.lastName}
+                      {trainer.user.lastName} {trainer.user.firstName}
                     </TableCell>
                     <TableCell>
                       {trainer.courseTypes
@@ -229,7 +233,7 @@ const AdminPanelItem: React.FC<Props> = ({
                 {clients.map((client) => (
                   <TableRow key={client._id}>
                     <TableCell>
-                      {client.user.firstName} {client.user.lastName}
+                      {client.user.lastName} {client.user.firstName}
                     </TableCell>
                     <TableCell>
                       {findCourseTypes(
@@ -432,9 +436,16 @@ const AdminPanelItem: React.FC<Props> = ({
           <Button color="inherit" onClick={() => setActiveTab("courses")}>
             Курсы
           </Button>
+          <Button
+            onClick={() => setModalOpen(true)}
+            color="inherit"
+            sx={{ marginLeft: "auto" }}
+          >
+            Сменить пароль
+          </Button>
         </Toolbar>
       </AppBar>
-      {renderContent()}
+      <Grid style={{ overflowX: "auto" }}>{renderContent()}</Grid>
       <CustomConfirmDialog
         open={confirmOpen}
         title={`Удалить ${itemToDelete?.type === "group" ? "группу" : "курс"}`}
@@ -444,6 +455,13 @@ const AdminPanelItem: React.FC<Props> = ({
         onConfirm={handleDelete}
         onCancel={() => setConfirmOpen(false)}
       />
+      <Modal
+        title={"Сменить пароль"}
+        onClose={() => setModalOpen(false)}
+        show={modalOpen}
+      >
+        <ChangePassword onClose={() => setModalOpen(false)} />
+      </Modal>
     </>
   );
 };

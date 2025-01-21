@@ -11,23 +11,30 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Autocomplete,
   Box,
   Button,
   Checkbox,
+  Chip,
   FormControlLabel,
   FormGroup,
+  TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { fetchSearchCourses } from "../../courses/coursesThunks.ts";
 import { fetchCourseTypes } from "../../CourseTypes/CourseTypesThunks.ts";
-import { FetchSearchCourseArgs } from "../../../types/courseTypes.ts";
+import {
+  FetchSearchCourseArgs,
+  ICourseType,
+} from "../../../types/courseTypes.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import Grid from "@mui/material/Grid2";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import SearchCourseCards from "./SearchCourseCards.tsx";
 import { DAYS_OF_WEEK } from "../../../constants.ts";
+import { ITrainer } from "../../../types/trainerTypes.ts";
 
 const SearchCoursePage = () => {
   const user = useAppSelector(selectUser);
@@ -41,6 +48,11 @@ const SearchCoursePage = () => {
     trainers: [],
     courseTypes: [],
   });
+  const [selectedCourseTypes, setSelectedCourseTypes] = useState<ICourseType[]>(
+    [],
+  );
+  const [selectedTrainers, setSelectedTrainers] = useState<ITrainer[]>([]);
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -82,6 +94,8 @@ const SearchCoursePage = () => {
       trainers: [],
       courseTypes: [],
     });
+    setSelectedCourseTypes([]);
+    setSelectedTrainers([]);
   };
 
   return (
@@ -123,23 +137,41 @@ const SearchCoursePage = () => {
             <Typography>Направление</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <FormGroup>
-              {courseTypes.map((type) => (
-                <FormControlLabel
-                  key={type._id}
-                  control={
-                    <Checkbox
-                      checked={filters.courseTypes.includes(type._id)}
-                      onChange={() =>
-                        handleCheckboxChange("courseTypes", type._id)
-                      }
+            <Autocomplete
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...tagProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      key={key}
+                      {...tagProps}
+                      label={option.name}
+                      style={{
+                        border: "1px solid lightblue",
+                        borderRadius: "8px",
+                        backgroundColor: "#fff",
+                        fontSize: "10px",
+                        textTransform: "capitalize",
+                      }}
                     />
-                  }
-                  label={type.name}
-                  sx={{ textTransform: "capitalize" }}
-                />
-              ))}
-            </FormGroup>
+                  );
+                })
+              }
+              multiple
+              options={courseTypes}
+              getOptionLabel={(option) => option.name}
+              value={selectedCourseTypes}
+              onChange={(_event, newValue) => {
+                setSelectedCourseTypes(newValue);
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  courseTypes: newValue.map((type) => type._id),
+                }));
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Выберите направления" />
+              )}
+            />
           </AccordionDetails>
         </Accordion>
 
@@ -148,22 +180,43 @@ const SearchCoursePage = () => {
             <Typography>Тренера</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <FormGroup>
-              {trainers.map((trainer) => (
-                <FormControlLabel
-                  key={trainer.user._id}
-                  control={
-                    <Checkbox
-                      checked={filters.trainers.includes(trainer.user._id)}
-                      onChange={() =>
-                        handleCheckboxChange("trainers", trainer.user._id)
-                      }
+            <Autocomplete
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => {
+                  const { key, ...tagProps } = getTagProps({ index });
+                  return (
+                    <Chip
+                      key={key}
+                      {...tagProps}
+                      label={`${option.user.firstName} ${option.user.lastName}`}
+                      style={{
+                        border: "1px solid lightblue",
+                        borderRadius: "8px",
+                        backgroundColor: "#fff",
+                        fontSize: "10px",
+                        textTransform: "capitalize",
+                      }}
                     />
-                  }
-                  label={`${trainer.user.firstName} ${trainer.user.lastName}`}
-                />
-              ))}
-            </FormGroup>
+                  );
+                })
+              }
+              multiple
+              options={trainers}
+              getOptionLabel={(option) =>
+                `${option.user.firstName} ${option.user.lastName}`
+              }
+              value={selectedTrainers}
+              onChange={(_event, newValue) => {
+                setSelectedTrainers(newValue);
+                setFilters((prevFilters) => ({
+                  ...prevFilters,
+                  trainers: newValue.map((trainer) => trainer.user._id),
+                }));
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Выберите тренеров" />
+              )}
+            />
           </AccordionDetails>
         </Accordion>
 

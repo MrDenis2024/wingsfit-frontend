@@ -35,12 +35,25 @@ const GroupStatistic = () => {
         <>
           {statisticGroup.length > 0 ? (
             <>
-              <Typography variant="h5" textAlign="center" marginBottom={2}>
-                Группы
-              </Typography>
-              <TableContainer component={Paper}>
+              <TableContainer
+                component={Paper}
+                sx={{ border: "1px solid #ECECEC", borderRadius: "20px" }}
+              >
+                <Typography
+                  variant="h5"
+                  textAlign="left"
+                  marginBottom={2}
+                  sx={{ margin: "20px 0 10px 15px" }}
+                >
+                  Группы
+                </Typography>
                 <Table>
-                  <TableHead>
+                  <TableHead
+                    sx={{
+                      borderBottom: "1px solid #ECECEC",
+                      backgroundColor: "#F5F5F5",
+                    }}
+                  >
                     <TableRow>
                       <TableCell>
                         <strong>Название группы</strong>
@@ -54,14 +67,8 @@ const GroupStatistic = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {statisticGroup.map((group, index) => (
-                      <TableRow
-                        key={group._id}
-                        sx={{
-                          backgroundColor:
-                            index % 2 === 0 ? "#f5f5f5" : "#ffffff",
-                        }}
-                      >
+                    {statisticGroup.map((group) => (
+                      <TableRow key={group._id}>
                         <TableCell>{group.title}</TableCell>
                         <TableCell>{group.startTime}</TableCell>
                         <TableCell
@@ -71,12 +78,24 @@ const GroupStatistic = () => {
                             wordWrap: "break-word",
                           }}
                         >
-                          {group.clients
-                            .map(
-                              (client) =>
-                                `${client.firstName} ${client.lastName}`,
-                            )
-                            .join(", ")}
+                          <div
+                            style={{
+                              marginTop: "8px",
+                              fontSize: "12px",
+                              color: "#666",
+                            }}
+                          >
+                            Общее: <strong>{group.clients.length}</strong> /
+                            Максимум: <strong>{group.maxClients}</strong> /
+                            Заморожено:{" "}
+                            <strong>
+                              {
+                                group.clients.filter(
+                                  (el) => el.status === "frozen",
+                                ).length
+                              }
+                            </strong>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

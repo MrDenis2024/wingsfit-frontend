@@ -162,7 +162,7 @@ const App = () => {
             }
           />
           <Route
-            path="/trainer/statistics/chart"
+            path="/trainer/statistics/courses"
             element={
               <ProtectedRoute isAllowed={!!user && user.role === "trainer"}>
                 <TrainerStatistics />

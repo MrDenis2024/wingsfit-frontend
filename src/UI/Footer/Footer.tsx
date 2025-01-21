@@ -22,6 +22,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupIcon from "@mui/icons-material/Group";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 const StyledLink = styled(NavLink)(({ theme }) => ({
   color: "inherit",
@@ -45,7 +46,6 @@ const Footer = () => {
   const clientLinks = userId
     ? [
         { to: `/`, label: "Home" },
-        { to: `/clients/courses/${userId}`, label: "My Courses" },
         { to: `/clients/chats/${userId}`, label: "My Chats" },
         { to: `/clients/search-select/courses`, label: "Search courses" },
         { to: `/clients/search-select/trainers`, label: "Search trainers" },
@@ -57,6 +57,7 @@ const Footer = () => {
         { to: `/`, label: "Home" },
         { to: `/trainers/courses/${userId}`, label: "My Courses" },
         { to: `/trainers/chats/${userId}`, label: "My Chats" },
+        { to: `/trainer/groups`, label: "My Groups" },
       ]
     : [];
 
@@ -93,6 +94,7 @@ const Footer = () => {
             display: "flex",
             justifyContent: "space-between",
             flexWrap: "wrap",
+            alignItems: "center",
             pt: 4,
             "@media (max-width: 600px)": {
               pb: 10,
@@ -105,15 +107,12 @@ const Footer = () => {
             </Typography>
             <Typography
               variant="body2"
-              sx={{ mb: 5, color: "#838383", maxWidth: 400 }}
+              sx={{ mb: 2, color: "#838383", maxWidth: 400 }}
             >
               Следите за нами в социальных сетях, мы будем рады обратной связи и
               вашим вопросам
             </Typography>
             <Stack direction="column" spacing={1} sx={{ mb: 3 }}>
-              <Typography variant="body2" sx={{ color: "#353535" }}>
-                Lorem ipsum
-              </Typography>
               <Grid display={"flex"} justifyContent="left" gap={"7px"}>
                 <FitnessCenterIcon sx={{ color: "#000" }} />
                 <DirectionsRunIcon sx={{ color: "#000" }} />
@@ -128,126 +127,99 @@ const Footer = () => {
             gap={"50px"}
           >
             <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
-              <Typography variant="h6" color={"#000"}>
-                Profiles
-              </Typography>
               <Link
-                href="#"
+                href="https://wingsfit.online/about"
                 color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
+                sx={{
+                  textDecoration: "none",
+                  color: "#757575",
+                  "&:hover": {
+                    color: "#000",
+                    textDecoration: "underline",
+                    textUnderlineOffset: "4px",
+                  },
+                }}
               >
-                Conversation
+                О Wings Fit
               </Link>
               <Link
-                href="#"
+                href="https://wingsfit.online/pp-recepty"
                 color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
+                sx={{
+                  textDecoration: "none",
+                  color: "#757575",
+                  "&:hover": {
+                    color: "#000",
+                    textDecoration: "underline",
+                    textUnderlineOffset: "4px",
+                  },
+                }}
               >
-                Fitness Apps
-              </Link>
-              <Link
-                href="#"
-                color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
-              >
-                Premium
-              </Link>
-            </Grid>
-            <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
-              <Typography variant="h6" color={"#000"}>
-                Locations
-              </Typography>
-              <Link
-                href="#"
-                color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
-              >
-                Interests
-              </Link>
-              <Link
-                href="#"
-                color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
-              >
-                Profile
+                Рецепты
               </Link>
             </Grid>
             <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
-              <Typography variant="h6" color={"#000"}>
-                Chat
-              </Typography>
               <Link
-                href="#"
+                href="https://wingsfit.online/faq"
                 color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
+                sx={{
+                  textDecoration: "none",
+                  color: "#757575",
+                  "&:hover": {
+                    color: "#000",
+                    textDecoration: "underline",
+                    textUnderlineOffset: "4px",
+                  },
+                }}
               >
-                Explore
+                FAQ
               </Link>
               <Link
-                href="#"
+                href="https://wingsfit.online/fortrainers"
                 color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
+                sx={{
+                  textDecoration: "none",
+                  color: "#757575",
+                  "&:hover": {
+                    color: "#000",
+                    textDecoration: "underline",
+                    textUnderlineOffset: "4px",
+                  },
+                }}
               >
-                Fitness
-              </Link>
-              <Link
-                href="#"
-                color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
-              >
-                Fitness
-              </Link>
-            </Grid>
-            <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
-              <Typography variant="h6" color={"#000"}>
-                Stay connected
-              </Typography>
-              <Link
-                href="#"
-                color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
-              >
-                Lorem ipsum
-              </Link>
-              <Link
-                href="#"
-                color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
-              >
-                Exerose
-              </Link>
-              <Link
-                href="#"
-                color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
-              >
-                Customer
+                Тренеру
               </Link>
             </Grid>
             <Grid display={"flex"} flexDirection={"column"} gap={"10px"}>
-              <Typography variant="h6" color={"#000"}>
-                Lorem
-              </Typography>
               <Link
-                href="#"
+                href="https://wingsfit.online/blog"
                 color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
+                sx={{
+                  textDecoration: "none",
+                  color: "#757575",
+                  "&:hover": {
+                    color: "#000",
+                    textDecoration: "underline",
+                    textUnderlineOffset: "4px",
+                  },
+                }}
               >
-                Lorem
+                Блог
               </Link>
               <Link
-                href="#"
+                href="https://wingsfit.online/contacts"
                 color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
+                sx={{
+                  textDecoration: "none",
+                  color: "#757575",
+                  "&:hover": {
+                    color: "#000",
+                    textDecoration: "underline",
+                    textUnderlineOffset: "4px",
+                  },
+                }}
               >
-                Feedback
-              </Link>
-              <Link
-                href="#"
-                color="inherit"
-                sx={{ textDecoration: "none", color: "#757575" }}
-              >
-                Contact
+                Контакты
               </Link>
             </Grid>
           </Grid>
@@ -280,6 +252,8 @@ const Footer = () => {
                 <FitnessCenterIcon />
               ) : link.label === "My Chats" ? (
                 <ChatIcon />
+              ) : link.label === "My Groups" ? (
+                <GroupIcon />
               ) : link.label === "Search courses" ? (
                 <SearchIcon />
               ) : link.label === "Search trainers" ? (
@@ -342,7 +316,7 @@ const Footer = () => {
                       variant="body1"
                       sx={{ display: "flex", alignItems: "center", gap: 1 }}
                     >
-                      Создать группу <GroupIcon />
+                      Создать группу <GroupAddIcon />
                     </Typography>
                   </StyledLink>
                 </Box>

@@ -14,9 +14,9 @@ import { CustomStyledLink } from "./AnonymousMenu.tsx";
 import { StyledLink } from "./AppToolbar.tsx";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import GroupIcon from "@mui/icons-material/Group";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import ChatIcon from "@mui/icons-material/Chat";
 import AddchartIcon from "@mui/icons-material/Addchart";
-import EditNoteIcon from "@mui/icons-material/EditNote";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SearchIcon from "@mui/icons-material/Search";
 import { logout } from "../../features/users/userThunk.ts";
@@ -65,6 +65,11 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
     closeDrawer();
   };
 
+  const navigateToGroups = () => {
+    navigate(`/trainer/groups`);
+    closeDrawer();
+  };
+
   const navigateToCreateGroup = () => {
     navigate(`/add-new-group`);
     closeDrawer();
@@ -82,11 +87,6 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
 
   const navigateToStatistics = () => {
     navigate(`/${user?.role}/statistics`);
-    closeDrawer();
-  };
-
-  const navigateToLessons = () => {
-    navigate("/lessons");
     closeDrawer();
   };
 
@@ -143,13 +143,21 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
                 </Typography>
               </Box>
             </CustomStyledLink>
-            <CustomStyledLink onClick={navigateToCourses}>
-              <FitnessCenterIcon sx={{ mr: 1, fontSize: "14px" }} />
-              Мои курсы
-            </CustomStyledLink>
+            {user?.role === "trainer" && (
+              <CustomStyledLink onClick={navigateToCourses}>
+                <FitnessCenterIcon sx={{ mr: 1, fontSize: "14px" }} />
+                Мои курсы
+              </CustomStyledLink>
+            )}
+            {user?.role === "trainer" && (
+              <CustomStyledLink onClick={navigateToGroups}>
+                <GroupIcon sx={{ mr: 1, fontSize: "14px" }} />
+                Мои группы
+              </CustomStyledLink>
+            )}
             {user?.role === "trainer" && (
               <CustomStyledLink onClick={navigateToCreateGroup}>
-                <GroupIcon sx={{ mr: 1, fontSize: "14px" }} />
+                <GroupAddIcon sx={{ mr: 1, fontSize: "14px" }} />
                 Создать группу
               </CustomStyledLink>
             )}
@@ -173,12 +181,6 @@ const SideBarMenu: React.FC<Props> = ({ drawerOpen, closeDrawer }) => {
               <CustomStyledLink onClick={navigateToStatistics}>
                 <AddchartIcon sx={{ mr: 1, fontSize: "14px" }} />
                 Статистика
-              </CustomStyledLink>
-            )}
-            {user?.role === "trainer" && (
-              <CustomStyledLink onClick={navigateToLessons}>
-                <EditNoteIcon sx={{ mr: 1, fontSize: "14px" }} />
-                Занятия
               </CustomStyledLink>
             )}
             <CustomStyledLink onClick={handleLogout}>
