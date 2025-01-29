@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import { styled } from "@mui/system";
 import Modal from "../../../UI/Modal/Modal.tsx";
+import {IGroup} from "../../../types/groupTypes.ts";
+
 
 const StyledTextField = styled(TextField)({
   "& .MuiInputBase-root": {
@@ -30,20 +32,19 @@ const CustomButton = styled(Button)({
 });
 
 interface Props {
-  onSend: (videoUrl: string) => void; // Pass video URL to parent
+  onSend: (groupId:string,lessonUrl: string) => void;
+  handleClose:VoidFunction// Pass video URL to parent
+    isOpen:boolean;
+    group: IGroup;
 }
 
-const SendLinkModal: React.FC<Props> = ({ onSend }) => {
-  const [open, setOpen] = useState(false);
-  const [videoUrl, setVideoUrl] = useState("");
-
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+const SendLinkModal: React.FC<Props> = ({ group,onSend,isOpen,handleClose}) => {
+  const [lessonUrl, setLessonUrl] = useState("");
 
   const handleSend = () => {
-    if (isValidUrl(videoUrl)) {
-      onSend(videoUrl);
-      setVideoUrl("");
+    if (isValidUrl(lessonUrl)) {
+      onSend(group._id,lessonUrl);
+      setLessonUrl("");
       handleClose();
     }
   };
@@ -59,35 +60,25 @@ const SendLinkModal: React.FC<Props> = ({ onSend }) => {
 
   return (
     <>
-      <Button
-        variant="contained"
-        onClick={handleOpen}
-        sx={{
-          backgroundColor: "#26c6da",
-          fontSize: { xs: "8px", sm: "12px" },
-          color: "#333",
-        }}
-      >
-        Отправить ссылку
-      </Button>
       <Modal
-        show={open}
+        show={isOpen}
         onClose={handleClose}
         title=""
         maxWidth={500}
         backgroundColor={"#e0f7fa"}
       >
+
         <Box sx={{ textAlign: "center", padding: "16px" }}>
           <StyledTextField
             variant="outlined"
             required
             placeholder="https://example.com/your-video-link"
-            value={videoUrl}
+            value={lessonUrl}
             type="url"
-            onChange={(e) => setVideoUrl(e.target.value)}
-            error={!!videoUrl && !isValidUrl(videoUrl)}
+            onChange={(e) => setLessonUrl(e.target.value)}
+            error={!!lessonUrl && !isValidUrl(lessonUrl)}
             helperText={
-              !!videoUrl && !isValidUrl(videoUrl)
+              !!lessonUrl && !isValidUrl(lessonUrl)
                 ? "Введите корректный URL"
                 : ""
             }

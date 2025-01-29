@@ -13,7 +13,7 @@ interface LessonState {
   groupLessons: Lesson[];
   trainerLessonsLoading: boolean;
   groupLessonsLoading: boolean;
-  lessonCreating: boolean;
+  lessonCreating: string|false;
   lessonUpdating: boolean;
   lastLesson: Lesson | null;
   lastLessonLoading: boolean;
@@ -60,8 +60,8 @@ export const lessonsSlice = createSlice({
       });
 
     builder
-      .addCase(createLesson.pending, (state) => {
-        state.lessonCreating = true;
+      .addCase(createLesson.pending, (state,{meta:{arg}}) => {
+        state.lessonCreating = arg.groupId;
       })
       .addCase(createLesson.fulfilled, (state) => {
         state.lessonCreating = false;
@@ -113,4 +113,5 @@ export const {
   selectGroupLessons,
   selectGroupLessonsLoading,
   selectLessonCreating,
+    selectLastLesson
 } = lessonsSlice.selectors;

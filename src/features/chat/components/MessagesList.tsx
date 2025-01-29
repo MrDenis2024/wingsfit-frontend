@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { Avatar, Button, List, ListItem, Typography } from "@mui/material";
+import { Avatar, List, ListItem, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 interface Message {
@@ -89,29 +89,6 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
                   {new Date(msg.createdAt).toLocaleTimeString()}
                 </Typography>
               </Grid>
-              {msg.isTrainingUrl ? (
-                <a
-                  href={msg.message}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    textDecoration: "none",
-                  }}
-                >
-                  <Button
-                    variant="contained"
-                    sx={{
-                      fontSize: { xs: "0.7rem", sm: "1rem" },
-                      textTransform: "none",
-                      marginTop: "8px",
-                      backgroundColor: "#26c6da",
-                      color: "#333",
-                    }}
-                  >
-                    Перейти к занятию
-                  </Button>
-                </a>
-              ) : (
                 <Typography
                   variant="body1"
                   sx={{
@@ -121,7 +98,6 @@ const MessagesList: React.FC<MessagesListProps> = ({ messages }) => {
                 >
                   {msg.message}
                 </Typography>
-              )}
             </Grid>
           </ListItem>
         ))}

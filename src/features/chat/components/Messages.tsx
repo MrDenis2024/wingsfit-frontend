@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import {Box, Button, Typography} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import MessagesList from "./MessagesList.tsx";
 import ChatForm from "./ChatForm.tsx";
-import { useAppSelector } from "../../../app/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../../app/hooks.ts";
 import { selectUser } from "../../users/userSlice.ts";
 import { IncomingMessage, Message } from "../../../types/chatTypes.ts";
 import { apiURL, wsApiURL } from "../../../constants.ts";
-import SendLinkModal from "./SendLinkModal.tsx";
+import {fetchLastLesson, patchLesson} from "../../lessons/lessonsThunk.ts";
+import {selectGroupChats} from "../chatsSlice.ts";
+import {selectLastLesson} from "../../lessons/lessonsSlice.ts";
+import {toast} from "react-toastify";
+import {GlobalError} from "../../../types/userTypes.ts";
 
 interface MessagesProps {
   chatId: string | null;
@@ -19,6 +23,28 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
   const user = useAppSelector(selectUser);
   const [messages, setMessages] = useState<Message[]>([]);
   const ws = useRef<WebSocket | null>(null);
+  const groupChats = useAppSelector(selectGroupChats);
+  const dispatch = useAppDispatch();
+  const lastLesson = useAppSelector(selectLastLesson);
+  const btnMoveToLessonDisabled = () =>{
+    if (lastLesson) {
+      const currentDate = new Date();
+      const lastLessonDate = new Date(lastLesson.createdAt);
+      return !(lastLessonDate.getFullYear()===currentDate.getFullYear() &&
+          lastLessonDate.getMonth()===currentDate.getMonth() &&
+          lastLessonDate.getDate()===currentDate.getDate());
+    }else return true;
+  };
+
+  useEffect(() => {
+    if(chatId !== null && chatType ==='group') {
+      const currentGroupChat = groupChats.find((groupChat) => groupChat._id === chatId);
+      if (currentGroupChat) {
+        dispatch(fetchLastLesson(currentGroupChat.group));
+      }
+    }
+  }, [dispatch, groupChats,chatType,chatId]);
+
 
   useEffect(() => {
     if (!user) return;
@@ -119,41 +145,6 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
     ]);
   };
 
-  const handleSendLessonLink = (videoUrl: string) => {
-    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
-      ws.current.send(
-        JSON.stringify({
-          type: "SEND_MESSAGE",
-          payload: {
-            message: videoUrl,
-            isTrainingUrl: true,
-          },
-        }),
-      );
-    }
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      {
-        _id: Date.now().toString(),
-        privateChat: chatType === "private" ? chatId || undefined : undefined,
-        groupChat: chatType === "group" ? chatId || undefined : undefined,
-        author: {
-          _id: user?._id || "",
-          firstName: user?.firstName || "",
-          lastName: user?.lastName || "",
-          avatar: user?.avatar || "",
-        },
-        message: videoUrl,
-        isTrainingUrl: true,
-        createdAt: new Date().toISOString(),
-        isRead: {
-          user: user?._id || "",
-          read: false,
-        },
-      },
-    ]);
-  };
-
   const formattedMessages = messages.map((msg) => ({
     id: msg._id,
     author: `${msg.author.firstName} ${msg.author.lastName}`,
@@ -176,6 +167,21 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
     ...msg,
     avatar: msg.avatar ? getAvatarUrl(msg.avatar) : getAvatarText(msg.author),
   }));
+
+  const handleMoveToLesson = async () =>{
+    if (lastLesson && user){
+      try {
+        if(user.role === 'client' && lastLesson.notPresent.find(item=>item._id===user._id)){
+         await dispatch(patchLesson(lastLesson._id)).unwrap();
+         toast.success("Вы отметились как присутствующий");
+         window.location.href = `${lastLesson.lessonURL}`;
+        }
+        window.location.href = `${lastLesson.lessonURL}`;
+      }catch (error) {
+        toast.error((error as GlobalError).error || "Произошла ошибка");
+      }
+    }
+  };
 
   return (
     <Grid
@@ -218,8 +224,8 @@ const Messages: React.FC<MessagesProps> = ({ chatId, chatType, chatTitle }) => {
         >
           {chatId ? `Чат с ${chatTitle}` : "Чат"}
         </Typography>
-        {chatId && chatType === "group" && user?.role === "trainer" && (
-          <SendLinkModal onSend={handleSendLessonLink} />
+        {chatId && chatType === "group" && lastLesson && (
+          <Button variant={"contained"} disabled={btnMoveToLessonDisabled()} onClick={handleMoveToLesson}> Перерйти к занятию </Button>
         )}
       </Box>
       <Box

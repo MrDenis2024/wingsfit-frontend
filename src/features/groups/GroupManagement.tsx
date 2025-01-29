@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid2";
 import { Button, Container, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import GroupCards from "./components/GroupCards.tsx";
+import {fetchTrainerLessons} from "../lessons/lessonsThunk.ts";
 
 const GroupManagement = () => {
   const user = useAppSelector(selectUser);
@@ -17,9 +18,12 @@ const GroupManagement = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    void dispatch(fetchCourses(user?._id));
-    void dispatch(fetchAllGroups());
-  }, [dispatch, user?._id]);
+      if (user){
+          void dispatch(fetchCourses(user._id));
+          void dispatch(fetchAllGroups());
+          void dispatch(fetchTrainerLessons(user._id));
+      }
+  }, [dispatch, user]);
 
   return (
     <Container maxWidth="lg">
